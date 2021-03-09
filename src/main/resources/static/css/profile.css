@@ -1,0 +1,14 @@
+body, body *{font-family: "Noto Sans KR";}
+.main_warp {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+.main_container{
+    width: 1250px;
+    height: 100%;
+    margin: 0 auto;
+    padding-top: 30px;
+}
+.flex_warp{width: 100%; height: 100%; display: flex;}

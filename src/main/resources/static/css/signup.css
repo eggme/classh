@@ -1,0 +1,19 @@
+.main_wrap{width: 100%; margin: 0; height: 0;}
+.signup_wrap{width: 1280px; margin: 0 auto;}
+.align_wrap{width: 100%; margin: 0 auto; padding: 83px 0;}
+.signup_header{font-size: 22px; text-align: center; margin-bottom: 36px;}
+.input_container{margin: 0 auto; text-align: center; margin-bottom: 12px;}
+.signup_button_wrap{display: inline-block; width: 100%; margin: 0 auto; text-align: center; padding-top: 12px;}
+.signup_button{display: flex; justify-content: center;}
+.signup_button button{align-self:center; background: #1dc078; width: 100%; color: #fff; max-width: 395px;font-size: 14px; text-align: center; border-radius: 3px; height: 45px;}
+.p_text{font-size: 10px; text-align: center; margin-top: 8px;}
+.label_text{display: inline-block; text-align: left; min-width: 95px !important;}
+.input_label{display: inline-block; width: 100%; max-width: 500px;}
+.text_input{width: calc(100% - 95px); max-width: 300px; display: inline-block; border: 1px solid #dbdbdb; padding: 10px; height: 37px; line-height: normal; background: #fff;}
+.text_input:focus{outline: none;}
+
+/* 이메일 오류 시작 */
+.correct{font-size: 12px; font-weight: 800; color:#1dc078;}
+.incorrect{font-size: 12px; font-weight: 800; color:red;}
+/*.inline{display: inline-block; margin-left: 10px;}*/
+/* 이메일 오류 끝 */

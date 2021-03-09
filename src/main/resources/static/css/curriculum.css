@@ -1,0 +1,87 @@
+html, body{width: 100%; height: 100%;}
+/* template css */
+.main_wrap{width: 100%; margin: 0 auto;}
+/*  상단 남색라인 */
+.menu_title{width: 100%; height: 64px; background-color: #333b3d; margin: 0 auto; text-align: center;}
+.menu_size{width: 1280px; height: 64px; margin: 0 auto;}
+.menu_size h1{display: inline-block; font-weight: 800; font-size: 24px; color: white; float : left;}
+.link_btn{color : white; font-weight: 800; font-size: 18px;}
+.right_btns{display: inline-block; float:right; margin-top: 8px;}
+.right_btns span{display: inline-block; padding : 15px 50px 15px 50px; font-size: 18px; font-family: "Noto Sans KR";}
+.link_btn:hover{cursor: pointer;}
+/* aside */
+.main_content{background-color: #F5F5F5; width: 100%; height: 100%; overflow-y: scroll;}
+.content_wrap{width: 1280px; margin: 0 auto;}
+.margin_h_tag{margin: 0 auto;}
+.margin_bottom{margin-bottom: 16px; margin-top: 8px;}
+
+.main_aside{display: inline-block; width: 200px; height: 100%; min-width: 100px; text-align: left; padding : 30px; float: left;}
+.items{list-style: none; margin: 0 auto; padding: 0px;}
+.item_title{font-size: 16px; font-weight: 800; color : #333333; margin-bottom: 24px;}
+.active{color : #595959 !important;}
+.items li{color: #BDBDBD; margin-bottom: 20px; font-size: 15px; ont-weight: 800;}
+.submit{padding: 8px !important; font-size: 16px !important; font-weight: 800 !important;}
+.submit:hover{cursor: pointer;}
+.main_session{padding: 15px;  float: left;  width: calc(100% - 300px); min-width: 300px; margin: 30px; background-color: white; display: inline-block; box-shadow: 2px 2px 2px 2px #e5e5e5;}
+.main_center{margin: 0 auto; padding-top: 24px; text-align: center;}
+.save_next_page{display: inline-block; cursor: pointer; width: auto;margin: 24px 0; padding: 10px; font-weight: 800; font-size: 16px; border: 1px solid #E3E3E3; text-align: center; border-radius: 2px; box-shadow: 0 0 4px 0 rgba(0,0,0,.16);}
+
+.notification{padding: 18px; margin-bottom: 12px; background-color: #f6f6f6;}
+.notification h3{margin-bottom: 3px; margin-top: 0; font-size: 18px; font-weight: bold; color: #000A12;}
+.notification p{font-size: 16px; color: #000A12;}
+.gray_line_divisor{height: 1px; margin : 24px 0; border-bottom: 1px solid #efefef;}
+.section_info{display: inline-block; font-size: 18px; font-weight: 800; margin-bottom: 12px;}
+.section_info span{display: inline-block; float: left;}
+.section_menu{position: relative; display: table; float: right; font-size: 16px; margin : 0 auto;}
+.section_menu div{height: 22px; display: table-cell; float : right; padding-left: 10px; vertical-align: middle; margin : 0 auto;}
+.section_init{border: 1px solid #1dc078; padding: 15px; display: inline-block; width: 100%;}
+
+.gray_input{width: 100%; height: 40px; border: 0; margin-bottom: 12px; border-radius: 3px; padding: 0 12px; box-shadow: none; font-size: 16px; color : #595959; background-color: #f6f6f6;}
+.gray_input:focus{outline: none;}
+.cancle_button{padding: 8px 24px; background: #F5F5F5; margin-right : 10px; float: right; display: inline-block; cursor: pointer; border-radius: 3px;}
+.submit_button{padding: 8px 24px; color: #fff; background: #FF7867; float: right; display: inline-block; cursor: pointer; border-radius: 3px;}
+
+.toolbox{width: 100%; height : 36px; margin : 0 auto; text-align: right;}
+.class_wrap{margin: 0 auto; width: 100%; height: auto;}
+.class_text{display: inline-block; font-size: 16px; float: left;}
+.class_text p{display: inline-block;}
+.class_toolbox{display: table; float: right; border-spacing: 8px 0px;}
+.class_toolbox div{display: table-cell; margin: 10px; vertical-align: middle; line-height: normal;}
+.class_box_line{height: 64px; width: 100%; border: 1px dashed #d0d0d0; box-shadow: none; padding: 20px 10px; margin-bottom: 10px;}
+
+#add_class_form{display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4); padding-top: 200px;}
+.add_class_content{width: 920px; height: 220px; background-color: #fefefe;margin: 5px auto; border: 1px solid #888; border-radius: 5px;}
+.add_class_container{width: 94%; margin : 0 auto;}
+.add_class_buttons{margin-top: 18px;}
+.add_class_container h2{font-size : 18px; margin-top: 18px;}
+.add_class_container p{font-size: 16px;}
+
+.section_margin{ margin-top : 18px;}
+#add_section_form{display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto;  background-color: rgba(0,0,0,0.4); padding-top: 200px;}
+.add_section_content{width: 920px; height: 300px; background-color: #fefefe;margin: 5px auto; border: 1px solid #888; border-radius: 5px;}
+.add_section_container{width: 94%; margin : 0 auto;}
+.add_section_buttons{margin-top: 18px;}
+.add_section_container h2{font-size : 18px; margin-top: 18px;}
+.add_section_container p{font-size: 16px;}
+
+#add_class_description_form{display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4); padding-top: 200px;}
+.add_class_description_content{width: 920px; height: 300px; background-color: #fefefe;margin: 5px auto; border: 1px solid #888; border-radius: 5px;}
+.add_class_description_container{width: 94%; margin : 0 auto;}
+.add_class_description_buttons{margin-top: 18px;}
+.add_add_class_description_container h2{font-size : 18px; margin-top: 18px;}
+.add_add_class_description_container p{font-size: 16px;}
+
+
+.file_box label{float: right; margin: 0; width: 95px; height: 36px; text-align: center; display: inline-block; padding: 10px; color : #ffffff; line-height: normal; vertical-align: middle; cursor: pointer; background-color: #747474; }
+.file_box input[type="file"]{position: absolute; width: 1px; height: 1px; padding: 0px; marin : -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0;}
+.file_box .upload-name{height: 36px !important; width: calc(100% - 100px); display: inline-block; padding: 10px; line-height: normal; vertical-align: middle; color: #454545; border: 1px solid #747474; -webkit-appearance: none; -moz-appearance: none; appearance: none;}
+.file_box {height: 36px !important;}
+.upload-name{border : 0 !important;}
+
+.animate{-webkit-animation: animatezoom 0.6s; animation: animatezoom 0.6s;}
+@-webkit-keyframes animatezoom { from {-webkit-transform: scale(0)} to {-webkit-transform: scale(1)} }
+@keyframes animatezoom { from {transform: scale(0)} to {transform: scale(1)} }
+
+@media (max-width: 920px) {
+    .add_class_content{width: 100%;}
+}

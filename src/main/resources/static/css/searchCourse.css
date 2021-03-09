@@ -1,0 +1,44 @@
+body, body *{font-family: "Noto Sans KR";}
+.main_warp {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+.main_container{
+    width: 1250px;
+    height: 100%;
+    margin: 0 auto;
+    padding-top: 30px;
+}
+.flex_warp{width: 100%; height: 100%; display: flex;}
+.menu{list-style: none; padding: 0; margin: 0; border: 1px solid #e4e4e4; min-width: 200px;}
+.menu li{padding: 12px 20px; background-color: #fafafa; color: #595959; font-weight: 500; font-size: 16px; border-bottom: 1px solid #e4e4e4;}
+.menu_div{display: flex; justify-content: space-between; align-items: center; cursor: pointer;}
+.menu_bottom{min-width: 200px; padding: 0px 20px;}
+.course_level{border-top: 1px solid #e4e4e4; border-bottom: 1px solid #e4e4e4; padding: 12px 10px; margin-bottom: 10px; min-width: 160px; margin-top: 20px;}
+.level_text{font-size: 16px; color: #595959; font-weight: 500; }
+.level_ul{list-style: none; padding: 0; margin: 0;}
+.level_box{display: flex; align-items: center; padding: 5px 12px;}
+.level_value{margin-left: 10px; font-size: 16px; color: #787878;}
+.level_cb{display: none;}
+.level_cb + label{display: inline-block; margin: 0; width: 16px; height: 16px; border: 1px solid #D2D2D2; cursor: pointer;}
+.level_cb:checked + label {background-color: #595959;}
+.aside_menu{display: flex; flex-direction: column;}
+.section_content{display: flex; flex-grow: 1;}
+.section_wrap{width: 100%; height: 100%; padding: 0 20px;}
+.section_data_wrap{width: 100%; height: 100%; padding-top: 8px;}
+/*  course_item  */
+.course_item_wrap{display: flex; flex-direction: column; cursor: pointer;}
+.course_img_box{width: 100%; height: 100%;}
+.course_img_value{width: 100%; height: auto;}
+.course_content_wrap{display: flex; flex-direction: column;padding: 8px 0;}
+.course_title{min-height: 48px; font-size: 16px; font-weight: 700; color: #454545;}
+.instructor_name{font-size: 14px; color: #7d7d7d;}
+.course_price{font-size: 16px; color: #175cbe; font-weight: 700;}
+.header_input{min-width: 300px; height: 36px;}
+.header_menu{display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid #e4e4e4; margin-bottom: 12px;}
+.header_input_wrap{display: flex; justify-content: flex-end;}
+.header_text{font-size: 18px; color: #454545; font-weight: 700;}
+.search_btn{height: 36px; background-color: #1dc078; color: white; font-size: 16px; font-weight: 800; padding: 6px 12px; outline: none; border: none;}
+.header_input{outline: none; border: 1px solid #dedede;}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+    <definition name="base_layout" template="/WEB-INF/template/base_template.jsp">
+        <put-attribute name="title" value="ClassH - 취미부터 교육까지" />
+        <put-attribute name="header" value="/WEB-INF/template/header.jsp" />
+        <put-attribute name="body" value="/WEB-INF/template/menu.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/template/footer.jsp" />
+    </definition>
+
+    <!-- 테스트 레이아웃 -->
+    <definition name="root/*" template="/WEB-INF/template/layout.jsp">
+        <put-attribute name="title" value="ClassH - 취미부터 교육까지 한꺼번에" />
+        <put-attribute name="header" value="/WEB-INF/template/header.jsp" />
+        <put-attribute name="body" value="/WEB-INF/template/{1}.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/template/footer.jsp" />
+    </definition>
+<!--    &lt;!&ndash; main &ndash;&gt;-->
+<!--    <definition name="main-layout" template="/WEB-INF/views/main/layout/base-main.jsp">-->
+<!--        <put-attribute name="header" value="/WEB-INF/views/common/layout/header.jsp" />-->
+<!--        <put-attribute name="body" value="" />-->
+<!--        <put-attribute name="footer" value="/WEB-INF/views/common/layout/footer.jsp" />-->
+<!--    </definition>-->
+<!--    <definition name="main/*" extends="main-layout">-->
+<!--        <put-attribute name="body" value="/WEB-INF/views/main/body/{1}.jsp" />-->
+<!--    </definition>-->
+<!--    <definition name="main/*/*" extends="main-layout">-->
+<!--        <put-attribute name="body" value="/WEB-INF/views/main/body/{1}/{2}.jsp" />-->
+<!--    </definition>-->
+<!--    <definition name="main/*/*/*" extends="main-layout">-->
+<!--        <put-attribute name="body" value="/WEB-INF/views/main/body/{1}/{2}/{3}.jsp" />-->
+<!--    </definition>-->
+
+</tiles-definitions>

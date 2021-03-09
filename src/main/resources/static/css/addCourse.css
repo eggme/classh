@@ -1,0 +1,67 @@
+html, body, .main_wrap{width: 100%; height: auto; min-height: 100%;}
+.main_wrap{width: 100%; margin: 0 auto; height: auto; min-height: 100%;}
+/*  상단 남색라인 */
+.menu_title{width: 100%; height: 64px; background-color: #333b3d; margin: 0 auto; text-align: center;}
+.menu_size{width: 1280px; height: 64px; margin: 0 auto;}
+.menu_size h1{display: inline-block; font-weight: 800; font-size: 24px; color: white; float : left;}
+.link_btn{color : white; font-weight: 800; font-size: 18px;}
+.right_btns{display: inline-block; float:right; margin-top: 8px;}
+.right_btns span{display: inline-block; padding : 15px 50px 15px 50px; font-size: 18px; font-family: "Noto Sans KR";}
+.link_btn:hover{cursor: pointer;}
+/* aside */
+.main_content{background-color: #F5F5F5 !important; width: 100%; height: auto; min-height: 100%; overflow: scroll; overflow-x:hidden;}
+.content_wrap{width: 1280px; height: auto; min-height: 100%; margin: 0 auto;}
+
+.main_aside{display: inline-block; width: 200px; height: 100%; min-width: 100px; text-align: left; padding : 30px; float: left;}
+.items{list-style: none; margin: 0 auto; padding: 0px;}
+.item_title{font-size: 16px; font-weight: 800; color : #333333; margin-bottom: 24px;}
+.active{color : #595959 !important;}
+.items ul li a{text-decoration: none; color: #BDBDBD;}
+.items ul li a:hover{ color : #1dc078; text-decoration: none !important;}
+.items li{color: #BDBDBD; margin-bottom: 20px; font-size: 15px; ont-weight: 800;}
+.submit{padding: 8px !important; font-size: 16px !important; font-weight: 800 !important;}
+.submit:hover{cursor: pointer;}
+.main_session{padding: 15px;  float: left;  width: calc(100% - 300px); min-width: 300px; margin: 30px; background-color: white; display: inline-block; box-shadow: 2px 2px 2px 2px #e5e5e5;}
+
+.gray_input{width: 100%; height: 45px; border: 0; margin-bottom: 12px; border-radius: 2px; padding: 0 12px; max-width: 450px; box-shadow: none; font-size: 16px; color : #595959; background-color: #f6f6f6;}
+/* 금액 부분 CSS */
+.price_wrap{position: relative; }
+.price_input{text-align: right; }
+.price_input::placeholder{color : #FB6351;}
+.price_description{font-size: 13px;}
+.money_mark{display: inline-block; position: absolute; font-size: 16px; left : 10px; background-color: #ffffff00; top : 10px;}
+/* input type number 화살표 제거 */
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* 금액 부분 CSS 끝 */
+.course_recommend_add, .course_tag_add{cursor: pointer; width: 100%; max-width: 450px; height: 45px; color : #fff; background-color: #1dc078; font-size: 16px; text-align: center; line-height: 45px;}
+.tag_container{display: block;}
+.tag_box{cursor: pointer; padding: 12px; border: 1px solid #dedede; color: #333; font-size: 16px; display: inline-block; margin: 0 8px 8px 0;}
+.main_center{margin: 0 auto; padding-top: 24px; text-align: center;}
+.save_next_page{display: inline-block; cursor: pointer; width: auto;margin: 24px 0; padding: 10px; font-weight: 800; font-size: 16px; border: 1px solid #E3E3E3; text-align: center; border-radius: 2px; box-shadow: 0 0 4px 0 rgba(0,0,0,.16)}
+.margin_h_tag{margin: 0 auto;}
+.margin_bottom{margin-bottom: 16px; margin-top: 8px;}
+.input_des{font-size: 14px; font-weight: 800; color : #929292;}
+.course_tag_required{color : #FB6351; font-size: 12px; text-align: right; max-width: 450px;}
+/* 카테고리 및 강의 수준 클릭시 css 변경 */
+.category_actived{background-color: #1dc078; border: 1px solid #1dc078; color : #fff; font-weight: 800;}
+.level_actived{background-color: #1dc078; border: 1px solid #1dc078; color : #fff; font-weight: 800;}
+/* 끝 */
+/* 배울 수 있는 강의 및 추천인 추가 박스 */
+.course_recommend_hidden_form, .course_tag_hidden_form{display: flex; justify-content: flex-start; align-items: center; max-width: 450px; min-height: 45px; border: 1px solid #cfcfcf; color : #000A12; margin-top: 10px;}
+.course_recommend_text, .course_tag_text{flex-grow: 1; margin-left: 20px;}
+.course_recommend_remove, .course_tag_remove{flex-shrink: 0; width: 34px;}
+.course_recommend_remove, .course_tag_remove{cursor: pointer;}
+/* 끝 */
+@media (max-width: 1300px) {
+    .content_wrap{width: 100%;}
+    .menu_size{width: 90%;}
+}
+
+@media (max-width: 795px) {
+    .right_btns{display: none;}
+    .main_aside{display: none;}
+    .main_session{width: 100%;}
+}

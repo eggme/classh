@@ -1,0 +1,110 @@
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
+body, body *{font-family: "Noto Sans KR";}
+
+
+
+
+.main_wrap i{display: inline-block;}
+#logo{width: 128px;}
+.menus li {font-family: "Noto Sans KR"}
+.menus li a:hover{color : #1dc078 !important;}
+.menus li a{color: #6d6d6d;}
+.right_menus_white{color:#6d6d6d;}
+.right_menus_white:hover{color: #1dc078 !important;}
+.btn_board{color : white !important; padding : 10px; line-height: 30px !important; margin-right: 10px;}
+.btn_board:hover{color : white;}
+.right_menus li a i{line-height: 20px;}
+.navbar{margin-bottom: 0px;}
+.dropdown {position: relative;display: block;}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.dropdown-content a {color: #6d6d6d;padding: 12px 16px;text-decoration: none;display: block;}
+.dropdown-content a:hover {color: #1dc078 !important;}
+.dropdown:hover .dropdown-content {display: block; margin: 0 auto;}
+/* login */
+.gray-text{color : #6d6d6d !important;}
+.underline a{color : #6d6d6d; text-decoration: underline; font-size: 10px;}
+.underline a:visited{color : #6d6d6d;}
+.underline a:active{color : #6d6d6d;}
+.underline a:before{color : #6d6d6d;}
+.image_container img{height : 22px !important; width : auto; margin-top: 20px;}
+.login-form{display: none;position: fixed;z-index: 99;left: 0;top: 0;width: 100%;height: 100%;overflow: auto;background-color: rgb(0,0,0);background-color: rgba(0,0,0,0.4);padding-top: 200px;}
+.login-container{text-align: center;background-color: #fefefe;margin: 5px auto;border: 1px solid #888;min-height: 500px;width: 20%; min-width: 360px;}
+.login_form_input {width: 80%;padding: 12px 20px;margin: 8px 0;background-color: #f6f6f6;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;}
+.image_container{text-align: center; margin: 24px 0 30px 0;}
+button {background-color: #1dc078; color: white !important; padding: 14px 20px;margin: 10px 0;border: #1dc078 solid 1px;cursor: pointer;width: 80%; font-weight: bold;}
+button:hover {opacity: 0.8;}
+.close {color: #000;font-size: 50px;font-weight: bold; margin-top: 10px; margin-right: 15px;}
+.height50{max-height: 50px!important;}
+.height50 a{padding: 10px !important;}
+.close:hover, .close:focus {cursor: pointer;}
+.mini_icon{width: 100%; height: 100%; max-width: 30px !important; max-height: 30px;}
+/*  mouse over popup  */
+.mouseover_menu_wrap{display: none;}
+.mouseover_menu_bg{position: absolute; width: 316px; height: 506px; border-radius: 3px; box-shadow: 0 2px 4px 0 rgba(33,37,41,.24);background-color: #fff; top : 55px; right: -15px; z-index: 30; border: 1px solid #e0e0e0;}
+.rotate_box{width: 20px; height: 20px; position: absolute; left: 15px; right:0px; background-color: #fff; z-index: 31; border-left: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0; transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg);}
+.profile{width: 100%; height: 136px;}
+.tab{width: 100%; height: 42px;}
+.tab_list{width: 100%; height: 288px; padding: 12px; background-color: #F8F9FA; color : #4A4A4A;}
+.bottom_menu{width: 100%; height: 40px;display: flex; justify-content: space-between;}
+.profile_wrap{display: flex; justify-content: flex-start; padding: 16px; }
+.img_wrap{display: flex}
+.img_wrap img{width: 48px; height: 48px;}
+.text_wrap{display: flex; flex-direction: column; margin-left: 16px;}
+.text_wrap span{display: flex;}
+.user_id {font-weight: bold; font-size: 15px;}
+.user_id:hover{text-decoration: underline;}
+.tab_warp{ width: 100%; display: flex; height: 100%; }
+.tab_content{text-align: center; font-size: 16px; color : #343a40; display: flex; border-bottom: 2px solid #e9ecef; flex-grow: 1; align-items: center; justify-content: center;}
+.tab_active{border-bottom: 2px solid #00c471 !important; font-weight: bold; color : #212529;}
+.student_list{display: block;}
+.student_list ul{list-style: none; padding: 0; margin : 0;}
+.tab_list div ul{display: flex; flex-direction: column; justify-content: space-between;}
+.tab_list div ul li{display: flex;   flex-grow: 1; }
+.tab_list div ul li a{text-decoration: none; color : inherit;}
+.tab_list div ul li{font-size: 16px; font-weight: 300; color : #212529; text-align: left;}
+.instructor_list{display: none;}
+.instructor_list ul{ list-style: none; padding: 0; margin : 0;}
+.item_warp{width: 100%; height: 36px; display: flex; justify-content: space-between; padding-left: 16px; padding-right: 16px;}
+.coupon_wrap{display: flex; flex-grow: 1; color: #495057; background-color: #f1f3f5; margin-right: 1px; justify-content: space-between; align-items: center; padding: 6px;}
+.point_wrap{display: flex; flex-grow: 2; color: #495057; background-color: #f1f3f5; justify-content: space-between; align-items: center; padding: 6px;}
+.items{font-weight: 800; color: #00c471;}
+/* 쇼핑카트 시작 */
+.cart{height: 100%; display: flex; justify-content: center; align-content: center; margin-right: 12px;}
+.cart_over{font-size: 24px; align-self: center; color : #959B9D;}
+.course_cart{ display : none; width: 442px; height: 420px; position: absolute;  border-radius: 3px; box-shadow: 0 2px 4px 0 rgba(33,37,41,.24);background-color: #fff; z-index: 30; right: -15px; top : 40px; border: 1px solid #e0e0e0;}
+.cart_rotate_box{width: 20px; height: 20px; position: absolute; left: 392px; top: -8px; background-color: #fff; z-index: 31; border-left: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0; transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg);}
+.cart_tab{width: 100%; display: flex;}
+.tab_course_cart, .tab_wishlist{justify-content: center; display: flex; border-bottom: 2px solid #e9ecef; flex-grow: 1; font-size: 16px; padding: 12px 0;}
+.cart_tab_active{border-bottom: 2px solid #1dc078;}
+.cart_tab_button{display: flex; justify-content: center; width: 100%; padding: 10px;}
+.cart_button{display: flex; justify-content: center; background-color: #1dc078; font-size: 16px; color: white; padding: 12px 0; flex-grow: 1; border-radius: 5px;}
+.cart_tab_content{min-height: 300px; padding: 16px;}
+.cart_content_warp{display: flex; flex-direction: row;}
+.course_img{width: 128px; height: 93px; overflow: hidden; display: flex;}
+.course_img img{width: 100%; height: 100%;}
+.course_content_data{ display: flex; flex-grow: 1; flex-direction: column; align-content: space-between; margin-left: 8px;}
+.course_title_data{min-height: 50px; padding-top: 8px; font-size: 18px; font-weight: 700;}
+.course_price_data{display: flex; align-self: flex-end; font-size: 14px;}
+.course_title_a{text-decoration: none; color: inherit;}
+.course_title_a:hover{text-decoration: none; color: inherit;}
+.cart_button{cursor: pointer;}
+/* 쇼핑카트 끝 */
+/* login fade animation */
+.animate {-webkit-animation: animatezoom 0.6s; animation: animatezoom 0.6s}
+@-webkit-keyframes animatezoom { from {-webkit-transform: scale(0)} to {-webkit-transform: scale(1)} }
+@keyframes animatezoom { from {transform: scale(0)} to {transform: scale(1)} }
+@media (max-width: 1000px) {
+    .right_menus{display: none;}
+}

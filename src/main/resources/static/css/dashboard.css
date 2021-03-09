@@ -1,0 +1,35 @@
+body, body *{font-family: "Noto Sans KR";}
+.wrap{width: 1250px; margin : 0 auto; padding-top: 64px;}
+.main_section{margin-left: 10px; width: 1030px; height: 1000px; display: inline-block;}
+.card_line{width: 100%;}
+.card_wrap{width: 48%; padding: 1%; display: inline-block;}
+.card{
+    width: 98%;
+    border : #E4E5E5 1px solid;
+    border-radius: 3px;
+    min-height: 230px;
+    box-shadow: 1px 1px 1px 1px #f0f1f1;
+    padding: 1%;
+}
+
+.section_title{text-align: left;}
+.card_title{text-align: left;padding-left: 10px; padding-top: 10px; font-weight: bold; width: 100%; height: auto;}
+.card_content{width: 100%; margin: 10px;}
+.card_logo{display: inline-block;float: left; margin-right: 10px;}
+.card_description{text-align: left; display: inline-block; float: left;}
+.user_name{font-size: 17px; font-weight: bold;}
+.user_nickname .user_email{font-size: 14px;}
+
+@media (max-width: 1220px) {
+    .wrap{width: 100%;}
+    .main_section{width: calc(100% - 210px);}
+}
+/* 화면 너비 0 ~ 768px */
+@media (max-width: 880px) {
+    .card_wrap{width: 100%;}
+}
+
+@media (max-width: 600px) {
+    .main_section{width: 100%;}
+    .aside_menu{display: none;}
+}

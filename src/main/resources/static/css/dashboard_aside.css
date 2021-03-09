@@ -1,0 +1,5 @@
+.container_wrap{display: flex;}
+.flex_warp{display: flex; flex-direction: column; width: 200px;}
+.aside_menu a div{padding: 8px 0; align-items: center; color: #454545; font-size: 16px;}
+.select_menu{font-weight: 700; color: #1dc078 !important;}
+.aside_menu a:hover{text-decoration: none;}
