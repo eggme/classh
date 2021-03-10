@@ -1,39 +1,10 @@
 $(function(){
-    $(".login").click(function(){
-        $("#hidden_login").css('display', 'block');
-    });
-    $('.login_button').click(function(){
-        var form = $('.login_form').serialize();
-        $.ajax({
-            url:"/signIn.do",
-            method: "POST",
-            contentType: "application/x-www-form-urlencoded; charset=utf-8",
-            dataType : 'json',
-            data : form,
-            success : function(result){
-                if(result.state == "1"){
-                    location.reload();
-                }else if(result.state == "2"){
-                    alert("아이디 혹은 비밀번호가 다릅니다!");
-                }
-            },
-            error : function(e){
-                console.log(e);
-            }
-        });
-    });
     $('.logout').click(function(){
         $.ajax({
-            url : "/logout.do",
-            method : "get",
-            success : function(r){
-                if(r.state == "1"){
-                    location.href='/index.do';
-                }
-            },
-            error : function(e){
-
-            }
+            url : "/logout",
+            method : "post",
+            success : function(r){},
+            error : function(e){}
         })
     });
     $('.overmenu').hover(function (){

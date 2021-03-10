@@ -16,7 +16,8 @@
 <div class="signup_wrap">
     <div class="align_wrap form-group">
         <h2 class="signup_header">회원가입</h2>
-        <form class="signup" method="post" action="/signUp">
+        <form class="signup" id="signupForm" method="post" action="/signUp">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <div class="input_container">
                 <label class="input_label">
                     <span class="label_text">이메일</span>

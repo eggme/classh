@@ -52,7 +52,7 @@ $(function(){
             blank = true;
         }
         if (validationCode == 5 && !blank) {
-            $('.signup').submit();
+            $('#signupForm').submit();
         } else {
             alert("올바르지 않은 데이터가 있습니다.");
         }

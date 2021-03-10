@@ -15,7 +15,6 @@
     <title><tiles:getAsString name="title"/></title>
     <link href="/imgs/favicon/favicon.ico" rel="icon"/>
     <script src="/webjars/jquery/3.5.1/dist/jquery.min.js" />
-
     <style>
         html, body {margin: 0; padding: 0;}
     </style>

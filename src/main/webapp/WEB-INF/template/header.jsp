@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- main css -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
@@ -46,98 +48,91 @@
             <div class="nav navbar-right">
                 <ul class="nav navbar-nav right_menus">
                     <li><a class="navbar-item right_menus_white"><b>지식공유참여</b></a></li>
-                    <% if( session.getAttribute("isLogin") != null ) {%>
-                    <% if(Integer.parseInt((String)session.getAttribute("isLogin")) == 1){ %>
-                    <!-- After Login -->
-                    <li>
-                        <div class="cart height50">
-                            <i class="fas fa-shopping-cart cart_over"></i>
-                            <div class="course_cart">
-                                <div class="cart_rotate_box"></div>
-                                <div class="cart_tab">
-                                    <div class="tab_course_cart cart_tab_active">수강바구니</div>
-                                    <div class="tab_wishlist">위시리스트</div>
-                                </div>
-                                <div class="cart_tab_content">
-                                </div>
-                                <div class="cart_tab_button">
-                                    <div class="cart_button">수강 바구니로 이동</div>
+                    <sec:authorize access="isAnonymous()"><li><h4><a role="button" class="label label-success btn_board login" style="margin-right: 12px;" href="/requestLogin"><b>로그인</b></a></h4></li></sec:authorize>
+                    <sec:authorize access="isAnonymous()"><li><h4><a role="button" class="label label-danger btn_board" href="/signUp"><b>회원가입</b></a></h4></li></sec:authorize>
+                    <sec:authorize access="isAuthenticated()">
+                        <li>
+                            <div class="cart height50">
+                                <i class="fas fa-shopping-cart cart_over"></i>
+                                <div class="course_cart">
+                                    <div class="cart_rotate_box"></div>
+                                    <div class="cart_tab">
+                                        <div class="tab_course_cart cart_tab_active">수강바구니</div>
+                                        <div class="tab_wishlist">위시리스트</div>
+                                    </div>
+                                    <div class="cart_tab_content">
+                                    </div>
+                                    <div class="cart_tab_button">
+                                        <div class="cart_button">수강 바구니로 이동</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
 
-                    <li><h4><a role="button" class="label label-success btn_board" href="/dashboard.do"><b>대시보드</b></a></h4></li>
-                    <li class="height50">
-                        <a role="button" class="height50 overmenu">
-                            <img src="/imgs/header/mini_icon_2.png" class="mini_icon">
-                        </a>
-                        <div class="mouseover_menu_wrap">
-                            <div class="rotate_box"></div>
-                            <div class="mouseover_menu_bg">
-                                <div class="profile">
-                                    <div class="profile_wrap">
-                                        <div class="img_wrap">
-                                            <img src="/imgs/header/mini_icon_2.png" />
+                        <li><h4><a role="button" class="label label-success btn_board" href="/dashboard.do"><b>대시보드</b></a></h4></li>
+                        <li class="height50">
+                            <a role="button" class="height50 overmenu">
+                                <img src="/imgs/header/mini_icon_2.png" class="mini_icon">
+                            </a>
+                            <div class="mouseover_menu_wrap">
+                                <div class="rotate_box"></div>
+                                <div class="mouseover_menu_bg">
+                                    <div class="profile">
+                                        <div class="profile_wrap">
+                                            <div class="img_wrap">
+                                                <img src="/imgs/header/mini_icon_2.png" />
+                                            </div>
+                                            <div class="text_wrap">
+                                                    <span sec:authentication="name" class="user_id"></span>
+                                                <span class="fix_text">지식 공유자</span>
+                                            </div>
                                         </div>
-                                        <div class="text_wrap">
-                                                    <span class="user_id">
-                                                        <%=session.getAttribute("user_name") == null ? "" : session.getAttribute("user_name") + " >"%>
-                                                    </span>
-                                            <span class="fix_text">지식 공유자</span>
+                                        <div class="item_warp">
+                                            <div class="coupon_wrap">
+                                                <div><span>쿠폰</span></div>
+                                                <div><span class="items">0</span><span>개</span></div>
+                                            </div>
+                                            <div class="point_wrap">
+                                                <div><span>포인트</span></div>
+                                                <div><span class="items">0</span><span>잎</span></div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="item_warp">
-                                        <div class="coupon_wrap">
-                                            <div><span>쿠폰</span></div>
-                                            <div><span class="items">0</span><span>개</span></div>
-                                        </div>
-                                        <div class="point_wrap">
-                                            <div><span>포인트</span></div>
-                                            <div><span class="items">0</span><span>잎</span></div>
+                                    <div class="tab">
+                                        <div class="tab_warp">
+                                            <span class="tab_active tab_content" id="student">학생</span>
+                                            <span class="tab_content" id="instructor">지식공유</span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="tab">
-                                    <div class="tab_warp">
-                                        <span class="tab_active tab_content" id="student">학생</span>
-                                        <span class="tab_content" id="instructor">지식공유</span>
+                                    <div class="tab_list">
+                                        <div class="student_list">
+                                            <ul>
+                                                <li><a><i class="far fa-play-circle"></i> 이어서 학습하기</a></li>
+                                                <li><a><i class="fas fa-book"></i> 내 강의</a></li>
+                                                <li><a><i class="fas fa-list-ul"></i> 내 목록</a></li>
+                                                <li><a><i class="fas fa-road"></i> 참여중인 로드맵</a></li>
+                                                <li><a><i class="far fa-edit"></i> 내 질문 답변</a></li>
+                                                <li><a><i class="fas fa-pencil-alt"></i> 강의 노트</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="instructor_list">
+                                            <ul>
+                                                <li><a><i class="fas fa-home"></i> 대시보드</a></li>
+                                                <li><a href="/courseManagement.do"><i class="fas fa-chalkboard"></i> 강의 관리</a></li>
+                                                <li><a href="/createCourse.do"><i class="fas fa-magic"></i> 강의 만들기</a></li>
+                                                <li><a><i class="far fa-edit"></i> 질문 리스트</a></li>
+                                                <li><a><i class="fas fa-search-dollar"></i> 수익 확인</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="tab_list">
-                                    <div class="student_list">
-                                        <ul>
-                                            <li><a><i class="far fa-play-circle"></i> 이어서 학습하기</a></li>
-                                            <li><a><i class="fas fa-book"></i> 내 강의</a></li>
-                                            <li><a><i class="fas fa-list-ul"></i> 내 목록</a></li>
-                                            <li><a><i class="fas fa-road"></i> 참여중인 로드맵</a></li>
-                                            <li><a><i class="far fa-edit"></i> 내 질문 답변</a></li>
-                                            <li><a><i class="fas fa-pencil-alt"></i> 강의 노트</a></li>
-                                        </ul>
+                                    <div class="bottom_menu">
+                                        <a class="logout"><span>로그아웃</span></a>
+                                        <a><span>고객센터</span></a>
                                     </div>
-                                    <div class="instructor_list">
-                                        <ul>
-                                            <li><a><i class="fas fa-home"></i> 대시보드</a></li>
-                                            <li><a href="/courseManagement.do"><i class="fas fa-chalkboard"></i> 강의 관리</a></li>
-                                            <li><a href="/createCourse.do"><i class="fas fa-magic"></i> 강의 만들기</a></li>
-                                            <li><a><i class="far fa-edit"></i> 질문 리스트</a></li>
-                                            <li><a><i class="fas fa-search-dollar"></i> 수익 확인</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="bottom_menu">
-                                    <a class="logout"><span>로그아웃</span></a>
-                                    <a><span>고객센터</span></a>
                                 </div>
                             </div>
-                        </div>
-                    </li>
-                    <% } %>
-                    <%} else { %>
-                    <!-- Before Login  -->
-                    <li><h4><a role="button" class="label label-success btn_board login" style="margin-right: 12px;"><b>로그인</b></a></h4></li>
-                    <li><h4><a role="button" class="label label-danger btn_board" href="/signUp"><b>회원가입</b></a></h4></li>
-                    <% } %>
+                        </li>
+                    </sec:authorize>
                     <!--
                     <li><a class="navbar-item"><i class="fas fa-shopping-cart"></i></a></li>
                     <li><a class="navbar-item"><i class="fas fa-bell"></i></a></li>
@@ -148,24 +143,3 @@
         </div>
     </div>
 </nav>
-<!-- login form  -->
-<div id="hidden_login" class="login-form">
-    <!-- &times; -> html4 예약어 x -->
-    <form class="login-content animate login_form" method="post" action="/signIn">
-        <div class="login-container">
-            <span onclick="document.getElementById('hidden_login').style.display='none'" class="close" title="Close Modal">&times;</span>
-            <div class="image_container">
-                <img src="/imgs/header/Logo_1.png" alt="Logo" class="login_logo">
-            </div>
-
-            <input class="login_form_input email" type="email" placeholder="이메일" name="email" required>
-            <input class="login_form_input password" type="password" placeholder="비밀번호" name="password" required>
-
-            <button type="button" class="login_button">로그인</button>
-            <p class="gray-text" style="margin-top: 20px;">비밀번호를 잊어버리셨나요?</p>
-            <p class="gray-text underline"><a>비밀번호 찾기</a></p>
-            <p class="gray-text">아직 호프런 회원이 아니신가요?</p>
-            <p class="gray-text underline"><a href="/signUp.do">회원가입 하기</a></p>
-        </div>
-    </form>
-</div>
