@@ -1,10 +1,12 @@
 package me.eggme.classh.configuration;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.mvc.method.annotation.RequestAttributeMethodArgumentResolver;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
@@ -21,6 +23,11 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
+        //registry.addResourceHandler("/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
+    }
+
+    @Bean
+    public RequestAttributeMethodArgumentResolver requestAttributeMethodArgumentResolver(){
+        return new RequestAttributeMethodArgumentResolver();
     }
 }

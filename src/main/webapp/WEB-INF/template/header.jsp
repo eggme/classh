@@ -126,7 +126,7 @@
                                         </div>
                                     </div>
                                     <div class="bottom_menu">
-                                        <a class="logout"><span>로그아웃</span></a>
+                                        <a class="logout" href="<c:url value="/logout" />"><span>로그아웃</span></a>
                                         <a><span>고객센터</span></a>
                                     </div>
                                 </div>

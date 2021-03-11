@@ -1,9 +1,6 @@
 package me.eggme.classh.configuration;
 
-import me.eggme.classh.security.CustomAuthenticationFilter;
-import me.eggme.classh.security.CustomAuthenticationProvider;
-import me.eggme.classh.security.CustomLoginSuccessHandler;
-import me.eggme.classh.security.CustomLoginFailureHandler;
+import me.eggme.classh.security.*;
 import me.eggme.classh.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -36,33 +36,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
-                    .antMatchers("/", "/signUp", "/signIn").permitAll()
+        // 인코딩
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
+        http.addFilterBefore(filter, CsrfFilter.class);
+
+        http.authorizeRequests()
                     .antMatchers("/requestLogin").authenticated()
-                    .antMatchers("/admin").hasRole("ADMIN")
-                    .anyRequest().permitAll()
+                    .antMatchers("/admin").hasRole(UserRole.ADMIN.name())
+                    .antMatchers("/**").permitAll()
                     .and()
                 .formLogin()
                     .loginPage("/login")
-                    .permitAll()
+                    .defaultSuccessUrl("/")
+                    .successHandler(customLoginSuccessHandler())
+                    .failureHandler(customLoginFailureHandler())
                     .and()
                 .logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/user/logout")
-                    .invalidateHttpSession(true)
-                .and()
-                    .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                    .logoutSuccessHandler(customLogoutSuccessHandler())
+                    .invalidateHttpSession(true);
+//                .and()
+//                    .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Bean
-    public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager());
-        customAuthenticationFilter.setFilterProcessesUrl("/signIn");
-        customAuthenticationFilter.setAuthenticationSuccessHandler(customLoginSuccessHandler());
-        customAuthenticationFilter.setAuthenticationFailureHandler(customLoginFailureHandler());
-        customAuthenticationFilter.afterPropertiesSet();
-        return customAuthenticationFilter;
-    }
+//    @Bean
+//    public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
+//        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager());
+//        customAuthenticationFilter.setFilterProcessesUrl("/signIn");
+//        customAuthenticationFilter.setAuthenticationSuccessHandler(customLoginSuccessHandler());
+//        customAuthenticationFilter.setAuthenticationFailureHandler(customLoginFailureHandler());
+//        customAuthenticationFilter.afterPropertiesSet();
+//        return customAuthenticationFilter;
+//    }
 
     @Bean
     public CustomLoginFailureHandler customLoginFailureHandler(){
@@ -75,12 +82,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public CustomAuthenticationProvider customAuthenticationProvider(){
-        return new CustomAuthenticationProvider(passwordEncoder());
+    public LogoutSuccessHandler customLogoutSuccessHandler(){
+        return new CustomLogoutSuccessHandler();
     }
+
+//    @Bean
+//    public CustomAuthenticationProvider customAuthenticationProvider(){
+//        return new CustomAuthenticationProvider(passwordEncoder());
+//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(customAuthenticationProvider());
+        //auth.authenticationProvider(customAuthenticationProvider());
+        auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
     }
 }

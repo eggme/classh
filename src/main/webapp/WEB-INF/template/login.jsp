@@ -13,8 +13,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/css/login.css">
+<script src="/js/login.js"></script>
 <div class="login_area">
-    <form method="post" action="/signIn" class="login_form">
+    <form method="post" action="/login" class="login_form">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <div class="image_container">
             <img src="/imgs/header/Logo_1.png" class="login_logo">
@@ -23,7 +24,7 @@
             <input class="login_form_input email" type="email" name="username" placeholder="이메일" required>
             <input class="login_form_input password" type="password" name="password" placeholder="비밀번호" required>
 
-            <button type="submit" class="login_button">로그인</button>
+            <button type="button" class="login_button">로그인</button>
             <p class="gray-text" style="margin-top: 20px;">비밀번호를 잊어버리셨나요?</p>
             <p class="gray-text underline"><a>비밀번호 찾기</a></p>
             <p class="gray-text">아직 호프런 회원이 아니신가요?</p>

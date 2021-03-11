@@ -1,12 +1,16 @@
 $(function(){
-    $('.logout').click(function(){
-        $.ajax({
-            url : "/logout",
-            method : "post",
-            success : function(r){},
-            error : function(e){}
-        })
-    });
+    // $('.logout').click(function(){
+    //     $.ajax({
+    //         url : "/logout",
+    //         type : "POST",
+    //         success : function(r){
+    //             console.log(r);
+    //         },
+    //         error : function(e){
+    //             console.log(e);
+    //         }
+    //     });
+    // });
     $('.overmenu').hover(function (){
         $('.mouseover_menu_wrap').css('display', 'block');
     }, function (){

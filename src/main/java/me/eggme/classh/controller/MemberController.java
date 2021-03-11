@@ -1,24 +1,29 @@
 package me.eggme.classh.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.log4j.Log4j2;
+import me.eggme.classh.dto.LoginResponseDTO;
+import me.eggme.classh.dto.ResponseDataCode;
+import me.eggme.classh.dto.ResponseStatusCode;
 import me.eggme.classh.entity.Member;
 import me.eggme.classh.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 @Controller
+@Log4j2
 public class MemberController {
 
     @Autowired
-    ApplicationContext context;
+    private ApplicationContext applicationContext;
 
     @Autowired
     private MemberService service;
@@ -28,14 +33,9 @@ public class MemberController {
         return "root/index";
     }
 
-    @RequestMapping(value = "/login")
+    @GetMapping(value = "/login")
     public String login(){
         return "root/login";
-    }
-
-    @RequestMapping(value = "/user/logout")
-    public String home(){
-        return "redirect:/";
     }
 
     @GetMapping(value = "/signUp")
@@ -46,24 +46,24 @@ public class MemberController {
     @PostMapping(value = "/signUp")
     public String signUpUser(@ModelAttribute Member member,
                              BindingResult bindingResult){
-        System.out.println("signUpUser Handler!");
-        bindingResult.getAllErrors().forEach(e->
-                        System.out.println(e.toString())
-        );
         service.save(member);
         return "root/index";
     }
 
-    @RequestMapping(value = "/user/login?error")
-    public void loginErrorBy(@RequestParam(value = "ERROR_MSG") String msg,
-                               HttpServletResponse response){
-        Environment environment = context.getEnvironment();
-        try (PrintWriter writer = response.getWriter()) {
-            String errorMsg = environment.getProperty(msg);
-            writer.println("<script>alert(" + errorMsg + "); history.go(-1);</script>");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @RequestMapping(value = "/login/error")
+    @ResponseBody
+    public String loginErrorBy(HttpServletRequest request) throws JsonProcessingException {
+        Environment environment = applicationContext.getEnvironment();
+        String errorMsg = environment.getProperty(request.getAttribute("ERROR_MSG").toString());
+        ObjectMapper mapper = new ObjectMapper();
+
+        LoginResponseDTO dto = new LoginResponseDTO();
+        dto.setCode(ResponseDataCode.ERROR);
+        dto.setStatus(ResponseStatusCode.ERROR);
+        dto.setMessage(errorMsg);
+
+        String result = mapper.writeValueAsString(dto);
+        return result;
     }
 
     @RequestMapping(value = "/errors")

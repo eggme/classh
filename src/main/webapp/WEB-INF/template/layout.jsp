@@ -10,11 +10,15 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<sec:csrfMetaTags />
 <html>
 <head>
     <title><tiles:getAsString name="title"/></title>
     <link href="/imgs/favicon/favicon.ico" rel="icon"/>
-    <script src="/webjars/jquery/3.5.1/dist/jquery.min.js" />
+    <script src="/webjars/jquery/3.5.1/dist/jquery.min.js"></script>
+    <script src="/js/global.js"></script>
     <style>
         html, body {margin: 0; padding: 0;}
     </style>
