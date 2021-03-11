@@ -36,8 +36,6 @@ public class MemberService implements MemberSecurityService {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EmailExistedException(email));
         UserDetailsVO userDetailsVO = new UserDetailsVO(member, Collections.singleton(new SimpleGrantedAuthority(member.getUserRole().getValue())));
         return userDetailsVO;
-        //return memberRepository.findByEmail(email).map(m -> new UserDetailsVO(m, Collections.singleton(
-        //        new SimpleGrantedAuthority(m.getUserRole().getValue())))).orElseThrow(() -> new EmailExistedException(email));
     }
 
     @Autowired
@@ -45,18 +43,4 @@ public class MemberService implements MemberSecurityService {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
-    public Member login(String username, String password){
-        System.out.println(username + " : " + password);
-        Member loadMember = memberRepository.findByEmail(username)
-               .orElseThrow(() -> new EmailExistedException(username));
-        authenticate(password, loadMember.getPassword());
-        return loadMember;
-    }
-
-
-    private void authenticate(String pw, String loadPw){
-        if(!passwordEncoder.matches(pw, loadPw)) new PasswordWrongException();
-    }
-
 }

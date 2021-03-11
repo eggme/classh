@@ -12,11 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @Log4j2
@@ -44,8 +42,7 @@ public class MemberController {
     }
 
     @PostMapping(value = "/signUp")
-    public String signUpUser(@ModelAttribute Member member,
-                             BindingResult bindingResult){
+    public String signUpUser(@ModelAttribute Member member){
         service.save(member);
         return "root/index";
     }

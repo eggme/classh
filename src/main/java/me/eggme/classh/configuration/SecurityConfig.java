@@ -1,6 +1,9 @@
 package me.eggme.classh.configuration;
 
-import me.eggme.classh.security.*;
+import me.eggme.classh.security.CustomLoginFailureHandler;
+import me.eggme.classh.security.CustomLoginSuccessHandler;
+import me.eggme.classh.security.CustomLogoutSuccessHandler;
+import me.eggme.classh.security.UserRole;
 import me.eggme.classh.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +14,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -57,19 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                     .logoutSuccessHandler(customLogoutSuccessHandler())
                     .invalidateHttpSession(true);
-//                .and()
-//                    .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-
-//    @Bean
-//    public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
-//        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager());
-//        customAuthenticationFilter.setFilterProcessesUrl("/signIn");
-//        customAuthenticationFilter.setAuthenticationSuccessHandler(customLoginSuccessHandler());
-//        customAuthenticationFilter.setAuthenticationFailureHandler(customLoginFailureHandler());
-//        customAuthenticationFilter.afterPropertiesSet();
-//        return customAuthenticationFilter;
-//    }
 
     @Bean
     public CustomLoginFailureHandler customLoginFailureHandler(){
@@ -85,11 +75,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public LogoutSuccessHandler customLogoutSuccessHandler(){
         return new CustomLogoutSuccessHandler();
     }
-
-//    @Bean
-//    public CustomAuthenticationProvider customAuthenticationProvider(){
-//        return new CustomAuthenticationProvider(passwordEncoder());
-//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
