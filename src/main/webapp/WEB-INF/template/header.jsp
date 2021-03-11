@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/1f4456927b.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/css/header.css" >
 <script src="/js/header.js"></script>
 <nav class="navbar navbar-default">
@@ -51,6 +52,8 @@
                     <sec:authorize access="isAnonymous()"><li><h4><a role="button" class="label label-success btn_board login" style="margin-right: 12px;" href="/requestLogin"><b>로그인</b></a></h4></li></sec:authorize>
                     <sec:authorize access="isAnonymous()"><li><h4><a role="button" class="label label-danger btn_board" href="/signUp"><b>회원가입</b></a></h4></li></sec:authorize>
                     <sec:authorize access="isAuthenticated()">
+                        <script src="/js/header_ajax.js"></script>
+                        <input type="hidden" class="usernameToken" value="<sec:authentication property="principal.username"></sec:authentication>"/>
                         <li>
                             <div class="cart height50">
                                 <i class="fas fa-shopping-cart cart_over"></i>
@@ -69,7 +72,7 @@
                             </div>
                         </li>
 
-                        <li><h4><a role="button" class="label label-success btn_board" href="/dashboard.do"><b>대시보드</b></a></h4></li>
+                        <li><h4><a role="button" class="label label-success btn_board" href="/member/dashboard"><b>대시보드</b></a></h4></li>
                         <li class="height50">
                             <a role="button" class="height50 overmenu">
                                 <img src="/imgs/header/mini_icon_2.png" class="mini_icon">
@@ -80,10 +83,10 @@
                                     <div class="profile">
                                         <div class="profile_wrap">
                                             <div class="img_wrap">
-                                                <img src="/imgs/header/mini_icon_2.png" />
+                                                <img src="/imgs/header/mini_icon_2.png" class="user_profile_img"/>
                                             </div>
                                             <div class="text_wrap">
-                                                    <span sec:authentication="name" class="user_id"></span>
+                                                <span class="user_id"></span>
                                                 <span class="fix_text">지식 공유자</span>
                                             </div>
                                         </div>

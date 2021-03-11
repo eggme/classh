@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<script src="https://kit.fontawesome.com/1f4456927b.js" crossorigin="anonymous"></script>
 <script src="/js/index.js"></script>
 <div class="starter-template">
     <!-- Slider Carousel -->

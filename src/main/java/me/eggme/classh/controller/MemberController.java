@@ -47,6 +47,12 @@ public class MemberController {
         return "root/index";
     }
 
+    @PostMapping(value = "/userData")
+    @ResponseBody
+    public Member loadUserData(String username) throws JsonProcessingException {
+        return service.loadUserName(username);
+    }
+
     @RequestMapping(value = "/login/error")
     @ResponseBody
     public String loginErrorBy(HttpServletRequest request) throws JsonProcessingException {

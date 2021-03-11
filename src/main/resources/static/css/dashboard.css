@@ -1,5 +1,4 @@
 body, body *{font-family: "Noto Sans KR";}
-.wrap{width: 1250px; margin : 0 auto; padding-top: 64px;}
 .main_section{margin-left: 10px; width: 1030px; height: 1000px; display: inline-block;}
 .card_line{width: 100%;}
 .card_wrap{width: 48%; padding: 1%; display: inline-block;}
@@ -20,9 +19,9 @@ body, body *{font-family: "Noto Sans KR";}
 .user_name{font-size: 17px; font-weight: bold;}
 .user_nickname .user_email{font-size: 14px;}
 
-@media (max-width: 1220px) {
-    .wrap{width: 100%;}
-    .main_section{width: calc(100% - 210px);}
+@media (max-width: 1250px) {
+    .card_wrap{width: 100%;}
+    .main_section{width: 100%;}
 }
 /* 화면 너비 0 ~ 768px */
 @media (max-width: 880px) {

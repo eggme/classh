@@ -11,13 +11,23 @@
         <put-attribute name="footer" value="/WEB-INF/template/footer.jsp" />
     </definition>
 
-    <!-- 테스트 레이아웃 -->
+    <!-- 기본 레이아웃, index, login, signUp...  -->
     <definition name="root/*" template="/WEB-INF/template/layout.jsp">
         <put-attribute name="title" value="ClassH - 취미부터 교육까지 한꺼번에" />
         <put-attribute name="header" value="/WEB-INF/template/header.jsp" />
         <put-attribute name="body" value="/WEB-INF/template/{1}.jsp" />
         <put-attribute name="footer" value="/WEB-INF/template/footer.jsp" />
     </definition>
+
+    <!-- 대시보드 -->
+    <definition name="board/*" template="/WEB-INF/template/dashboard_layout.jsp">
+        <put-attribute name="title" value="ClassH - 대시보드" />
+        <put-attribute name="header" value="/WEB-INF/template/header.jsp" />
+        <put-attribute name="side" value="/WEB-INF/template/sideMenu.jsp" />
+        <put-attribute name="body" value="/WEB-INF/template/{1}.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/template/footer.jsp" />
+    </definition>
+
 <!--    &lt;!&ndash; main &ndash;&gt;-->
 <!--    <definition name="main-layout" template="/WEB-INF/views/main/layout/base-main.jsp">-->
 <!--        <put-attribute name="header" value="/WEB-INF/views/common/layout/header.jsp" />-->

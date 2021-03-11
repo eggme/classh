@@ -1,16 +1,7 @@
 $(function(){
-    // $('.logout').click(function(){
-    //     $.ajax({
-    //         url : "/logout",
-    //         type : "POST",
-    //         success : function(r){
-    //             console.log(r);
-    //         },
-    //         error : function(e){
-    //             console.log(e);
-    //         }
-    //     });
-    // });
+    $('.user_id').click(function(){
+       location.href="/member/profile";
+    });
     $('.overmenu').hover(function (){
         $('.mouseover_menu_wrap').css('display', 'block');
     }, function (){

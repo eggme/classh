@@ -44,6 +44,10 @@ public class Member {
     @Enumerated(value = EnumType.STRING)
     private UserRole userRole;
 
+    @Setter
+    @Column(nullable = false)
+    private String profile = "/imgs/mini_icon_1.png";
+
     @Builder
     public Member(String email, String password, String name){
         this.email = email;

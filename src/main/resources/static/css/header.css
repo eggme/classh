@@ -63,7 +63,7 @@ button:hover {opacity: 0.8;}
 .img_wrap img{width: 48px; height: 48px;}
 .text_wrap{display: flex; flex-direction: column; margin-left: 16px;}
 .text_wrap span{display: flex;}
-.user_id {font-weight: bold; font-size: 15px;}
+.user_id {font-weight: bold; font-size: 15px; cursor: pointer;}
 .user_id:hover{text-decoration: underline;}
 .tab_warp{ width: 100%; display: flex; height: 100%; }
 .tab_content{text-align: center; font-size: 16px; color : #343a40; display: flex; border-bottom: 2px solid #e9ecef; flex-grow: 1; align-items: center; justify-content: center;}

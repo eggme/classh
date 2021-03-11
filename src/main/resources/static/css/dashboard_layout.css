@@ -1,0 +1,11 @@
+html, body {margin: 0; padding: 0;}
+.content {max-width: 1280px; justify-content: space-between; width: 100%; height: 100%; display: flex; margin: 0 auto; margin-top: 30px;}
+.page_content{display: inline-flex; max-width: 1060px; height: 100%;}
+
+@media (max-width: 1250px) {
+    .page_content{width: calc(100% - 220px);}
+}
+
+@media (max-width: 620px) {
+    .page_content{width: 100%;}
+}

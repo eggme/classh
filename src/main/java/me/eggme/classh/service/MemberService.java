@@ -43,4 +43,8 @@ public class MemberService implements MemberSecurityService {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
+    public Member loadUserName(String username) {
+        return memberRepository.findByEmail(username).orElseThrow(() -> new ArithmeticException());
+    }
 }
