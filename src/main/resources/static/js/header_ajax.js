@@ -11,6 +11,7 @@ $(function () {
             console.log(result.email + " : " + result.profile);
             $('.user_id').text(result.name +" >");
             $('.user_profile_img').attr('src', result.profile);
+            $('.mini_icon').attr('src', result.profile);
         }
     })
 });

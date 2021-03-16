@@ -1,5 +1,6 @@
 package me.eggme.classh.service;
 
+import lombok.extern.log4j.Log4j2;
 import me.eggme.classh.entity.Member;
 import me.eggme.classh.exception.EmailExistedException;
 import me.eggme.classh.exception.PasswordWrongException;
@@ -17,6 +18,7 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 
 @Service
+@Log4j2
 public class MemberService implements MemberSecurityService {
 
     private MemberRepository memberRepository;
@@ -44,7 +46,13 @@ public class MemberService implements MemberSecurityService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Member loadUserName(String username) {
+    public Member loadUser(String username) {
         return memberRepository.findByEmail(username).orElseThrow(() -> new ArithmeticException());
+    }
+
+    public String loadUserName(String email) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new ArithmeticException());
+        log.info(member.getEmail() + " : " + member.getName());
+        return member.getName();
     }
 }

@@ -5,10 +5,7 @@
 @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');}
 @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
 body, body *{font-family: "Noto Sans KR";}
-
-
-
-
+.navbar{margin-bottom: 0 !important;}
 .main_wrap i{display: inline-block;}
 #logo{width: 128px;}
 .menus li {font-family: "Noto Sans KR"}
@@ -49,7 +46,8 @@ button:hover {opacity: 0.8;}
 .height50{max-height: 50px!important;}
 .height50 a{padding: 10px !important;}
 .close:hover, .close:focus {cursor: pointer;}
-.mini_icon{width: 100%; height: 100%; max-width: 30px !important; max-height: 30px;}
+.header_circle_img{width: 30px !important; height: 30px; border-radius: 70%; overflow: hidden;}
+.mini_icon{width: 100%; height: 100%; object-fit: cover;}
 /*  mouse over popup  */
 .mouseover_menu_wrap{display: none;}
 .mouseover_menu_bg{position: absolute; width: 316px; height: 506px; border-radius: 3px; box-shadow: 0 2px 4px 0 rgba(33,37,41,.24);background-color: #fff; top : 55px; right: -15px; z-index: 30; border: 1px solid #e0e0e0;}
@@ -59,8 +57,8 @@ button:hover {opacity: 0.8;}
 .tab_list{width: 100%; height: 288px; padding: 12px; background-color: #F8F9FA; color : #4A4A4A;}
 .bottom_menu{width: 100%; height: 40px;display: flex; justify-content: space-between;}
 .profile_wrap{display: flex; justify-content: flex-start; padding: 16px; }
-.img_wrap{display: flex}
-.img_wrap img{width: 48px; height: 48px;}
+.img_wrap{display: flex; width: 48px; height: 48px; overflow: hidden; border-radius: 70%;}
+.img_wrap img{width: 100%; height: 100%; object-fit: cover;}
 .text_wrap{display: flex; flex-direction: column; margin-left: 16px;}
 .text_wrap span{display: flex;}
 .user_id {font-weight: bold; font-size: 15px; cursor: pointer;}
@@ -81,7 +79,7 @@ button:hover {opacity: 0.8;}
 .point_wrap{display: flex; flex-grow: 2; color: #495057; background-color: #f1f3f5; justify-content: space-between; align-items: center; padding: 6px;}
 .items{font-weight: 800; color: #00c471;}
 /* 쇼핑카트 시작 */
-.cart{height: 100%; display: flex; justify-content: center; align-content: center; margin-right: 12px;}
+.cart{height: 100% !important; display: flex; justify-content: center; align-content: center; margin-right: 12px; margin-top: 12px;}
 .cart_over{font-size: 24px; align-self: center; color : #959B9D;}
 .course_cart{ display : none; width: 442px; height: 420px; position: absolute;  border-radius: 3px; box-shadow: 0 2px 4px 0 rgba(33,37,41,.24);background-color: #fff; z-index: 30; right: -15px; top : 40px; border: 1px solid #e0e0e0;}
 .cart_rotate_box{width: 20px; height: 20px; position: absolute; left: 392px; top: -8px; background-color: #fff; z-index: 31; border-left: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0; transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg);}

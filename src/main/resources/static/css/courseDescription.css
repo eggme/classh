@@ -1,0 +1,21 @@
+.red_text{color: #FB6351;}
+.text_area{width: 100%; min-height: 80px; color:#5f5f5f; border-radius: 3px; box-shadow: none; outline: none; border-color: #b5b5b5; resize: vertical; padding: 8px;}
+.gray_line_divisor{height: 1px; margin : 24px 0; border-bottom: 1px solid #efefef;}
+.link_text{text-decoration: underline; color: #1dc078 !important; font-weight: bold;}
+.notification{padding: 18px; margin-bottom: 12px; background-color: #f6f6f6;}
+.notification h3{margin-bottom: 3px; margin-top: 0; font-size: 18px; font-weight: bold; color: #000A12;}
+.notification p{font-size: 16px; color: #000A12;}
+.input_des{font-size: 14px; font-weight: 800; color : #929292;}
+.editor{color : black; background-color: #000;}
+.tox-menubar button{color: #222f3e !important;}
+
+@media (max-width: 1300px) {
+    .content_wrap{width: 100%;}
+    .menu_size{width: 90%;}
+}
+
+@media (max-width: 795px) {
+    .right_btns{display: none;}
+    .main_aside{display: none;}
+    .main_session{width: 100%;}
+}

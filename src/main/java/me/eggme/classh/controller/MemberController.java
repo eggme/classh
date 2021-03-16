@@ -44,13 +44,13 @@ public class MemberController {
     @PostMapping(value = "/signUp")
     public String signUpUser(@ModelAttribute Member member){
         service.save(member);
-        return "root/index";
+        return "redirect:/";
     }
 
     @PostMapping(value = "/userData")
     @ResponseBody
     public Member loadUserData(String username) throws JsonProcessingException {
-        return service.loadUserName(username);
+        return service.loadUser(username);
     }
 
     @RequestMapping(value = "/login/error")

@@ -1,0 +1,15 @@
+.content{width: 82%; padding: 12px; display: flex; }
+.main_content_warp{width: 100%; padding: 8px;}
+.main_table {width: 98%; margin: 0 auto; padding: 0;}
+.border_tr{border-bottom: 2px solid #DBDBDB;}
+.border_tr th{color: #363636; height: 40px; line-height: 20px; text-align: center;}
+.main_table tr td{line-height: 20px; text-align: center;}
+.course_thumbnail{width: 124px; height: 80px;}
+.no_style{color: #454545; text-decoration: none;}
+.no_style:hover{color: #454545; text-decoration: none;}
+.tr_padding td{padding-top: 8px;}
+
+@media (max-width: 1000px) {
+    .aside_menu{display: none;}
+    .content{width: 100%;}
+}

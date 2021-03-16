@@ -19,7 +19,7 @@
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand" href="/">
-                <img id="logo"  src="/imgs/header/Logo_1.png"/>
+                <img id="logo" src="/imgs/header/Logo_1.png"/>
             </a>
         </div>
         <div class="navbar-collapse collapse">
@@ -75,7 +75,9 @@
                         <li><h4><a role="button" class="label label-success btn_board" href="/member/dashboard"><b>대시보드</b></a></h4></li>
                         <li class="height50">
                             <a role="button" class="height50 overmenu">
-                                <img src="/imgs/header/mini_icon_2.png" class="mini_icon">
+                                <div class="header_circle_img">
+                                    <img src="/imgs/header/mini_icon_2.png" class="mini_icon">
+                                </div>
                             </a>
                             <div class="mouseover_menu_wrap">
                                 <div class="rotate_box"></div>
@@ -121,8 +123,8 @@
                                         <div class="instructor_list">
                                             <ul>
                                                 <li><a><i class="fas fa-home"></i> 대시보드</a></li>
-                                                <li><a href="/courseManagement.do"><i class="fas fa-chalkboard"></i> 강의 관리</a></li>
-                                                <li><a href="/createCourse.do"><i class="fas fa-magic"></i> 강의 만들기</a></li>
+                                                <li><a href="/course/list"><i class="fas fa-chalkboard"></i> 강의 관리</a></li>
+                                                <li><a href="/course/add"><i class="fas fa-magic"></i> 강의 만들기</a></li>
                                                 <li><a><i class="far fa-edit"></i> 질문 리스트</a></li>
                                                 <li><a><i class="fas fa-search-dollar"></i> 수익 확인</a></li>
                                             </ul>

@@ -6,26 +6,44 @@
 
     <definition name="base_layout" template="/WEB-INF/template/base_template.jsp">
         <put-attribute name="title" value="ClassH - 취미부터 교육까지" />
-        <put-attribute name="header" value="/WEB-INF/template/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/template/menu.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/template/footer.jsp" />
+        <put-attribute name="header" value="/WEB-INF/component/header.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/menu.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
     </definition>
 
     <!-- 기본 레이아웃, index, login, signUp...  -->
     <definition name="root/*" template="/WEB-INF/template/layout.jsp">
         <put-attribute name="title" value="ClassH - 취미부터 교육까지 한꺼번에" />
-        <put-attribute name="header" value="/WEB-INF/template/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/template/{1}.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/template/footer.jsp" />
+        <put-attribute name="header" value="/WEB-INF/component/header.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
     </definition>
 
     <!-- 대시보드 -->
     <definition name="board/*" template="/WEB-INF/template/dashboard_layout.jsp">
         <put-attribute name="title" value="ClassH - 대시보드" />
-        <put-attribute name="header" value="/WEB-INF/template/header.jsp" />
-        <put-attribute name="side" value="/WEB-INF/template/sideMenu.jsp" />
-        <put-attribute name="body" value="/WEB-INF/template/{1}.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/template/footer.jsp" />
+        <put-attribute name="header" value="/WEB-INF/component/header.jsp" />
+        <put-attribute name="side" value="/WEB-INF/views/sideMenu.jsp" />
+        <put-attribute name="menu" value="{1}" />
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
+    </definition>
+
+    <definition name="create/*" template="/WEB-INF/template/layout.jsp">
+        <put-attribute name="title" value="ClassH - 강의 만들기" />
+        <put-attribute name="header" value="/WEB-INF/component/header.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
+    </definition>
+
+    <!-- 강의 만들기 -->
+    <definition name="course/*" template="/WEB-INF/template/dashboard_layout.jsp">
+        <put-attribute name="title" value="ClassH - 강의 만들기" />
+        <put-attribute name="header" value="/WEB-INF/component/header.jsp" />
+        <put-attribute name="side" value="/WEB-INF/views/addCourseSideMenu.jsp" />
+        <put-attribute name="menu" value="{1}" />
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
     </definition>
 
 <!--    &lt;!&ndash; main &ndash;&gt;-->

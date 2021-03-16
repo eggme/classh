@@ -12,6 +12,7 @@ import javax.security.auth.login.CredentialExpiredException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +38,9 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+        HttpSession session = httpServletRequest.getSession();
+        session.removeAttribute("username");
+
         String username = httpServletRequest.getParameter("username");
         String password = httpServletRequest.getParameter("password");
 

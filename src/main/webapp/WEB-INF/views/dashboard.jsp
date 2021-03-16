@@ -8,22 +8,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link rel="stylesheet" href="/css/dashboard.css" >
 <section class="main_section">
-    <div class="section_title">
-        <p>대시보드</p>
-        <h4><b>대시보드</b></h4>
-    </div>
     <div class="card_line">
         <div class="card_wrap">
             <div class="card">
                 <div class="card_title">내 프로필</div>
                 <div class="card_content">
                     <div class="card_logo">
-                        <img src="/imgs/mini_icon_1.png" style="width: 64px; height: 64px;">
+                        <img src="${member.profile}">
                     </div>
                     <div class="card_description">
-                        <div class="user_name">이승준님, 즐거운 하루!!!</div>
-                        <div class="user_nickname">닉네임 : 이승준</div>
-                        <div class="user_email">이메일 : kyyeto9984@naver.com</div>
+                        <div class="user_name">${member.name}님, 즐거운 하루!!!</div>
+                        <div class="user_nickname">닉네임 : ${member.name}</div>
+                        <div class="user_email">이메일 : ${member.email}</div>
                     </div>
                 </div>
             </div>

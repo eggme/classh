@@ -8,22 +8,10 @@ html, body, .main_wrap{width: 100%; height: auto; min-height: 100%;}
 .right_btns{display: inline-block; float:right; margin-top: 8px;}
 .right_btns span{display: inline-block; padding : 15px 50px 15px 50px; font-size: 18px; font-family: "Noto Sans KR";}
 .link_btn:hover{cursor: pointer;}
-/* aside */
-.main_content{background-color: #F5F5F5 !important; width: 100%; height: auto; min-height: 100%; overflow: scroll; overflow-x:hidden;}
-.content_wrap{width: 1280px; height: auto; min-height: 100%; margin: 0 auto;}
 
-.main_aside{display: inline-block; width: 200px; height: 100%; min-width: 100px; text-align: left; padding : 30px; float: left;}
-.items{list-style: none; margin: 0 auto; padding: 0px;}
-.item_title{font-size: 16px; font-weight: 800; color : #333333; margin-bottom: 24px;}
-.active{color : #595959 !important;}
-.items ul li a{text-decoration: none; color: #BDBDBD;}
-.items ul li a:hover{ color : #1dc078; text-decoration: none !important;}
-.items li{color: #BDBDBD; margin-bottom: 20px; font-size: 15px; ont-weight: 800;}
-.submit{padding: 8px !important; font-size: 16px !important; font-weight: 800 !important;}
-.submit:hover{cursor: pointer;}
-.main_session{padding: 15px;  float: left;  width: calc(100% - 300px); min-width: 300px; margin: 30px; background-color: white; display: inline-block; box-shadow: 2px 2px 2px 2px #e5e5e5;}
-
+.main_session{padding: 15px;  float: left;  width: 100%; max-width: 800px; min-width: 300px; margin: 0 30px 50px 30px; background-color: white; display: inline-block; box-shadow: 2px 2px 2px 2px #e5e5e5;}
 .gray_input{width: 100%; height: 45px; border: 0; margin-bottom: 12px; border-radius: 2px; padding: 0 12px; max-width: 450px; box-shadow: none; font-size: 16px; color : #595959; background-color: #f6f6f6;}
+
 /* 금액 부분 CSS */
 .price_wrap{position: relative; }
 .price_input{text-align: right; }

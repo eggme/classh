@@ -13,7 +13,7 @@
 
 <div class="aside_warp">
     <aside class="aside_menu">
-        <a class="select_menu">
+        <a href="/member/dashboard" data-menu="dashboard">
             <div>대시보드</div>
         </a>
         <a>
@@ -61,7 +61,7 @@
         <a>
             <div>설정</div>
         </a>
-        <a href="/member/profile">
+        <a href="/member/profile" data-menu="profile">
             <div>&nbsp;&nbsp;&nbsp;프로필 설정</div>
         </a>
         <a>

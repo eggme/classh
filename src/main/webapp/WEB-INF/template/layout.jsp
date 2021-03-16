@@ -11,7 +11,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
+<!DOCTYPE html>
 <sec:csrfMetaTags/>
 <html>
 <head>
@@ -23,6 +23,20 @@
         html, body {
             margin: 0;
             padding: 0;
+            height: 100%;
+        }
+        footer{ position:absolute;
+            left:0px;
+            right: 0px;
+            bottom:0px;
+            height:60px;
+            width:100%;
+            background:grey;
+            color: white; }
+        .wrap{
+            min-height: 100%;
+            position: relative;
+            padding-bottom: 60px;
         }
     </style>
 </head>
