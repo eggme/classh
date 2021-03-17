@@ -1,13 +1,15 @@
 package me.eggme.classh.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
+@ToString(exclude = "courseSection")
+@EqualsAndHashCode(exclude = "courseSection")
 public class CourseClass {
 
     @Id @GeneratedValue

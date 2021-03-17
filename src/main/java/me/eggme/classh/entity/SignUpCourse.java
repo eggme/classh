@@ -1,25 +1,24 @@
 package me.eggme.classh.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
+@ToString(exclude = {"member", "courses"})
+@EqualsAndHashCode(exclude = {"member", "courses"})
 public class SignUpCourse {
 
     @Id @GeneratedValue
     private Long id;
 
-    @OneToMany(mappedBy = "signUpCourse")
-    private List<Member> members = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member member;
 
     @OneToMany(mappedBy = "signUpCourse")
     private List<Course> courses = new ArrayList<>();

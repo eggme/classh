@@ -4,10 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
 import me.eggme.classh.dto.LoginResponseDTO;
+import me.eggme.classh.dto.MemberDTO;
 import me.eggme.classh.dto.ResponseDataCode;
 import me.eggme.classh.dto.ResponseStatusCode;
 import me.eggme.classh.entity.Member;
 import me.eggme.classh.service.MemberService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
@@ -25,6 +27,9 @@ public class MemberController {
 
     @Autowired
     private MemberService service;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @RequestMapping(value = "/")
     public String index(){
@@ -49,8 +54,10 @@ public class MemberController {
 
     @PostMapping(value = "/userData")
     @ResponseBody
-    public Member loadUserData(String username) throws JsonProcessingException {
-        return service.loadUser(username);
+    public MemberDTO loadUserData(String username) throws JsonProcessingException {
+        Member member = service.loadUser(username);
+        MemberDTO dto = member.of();
+        return dto;
     }
 
     @RequestMapping(value = "/login/error")
@@ -68,6 +75,12 @@ public class MemberController {
         String result = mapper.writeValueAsString(dto);
         return result;
     }
+
+    @RequestMapping(value = "/test")
+    public String test(){
+        return "root/test";
+    }
+
 
     @RequestMapping(value = "/errors")
     @ResponseBody

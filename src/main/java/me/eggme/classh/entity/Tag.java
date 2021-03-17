@@ -1,7 +1,6 @@
 package me.eggme.classh.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import me.eggme.classh.entity.Course;
 
 import javax.persistence.Entity;
@@ -11,7 +10,10 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
+@ToString(exclude = "course")
+@EqualsAndHashCode(exclude = "course")
 public class Tag {
 
     @Id @GeneratedValue

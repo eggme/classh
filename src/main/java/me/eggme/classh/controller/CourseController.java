@@ -2,6 +2,7 @@ package me.eggme.classh.controller;
 
 import lombok.extern.log4j.Log4j2;
 import me.eggme.classh.entity.Course;
+import me.eggme.classh.entity.Member;
 import me.eggme.classh.service.CourseService;
 import me.eggme.classh.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/course")
@@ -34,16 +36,17 @@ public class CourseController {
     @PostMapping(value = "/create")
     public String createLecture(@RequestParam(value = "course_name") String courseName, HttpSession session, Model model){
         String email = session.getAttribute("username").toString();
+        log.info(courseName + " : " + email);
         // 2021-03-12 작업
         Course course = courseService.createCourseDefault(courseName, email);
         model.addAttribute("course", course);
-        return "create/addCourse";
+        return "course/addCourse";
     }
 
     @GetMapping(value = "/list")
-    public String courseList(HttpSession session){
+    public String courseList(HttpSession session, Model model){
         String email = session.getAttribute("username").toString();
-
+        model.addAttribute("list", courseService.getCourses(email));
         return "board/courseList";
     }
 

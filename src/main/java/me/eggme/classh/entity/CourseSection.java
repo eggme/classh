@@ -1,7 +1,6 @@
 package me.eggme.classh.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,7 +8,10 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
+@ToString(exclude = {"courseClasses", "course"})
+@EqualsAndHashCode(exclude = {"courseClasses", "course"})
 public class CourseSection {
 
     @Id @GeneratedValue

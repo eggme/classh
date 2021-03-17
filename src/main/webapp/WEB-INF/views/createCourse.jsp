@@ -575,7 +575,8 @@
         </div>
         <div class="column_wrap menu5">
             <div class="content_wrap">
-                <form action="/createCourseTemp.do" method="post" class="/course/create">
+                <form action="/course/create" method="post" class="createCourseForm">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     <div class="content_data">
                         <p>제목을 입력해주세요!<br/>너무 고민하지마세요. 제목은 언제든 수정 가능해요 :)</p>
                         <input type="text" name="course_name" class="course_name" placeholder="제목을 입력해주세요."/>
@@ -597,6 +598,7 @@
             </div>
             <div class="hidden_previous nonDisplay">
                 <div class="hidden_previous_content"><i class="fas fa-arrow-left"></i> &nbsp; 이전</div>
+                <div class="submit_button">aaa</div>
             </div>
         </div>
     </div>

@@ -1,13 +1,15 @@
 package me.eggme.classh.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
+@ToString(exclude = {"member", "course"})
+@EqualsAndHashCode(exclude = {"member", "course"})
 public class CourseReview extends BaseTimeEntity{
 
     @Id @GeneratedValue

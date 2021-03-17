@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <link rel="stylesheet" href="/css/courseList.css">
 
@@ -23,18 +24,23 @@
                 <th>관리</th>
             </tr>
             <!-- DB 데이터가 들어갈 공간  -->
-            <tr class="tr_padding">
-                <td><img class="course_thumbnail" src=""></td>
-                <td><a class="no_style" href="/courseInfo.do?course_id=&instructor=true"><span>a</span></a></td>
-                <td><span>0</span></td>
-                <td><span>0</span></td>
-                <td><span>0</span></td>
-                <td><span>
-                                        무료
-                                </span></td>
-                <td><span>임시저장</span></td>
-                <td><button type="button">삭제</button></td>
-            </tr>
+            <c:forEach var="course" items="${list}">
+                <tr class="tr_padding">
+                    <td><img class="course_thumbnail" src="${course.courseImg}"></td>
+                    <td><a class="no_style" href="/courseInfo.do"><span><c:out value="${course.name}"/></span></a></td>
+                    <td><span>0</span></td>
+                    <td><span>0</span></td>
+                    <td><span>0</span></td>
+                    <td><span><c:out value="${course.price}"/></span></td>
+                    <td><span>임시저장</span></td>
+                    <td><button type="button">삭제</button></td>
+                </tr>
+            </c:forEach>
+            <c:if test="${empty list}">
+                <tr>
+                    <td colspan="8" style="padding-top: 20px;">강의가 없습니다.</td>
+                </tr>
+            </c:if>
         </table>
     </div>
 </div>

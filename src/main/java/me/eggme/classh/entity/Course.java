@@ -1,9 +1,8 @@
 package me.eggme.classh.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import me.eggme.classh.dto.CourseLevel;
+import me.eggme.classh.dto.CourseState;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +10,10 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"signUpCourse", "instructor", "courseSections", "tags", "recommendations", "courseReviews"})
+@ToString(exclude = {"signUpCourse", "instructor", "courseSections", "tags", "recommendations", "courseReviews"})
 public class Course extends BaseTimeEntity{
 
     @Id @GeneratedValue
@@ -24,6 +26,10 @@ public class Course extends BaseTimeEntity{
     // 강의 가격
     private int price;
 
+    // 강의의 상태
+    @Enumerated(value = EnumType.STRING)
+    private CourseState courseState;
+
     // 이 강의를 수강하는 학생
     @ManyToOne
     private SignUpCourse signUpCourse;
@@ -31,8 +37,7 @@ public class Course extends BaseTimeEntity{
     // 이 강의의 강사
 //    @ManyToOne
 //    private Member instructor;
-    @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Instructor instructor;
 
     // 이 강의가 가지고 있는 섹션
@@ -58,7 +63,8 @@ public class Course extends BaseTimeEntity{
     private String longDesc;
 
     // 강의의 등록 이미지 경로
-    private String courseImg;
+    @Column(nullable = false)
+    private String courseImg = "/imgs/default_course_image.png";
 
     // 강의 수강평
     @OneToMany(mappedBy = "course")
@@ -66,5 +72,22 @@ public class Course extends BaseTimeEntity{
 
     public Course(String name){
         this.name = name;
+        this.courseState = CourseState.TEMPORARY;
+    }
+
+    // 편의 메서드
+    // 총 수강생 수
+    public int totalStudents(){
+        return this.signUpCourse.getCourses().size();
+    }
+
+    // 총 질문 수
+    public int totalQuestions(){
+        return this.courseReviews.size();
+    }
+
+    // 총 수입
+    public int totalPrice(){
+        return (this.signUpCourse.getCourses().size() * this.getPrice());
     }
 }
