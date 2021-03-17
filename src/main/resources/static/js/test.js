@@ -19,6 +19,6 @@ getJSON('http://api.openweathermap.org/data/2.5/weather?q=seoul&appid=c52cc81357
         if(err !== null){
             alert('죄송합니다 오류발생 삐빅..'+ err);
         }else{
-            alert('현재 온도는 '+ data.main.temp+ '도 입니다.');
+            alert('현재 온도는 '+ data.weather[0].main+ '도 입니다.');
         }
     });

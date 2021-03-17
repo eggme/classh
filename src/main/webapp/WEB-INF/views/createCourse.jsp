@@ -7,9 +7,10 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="/js/createCourse.js"></script>
-<script type="text/javascript">
-</script>
 <link rel="stylesheet" href="/css/createCourse.css">
 
 <div class="createCourseWrap">
@@ -598,7 +599,6 @@
             </div>
             <div class="hidden_previous nonDisplay">
                 <div class="hidden_previous_content"><i class="fas fa-arrow-left"></i> &nbsp; 이전</div>
-                <div class="submit_button">aaa</div>
             </div>
         </div>
     </div>

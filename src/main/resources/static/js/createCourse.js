@@ -1,11 +1,14 @@
 var currentStep = 1;
 
-$(function () {
+$(document).ready(function () {
     $('.previous_button').css('display', 'none');
 
-    $('.submit_button').on("click", function () {
-        console.log("submit");
-        $('.createCourseForm').submit();
+    $(document).on("click", ".submit_button", function (e)    {
+        let query = $('.course_name').val();
+        if(query != ""){
+            console.log("submit");
+            $('.createCourseForm').submit();
+        }
     });
 
     /* 다음 단계 클릭 */
@@ -41,6 +44,7 @@ $(function () {
     });
 });
 
+
 function removeSubmitButton() {
     console.log(currentStep);
     var obj = $('.submit_button');
@@ -68,7 +72,7 @@ function checkButtonStatus() {
         $('.next_button').attr('data-step', getNextStep());
         console.log($('.previous_button').attr("data-step") + " : " + $('.next_button').attr("data-step"));
         console.log(currentStep + " ->");
-        return 0;
+        return;
     }
     if (currentStep > 1) {
         $('.previous_button').css('display', 'inline-block');
