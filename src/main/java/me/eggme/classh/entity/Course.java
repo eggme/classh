@@ -26,6 +26,9 @@ public class Course extends BaseTimeEntity{
     // 강의 가격
     private int price;
 
+    @Column(unique = true)
+    private String url;
+
     // 강의의 상태
     @Enumerated(value = EnumType.STRING)
     private CourseState courseState;
@@ -35,8 +38,6 @@ public class Course extends BaseTimeEntity{
     private SignUpCourse signUpCourse;
 
     // 이 강의의 강사
-//    @ManyToOne
-//    private Member instructor;
     @ManyToOne(fetch = FetchType.LAZY)
     private Instructor instructor;
 

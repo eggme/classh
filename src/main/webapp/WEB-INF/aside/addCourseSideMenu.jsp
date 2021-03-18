@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<link rel="stylesheet" href="/css/addCourseSideMenu.css" >
+<link rel="stylesheet" href="/css/aside/addCourseSideMenu.css" >
 <aside class="main_aside">
     <h2 class="item_title">강의 제작</h2>
     <ul class="items">

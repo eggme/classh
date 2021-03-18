@@ -34,7 +34,7 @@ public class FileUploader {
                     "resource_type", resourceType.getValue()
             ));
             fileURL = resource.get("url");
-            file.deleteOnExit();
+            file.delete();
         } catch (Exception e) {
             e.printStackTrace();
         }

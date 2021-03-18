@@ -11,10 +11,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestAttributeMet
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
-    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {"classpath:/static/", "classpath:/public/", "classpath:/resources",
-        "classpath:/META-INF/resources/" ,"claspath:/META-INF/resources/webjars", "classpath:/resources/imgs/", "classpath:/resources/css/",
-        "classpath:/resources/js/", "classpath:/resources/video/"};
-
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("root/index");

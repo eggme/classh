@@ -1,4 +1,4 @@
-.content{width: 82%; padding: 12px; display: flex; }
+.course_list_content{width: 100%; padding: 12px; display: flex; }
 .main_content_warp{width: 100%; padding: 8px;}
 .main_table {width: 98%; margin: 0 auto; padding: 0;}
 .border_tr{border-bottom: 2px solid #DBDBDB;}
@@ -8,6 +8,8 @@
 .no_style{color: #454545; text-decoration: none;}
 .no_style:hover{color: #454545; text-decoration: none;}
 .tr_padding td{padding-top: 8px;}
+.course_name{cursor: pointer;}
+.resize{width: 140px;}
 
 @media (max-width: 1000px) {
     .aside_menu{display: none;}

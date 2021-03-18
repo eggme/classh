@@ -1,0 +1,16 @@
+.aside_warp {display: inline-flex; width: 100%; max-width: 230px; margin-left: 20px;}
+.aside_menu{display: flex; flex-direction: column; width: 92%;}
+.select_menu{font-weight: 700; color: #1dc078;}
+.select_menu{color: #1dc078 !important;}
+.select_menu:hover{color: #454545 !important;}
+
+/* 새로만든 css */
+.tag{margin-bottom: 12px;}
+.tag_ul{margin: 0; padding: 0; list-style: none;}
+.tag_ul li{padding: 0.5em 0.75em; color: #454545; font-size: 16px; cursor: pointer; border-radius: 2px; font-weight: 500;}
+.tag_ul li:hover{background-color: white;}
+.ul_title{font-size: 12px; color: #cfcfcf; font-weight: 700; padding: 8px 0;}
+
+@media (max-width: 1000px) {
+    .aside_warp {display: none; margin: 0;}
+}

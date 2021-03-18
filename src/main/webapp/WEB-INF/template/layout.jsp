@@ -18,27 +18,8 @@
     <title><tiles:getAsString name="title"></tiles:getAsString></title>
     <link href="/imgs/favicon/favicon.ico" rel="icon"/>
     <script src="/webjars/jquery/3.5.1/dist/jquery.min.js"></script>
-    <script src="/js/global.js"></script>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-        footer{ position:absolute;
-            left:0px;
-            right: 0px;
-            bottom:0px;
-            height:60px;
-            width:100%;
-            background:grey;
-            color: white; }
-        .wrap{
-            min-height: 100%;
-            position: relative;
-            padding-bottom: 60px;
-        }
-    </style>
+    <script src="/js/template/global.js"></script>
+    <link rel="stylesheet" href="/css/template/layout.css" >
 </head>
 <body>
 <div class="wrap">

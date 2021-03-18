@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: kyyet
-  Date: 2021-03-11
-  Time: 오후 2:40
+  Date: 2021-03-18
+  Time: 오전 10:29
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -19,13 +19,13 @@
     <link href="/imgs/favicon/favicon.ico" rel="icon"/>
     <script src="/webjars/jquery/3.5.1/dist/jquery.min.js"></script>
     <script src="/js/template/global.js"></script>
-    <script src="/js/template/boardBase.js"></script>
+    <script src="/js/template/instructorBoardBase.js"></script>
+
     <link rel="stylesheet" href="/css/template/dashboard_layout.css">
     <script type="text/javascript">
         $(function () {
             selectMenu('<tiles:insertAttribute name="menu"></tiles:insertAttribute>');
             var menu = mappingMenu('<tiles:insertAttribute name="menu"></tiles:insertAttribute>');
-            console.log(menu);
             $('.menu_template_title').text(menu);
         });
     </script>
@@ -33,14 +33,16 @@
 <body>
 <div class="wrap">
     <tiles:insertAttribute name="header"></tiles:insertAttribute>
-    <div class="menu_template_line">
-        <div class="menu_template_title"></div>
-    </div>
-    <div class="content_wrap_color">
-        <div class="content">
-            <tiles:insertAttribute name="side"></tiles:insertAttribute>
-            <div class="page_content">
-                <tiles:insertAttribute name="body"></tiles:insertAttribute>
+    <div class="height100_wrap">
+        <div class="menu_template_line">
+            <div class="menu_template_title"></div>
+        </div>
+        <div class="content_wrap_color">
+            <div class="content">
+                <tiles:insertAttribute name="side"></tiles:insertAttribute>
+                <div class="page_content">
+                    <tiles:insertAttribute name="body"></tiles:insertAttribute>
+                </div>
             </div>
         </div>
     </div>

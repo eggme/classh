@@ -13,8 +13,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/1f4456927b.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/css/header.css" >
-<script src="/js/header.js"></script>
+<link rel="stylesheet" href="/css/component/header.css" >
+<script src="/js/component/header.js"></script>
 <nav class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
@@ -122,7 +122,7 @@
                                         </div>
                                         <div class="instructor_list">
                                             <ul>
-                                                <li><a><i class="fas fa-home"></i> 대시보드</a></li>
+                                                <li><a href="/course/dashboard"><i class="fas fa-home"></i> 대시보드</a></li>
                                                 <li><a href="/course/list"><i class="fas fa-chalkboard"></i> 강의 관리</a></li>
                                                 <li><a href="/course/add"><i class="fas fa-magic"></i> 강의 만들기</a></li>
                                                 <li><a><i class="far fa-edit"></i> 질문 리스트</a></li>
