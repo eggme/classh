@@ -33,6 +33,6 @@ public class CourseClass {
     // 강사가 남기는 메모
     private String instructorMemo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private CourseSection courseSection;
 }

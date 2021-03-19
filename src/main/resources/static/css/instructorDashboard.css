@@ -14,7 +14,6 @@ body, body *{font-family: "Noto Sans KR";}
 .font_36{font-size: 36px;}
 .margin_table{margin : 24px 0 0 0px;text-align: center;width: 90%;}
 .table_head th{border: 1px solid #dbdbdb; text-align: center; color: #363636;}
-
 .MyHome{background-color: #ebfff7 !important;}
 .MyHome:hover{background-color: #1dc078; color: white;}
 

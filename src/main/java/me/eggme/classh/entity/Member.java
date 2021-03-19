@@ -69,4 +69,12 @@ public class Member extends BaseTimeEntity{
     public MemberDTO of(){
         return ModelMapperUtils.getModelMapper().map(this, MemberDTO.class);
     }
+
+    // 연관관계 편의 메소드 - 수강 신청
+    public void connectCourse(Course course, SignUpCourse signUpCourse){
+        this.signUpCourses.add(signUpCourse);
+        signUpCourse.setMember(this);
+        course.getSignUpCourses().add(signUpCourse);
+        signUpCourse.setCourse(course);
+    }
 }

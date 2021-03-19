@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <link rel="stylesheet" href="/css/component/description.css" >
 
@@ -22,22 +24,24 @@
                     <div class="play_text_percent">진도율 : 0강 / 1강 (0.00%)</div>
                 </div>
                 <div class="video_progress">
-                    <div class="progress"></div>
+                    <div class="course_progress">
+                        <div class="course_progress_value"></div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="flex_column_wrap">
             <div class="content_text">
-                <div class="content_title">이 강의는 테스트 강의 입니다</div>
+                <div class="content_title"><c:out value="${course.name}"></c:out></div>
                 <div class="content_info">
                     <div class="student_count margin_bottom_10">
                         <span class="icon"><i class="far fa-eye"></i></span>
-                        <span class="total_student_count">9999</span>
+                        <span class="total_student_count">${fn:length(course.signUpCourses)}</span>
                         <span class="total_student_count_text">명이 수강하고 있어요!</span>
                     </div>
                     <div class="instructor_information">
                         <span class="icon"><i class="fas fa-chalkboard-teacher"></i></span>
-                        <span class="instructor_name icon">관리자</span>
+                        <span class="instructor_name"><c:out value="${course.instructor.member.name}"></c:out></span>
                         <span class="after_icon size12"><i class="fas fa-crown"></i></span>
                     </div>
                     <div class="skill_tag">

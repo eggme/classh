@@ -19,13 +19,15 @@
     <link href="/imgs/favicon/favicon.ico" rel="icon"/>
     <script src="/webjars/jquery/3.5.1/dist/jquery.min.js"></script>
     <script src="/js/template/global.js"></script>
-    <script src="/js/template/boardBase.js"></script>
+    <script src="/js/template/courseViewBoardBase.js"></script>
     <link rel="stylesheet" href="/css/template/course_view_layout.css">
     <script type="text/javascript"></script>
 </head>
 <body>
 <div class="wrap">
-    <tiles:insertAttribute name="header"></tiles:insertAttribute>
+    <div class="header_wrap">
+        <tiles:insertAttribute name="header"></tiles:insertAttribute>
+    </div>
 
     <tiles:insertAttribute name="description"></tiles:insertAttribute>
 
@@ -40,7 +42,7 @@
                         <li class="newly">새소식</li>
 
                         <li class="management">수강생 관리</li>
-                        <a class="no_underline">
+                        <a class="no_underline" href="/course/${course.id}/edit/course_info">
                             <li>강의 수정</li>
                         </a>
                     </ul>

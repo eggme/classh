@@ -10,16 +10,16 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = {"member", "courses"})
-@EqualsAndHashCode(exclude = {"member", "courses"})
+@ToString(exclude = {"member", "course"})
+@EqualsAndHashCode(exclude = {"member", "course"})
 public class SignUpCourse {
 
     @Id @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Member member;
 
-    @OneToMany(mappedBy = "signUpCourse")
-    private List<Course> courses = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Course course;
 }

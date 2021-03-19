@@ -24,10 +24,15 @@ public class CourseSection {
     private String goal;
 
     // 섹션이 가지고 있는 수업들
-    @OneToMany(mappedBy = "courseSection")
+    @OneToMany(mappedBy = "courseSection", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CourseClass> courseClasses = new ArrayList<>();
 
     // 어느 강의에 포함되는지 정함
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Course course;
+
+    public void addCourseClass(CourseClass courseClass){
+        this.courseClasses.add(courseClass);
+        courseClass.setCourseSection(this);
+    }
 }

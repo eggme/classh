@@ -19,22 +19,21 @@
     <link href="/imgs/favicon/favicon.ico" rel="icon"/>
     <script src="/webjars/jquery/3.5.1/dist/jquery.min.js"></script>
     <script src="/js/template/global.js"></script>
-    <script src="/js/template/boardBase.js"></script>
+    <script src="/js/template/courseCreateBoardBase.js"></script>
     <link rel="stylesheet" href="/css/template/dashboard_layout.css">
-    <script type="text/javascript">
-        $(function () {
-            selectMenu('<tiles:insertAttribute name="menu"></tiles:insertAttribute>');
-            var menu = mappingMenu('<tiles:insertAttribute name="menu"></tiles:insertAttribute>');
-            console.log(menu);
-            $('.menu_template_title').text(menu);
-        });
-    </script>
+    <link rel="stylesheet" href="/css/template/course_create_layout.css">
 </head>
 <body>
 <div class="wrap">
     <tiles:insertAttribute name="header"></tiles:insertAttribute>
     <div class="menu_template_line">
-        <div class="menu_template_title"></div>
+        <div class="menu_template_title">
+            <div class="course_menu_name">내 강의 만들기</div>
+            <div class="course_configuration_button">
+                <div class="course_preview course_create_base_button" data-url="${course.url}">강의보기</div>
+                <div class="course_save course_create_base_button">저장</div>
+            </div>
+        </div>
     </div>
     <div class="content_wrap_color">
         <div class="content">

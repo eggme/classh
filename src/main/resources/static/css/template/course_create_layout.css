@@ -1,0 +1,37 @@
+.menu_template_title {
+    display: flex !important;
+    justify-content: space-between;
+}
+
+.course_menu_name{
+    align-self: center;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    margin-left: 30px;
+}
+.course_configuration_button{
+    align-self: center;
+    display: flex;
+}
+.course_create_base_button{
+    display: flex;
+    width: 160px;
+    height: 48px;
+    font-weight: 600;
+    font-size: 18px;
+    border-radius: 4px;
+    justify-content: center;
+    cursor: pointer;
+}
+.course_preview{
+    align-items: center;
+    background-color: white;
+    color: #363636;
+    margin-right: 8px;
+}
+.course_save{
+    align-items: center;
+    background-color: #1dc078;
+    color: white;
+}

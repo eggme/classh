@@ -3,13 +3,13 @@ $(function(){
     $('.category').children().click(function(){
         $('.category_actived').removeClass('category_actived');
         $(this).addClass('category_actived');
-        $('.category_value').val($(this).text());
+        $('.courseCategory').val($(this).text());
     });
     // 강의 레벨
     $('.level').children().click(function(){
         $('.level_actived').removeClass('level_actived');
         $(this).addClass('level_actived');
-        $('.level_value').val($(this).text());
+        $('.courseLevel').val($(this).text());
     });
     // 스킬 키워드 태그 추가
     $('.course_tag_add').click(function(){
@@ -42,7 +42,7 @@ $(function(){
                 + '<div class="course_recommend_remove">'
                 + '<i class="far fa-trash-alt"></i>'
                 + '</div>'
-                + '<input type="hidden" name="recommends" value="'+ value +'" /></div>';
+                + '<input type="hidden" name="recommendations" value="'+ value +'" /></div>';
             $(sample).appendTo('.course_recommend_hidden');
             $('.course_recommend_input').val('');
         }
@@ -60,11 +60,6 @@ $(function(){
 
         // 최종 submit
         $('.course_form').submit();
-    });
-    // 미리보기
-    $('.show_preview').click(function (){
-        var course_id = $('.course_id').val();
-        location.href="/courseInfo.do?course_id="+course_id+"&instructor=true";
     });
 });
 function pageInitialized(){

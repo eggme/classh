@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <link rel="stylesheet" href="/css/courseList.css">
 <script src="/js/courseList.js"></script>
@@ -30,7 +31,7 @@
                     <td><img class="course_thumbnail" src="${course.courseImg}"></td>
                     <td class="course_id"><a href='/course/${course.url}'><c:out value="${course.name}"/></a></td>
                     <td><span>0</span></td>
-                    <td><span>0</span></td>
+                    <td><span>${fn:length(course.signUpCourses)}</span></td>
                     <td><span>0</span></td>
                     <td><span><c:out value="${course.price}"/></span></td>
                     <td><span><c:out value="${course.courseState.value}" /></span></td>

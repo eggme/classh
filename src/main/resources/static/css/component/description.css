@@ -75,13 +75,19 @@
     justify-content: center;
     width: 100%;
     position: absolute;
-    bottom: 10px;
+    bottom : 40px;
 }
-.progress {
-    align-self: center;
+.course_progress {
+    align-self: end;
     background-color: white;
     width: 80%;
-    height: 7px;
+    height: 5px;
+    border-radius: 2px;
+}
+.course_progress_value{
+    width: 50%;
+    background-color: #1dc078;
+    height: 100%;
     border-radius: 2px;
 }
 .course_img{
