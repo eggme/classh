@@ -1,6 +1,8 @@
 package me.eggme.classh.entity;
 
 import lombok.*;
+import me.eggme.classh.dto.CourseSectionDTO;
+import me.eggme.classh.utils.ModelMapperUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -34,5 +36,9 @@ public class CourseSection {
     public void addCourseClass(CourseClass courseClass){
         this.courseClasses.add(courseClass);
         courseClass.setCourseSection(this);
+    }
+
+    public CourseSectionDTO of(){
+        return ModelMapperUtils.getModelMapper().map(this, CourseSectionDTO.class);
     }
 }

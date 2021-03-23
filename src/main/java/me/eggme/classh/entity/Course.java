@@ -43,15 +43,16 @@ public class Course extends BaseTimeEntity{
     private Instructor instructor;
 
     // 이 강의가 가지고 있는 섹션
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("id asc")
     private List<CourseSection> courseSections = new ArrayList<>();
 
     // 강의의 태그를 동적으로 늘릴 수 있음
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tag> tags = new ArrayList<>();
 
     // 강의의 추천하는 사람의 정보
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recommendation> recommendations = new ArrayList<>();
 
     // 강의의 레벨

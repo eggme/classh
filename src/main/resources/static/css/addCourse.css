@@ -9,7 +9,7 @@ html, body, .main_wrap{width: 100%; height: auto; min-height: 100%;}
 .right_btns span{display: inline-block; padding : 15px 50px 15px 50px; font-size: 18px; font-family: "Noto Sans KR";}
 .link_btn:hover{cursor: pointer;}
 
-.main_session{padding: 15px;  float: left;  width: 100%; max-width: 800px; min-width: 300px; margin: 0 30px 50px 30px; background-color: white; display: inline-block; box-shadow: 2px 2px 2px 2px #e5e5e5;}
+.main_session{padding: 15px;  float: left;  width: 100%; max-width: 900px; min-width: 300px; margin: 0 30px 50px 30px; background-color: white; display: inline-block; box-shadow: 2px 2px 2px 2px #e5e5e5;}
 .gray_input{width: 100%; height: 45px; border: 0; margin-bottom: 12px; border-radius: 2px; padding: 0 12px; max-width: 450px; box-shadow: none; font-size: 16px; color : #595959; background-color: #f6f6f6;}
 
 /* 금액 부분 CSS */

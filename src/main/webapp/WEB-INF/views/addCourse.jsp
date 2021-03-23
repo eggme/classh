@@ -17,7 +17,7 @@
 
     <h5 class="margin_h_tag">강의 제작</h5>
     <h3 class="margin_h_tag margin_bottom">강의 정보</h3>
-    <form class="course_form" action="/course/${course.id}/edit/saved" method="post">
+    <form class="course_form" action="/course/${course.id}/save/information" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <p class="input_des">강의 제목</p>
         <input type="text" name="name" class="gray_input course_title_input" value="${course.name}"/>
@@ -40,6 +40,11 @@
         <div class="course_tag_required">두 개 이상 넣어주세요.</div>
         <div class="course_tag_hidden"></div>
         <%--  스킬 태그 및 추천인 세팅 하면됩니다, jstl if 로 스크립트로 전송해야할듯     <c:if test></c:if>--%>
+        <script>
+            <c:forEach var="skillTag" items="${course.tags}" varStatus="status">
+                    setSkillTag('${skillTag.value}');
+            </c:forEach>
+        </script>
         <br/>
         <p class="input_des">이런 분들에게 추천해요</p>
         <input type="text" name="course_recommend" class="gray_input course_recommend_input"
@@ -47,6 +52,11 @@
         <div class="course_recommend_add">추가하기</div>
         <div class="course_tag_required">두 개 이상 넣어주세요.</div>
         <div class="course_recommend_hidden"></div>
+        <script>
+            <c:forEach var="recommend" items="${course.recommendations}" varStatus="status">
+                setRecommends('${recommend.value}');
+            </c:forEach>
+        </script>
         <br/>
         <p class="input_des">카테고리</p>
         <div class="tag_container category">
@@ -55,6 +65,9 @@
                 <c:choose>
                     <c:when test="${course.courseCategory.value eq course_category.value}">
                         <div class="tag_box category_box category_actived"><c:out value="${course_category.value}"/></div>
+                        <script>
+                            setCategory('${course_category.value}');
+                        </script>
                     </c:when>
                     <c:otherwise>
                         <div class="tag_box category_box"><c:out value="${course_category.value}"/></div>
@@ -70,6 +83,9 @@
                 <c:choose>
                     <c:when test="${course.courseLevel.value eq course_level.value}">
                         <div class="tag_box level_box level_actived"><c:out value="${course_level.value}"/></div>
+                        <script>
+                            setLevel('${course_level.value}');
+                        </script>
                     </c:when>
                     <c:otherwise>
                         <div class="tag_box level_box"><c:out value="${course_level.value}"/></div>

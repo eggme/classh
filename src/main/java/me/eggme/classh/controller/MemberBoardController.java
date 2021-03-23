@@ -63,9 +63,7 @@ public class MemberBoardController {
                                      HttpSession session,
                                      HttpServletRequest request) throws Exception {
         String email = session.getAttribute("username").toString();
-        log.info(multipartFile.getOriginalFilename()+ " : " + email);
         String realPath = request.getRealPath("/imgs/upload");
-        log.info(realPath+"/"+multipartFile.getOriginalFilename());
         File file = new File(realPath+"\\"+multipartFile.getOriginalFilename());
         multipartFile.transferTo(file);
         memberBoardService.changeProfile(file, email);

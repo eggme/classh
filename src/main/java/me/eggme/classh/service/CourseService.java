@@ -6,40 +6,31 @@ import me.eggme.classh.dto.CourseLevel;
 import me.eggme.classh.entity.*;
 import me.eggme.classh.exception.EmailExistedException;
 import me.eggme.classh.exception.NoSearchCourseException;
+import me.eggme.classh.exception.NoSearchCourseSectionException;
 import me.eggme.classh.repository.*;
+import me.eggme.classh.utils.FileUploader;
+import me.eggme.classh.utils.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.File;
 import java.util.List;
 
 @Service
 @Log4j2
 public class CourseService {
 
-    @Autowired
-    private CourseRepository courseRepository;
+    @Autowired private CourseRepository courseRepository;
+    @Autowired private MemberRepository memberRepository;
+    @Autowired private InstructorRepository instructorRepository;
+    @Autowired private CourseSessionRepository courseSessionRepository;
+    @Autowired private CourseClassRepository courseClassRepository;
+    @Autowired private SignUpCourseRepository signUpCourseRepository;
+    @Autowired private RecommendationRepository recommendationRepository;
+    @Autowired private TagRepository tagRepository;
 
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @Autowired
-    private InstructorRepository instructorRepository;
-
-    @Autowired
-    private CourseSessionRepository courseSessionRepository;
-
-    @Autowired
-    private CourseClassRepository courseClassRepository;
-
-    @Autowired
-    private SignUpCourseRepository signUpCourseRepository;
-
-    @Autowired
-    private RecommendationRepository recommendationRepository;
-
-    @Autowired
-    private TagRepository tagRepository;
+    @Autowired private FileUploader fileUploader;
 
     /***
      * 기본적인 강의 생성
@@ -114,7 +105,6 @@ public class CourseService {
      */
     public Course getCourse(String url){
         Course course = courseRepository.findByUrl(url).orElseThrow(() -> new NoSearchCourseException());
-        log.info(course);
         return course;
     }
 
@@ -125,7 +115,6 @@ public class CourseService {
      */
     public Course getCourse(Long id){
         Course course = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
-        log.info(course);
         return course;
     }
 
@@ -178,9 +167,93 @@ public class CourseService {
         findCourse.setCourseCategory(courseCategory);
         findCourse.setCourseLevel(courseLevel);
 
-        recommendations.stream().forEach(r -> findCourse.addCourseRecommendation(recommendationRepository.save(r)));
-        tags.stream().forEach(t -> findCourse.addCourseTag(tagRepository.save(t)));
+        if(!hasRecommendations(findCourse)) recommendations.stream().forEach(r-> findCourse.addCourseRecommendation(recommendationRepository.save(r)));
+        else changeRecommendations(findCourse, recommendations);
+
+        if(!hasTag(findCourse)) tags.stream().forEach(t -> findCourse.addCourseTag(tagRepository.save(t)));
+        else changeTags(course, tags);
 
         return findCourse;
     }
+
+    /***
+     * 강의의 짧은 글 소개왜 긴 글 소개 변경
+     * @param course
+     * @return
+     */
+    @Transactional
+    public Course editCourse(Course course){
+        Course findCourse = courseRepository.findById(course.getId()).orElseThrow(() -> new NoSearchCourseException());
+        findCourse.setShortDesc(course.getShortDesc());
+        findCourse.setLongDesc(course.getLongDesc());
+        return findCourse;
+    }
+
+    /***
+     * description 페이지에서 강사가 긴 글 소개에 이미지를 업로드 시켰을 때 이미지 업로딩
+     * @param file
+     * @return
+     */
+    @Transactional
+    public String uploadCourseDescriptionImage(File file){
+        return fileUploader.saveFile(file, ResourceType.IMAGE);
+    }
+
+    /***
+     *  강사가 섹션을 추가 했을 때
+     * @param course
+     * @return
+     */
+    @Transactional
+    public CourseSection createSection(Course course, CourseSection courseSection) {
+        Course findCourse = courseRepository.findById(course.getId()).orElseThrow(() -> new NoSearchCourseException());
+        CourseSection savedCourseSection = courseSessionRepository.save(courseSection);
+        findCourse.addCourseSession(savedCourseSection);
+        return savedCourseSection;
+    }
+
+    /***
+     * 강사가 수업을 추가 했을 때
+     * @param course
+     * @param courseClass
+     * @return
+     */
+    @Transactional
+    public CourseClass createClass(CourseClass courseClass, Long id) {
+        CourseClass savedClass = courseClassRepository.save(courseClass);
+
+        CourseSection courseSection = courseSessionRepository.findById(id).orElseThrow(() -> new NoSearchCourseSectionException());
+        courseSection.addCourseClass(savedClass);
+        return savedClass;
+    }
+
+    private boolean hasRecommendations(Course course){
+        return course.getRecommendations().size() == 0 ? false : true;
+    }
+
+    private boolean hasTag(Course course){
+        return course.getTags().size() == 0 ? false : true;
+    }
+
+    @Transactional
+    protected void changeTags(Course course, List<Tag> tags){
+        tags.stream().forEach(t-> {
+            t.setCourse(course);
+            tagRepository.save(t);
+        });
+        course.getTags().clear();
+        course.getTags().addAll(tags);
+    }
+
+    @Transactional
+    protected void changeRecommendations(Course course, List<Recommendation> recommendations){
+        recommendations.stream().forEach(r-> {
+            r.setCourse(course);
+            recommendationRepository.save(r);
+        });
+        course.getRecommendations().clear();
+        course.getRecommendations().addAll(recommendations);
+    }
+
+
 }

@@ -6,62 +6,23 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/css/courseDescription.css" >
 <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-<script>
-    function image_upload_handler (blobInfo, success){
-        var formData = new FormData();
-        formData.append("file", blobInfo.blob());
-        console.log(blobInfo.filename());
-        console.log(blobInfo.blob());
-        console.log(formData);
-        $.ajax({
-            url : "/course/upload/img",
-            method : "POST",
-            data : formData,
-            processData : false,  // ajax는 기본적으로 Query String 으로 데이털르 보내는데 file 전송시에는 Query String 으로 보낼 필요가 없음. 이 값이 Query String의 유무를 체크하는 것
-            contentType: false, // content-type의 기본값은 application/x-www-form-urlencoded; charset=UTF-8이다. 파일 전송시 Content Type은 Multipart/form-data 이므로
-            // content-Type을 false해주게 되면 전송 헤더 값이 Multipart/form-data로 변경 됨
-            cache: false,
-            timeout: 600000,
-            success: function (result) {
-                console.log("success");
-                success(result.location);
-                //success(blobInfo.filename());
-            },
-            error: function (e) {
-                console.log("error by" + e);
-            }
-        });
-    }
-    tinymce.init({
-        mode : 'textareas',
-        selector:'#editor',
-        height : 500,
-        plugins: 'image code media image',
-        language_url: '/js/ko_KR.js',
-        toolbar: 'undo redo | link image | code | media ',
-        media_live_embeds: true,
-        image_title: true,
-        automatic_uploads: true,
-        file_picker_types: 'image',
-        video_template_callback: function(data) {
-            return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source1 + '"' + (data.source1mime ? ' type="' + data.source1mime + '"' : '') + ' />\n' + (data.source2 ? '<source src="' + data.source2 + '"' + (data.source2mime ? ' type="' + data.source2mime + '"' : '') + ' />\n' : '') + '</video>';
-        },
-        images_upload_handler: image_upload_handler,
-        content_style: '//www.tinymce.com/css/codepen.min.css'
-    });
-</script>
+<script src="/js/courseDescription.js"></script>
 
 <section class="main_session">
     <h5 class="margin_h_tag">강의 제작</h5>
     <h3 class="margin_h_tag margin_bottom">상세 소개</h3>
-    <form class="courseForm" action="/courseDescription.do" method="post">
+    <form class="courseForm" action="/course/${course.id}/save/description" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <input type="hidden" name="course_id" value="" />
         <p class="input_des">강의 두줄 요약<span class="red_text">(강의소개 상단에 보여집니다. 잠재 수강생들이 매력을 느낄만한 글을 짧게 남겨주세요.)</span></p>
-        <textarea class="text_area" name="course_short_description" placeholder="ex) 이 강의를 통해 수강생은 컴퓨터 공학의 기초를 다질 수 있을 것으로 예상합니다."><%=courseInfo.getShort_description()!=null?courseInfo.getShort_description():""%></textarea>
+        <textarea class="text_area" name="shortDesc" placeholder="ex) 이 강의를 통해 수강생은 컴퓨터 공학의 기초를 다질 수 있을 것으로 예상합니다.">${course.shortDesc}</textarea>
         <br />
         <div class="gray_line_divisor"></div>
         <div class="noti_wrap">
@@ -75,7 +36,7 @@
         </div>
         <p class="input_des">강의 상세 내용<span class="red_text">(해당 내용은 강의 소개에서 보여집니다.)</span></p>
 
-        <textarea id="editor" name="course_detail_description"></textarea>
+        <textarea id="editor" name="longDesc">${course.longDesc}</textarea>
         <div class="main_center">
             <div class="save_next_page">저장 후 다음이동</div>
         </div>

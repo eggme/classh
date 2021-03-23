@@ -18,7 +18,7 @@ $(function () {
         var course_id = $('.course_id').val();
         location.href = "/coverImage.do?course_id=" + course_id;
     });
-
+    // 수업 추가하기
     $(document).on("click", ".add_class", function () {
         var section_code = $(this).parents('.section_init').data('value');
         var section_id = $(this).parents('.section_init').data('code');
@@ -27,6 +27,7 @@ $(function () {
         $('.class_form').attr('data-code', section_id);
         $('.class_form').css('display', 'block');
     });
+    // 수업 편집
     $(document).on("click", ".edit_class", function () {
         findClassData($(this));
         //loadCourseResource($(this));
@@ -36,25 +37,23 @@ $(function () {
         $('.class_form').css('display', 'none');
     });
     $('.class_submit').click(function () {
+        let id = $('.section_form').attr("data-id");
         let section_code = $('.class_form').attr('data-value');
         let section_id = $('.class_form').attr('data-code');
-        let class_code = $('.section_' + section_code).find(".class_box").children("div").length + 1;
-        let course_id = $('.course_id').val();
-        let title = $('.title_class').val();
-        let obj = new Object();
-        obj.section_code = section_code;
-        obj.title = title;
-        obj.course_id = course_id;
-        obj.class_code = class_code;
-        obj.section_id = section_id;
+        let class_code = $('.section_' + section_code).find(".class_box").children("div").length;
+        let name = $('.title_class').val();
+
         $.ajax({
-            url: '/saveCourseClass.do',
+            url: '/course/'+id+'/save/class',
             dataType: 'json',
             method: 'post',
-            data: {'result': JSON.stringify(obj)},
+            data: {
+                name : name,
+                course_section_id : section_id
+            },
             success: function (result) {
                 $('.class_form').css('display', 'none');
-                createClassBox(title, section_id, section_code, course_id, class_code, result.course_class_id);
+                createClassBox(name, section_id, section_code, class_code, result.id);
             }, error: function (e) {
                 console.log(e);
             }
@@ -67,19 +66,20 @@ $(function () {
         $('.section_form').css('display', 'none');
     });
     $('.section_submit').click(function () {
-        let title = $('.title_section').val();
+        let id = $('.section_form').attr("data-id");
+        let name = $('.title_section').val();
+        let goal = $('.goal_section').val();
         let section_code = $('.section_box').children('div').length;
-        let obj = new Object();
-        obj.section_code = section_code;
-        obj.title = title;
-        obj.course_id = $('.course_id').val();
         $.ajax({
-            url: "/saveCourseSection.do",
+            url: "/course/"+id+"/save/section",
             dataType: "json",
             method: "post",
-            data: {"result": JSON.stringify(obj)},
+            data: {
+                "name" : name,
+                "goal" : goal
+            },
             success: function (result) {
-                createSectionBox(title, section_code, result.section_id);
+                createSectionBox(name, section_code, result.id);
             },
             error: function (e) {
                 console.log(e);
@@ -94,40 +94,18 @@ $(function () {
         // ajax 통신을 사용하여 db에 전송해야 할듯??
         $('.class_description_form').css('display', 'none');
     });
+    $('.remove_class').on('click', function(){
+       // 섹션 삭제 클릭 시 실행
+    });
 });
 
-// 클래스 수정 클릭시 해당 클래스의 리소스를 가져오는 함수
-function loadCourseResource(elements) {
-    let obj = new Object();
-    obj.section_number = $('.section_number').val();
-    obj.class_code = $('.class_number').val();
-    obj.class_id = $('.class_id').val();
-    obj.course_id = $('.course_id').val();
-    obj.section_id = $('.section_id').val();
-    $.ajax({
-        url: '/loadCourseResource.do',
-        method: "post",
-        dataType: "json",
-        data: {"result": JSON.stringify(obj)},
-        success: function (result) {
-            let section_number = $('.section_number').val();
-            let class_number = $('.class_number').val();
-            let class_obj = $('.section_' + section_number).find('.class_box').children('.class_' + class_number);
-            $(class_obj).attr('data-url', result.path);
-            $(class_obj).attr('data-time', result.time);
-            findClassData(elements);
-        },
-        error: function (e) {
-            console.log(e);
-        }
-    });
-}
 
 // 수업 박스 생성
-function createClassBox(title, course_section_id, section_code, course_id, class_code, class_id) {
-    let template = "<div class='class_" + class_code + " class_box_line' data-value=" + class_code + " data-code=" + course_section_id + " data-class=" + class_id + ">" +
+function createClassBox(title, course_section_id, section_index, class_index, class_id) {
+    console.log(class_index + " : " + title);
+    let template = "<div class='class_" +class_id+ " class_box_line' data-value='" + class_index + "' data-code='" + course_section_id + "' data-class='" + class_id + "'>" +
         "<div class='class_text classes'>" +
-        "<p>수업 " + class_code + " : " + title + "</p>" +
+        "<p>수업 " + class_index + " : " + title + "</p>" +
         "</div>" +
         "<div class='class_toolbox'>" +
         "<div class='edit_class'>" +
@@ -138,7 +116,7 @@ function createClassBox(title, course_section_id, section_code, course_id, class
         "</div>" +
         "</div>" +
         "</div>";
-    $(template).appendTo($('.section_' + section_code).find(".class_box"));
+    $(template).appendTo($('.section_' + section_index).find(".class_box"));
     $('.title_class').val('');
     $('.class_form').css('display', 'none');
 }
@@ -173,72 +151,57 @@ function createSectionBox(title, section_code, section_id) {
     $('.section_form').css('display', 'none');
 }
 
-// 수업 박스에서 사용되는 함수로 부모를 찾아서 current_section_number을 얻음
-function findParents(obj) {
-    if (obj.parents('.section_init').attr('class').substring(8, 9) != undefined) {
-        current_section_number = obj.parents('.section_init').attr('class').substring(8, 9) * 1;
-    }
-    let section_code = $(obj).parents('.section_init').data('value');
-    console.log("parent class -> " + current_section_number + " : " + section_code);
-    let section_ = obj.parents('.section_init');
-    current_parent = section_.find('.class_box');
-    let size = current_parent.children().length;
-    current_class_number = size + 1;
-}
-
 // 수업 영상 업로드
 function fileUpload(file) {
     console.log($(this));
     console.log($(this).parent());
+    var uploadFile = $('input[type=file]')[0].files[0];
     let section_number = $('.section_number').val();
     let class_number = $('.class_number').val();
     let class_id = $('.class_id').val();
-    let course_id = $('.course_id').val();
-    let section_id = $('.section_id').val();
+    let id = $('.class_description_form').attr("data-id");
+    /* csrf 토큰 */
+    var parameter = $("meta[name='_csrf_parameter']").attr('content');
+    var token = $("meta[name='_csrf']").attr("content");
+    var duration = 0;
+
     let data = new FormData();
-    console.log("/upload/fileUpload.do?class_code=" + class_number + "&class_id=" + class_id + "&course_id=" + course_id);
-    data.append('file', $('input[type=file]')[0].files[0]);
-    $.ajax({
-        url: "/upload/fileUpload.do?class_code=" + class_number + "&class_id=" + class_id + "&course_id=" + course_id + "&section_id=" + section_id,
-        method: "POST",
-        data: data,
-        processData: false,
-        contentType: false,
-        cache: false,
-        timeout: 600000,
-        success: function (result) {
-            $('.upload-name').val($('input[type=file]')[0].files[0].name);
-            console.log(result.time);
-            console.log(result.url);
-            let class_obj = $('.section_' + section_number).find('.class_box').children('.class_' + class_number);
-            $(class_obj).attr('data-url', result.url);
-            $(class_obj).attr('data-time', result.time);
-        },
-        beforeSend : function(){
-            $('.upload-name').val('업로드 중입니다...');
-        },
-        error: function (e) {
-            console.log("error by" + e);
-        }
-    });
+    data.append('file', uploadFile);
+    /* 파일리더를 통해 동영상 시간 추출 */
+    var reader = new FileReader();
+    reader.onload = function(){
+        var aud = new Audio(reader.result);
+        aud.onloadedmetadata = function(){
+            duration = aud.duration;
+            console.log("/course/"+id+"/upload/video/" + class_id + "/" + duration+"?"+parameter+"="+token);
+            /* ajax에서 form 데이터를 쓸려면 csrf parameterName과 token이 필요함, 요청 URL 경로에 붙이면 됌 */
+            $.ajax({
+                url: "/course/"+id+"/upload/video/" + class_id + "/" + duration+"?"+parameter+"="+token,
+                method: "POST",
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (result) {
+                    $('.upload-name').val($('input[type=file]')[0].files[0].name);
+                    console.log(result.time);
+                    console.log(result.url);
+                    let class_obj = $('.section_' + section_number).find('.class_box').children('.class_' + class_number);
+                    $(class_obj).attr('data-url', result.url);
+                    $(class_obj).attr('data-time', result.time);
+                },
+                beforeSend : function(){
+                    $('.upload-name').val('업로드 중입니다...');
+                },
+                error: function (e) {
+                    console.log("error by" + e);
+                }
+            });
+        };
+    };
+    reader.readAsDataURL(uploadFile);
 }
 
-// ?
-function addClassFileData(section_number, class_number, url, time) {
-    $('.upload-name').val($('input[type=file]')[0].files[0].name);
-    console.log(time);
-    console.log(url);
-    var section_obj = resultObj[section_number];
-    console.log(resultObj[section_number]);
-    var class_obj = section_obj.section_classes;
-    for (var i = 0; i < class_obj.length; i++) {
-        if (class_obj[i].class_number == class_number) {
-            class_obj[i].url = url;
-            class_obj[i].time = time;
-        }
-    }
-    console.log(section_obj);
-}
 
 // 수업과 섹션을 찾아서 숨겨놓은 수업 변경 시 데이터 들어가게 함
 function findClassData(obj) {
@@ -256,7 +219,7 @@ function findClassData(obj) {
 
     var video = $(div_wrap).attr('data-url');
 
-    console.log("섹션 : " + class_code + ", 수업 : " + section_code);
+    console.log("섹션 : " + section_code + ", 수업 : " + class_code);
     if (video != '') {
         $('.upload-name').val(video);
     }
@@ -267,49 +230,4 @@ function findClassData(obj) {
     $('.class_number').val(class_code);
     $('.section_number').val(section_code);
     $('.class_id').val(class_id);
-}
-
-// page onLoad 함수
-function loadCourseData() {
-    var obj = new Object();
-    obj.course_id = $('.course_id').val();
-    var result = JSON.stringify(obj);
-    $.ajax({
-        url: "/loadCourseData.do",
-        method: "post",
-        dataType: "json",
-        data: {"course_id": result},
-        success: function (result) {
-            console.log(result);
-            CourseDataInitialized(result);
-        },
-        error: function (e) {
-            console.log(e);
-        }
-    });
-}
-
-// 실제 데이터르 가지고 View 에 뿌려주는 함수
-function CourseDataInitialized(result) {
-    var section_size = result.length;
-    for (var i = 0; i < section_size; i++) {
-        var section_obj = result[i];
-        var section_title = section_obj.title;
-        var course_section_id = result[i].course_section_id;
-        var section_code = result[i].section_code;
-        var course_id = result[i].course_id;
-        createSectionBox(section_title.replace(/"/gi, ""), section_obj.section_code, section_obj.course_section_id);
-        if (section_obj.courseClassArrayList != undefined) {
-            var class_size = section_obj.courseClassArrayList.length;
-            for (var j = 0; j < class_size; j++) {
-                var class_obj = section_obj.courseClassArrayList[j];
-                var class_title = class_obj.title;
-                var class_code = class_obj.class_code;
-                var course_class_id = class_obj.course_class_id;
-                createClassBox(class_title.replace(/"/gi, ""), course_section_id, section_code, course_id, class_code, course_class_id);
-            }
-        }
-    }
-    var result12 = JSON.stringify(resultObj);
-    console.log("resultObj ->>>>>>" + result12);
 }
