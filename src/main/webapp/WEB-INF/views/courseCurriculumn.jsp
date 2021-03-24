@@ -13,12 +13,13 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link href="/css/curriculum.css" rel="stylesheet"/>
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="/js/curriculum.js"></script>
 <section class="main_session">
     <h5 class="margin_h_tag">강의 제작</h5>
     <h3 class="margin_h_tag margin_bottom">커리큘럼</h3>
     <form>
-        <div class="noti_wrap">
+        <div class="notification_wrap">
             <div class="notification">
                 <h3>영상 등록</h3>
                 <p>강의의 커리큘럼을 모두 작성한 뒤 수업마다 영상을 연결해 주셨나요?<br/>일부 영상에 재생 에러가 발생할 경우, 파일명을 바꿔서 재업로드해주세요.<br/>강의
@@ -36,14 +37,25 @@
             <a class="add_section"><i class="fas fa-plus-circle"></i>&nbsp;섹션 추가하기</a>
         </div>
         <div class="section_box">
-            <c:forEach var="course_section" items="${course.courseSections}" varStatus="section_status" >
+            <c:forEach var="course_section" items="${course.courseSections}" varStatus="section_status">
                 <script>
-                    createSectionBox('${course_section.name}', '${section_status.index}' , '${course_section.id}');
+                    createSectionBox('${course_section.name}', '${section_status.index}', '${course_section.id}');
                 </script>
                 <c:forEach var="course_class" items="${course_section.courseClasses}" varStatus="class_status">
+                    <c:set var="isPreview" value="false"/>
+                    <c:set var="inVideo" value="false"/>
+                    <c:set var="inFile" value="false"/>
+                    <c:if test="${course_class.status eq true}">
+                        <c:set var="isPreview" value="true"/>
+                    </c:if>
+                    <c:if test="${!empty course_class.mediaPath}">
+                        <c:set var="inVideo" value="true"/>
+                    </c:if>
+                    <c:if test="${!empty course_class.dataPath}">
+                        <c:set var="inFile" value="true"/>
+                    </c:if>
                     <script>
-                        console.log('asd : ${course_section.id} : ${class_status.index}');
-                        createClassBox('${course_class.name}', '${course_section.id}', '${section_status.index}', '${class_status.index}', '${course_class.id}');
+                        createClassBox('${course_class.name}', '${course_section.id}', '${section_status.index}', '${class_status.index}', '${course_class.id}', ${isPreview}, ${inVideo}, ${inFile});
                     </script>
                 </c:forEach>
             </c:forEach>
@@ -96,32 +108,65 @@
     <input type="hidden" class="section_id" name="section_id" value="0"/>
     <input type="hidden" class="class_number" name="class_number" value="0"/>
     <input type="hidden" class="class_id" name="class_id" value="0"/>
-    <div class="add_class_description_content animate">
-        <div class="add_class_description_container">
-            <h3>수업 편집</h3>
-            <p>제목</p>
-            <div class="add_section_input">
-                <input type="text" class="gray_input title_class_description" placeholder="제목을 입력해주세요."/>
-            </div>
-            <p>영상 업로드</p>
-            <div class="add_section_input">
-                <div class="upload_item_box">
-                    <form enctype="multipart/form-data" method="post" id="uploadForm">
-                        <div class="file_box">
-                            <input class="upload-name" value="수업 영상 파일을 선택해주세요." disabled="disabled">
-                            <label for="ex_filename">파일 선택</label>
-                            <input class="upload-hidden file_upload" id="ex_filename" type="file"
-                                   accept=".mp4, .mvg, .mv4" onchange="fileUpload(this)">
+    <form action="/course/edit/class/info" method="post" class="editClassForm">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <input type="hidden" class="id" name="id" value="0"/>
+        <input type="hidden" class="mediaPath"  name="mediaPath" value="0"/>
+        <input type="hidden" class="dataPath"  name="dataPath" value="0"/>
+        <div class="add_class_description_content animate">
+            <div class="add_class_description_container">
+                <div class="absolute_top">
+                    <div class="add_section_input">
+                        <p class="class_edit_title">제목</p>
+                        <input type="text" class="gray_input title_class_description" name="name"
+                               placeholder="제목을 입력해주세요."/>
+                    </div>
+                </div>
+                <div class="scroll_container">
+                    <div class="add_section_input">
+                        <p class="edit_title">영상 업로드</p>
+                        <div class="upload_item_box">
+                            <div class="file_box">
+                                <input class="upload-name" value="수업 영상 파일을 선택해주세요." disabled="disabled">
+                                <label for="ex_filename">파일 선택</label>
+                                <input class="upload-hidden file_upload" id="ex_filename" type="file"
+                                       accept=".mp4, .mvg, .mv4" onchange="fileUpload(this)">
+                            </div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="isPublic_wrap">
+                        <div class="isPublic_title">무료공개 여부 선택</div>
+                        <div class="isPublic_toggle">
+                            <input type="checkbox" id="switch" name="status" class="isPublic_toggle_input"
+                                   value="true"/>
+                            <label for="switch" class="isPublic_toggle_button"></label>
+                            <span class="on_off toggle_off">OFF</span>
+                        </div>
+                    </div>
+                    <div class="study_note_wrap">
+                        <div class="edit_title margin_bottom">수업노트 작성</div>
+                        <textarea id="instructorNote" name="instructorMemo"></textarea>
+                    </div>
+                    <div class="study_file_warp">
+                        <p class="edit_title">자료파일 업로드</p>
+                        <div class="upload_item_box">
+                            <div class="file_box">
+                                <input class="fileUpload-name" value="수업과 연결될 파일을 첨부해주세요." disabled="disabled">
+                                <label for="study_filename">파일 선택</label>
+                                <input class="upload-hidden study_file_upload" id="study_filename"
+                                       type="file"
+                                       accept=".pdf" onchange="StudyFileUpload(this)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="add_class_description_buttons">
+                    <div class="submit_button class_description_submit">저장</div>
+                    <div class="cancle_button class_description_cancle">취소</div>
                 </div>
             </div>
-            <div class="add_class_description_buttons">
-                <div class="submit_button class_description_submit">저장</div>
-                <div class="cancle_button class_description_cancle">취소</div>
-            </div>
         </div>
-    </div>
+    </form>
 </div>
 </body>
 </html>

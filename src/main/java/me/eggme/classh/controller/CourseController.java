@@ -1,12 +1,8 @@
 package me.eggme.classh.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import lombok.extern.log4j.Log4j2;
-import me.eggme.classh.dto.CourseCategory;
-import me.eggme.classh.dto.CourseClassDTO;
-import me.eggme.classh.dto.CourseLevel;
-import me.eggme.classh.dto.CourseSectionDTO;
+import me.eggme.classh.dto.*;
 import me.eggme.classh.entity.*;
 import me.eggme.classh.service.CourseService;
 import me.eggme.classh.service.MemberService;
@@ -15,16 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import retrofit2.http.Path;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/course")
@@ -54,7 +47,8 @@ public class CourseController {
     public String createLecture(@RequestParam(value = "course_name") String courseName, HttpSession session, Model model){
         String email = session.getAttribute("username").toString();
         Course course = courseService.createCourseDefault(courseName, email);
-        model.addAttribute("course", course);
+        CourseDTO courseDTO = course.of();
+        model.addAttribute("course", courseDTO);
         model.addAttribute("category", categories);
         model.addAttribute("level", levels);
         return "course/addCourse";
@@ -64,7 +58,8 @@ public class CourseController {
     @GetMapping(value = "/{url}")
     public String updateCourse(@PathVariable String url, Model model){
         Course course = courseService.getCourse(url);
-        model.addAttribute("course", course);
+        CourseDTO courseDTO = course.of();
+        model.addAttribute("course", courseDTO);
         return "information/courseInfo/dashboard";
     }
 
@@ -72,7 +67,8 @@ public class CourseController {
     @GetMapping(value="/{id}/description")
     public String courseDecriptionView(@PathVariable Long id, Model model){
         Course course = courseService.getCourse(id);
-        model.addAttribute("course", course);
+        CourseDTO courseDTO = course.of();
+        model.addAttribute("course", courseDTO);
         return "course/courseDescription";
     }
 
@@ -85,7 +81,8 @@ public class CourseController {
                               @RequestParam(value = "tags") List<Tag> tags,
                               Model model){
         Course editedCourse = courseService.editCourse(course, courseCategory, courseLevel, recommendations, tags);
-        model.addAttribute("course", editedCourse);
+        CourseDTO courseDTO = editedCourse.of();
+        model.addAttribute("course", courseDTO);
         return "course/courseDescription";
     }
 
@@ -93,8 +90,6 @@ public class CourseController {
     @GetMapping(value = "{id}/curriculum")
     public String courseCurriculumView(@PathVariable Long id, Model model){
         Course course = courseService.getCourse(id);
-        log.info(course.getCourseSections());
-        course.getCourseSections().stream().forEach(s -> System.out.println(s));
         model.addAttribute("course", course);
         return "course/courseCurriculumn";
     }
@@ -113,8 +108,8 @@ public class CourseController {
     public CourseSectionDTO saveCourseSection(@PathVariable Long id, @ModelAttribute CourseSection courseSection) throws Exception{
         Course course = courseService.getCourse(id);
         CourseSection createdSection = courseService.createSection(course, courseSection);
-        CourseSectionDTO result = createdSection.of();
-        return result;
+        CourseSectionDTO courseSectionDTO = createdSection.of();
+        return courseSectionDTO;
     }
 
     // ajax 요청 : 강사가 수업을 추가함
@@ -129,25 +124,53 @@ public class CourseController {
     // ajax 요청 : 강사가 수업에 영상을 등록 /course/"+id+"/upload/video/" + class_id + "/" + duration
     @PostMapping(value = "/{id}/upload/video/{classId}/{duration}")
     @ResponseBody
-    public CourseClassDTO uploadClassVideo(@PathVariable(value = "id") Long id,
-                                           @RequestParam(value = "file") MultipartFile multipartFile,
-                                           @PathVariable(value = "classId") Long class_id,
-                                           @PathVariable(value = "duration") double duration){
-        log.info(id+ " : " + class_id + " : " + duration + " : " + multipartFile.getName());
-        /* 여기부터 진행 해야합니다
-            id = 강의 pk
-            file = 영상
-            class_id = course_class_id
-            duration = 영상 길이
-        */
-        return null;
+    public CourseClassDTO uploadClassVideo(@RequestParam(value = "file") MultipartFile multipartFile,
+                                   @PathVariable(value = "classId") Long class_id,
+                                   @PathVariable(value = "duration") double duration,
+                                           HttpServletRequest request) throws IOException{
+        String realPath = request.getRealPath("/imgs/upload");
+        File file = new File(realPath+"\\"+multipartFile.getOriginalFilename());
+        multipartFile.transferTo(file);
+        CourseClassDTO courseClassDTO = courseService.saveCourseVideo(class_id, file, duration);
+        return courseClassDTO;
+    }
+    // ajax 요청 : 강사가 수업에 필요한 강의자료를 올림
+    @PostMapping(value = "/upload/file/{classId}")
+    @ResponseBody
+    public CourseClassDTO uploadClassStudyFile(@RequestParam(value = "file") MultipartFile multipartFile,
+                                               @PathVariable(value = "classId") Long class_id,
+                                               HttpServletRequest request) throws IOException{
+        String realPath = request.getRealPath("/imgs/upload");
+        File file = new File(realPath+"\\"+multipartFile.getOriginalFilename());
+        multipartFile.transferTo(file);
+        CourseClassDTO courseClassDTO = courseService.saveCourseStudyFile(class_id, file);
+        return courseClassDTO;
+    }
+
+    // 강사가 강의를 편집하고 저장할 때 콜
+    @PostMapping(value = "/edit/class/info")
+    public String editCourseClassInfo(@ModelAttribute CourseClass courseClass, Model model){
+        log.info(courseClass);
+        Course findCourse = courseService.editCourseClass(courseClass);
+        model.addAttribute("course", findCourse);
+        return "course/courseCurriculumn";
+    }
+
+
+    @PostMapping(value = "/edit/class")
+    @ResponseBody
+    public CourseClassDTO getCourseClassData(@RequestParam(value = "class_id") Long class_id){
+        CourseClass findClass = courseService.getCourseClass(class_id);
+        CourseClassDTO courseClassDTO = findClass.of();
+        return courseClassDTO;
     }
 
     // 강사가 강의수정 버튼 클릭 시 뷰
     @GetMapping(value = "/{id}/edit/course_info")
     public String editCourse(@PathVariable Long id, Model model){
         Course course = courseService.getCourse(id);
-        model.addAttribute("course", course);
+        CourseDTO courseDTO = course.of();
+        model.addAttribute("course", courseDTO);
         model.addAttribute("category", categories);
         model.addAttribute("level", levels);
         return "course/addCourse";

@@ -25,7 +25,7 @@ public class CourseClass {
     private String mediaPath;
 
     // 무료 영상 공개
-    private boolean isPublic = false;
+    private boolean status = false;
 
     // 자료 파일 경로
     private String dataPath;

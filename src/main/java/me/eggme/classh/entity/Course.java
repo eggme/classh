@@ -1,9 +1,8 @@
 package me.eggme.classh.entity;
 
 import lombok.*;
-import me.eggme.classh.dto.CourseCategory;
-import me.eggme.classh.dto.CourseLevel;
-import me.eggme.classh.dto.CourseState;
+import me.eggme.classh.dto.*;
+import me.eggme.classh.utils.ModelMapperUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -81,6 +80,10 @@ public class Course extends BaseTimeEntity{
         this.courseState = CourseState.TEMPORARY;
     }
 
+    public CourseDTO of(){
+        return ModelMapperUtils.getModelMapper().map(this, CourseDTO.class);
+    }
+
     // 편의 메서드
     // 총 수강생 수
     public int totalStudents(){
@@ -95,6 +98,22 @@ public class Course extends BaseTimeEntity{
     // 총 수입
     public int totalPrice(){
         return (this.signUpCourses.size() * this.getPrice());
+    }
+
+    // 총 강의 시간
+    public int getTotalTime(){
+        int totalTime = courseSections.stream().mapToInt(s ->
+            s.getCourseClasses().stream().mapToInt(c ->
+                    c.getSeconds())
+                    .sum())
+                .sum();
+        return totalTime;
+    }
+
+    // 총 강의 수
+    public int getTotalClassCount(){
+        int totalClassCount = courseSections.stream().mapToInt(s -> s.getCourseClasses().size()).sum();
+        return totalClassCount;
     }
 
     // 편의 메서드

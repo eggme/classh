@@ -7,7 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum  ResourceType {
     VIDEO("video"),
-    IMAGE("image");
+    IMAGE("image"),
+    PDF("pdf");
 
     private String value;
 }

@@ -61,10 +61,30 @@ body, body *{font-family: "Noto Sans KR";}
     font-size: 18px;
     font-weight: 500;
 }
-.data_area{display: flex; align-items: center; padding-left: 24px; }
+.data_area{display: flex; flex-direction: column; align-items: center; padding-left: 24px; }
+.flex_column{display: flex; width: 100%;}
 .data_0{display: flex; font-size: 16px;}
 .icon{color: #1dc078;}
-
+.course_tip{display: flex;  flex-direction: column; width: 100%; padding-top: 28px; padding-bottom: 28px; font-size: 22px; font-weight: 400; border-bottom: 1px solid #f1f3f5;}
+.text_highlight{font-weight: 600; padding-bottom: 16px;}
+.data_text, .icon{font-size: 16px;}
+.instructor_introduce{display: flex; justify-content: space-between; align-items: center;}
+.instructor_title{display: flex; flex-direction: column; font-size: 22px;}
+.hello_title{font-weight: 400;}
+.instructor_name_wrap{font-weight: 600;}
+.underline_course{text-decoration: underline; margin-right: 6px; cursor: pointer;}
+.course_instructor_info{display: flex; flex-direction: column;}
+.instructor_value{width : 62px; height : 62px; border-radius: 70%; overflow: hidden; display: flex; border: 1px solid #f1f3f5; margin-right: 12px;}
+.instructor_img{width: 100%; height: 100%; object-fit: cover;}
+.introduce_value{margin-top: 8px;}
+.instructor_selfIntroduce{margin: 12px 0 32px 0;}
+.curriculum_area{display: flex; flex-direction : column; margin-bottom: 14px;}
+.curriculum_text{color: #343a40; font-size: 22px; font-weight: 700; margin-right: 8px; align-self: center;}
+.curriculum_value{font-size: 16px; color: #adb5bd; font-weight: 500; align-self: center;}
+.curriculum_toolbar{display: flex; justify-content: space-between; padding-top: 8px;}
+.curriculum_text_desc{font-size: 15px; font-weight: 400; margin-right: 12px; color: #495057; align-self: center;}
+.curriculum_close_button{border: 1px solid #868e96; border-radius: 5px; padding: 8px 14px; align-self: center; cursor: pointer;}
+.row_wrap{display: flex; margin-bottom: 8px;}
 /* new */
 
 
@@ -85,7 +105,6 @@ body, body *{font-family: "Noto Sans KR";}
 
 .no_style{ list-style: none; padding-left: 12px; margin: 5px 0;}
 .red_text{color : red;}
-.instructor_img{width: 58px; height: 58px;}
 .introduce{display: flex; flex-direction: row; justify-content: flex-start;}
 .course_active{display: flex !important;}
 .course_info{display: none; flex-direction: column;}

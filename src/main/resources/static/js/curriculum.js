@@ -29,8 +29,8 @@ $(function () {
     });
     // 수업 편집
     $(document).on("click", ".edit_class", function () {
+        clearForm();
         findClassData($(this));
-        //loadCourseResource($(this));
         $('.class_description_form').css('display', 'block');
     });
     $('.class_cancle').click(function () {
@@ -44,16 +44,16 @@ $(function () {
         let name = $('.title_class').val();
 
         $.ajax({
-            url: '/course/'+id+'/save/class',
+            url: '/course/' + id + '/save/class',
             dataType: 'json',
             method: 'post',
             data: {
-                name : name,
-                course_section_id : section_id
+                name: name,
+                course_section_id: section_id
             },
             success: function (result) {
                 $('.class_form').css('display', 'none');
-                createClassBox(name, section_id, section_code, class_code, result.id);
+                createClassBox(name, section_id, section_code, class_code, result.id, false, false, false);
             }, error: function (e) {
                 console.log(e);
             }
@@ -71,12 +71,12 @@ $(function () {
         let goal = $('.goal_section').val();
         let section_code = $('.section_box').children('div').length;
         $.ajax({
-            url: "/course/"+id+"/save/section",
+            url: "/course/" + id + "/save/section",
             dataType: "json",
             method: "post",
             data: {
-                "name" : name,
-                "goal" : goal
+                "name": name,
+                "goal": goal
             },
             success: function (result) {
                 createSectionBox(name, section_code, result.id);
@@ -92,28 +92,121 @@ $(function () {
     });
     $('.class_description_submit').click(function () {
         // ajax 통신을 사용하여 db에 전송해야 할듯??
+        $('.editClassForm').submit();
         $('.class_description_form').css('display', 'none');
+
     });
-    $('.remove_class').on('click', function(){
-       // 섹션 삭제 클릭 시 실행
+    $('.remove_class').on('click', function () {
+        // 섹션 삭제 클릭 시 실행
+    });
+
+    $('.isPublic_toggle_button').on('click', function () {
+        if (!$('.isPublic_toggle_input').is(":checked")) {
+            checkboxOn();
+        } else {
+            checkboxOff();
+        }
     });
 });
 
+function clearForm(){
+    $('.title_class_description').val('');
+    $('.upload-name').val('');
+    $('.upload-name').attr('disable', 'false');
+    $('.mediaPath').val('');
+    $('.isPublic_toggle_input').attr("checked", false);
+    tinymce.get("instructorNote").setContent('');
+    $('.fileUpload-name').val('');
+    $('.fileUpload-name').attr('disable', 'false');
+    $('.dataPath').val('');
+    $('.id').val('');
+}
+
+function checkboxOn(){
+    $('.on_off').text("ON")
+    $('.on_off').removeClass('toggle_off');
+    $('.on_off').addClass('toggle_on');
+}
+function checkboxOff(){
+    $('.on_off').text("OFF")
+    $('.on_off').removeClass('toggle_on');
+    $('.on_off').addClass('toggle_off');
+}
+
+function loadCourseResource(obj) {
+    let class_id = obj;
+    $.ajax({
+        url: "/course/edit/class",
+        method: "post",
+        dataType: "json",
+        data : {"class_id" : class_id},
+        success: function (result) {
+            console.log(result);
+            $('.title_class_description').val(result.name);
+            console.log(result.mediaPath + " : " +result.dataPath);
+            $('.upload-name').val(result.mediaPath);
+            $('.upload-name').attr('disable', 'true');
+            $('.mediaPath').val(result.mediaPath);
+            if(result.status == true){
+                console.log("wow");
+                $('.isPublic_toggle_input').attr("checked", true);
+                checkboxOn();
+            }else{
+                $('.isPublic_toggle_input').attr("checked", false);
+                checkboxOff();
+            }
+            console.log(result.instructorMemo);
+            tinymce.get("instructorNote").setContent(result.instructorMemo);
+            $('.fileUpload-name').val(result.dataPath);
+            $('.fileUpload-name').attr('disable', 'true');
+            $('.dataPath').val(result.dataPath);
+            $('.id').val(class_id);
+        }
+    });
+}
+
 
 // 수업 박스 생성
-function createClassBox(title, course_section_id, section_index, class_index, class_id) {
-    console.log(class_index + " : " + title);
-    let template = "<div class='class_" +class_id+ " class_box_line' data-value='" + class_index + "' data-code='" + course_section_id + "' data-class='" + class_id + "'>" +
+function createClassBox(title, course_section_id, section_index, class_index, class_id, isPreview, inVideo, inFile) {
+    var video = "";
+    var preview = "";
+    var file_form = "";
+
+    if(inFile == true){
+        file_form = "<div class='file_icon_class'>"+
+            "<i class='fas fa-cloud-download-alt'></i>"+
+            "</div>";
+    }else{
+        file_form = "";
+    }
+    if(inVideo == true) {
+        video = "<div class='video_class'>"+
+            "<i class='far fa-play-circle'></i>"+
+            "</div>";
+    }else{
+        video = "";
+    }
+    if(isPreview == true){
+        preview = "<div class='preview_class'>"+
+                "<i class='fas fa-eye'></i>"+
+                "</div>";
+    }else{
+        preview = "";
+    }
+    let template = "<div class='class_" + class_id + " class_box_line' data-value='" + class_index + "' data-code='" + course_section_id + "' data-class='" + class_id + "'>" +
         "<div class='class_text classes'>" +
         "<p>수업 " + class_index + " : " + title + "</p>" +
         "</div>" +
         "<div class='class_toolbox'>" +
-        "<div class='edit_class'>" +
-        "<i class='fas fa-pencil-alt'></i>" +
-        "</div>" +
-        "<div class='remove_class'>" +
-        "<i class='fas fa-trash-alt'></i>" +
-        "</div>" +
+            video +
+            preview +
+            file_form +
+            "<div class='edit_class'>" +
+                "<i class='fas fa-pencil-alt'></i>" +
+            "</div>" +
+            "<div class='remove_class'>" +
+                "<i class='fas fa-trash-alt'></i>" +
+            "</div>" +
         "</div>" +
         "</div>";
     $(template).appendTo($('.section_' + section_index).find(".class_box"));
@@ -151,6 +244,41 @@ function createSectionBox(title, section_code, section_id) {
     $('.section_form').css('display', 'none');
 }
 
+// 수업 첨부자료 업로드
+function StudyFileUpload(file) {
+    var uploadFile = $('#study_filename')[0].files[0];
+    let section_number = $('.section_number').val();
+    let class_number = $('.class_number').val();
+    let class_id = $('.class_id').val();
+    /* csrf 토큰 */
+    var parameter = $("meta[name='_csrf_parameter']").attr('content');
+    var token = $("meta[name='_csrf']").attr("content");
+
+    let data = new FormData();
+    console.log(uploadFile);
+    data.append('file', uploadFile);
+
+    $.ajax({
+        url: "/course/upload/file/" + class_id + "/?" + parameter + "=" + token,
+        method: "POST",
+        data: data,
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function (result) {
+            $('.fileUpload-name').val(result.dataPath);
+            $('.dataPath').val(result.dataPath);
+        },
+        beforeSend: function () {
+            $('.fileUpload-name').val('업로드 중입니다...');
+        },
+        error: function (e) {
+            console.log("error by" + e);
+        }
+    });
+}
+
+
 // 수업 영상 업로드
 function fileUpload(file) {
     console.log($(this));
@@ -169,28 +297,24 @@ function fileUpload(file) {
     data.append('file', uploadFile);
     /* 파일리더를 통해 동영상 시간 추출 */
     var reader = new FileReader();
-    reader.onload = function(){
+    reader.onload = function () {
         var aud = new Audio(reader.result);
-        aud.onloadedmetadata = function(){
+        aud.onloadedmetadata = function () {
             duration = aud.duration;
-            console.log("/course/"+id+"/upload/video/" + class_id + "/" + duration+"?"+parameter+"="+token);
+            console.log("/course/" + id + "/upload/video/" + class_id + "/" + duration + "?" + parameter + "=" + token);
             /* ajax에서 form 데이터를 쓸려면 csrf parameterName과 token이 필요함, 요청 URL 경로에 붙이면 됌 */
             $.ajax({
-                url: "/course/"+id+"/upload/video/" + class_id + "/" + duration+"?"+parameter+"="+token,
+                url: "/course/" + id + "/upload/video/" + class_id + "/" + duration + "?" + parameter + "=" + token,
                 method: "POST",
                 data: data,
                 processData: false,
                 contentType: false,
                 cache: false,
                 success: function (result) {
-                    $('.upload-name').val($('input[type=file]')[0].files[0].name);
-                    console.log(result.time);
-                    console.log(result.url);
-                    let class_obj = $('.section_' + section_number).find('.class_box').children('.class_' + class_number);
-                    $(class_obj).attr('data-url', result.url);
-                    $(class_obj).attr('data-time', result.time);
+                    $('.upload-name').val(result.mediaPath);
+                    $('.mediaPath').val(result.mediaPath);
                 },
-                beforeSend : function(){
+                beforeSend: function () {
                     $('.upload-name').val('업로드 중입니다...');
                 },
                 error: function (e) {
@@ -223,11 +347,51 @@ function findClassData(obj) {
     if (video != '') {
         $('.upload-name').val(video);
     }
-    // 클래스 데이터 저장
-    $('.title_class_description').val(title);
     // 클래스 번호 저장
     $('.section_id').val(section_id);
     $('.class_number').val(class_code);
     $('.section_number').val(section_code);
     $('.class_id').val(class_id);
+    $('.id').val(class_id);
+    loadCourseResource(class_id);
 }
+
+function image_upload_handler(blobInfo, success) {
+    var formData = new FormData();
+    formData.append("file", blobInfo.blob());
+    $.ajax({
+        url: "/course/upload/img",
+        method: "POST",
+        data: formData,
+        processData: false,  // ajax는 기본적으로 Query String 으로 데이털르 보내는데 file 전송시에는 Query String 으로 보낼 필요가 없음. 이 값이 Query String의 유무를 체크하는 것
+        contentType: false, // content-type의 기본값은 application/x-www-form-urlencoded; charset=UTF-8이다. 파일 전송시 Content Type은 Multipart/form-data 이므로
+        // content-Type을 false해주게 되면 전송 헤더 값이 Multipart/form-data로 변경 됨
+        cache: false,
+        timeout: 600000,
+        dataType: "json",
+        success: function (result) {
+            success(result.data_url);
+        },
+        error: function (e) {
+            console.log("error by" + e);
+        }
+    });
+}
+
+tinymce.init({
+    mode: 'textareas',
+    selector: '#instructorNote',
+    height: 350,
+    plugins: 'image code media image',
+    language_url: '/js/ko_KR.js',
+    toolbar: 'undo redo | link image | code | media ',
+    media_live_embeds: true,
+    image_title: true,
+    automatic_uploads: true,
+    file_picker_types: 'image',
+    video_template_callback: function (data) {
+        return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source1 + '"' + (data.source1mime ? ' type="' + data.source1mime + '"' : '') + ' />\n' + (data.source2 ? '<source src="' + data.source2 + '"' + (data.source2mime ? ' type="' + data.source2mime + '"' : '') + ' />\n' : '') + '</video>';
+    },
+    images_upload_handler: image_upload_handler,
+    content_style: '//www.tinymce.com/css/codepen.min.css'
+});

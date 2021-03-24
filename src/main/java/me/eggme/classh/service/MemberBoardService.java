@@ -3,6 +3,7 @@ package me.eggme.classh.service;
 import me.eggme.classh.entity.Member;
 import me.eggme.classh.exception.EmailExistedException;
 import me.eggme.classh.repository.MemberRepository;
+import me.eggme.classh.utils.FileUploadFactory;
 import me.eggme.classh.utils.FileUploader;
 import me.eggme.classh.utils.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ public class MemberBoardService {
     @Autowired
     private MemberRepository memberRepository;
 
-    @Autowired
     private FileUploader fileUploader;
 
     @Transactional
@@ -49,6 +49,7 @@ public class MemberBoardService {
 
     @Transactional
     public void changeProfile(File file, String email) throws Exception{
+        fileUploader = FileUploadFactory.getFileUploader(ResourceType.IMAGE);
         String profileURL = fileUploader.saveFile(file, ResourceType.IMAGE);
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EmailExistedException(email));
         member.setProfile(profileURL);

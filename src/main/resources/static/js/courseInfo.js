@@ -197,61 +197,8 @@ function applyCourse() {
     }
 }
 
-function getCourseContent() {
-    var obj = new Object();
-    obj.course_id = $('.course_id').val();
-    var result = JSON.stringify(obj);
-    $.ajax({
-        url: '/courseContent.do',
-        method: "post",
-        dataType: "json",
-        data: {"result": result},
-        success: function (result) {
-            console.log(result);
-            courseInitializer(result);
-        },
-        error: function (e) {
-            console.log(e);
-        }
-    });
-}
-
-function curriculumSetting(result) {
-    console.log(result);
-    if (result != null) {
-        if (result != "") {
-            var total_count = 0;
-            var total_time = 0;
-            for (var i = 0; i < result.length; i++) {
-                var section = result[i];
-                var section_code = section.section_code;
-                var section_title = section.title;
-                var class_length = 0;
-                var total_section_time = 0;
-                if (section.courseClassArrayList != null && section.courseClassArrayList != "") {
-                    class_length = section.courseClassArrayList.length;
-                    for (var q = 0; q < class_length; q++) {
-                        var temp = section.courseClassArrayList[q];
-                        total_section_time = total_section_time + temp.study_time;
-                    }
-                }
-                sectionSetting(section_code, section_title.replace(/\"/g, ''), class_length, total_section_time);
-                if (section.courseClassArrayList != null && section.courseClassArrayList != "") {
-                    for (var j = 0; j < section.courseClassArrayList.length; j++) {
-                        var class_obj = section.courseClassArrayList[j];
-                        var class_code = class_obj.class_code;
-                        var class_title = class_obj.title;
-                        var study_time = class_obj.study_time;
-                        total_time = total_time + study_time;
-                        total_count++;
-                        classSetting(class_code, class_title.replace(/\"/g, ''), study_time, $('.section_class_' + section_code));
-                    }
-                }
-            }
-            $('.total_class').text(total_count);
-            $('.kor_time').text(timeFormatKor(total_time));
-        }
-    }
+function timeFormatKorWrapper(second, obj){
+    $(obj).text(timeFormatKor(second));
 }
 
 function timeFormatKor(second) {
@@ -264,6 +211,7 @@ function timeFormatKor(second) {
     } else {
         result = minutes + " 분";
     }
+    console.log(result);
     return result;
 }
 
@@ -272,7 +220,6 @@ function timeFormat(second) {
     var minutes = Math.floor((second - (hours * 3600)) / 60);
     var seconds = second - (hours * 3600) - (minutes * 60);
     var result = "";
-    console.log(second + " : " + seconds);
     if (hours > 0) {
         result = (hours*60) + minutes + " : " + seconds;
     } else if (minutes < 10) {
@@ -345,67 +292,3 @@ function finalSettingCourseButton(){
         $(obj).text("학습하기");
     }
 }
-
-function loadUserCourse(id){
-    console.log("load User Course -> "+id);
-    $.ajax({
-        url : "/loadUserCourse.do",
-        method : "post",
-        data : {"course_id" : id},
-        success : function(result){
-            console.log(result.result);
-            $('.course_id').attr('data-registered', result.result);
-            finalSettingCourseButton();
-        },
-        error : function(e){
-            console.log("error " + e);
-        }
-    });
-}
-
-function courseInitializer(result) {
-    var courseInfo = result.courseInfo;
-    $('.content_title').text(result.title);
-    $('.course_img').attr('src', courseInfo.course_img);
-    var year = result.create_At.substring(0, 4);
-    var month = result.create_At.substring(5, 7);
-    var day = result.create_At.substring(8, 10);
-    // 다시 강의 상태 불러오기
-    loadUserCourse(result.course_Id);
-    settingCourseButton(result.isAdded);
-    // 교육과정 설정
-    curriculumSetting(courseInfo.sections);
-    // 레벨
-    $('.course_level').text(courseInfo.level);
-    // 짧은 글 소개
-    $('.course_short_desc').text(courseInfo.short_description);
-    // 본문
-    $('.long_description').html(courseInfo.long_description);
-    // 이름
-    $('.instructor_name_tab').text(result.name);
-    $('.instructor_name').text(result.name);
-    $('.instructor_name_another').text(result.name);
-    // 가격
-    if (result.price == 0) {
-        $('.course_price').text("무료");
-    } else {
-        $('.course_price').text((numberWithCommas(result.price)) + " 원");
-    }
-    // 날짜
-    $('.create_at').text(year + "년 " + month + "월 " + day + " 일 (마지막 업데이트 일자 : " + year + "년 " + month + "월 " + day + "일)");
-    // 태그 추가
-    if (courseInfo.tags != null) {
-        var tag = courseInfo.tags.split(",");
-        for (var i = 0; i < tag.length; i++) {
-            $('.course_tag').append('<li class="tag_item"><span class="red_text"><i class="fas fa-check"></i></span> ' + tag[i] + '</li>');
-        }
-    }
-    // 추천 추가
-    if (courseInfo.recommends != null) {
-        var recommend = courseInfo.recommends.split(",");
-        for (var i = 0; i < recommend.length; i++) {
-            $('.course_recommend').append('<li class="tag_item"><span class="red_text"><i class="fas fa-check"></i></span> ' + recommend[i] + '</li>');
-        }
-    }
-}
-

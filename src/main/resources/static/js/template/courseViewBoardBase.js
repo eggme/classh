@@ -1,7 +1,6 @@
 $(function(){
     $(window).scroll(function(){
         var scrollValue = $(this).scrollTop();
-        console.log(scrollValue);
         if(scrollValue > 36 && scrollValue < 350) {
             $('.header_wrap').css("position", "fixed");
             $('.header_wrap').css("top", "0");

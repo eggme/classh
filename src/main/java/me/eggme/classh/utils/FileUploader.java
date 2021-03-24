@@ -8,11 +8,10 @@ import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
-public class FileUploader {
+public abstract class FileUploader {
 
-    private Map<String, String> cloudinaryConfig;
-    private Cloudinary cloudinary;
+    protected Map<String, String> cloudinaryConfig;
+    protected Cloudinary cloudinary;
 
     public FileUploader(){
         cloudinaryConfig = new HashMap();
@@ -22,26 +21,9 @@ public class FileUploader {
         cloudinary = new Cloudinary(cloudinaryConfig);
     }
 
-    public String saveFile(File file, ResourceType resourceType){
-        String fileURL = null;
-        try {
-            cloudinary.uploader().upload(file, Cloudinary.asMap(
-                    "public_id", encryptoSHA256(file.getName()),
-                            "resource_type", resourceType.getValue()
-            ));
-            String cloudinaryUrl = cloudinary.url().generate(encryptoSHA256(file.getName()));
-            Map<String, String> resource = cloudinary.api().resource(encryptoSHA256(file.getName()), Cloudinary.asMap(
-                    "resource_type", resourceType.getValue()
-            ));
-            fileURL = resource.get("url");
-            file.delete();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return fileURL;
-    }
+    public abstract String saveFile(File file, ResourceType resourceType);
 
-    private String encryptoSHA256(String text){
+    protected String encryptoSHA256(String text){
         StringBuffer sb = new StringBuffer();
         try{
             MessageDigest md = MessageDigest.getInstance("SHA-256");

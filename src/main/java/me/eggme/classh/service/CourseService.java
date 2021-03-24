@@ -2,12 +2,15 @@ package me.eggme.classh.service;
 
 import lombok.extern.log4j.Log4j2;
 import me.eggme.classh.dto.CourseCategory;
+import me.eggme.classh.dto.CourseClassDTO;
 import me.eggme.classh.dto.CourseLevel;
 import me.eggme.classh.entity.*;
 import me.eggme.classh.exception.EmailExistedException;
+import me.eggme.classh.exception.NoSearchCourseClassException;
 import me.eggme.classh.exception.NoSearchCourseException;
 import me.eggme.classh.exception.NoSearchCourseSectionException;
 import me.eggme.classh.repository.*;
+import me.eggme.classh.utils.FileUploadFactory;
 import me.eggme.classh.utils.FileUploader;
 import me.eggme.classh.utils.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +33,7 @@ public class CourseService {
     @Autowired private RecommendationRepository recommendationRepository;
     @Autowired private TagRepository tagRepository;
 
-    @Autowired private FileUploader fileUploader;
+    private FileUploader fileUploader;
 
     /***
      * 기본적인 강의 생성
@@ -119,6 +122,15 @@ public class CourseService {
     }
 
     /***
+     * 강의 수업 편집 시 요청 데이터 조회
+     * @param id
+     * @return
+     */
+    public CourseClass getCourseClass(Long id){
+        CourseClass courseClass = courseClassRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
+        return courseClass;
+    }
+    /***
      * 유저가 수강신청을 할 때 호출되는 메소드
      * @param course - 수강신청 할 강의
      * @param member - 유저
@@ -138,7 +150,7 @@ public class CourseService {
     protected void createDefaultSessionAndClass(Course course){
         CourseClass courseClass = new CourseClass();
         courseClass.setName("첫번째 수업을 만들어주세요");
-        courseClass.setPublic(true);
+        courseClass.setStatus(true);
         CourseClass savedCourseClass = courseClassRepository.save(courseClass);
 
         CourseSection courseSection = new CourseSection();
@@ -196,6 +208,7 @@ public class CourseService {
      */
     @Transactional
     public String uploadCourseDescriptionImage(File file){
+        fileUploader = FileUploadFactory.getFileUploader(ResourceType.IMAGE);
         return fileUploader.saveFile(file, ResourceType.IMAGE);
     }
 
@@ -214,7 +227,6 @@ public class CourseService {
 
     /***
      * 강사가 수업을 추가 했을 때
-     * @param course
      * @param courseClass
      * @return
      */
@@ -225,6 +237,55 @@ public class CourseService {
         CourseSection courseSection = courseSessionRepository.findById(id).orElseThrow(() -> new NoSearchCourseSectionException());
         courseSection.addCourseClass(savedClass);
         return savedClass;
+    }
+
+    /***
+     * 강사가 강의를 올리면 변환한 뒤 DB에 저장
+     * @param class_id
+     * @param file
+     * @param duration
+     * @return
+     */
+    @Transactional
+    public CourseClassDTO saveCourseVideo(Long class_id, File file, double duration) {
+        CourseClass findClass = courseClassRepository.findById(class_id).orElseThrow(() -> new NoSearchCourseClassException());
+        fileUploader = FileUploadFactory.getFileUploader(ResourceType.VIDEO);
+        String videoUrl = fileUploader.saveFile(file, ResourceType.VIDEO);
+        findClass.setMediaPath(videoUrl);
+        findClass.setSeconds((int)duration);
+        return findClass.of();
+    }
+
+    /***
+     * 강사가 강의 자료를 올리면 변환한 뒤 DB 저장
+     * @param class_id
+     * @param file
+     * @return
+     */
+    @Transactional
+    public CourseClassDTO saveCourseStudyFile(Long class_id, File file) {
+        fileUploader = FileUploadFactory.getFileUploader(ResourceType.PDF);
+        String studyFileURL = fileUploader.saveFile(file, ResourceType.PDF);
+        CourseClass findClass = courseClassRepository.findById(class_id).orElseThrow(() -> new NoSearchCourseClassException());
+        findClass.setDataPath(studyFileURL);
+        return findClass.of();
+    }
+
+    /***
+     * 강사가 수업을 편집하고 최종 저장할 때 호출
+     * @param courseClass
+     */
+    @Transactional
+    public Course editCourseClass(CourseClass courseClass) {
+        CourseClass findClass = courseClassRepository.findById(courseClass.getId()).orElseThrow(() -> new NoSearchCourseException());
+        findClass.setDataPath(courseClass.getDataPath());
+        findClass.setName(courseClass.getName());
+        findClass.setInstructorMemo(courseClass.getInstructorMemo());
+        findClass.setMediaPath(courseClass.getMediaPath());
+        findClass.setStatus(courseClass.isStatus());
+
+        Long id = findClass.getCourseSection().getCourse().getId();
+        return courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
     }
 
     private boolean hasRecommendations(Course course){
@@ -254,6 +315,4 @@ public class CourseService {
         course.getRecommendations().clear();
         course.getRecommendations().addAll(recommendations);
     }
-
-
 }

@@ -7,6 +7,7 @@ import me.eggme.classh.utils.ModelMapperUtils;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Entity
 @Getter
@@ -32,6 +33,11 @@ public class CourseSection {
     // 어느 강의에 포함되는지 정함
     @ManyToOne(fetch = FetchType.EAGER)
     private Course course;
+
+    public int getTotalTime(){
+        int totalTime = courseClasses.stream().mapToInt(c -> c.getSeconds()).sum();
+        return totalTime;
+    }
 
     public void addCourseClass(CourseClass courseClass){
         this.courseClasses.add(courseClass);

@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/css/courseInfo.css">
+<script src="/js/courseInfo.js"></script>
 
 <div class="course_info_wrap">
     <div class="real_course_content">
@@ -21,141 +22,133 @@
                 <%-- 강의 짧은글 소개 --%>
                 <div class="course_short_description course_gray_form">
                     <h3>이 강의는 <i class="fas fa-lightbulb"></i></h3>
-                    <p class="course_short_desc">테스트용 강의입니다.</p>
+                    <p class="course_short_desc">
+                        <c:choose>
+                            <c:when test="${!empty course.shortDesc}">
+                                ${course.shortDesc}
+                            </c:when>
+                            <c:otherwise>
+                                테스트용 강의입니다.
+                            </c:otherwise>
+                        </c:choose>
+                    </p>
                 </div>
                 <%-- 강의 스킬 태그 --%>
                 <div class="course_tag_warp course_form">
                     <div class="course_from_menu">
-                        ✍<br />
-                        이런 걸<br />
+                        ✍<br/>
+                        이런 걸<br/>
                         배워요!
                     </div>
                     <div class="data_area">
-                        <div class="data_0">
-                            <div class="icon"><i class="fas fa-check"></i></div>
-                            <div class="data_text">UI 테스트 값 입니다.</div>
-                        </div>
+                        <c:choose>
+                            <c:when test="${fn:length(course.tags) > 0}">
+                                <c:forEach var="tag" items="${course.tags}" varStatus="status">
+                                    <div class="tag_${status.index} flex_column">
+                                        <div class="icon"><i class="fas fa-check"></i></div>
+                                        <div class="data_text">${tag.value}</div>
+                                    </div>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="data_0">
+                                    <div class="icon"><i class="fas fa-check"></i></div>
+                                    <div class="data_text">UI 테스트 값 입니다.</div>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
                 <%-- 강의 본문 --%>
                 <div class="long_description">
+                    <c:if test="${!empty course.longDesc}">
+                        ${course.longDesc}
+                    </c:if>
                 </div>
                 <%-- 강의 추천인 --%>
-                <div class="course_recommend_warp course_form">
-                    <div class="course_from_menu">
-                        🎓<br/>
-                        이런 분들께<br>
-                        추천드려요!
-                    </div>
-                    <div class="data_area">
-                        <div class="data_0">
-                            <div class="icon"><i class="fas fa-check"></i></div>
-                            <div class="data_text">UI 테스트 값 입니다.</div>
+                <div class="course_tip">
+                    <div>지식공유자가 알려주는</div>
+                    <div class="text_highlight">강의 수강 꿀팁!</div>
+                    <div class="course_recommend_warp course_form">
+                        <div class="course_from_menu">
+                            🎓<br/>
+                            이런 분들께<br>
+                            추천드려요!
+                        </div>
+                        <div class="data_area">
+                            <c:choose>
+                                <c:when test="${fn:length(course.tags) > 0}">
+                                    <c:forEach var="recommed" items="${course.recommendations}" varStatus="status">
+                                        <div class="recommendation_${status.index} flex_column">
+                                            <div class="icon"><i class="fas fa-check"></i></div>
+                                            <div class="data_text">${recommed.value}</div>
+                                        </div>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="data_0">
+                                        <div class="icon"><i class="fas fa-check"></i></div>
+                                        <div class="data_text">UI 테스트 값 입니다.</div>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+
                         </div>
                     </div>
                 </div>
-                    <%-- 강의 추천인 --%>
-                    <div class="course_recommend_warp course_form">
-                        <div class="course_from_menu">
-                            🎓<br/>
-                            이런 분들께<br>
-                            추천드려요!
-                        </div>
-                        <div class="data_area">
-                            <div class="data_0">
-                                <div class="icon"><i class="fas fa-check"></i></div>
-                                <div class="data_text">UI 테스트 값 입니다.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <%-- 강의 추천인 --%>
-                    <div class="course_recommend_warp course_form">
-                        <div class="course_from_menu">
-                            🎓<br/>
-                            이런 분들께<br>
-                            추천드려요!
-                        </div>
-                        <div class="data_area">
-                            <div class="data_0">
-                                <div class="icon"><i class="fas fa-check"></i></div>
-                                <div class="data_text">UI 테스트 값 입니다.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <%-- 강의 추천인 --%>
-                    <div class="course_recommend_warp course_form">
-                        <div class="course_from_menu">
-                            🎓<br/>
-                            이런 분들께<br>
-                            추천드려요!
-                        </div>
-                        <div class="data_area">
-                            <div class="data_0">
-                                <div class="icon"><i class="fas fa-check"></i></div>
-                                <div class="data_text">UI 테스트 값 입니다.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <%-- 강의 추천인 --%>
-                    <div class="course_recommend_warp course_form">
-                        <div class="course_from_menu">
-                            🎓<br/>
-                            이런 분들께<br>
-                            추천드려요!
-                        </div>
-                        <div class="data_area">
-                            <div class="data_0">
-                                <div class="icon"><i class="fas fa-check"></i></div>
-                                <div class="data_text">UI 테스트 값 입니다.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <%-- 강의 추천인 --%>
-                    <div class="course_recommend_warp course_form">
-                        <div class="course_from_menu">
-                            🎓<br/>
-                            이런 분들께<br>
-                            추천드려요!
-                        </div>
-                        <div class="data_area">
-                            <div class="data_0">
-                                <div class="icon"><i class="fas fa-check"></i></div>
-                                <div class="data_text">UI 테스트 값 입니다.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <%-- 강의 추천인 --%>
-                    <div class="course_recommend_warp course_form">
-                        <div class="course_from_menu">
-                            🎓<br/>
-                            이런 분들께<br>
-                            추천드려요!
-                        </div>
-                        <div class="data_area">
-                            <div class="data_0">
-                                <div class="icon"><i class="fas fa-check"></i></div>
-                                <div class="data_text">UI 테스트 값 입니다.</div>
-                            </div>
-                        </div>
-                    </div>
             </div>
             <%-- 강사 소개 --%>
             <div class="course_instructor_info">
                 <div class="instructor_introduce">
-                    <div class="introduce_title">안녕하세요 <span class="underline_course"><c:out value="${course.instructor.member.name}"></c:out> <i class="fas fa-external-link-alt"></i></span>입니다.</div>
-                    <div class="introduce_value"></div>
+                    <div class="instructor_title">
+                        <div class="hello_title">안녕하세요</div>
+                        <div class="instructor_name_wrap">
+                            <span class="underline_course"><c:out
+                                    value="${course.instructor.member.name}"></c:out> <i
+                                    class="fas fa-external-link-alt"></i></span>입니다.
+                        </div>
+                    </div>
+                    <div class="instructor_value">
+                        <img class="instructor_img" src="${course.instructor.member.profile}"/>
+                    </div>
                 </div>
-                <div class="introduce">
-                    <img class="instructor_img" src="/imgs/mini_icon_1.png"/>
-                    <p class="instructor_name"></p>
+                <div class="instructor_selfIntroduce">
+                    <div class="introduce_value">
+                        ${course.instructor.member.selfIntroduce}
+                    </div>
                 </div>
             </div>
             <%-- 강의 커리큘럼 --%>
             <div class="course_curriculum course_form_margin">
-                <h3>교육과정</h3>
+                <div class="curriculum_area">
+                    <div class="row_wrap">
+                        <div class="curriculum_text">커리큘럼</div>
+                        <div class="curriculum_value">
+                            총 <span class="course_total_count">${course.getTotalClassCount()}</span>개 ˙ <span class="course_total_time">
+                            <script>timeFormatKorWrapper('${course.getTotalTime()}', '.course_total_time');</script>
+                        </span>의 수업
+                        </div>
+                    </div>
+                    <div class="curriculum_toolbar">
+                        <div class="curriculum_text_desc">
+                            이 강의는 영상, 수업 노트가 제공됩니다. 미리보기를 통해 콘텐츠를 확인해보세요.
+                        </div>
+                        <div class="curriculum_close_button">모두 접기</div>
+                    </div>
+                </div>
                 <div class="curriculum_wrap">
                     <div class="curriculum_head"></div>
                     <div class="curriculum_content">
+                        <c:forEach var="section" items="${course.courseSections}" varStatus="section_status">
+                            <script>
+                                sectionSetting('${section_status.index}', '${section.name}', '${fn:length(section.courseClasses)}', '${section.getTotalTime()}');
+                            </script>
+                            <c:forEach var="course_class" items="${section.courseClasses}" varStatus="class_status">
+                                <script>
+                                    classSetting('${class_status.index}', '${course_class.name}', '${course_class.seconds}', '.section_class_${section_status.index}');
+                                </script>
+                            </c:forEach>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
@@ -187,19 +180,23 @@
                 </div>
             </div>
             <div class="course_subtext">
-                <div class="top_margin">지식공유자 : <span class="instructor_name_tab"><c:out value="${course.instructor.member.name}"></c:out></span></div>
+                <div class="top_margin">지식공유자 : <span class="instructor_name_tab"><c:out
+                        value="${course.instructor.member.name}"></c:out></span></div>
                 <%--  총 수업 수 구하는 로직 --%>
                 <c:set var="total_section_class_count" value="0"/>
                 <c:forEach var="section" items="${course.courseSections}" varStatus="status">
                     <c:forEach var="class_o" items="${section.courseClasses}" varStatus="status">
-                        <c:set var="total_section_class_count" value="${total_section_class_count + 1}" />
+                        <c:set var="total_section_class_count" value="${total_section_class_count + 1}"/>
                     </c:forEach>
                 </c:forEach>
-                <div class="top_margin ">총 <span class="total_class"><c:out value="${total_section_class_count}"></c:out></span>개 수업 · 총 <span class="course_hour"></span> 시간 <span class="course_minute"></span>분
+                <div class="top_margin ">총 <span class="total_class"><c:out
+                        value="${total_section_class_count}"></c:out></span>개 수업 · 총 <span class="course_total_time">
+                    <script>timeFormatKorWrapper('${course.getTotalTime()}', '.course_total_time');</script>
+                </span>
                 </div>
                 <div class="top_margin">기간 : 평생 무제한 시청</div>
                 <div class="top_margin">수료증 : 발급 강의</div>
-                <div class="top_margin">수강 난이도 : <span class="course_level"></span></div>
+                <div class="top_margin">수강 난이도 : <span class="course_level">${course.courseLevel.value}</span></div>
             </div>
         </div>
     </div>

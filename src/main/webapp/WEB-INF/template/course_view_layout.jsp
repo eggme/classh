@@ -42,9 +42,7 @@
                         <li class="newly">새소식</li>
 
                         <li class="management">수강생 관리</li>
-                        <a class="no_underline" href="/course/${course.id}/edit/course_info">
-                            <li>강의 수정</li>
-                        </a>
+                        <li><a class="no_underline" href="/course/${course.id}/edit/course_info">강의 수정</a></li>
                     </ul>
                 </div>
             </div>
