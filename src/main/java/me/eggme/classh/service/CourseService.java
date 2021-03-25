@@ -178,13 +178,14 @@ public class CourseService {
         findCourse.setPrice(course.getPrice());
         findCourse.setCourseCategory(courseCategory);
         findCourse.setCourseLevel(courseLevel);
-
-        if(!hasRecommendations(findCourse)) recommendations.stream().forEach(r-> findCourse.addCourseRecommendation(recommendationRepository.save(r)));
-        else changeRecommendations(findCourse, recommendations);
-
-        if(!hasTag(findCourse)) tags.stream().forEach(t -> findCourse.addCourseTag(tagRepository.save(t)));
-        else changeTags(course, tags);
-
+        if(recommendations != null){
+            if(!hasRecommendations(findCourse)) recommendations.stream().forEach(r-> findCourse.addCourseRecommendation(recommendationRepository.save(r)));
+            else changeRecommendations(findCourse, recommendations);
+        }
+        if(tags != null){
+            if(!hasTag(findCourse)) tags.stream().forEach(t -> findCourse.addCourseTag(tagRepository.save(t)));
+            else changeTags(course, tags);
+        }
         return findCourse;
     }
 
@@ -286,6 +287,20 @@ public class CourseService {
 
         Long id = findClass.getCourseSection().getCourse().getId();
         return courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
+    }
+
+    /***
+     * 강의 썸네일 교체
+     * @param id
+     * @param file
+     */
+    @Transactional
+    public Course saveCourseThumbnail(Long id, File file) {
+        fileUploader = FileUploadFactory.getFileUploader(ResourceType.IMAGE);
+        String thumbnailPath = fileUploader.saveFile(file, ResourceType.IMAGE);
+        Course findCourse = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
+        findCourse.setCourseImg(thumbnailPath);
+        return findCourse;
     }
 
     private boolean hasRecommendations(Course course){

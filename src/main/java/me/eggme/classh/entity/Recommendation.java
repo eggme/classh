@@ -1,5 +1,6 @@
 package me.eggme.classh.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -23,6 +24,7 @@ public class Recommendation {
     private String value;
 
     // 추천하는 강의
+    @JsonBackReference
     @ManyToOne
     private Course course;
 }

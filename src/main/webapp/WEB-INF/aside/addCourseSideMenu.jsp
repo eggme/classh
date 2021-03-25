@@ -15,7 +15,7 @@
         </li>
         <li><a href="/course/${course.id}/description"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;상세소개</a></li>
         <li><a href="/course/${course.id}/curriculum"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;커리큘럼</a></li>
-        <li><a href="/coverImage.do?course_id="><i class="fas fa-check-circle"></i>&nbsp;&nbsp;커버 이미지</a></li>
+        <li><a href="/course/${course.id}/thumbnail"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;커버 이미지</a></li>
     </ul>
     <br/>
     <br/>

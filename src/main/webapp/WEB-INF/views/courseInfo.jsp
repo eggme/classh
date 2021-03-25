@@ -133,7 +133,7 @@
                         <div class="curriculum_text_desc">
                             이 강의는 영상, 수업 노트가 제공됩니다. 미리보기를 통해 콘텐츠를 확인해보세요.
                         </div>
-                        <div class="curriculum_close_button">모두 접기</div>
+                        <div class="curriculum_close_button closed">모두 펼치기</div>
                     </div>
                 </div>
                 <div class="curriculum_wrap">
@@ -144,15 +144,85 @@
                                 sectionSetting('${section_status.index}', '${section.name}', '${fn:length(section.courseClasses)}', '${section.getTotalTime()}');
                             </script>
                             <c:forEach var="course_class" items="${section.courseClasses}" varStatus="class_status">
-                                <script>
-                                    classSetting('${class_status.index}', '${course_class.name}', '${course_class.seconds}', '.section_class_${section_status.index}');
-                                </script>
+                                <c:choose>
+                                    <c:when test="${course_class.status eq true}">
+                                        <script>
+                                            classSetting('${class_status.index}', '${course_class.name}', '${course_class.seconds}', '.section_class_${section_status.index}', true, '${course_class.id}', '${course.id}');
+                                        </script>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <script>
+                                            classSetting('${class_status.index}', '${course_class.name}', '${course_class.seconds}', '.section_class_${section_status.index}', false, '${course_class_id}', '${course.id}');
+                                        </script>
+                                    </c:otherwise>
+                                </c:choose>
                             </c:forEach>
                         </c:forEach>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <%-- 강의 게시일 --%>
+            <div class="course_created">
+                <div class="createdAndModified">
+                    강의게시일 : <span class="course_created_value">
+                    <c:choose>
+                        <c:when test="${!empty course.create_at}">
+                            <script>
+                                convertLocalDateTime('${course.create_at}', '.course_created_value');
+                            </script>
+                        </c:when>
+                        <c:otherwise>
+                            <script>
+                                convertLocalDateTime(new Date(0), '.course_created_value');
+                            </script>
+                        </c:otherwise>
+                    </c:choose>
+                </span> (마지막 업데이트일 : <span class="course_modified_value">
+                    <c:choose>
+                        <c:when test="${!empty course.modify_at}">
+                            <script>
+                                convertLocalDateTime('${course.modify_at}' , '.course_modified_value');
+                            </script>
+                        </c:when>
+                        <c:otherwise>
+                            <script>
+                                convertLocalDateTime(new Date(0), '.course_modified_value');
+                            </script>
+                        </c:otherwise>
+                    </c:choose>
+                </span>)
+                </div>
+            </div>
+            <%-- 강의 수강평 --%>
+            <div class="course_review_wrap">
+                <div class="review_title_wrap">
+                    <div class="review_title">수강평</div>
+                    <div class="review_sub_title">수강생분들이 직접 작성하신 수강평입니다. 수강평을 작성 시 300잎이 적립됩니다.</div>
+                </div>
+                <div class="review_form">
+                    <div class="review_rate">
+                        <div class="rate_area">
+                            <ul class="star_rate_ul">
+                                <li class="rate_1"><i class="fas fa-star"></i></li>
+                                <li class="rate_2"><i class="fas fa-star"></i></li>
+                                <li class="rate_3"><i class="fas fa-star"></i></li>
+                                <li class="rate_4"><i class="fas fa-star"></i></li>
+                                <li class="rate_5"><i class="fas fa-star"></i></li>
+                            </ul>
+                        </div>
+                        <div class="sub_title_area">별점을 선택해주세요</div>
+                    </div>
+                    <div class="review_textarea_wrap">
+                        <textarea class="review_textarea" placeholder="좋은 수강평을 남겨주시면 지식공유자와 이후 배우는 사람들에게 큰 도움이 됩니다! 포인트도 드려요!! (5자 이상)"></textarea>
+                        <div class="submit_area">
+                            <div class="review_submit">등록</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+       </div>
         <div class="course_question">
             <div class="question_btn_wrap">
                 <div class="question_button">질문 작성</div>

@@ -1,4 +1,36 @@
 $(function () {
+    $('.course_preview').on('click', function(){
+       const class_id = $(this).attr('data-id');
+       const course_id = $(this).attr('data-course');
+       console.log(class_id + " : " + course_id);
+       location.href="/study/"+course_id+"/preview/"+class_id;
+    });
+    /* 별점 기능 구현 */
+    $('.star_rate_ul li').click(function(){
+        var list = $(this).parent().children();
+        $(this).parent().children().removeClass('star_fill');
+        var index = $(this).index();
+        console.log(index);
+        for(var i = 0; i < (index+1); i++){
+            $(list[i]).addClass('star_fill');
+        }
+    });
+    /* 모두 펼치기 / 모두 닫기 버튼 이벤트 */
+    $('.curriculum_close_button').click(function(){
+        var arr = $('.section_head');
+
+        if($(this).hasClass("closed")){
+            $(this).text('모두 닫기');
+            $(this).addClass('closed');
+        }else{
+            $(this).text('모두 펼치기');
+            $(this).removeClass('closed');
+        }
+        console.log(arr.length);
+        for(var i =0 ; i<arr.length; i++){
+            $(arr[i]).trigger('click');
+        }
+    });
     $('.course_ul li').click(function () {
         var currentActive = $(this);
         $('.course_ul li').each(function (index, item) {
@@ -236,13 +268,20 @@ function timeFormat(second) {
     return result;
 }
 
-function classSetting(class_code, title, study_time, parent) {
+function classSetting(class_code, title, study_time, parent, status, class_id, course_id) {
+    var status_template = "";
+    if(status == true){
+        status_template = "<span class='course_preview right_margin' data-id='"+class_id+"' data-course='"+course_id+"'>미리보기</span>";
+    }else {
+        status_template = "";
+    }
     var template = "<div class='section_class_content_" + class_code + " section_class_box'>" +
         "<div class='class_title'>" +
         "<i class='far fa-play-circle right_margin'></i>" +
         "<span class='class_title_content horizontal_margin'>" + title + "</span>" +
         "</div>" +
         "<div class='class_box'>" +
+        status_template +
         "<i class='far fa-clock right_margin'></i> <span class='class_time right_margin''>" + timeFormat(study_time) + "</span>" +
         "</div>" +
         "</div>";
@@ -291,4 +330,15 @@ function finalSettingCourseButton(){
         let obj = $('.learning_box');
         $(obj).text("학습하기");
     }
+}
+
+function convertLocalDateTime(localDate, obj){
+    console.log(localDate);
+    var date = new Date(localDate);
+    var year = date.getFullYear();
+    var month = date.getMonth()+1;
+    var day = date.getDate();
+    console.log(date);
+    console.log(year+"년 "+month+"월 "+day+"일");
+    $(obj).text(year+"년 "+month+"월 "+day+"일");
 }

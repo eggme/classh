@@ -57,6 +57,12 @@
         <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
     </definition>
 
+    <!-- 강의 재생 폼 -->
+    <definition name="study/*/*" template="/WEB-INF/template/study_layout.jsp">
+        <put-attribute name="title" value="{2} Hoflearn | 학습 페이지"/>
+        <put-attribute name="view" value="/WEB-INF/views/{1}.jsp"/>
+    </definition>
+
     <!-- 강의 만들기 폼 -->
     <definition name="course/*" template="/WEB-INF/template/course_create_layout.jsp">
         <put-attribute name="title" value="ClassH - 강의 만들기" />

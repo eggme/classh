@@ -1,5 +1,6 @@
 package me.eggme.classh.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import me.eggme.classh.dto.CourseClassDTO;
 import me.eggme.classh.dto.CourseSectionDTO;
@@ -36,6 +37,7 @@ public class CourseClass {
     // 강사가 남기는 메모
     private String instructorMemo;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     private CourseSection courseSection;
 

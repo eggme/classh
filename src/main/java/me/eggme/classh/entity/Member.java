@@ -1,5 +1,7 @@
 package me.eggme.classh.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import me.eggme.classh.dto.MemberDTO;
 import me.eggme.classh.security.UserRole;
@@ -48,14 +50,17 @@ public class Member extends BaseTimeEntity{
     private String profile = "/imgs/mini_icon_1.png";
 
     // 내가 듣고 있는 강의들
+    @JsonManagedReference
     @OneToMany(mappedBy = "member")
     private List<SignUpCourse> signUpCourses = new ArrayList<>();
 
     // 내가 수업하고 있는 강의들
+    @JsonBackReference
     @OneToOne(mappedBy = "member")
     private Instructor instructor;
 
     // 내가 올린 강의 리뷰
+    @JsonManagedReference
     @OneToMany(mappedBy = "member")
     private List<CourseReview> courseReviews = new ArrayList<>();
 

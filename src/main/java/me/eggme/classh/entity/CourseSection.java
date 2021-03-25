@@ -1,5 +1,7 @@
 package me.eggme.classh.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import me.eggme.classh.dto.CourseSectionDTO;
 import me.eggme.classh.utils.ModelMapperUtils;
@@ -27,10 +29,12 @@ public class CourseSection {
     private String goal;
 
     // 섹션이 가지고 있는 수업들
+    @JsonManagedReference
     @OneToMany(mappedBy = "courseSection", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CourseClass> courseClasses = new ArrayList<>();
 
     // 어느 강의에 포함되는지 정함
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     private Course course;
 

@@ -60,6 +60,7 @@ public class CourseController {
         Course course = courseService.getCourse(url);
         CourseDTO courseDTO = course.of();
         model.addAttribute("course", courseDTO);
+        log.info(courseDTO);
         return "information/courseInfo/dashboard";
     }
 
@@ -75,11 +76,12 @@ public class CourseController {
     // 내 강의만들기에서 강의 정보 저장 후 다음 이동을 했을 때의 핸들러
     @PostMapping(value = "/{id}/save/information")
     public String savedCourseInformation(@ModelAttribute Course course,
-                              @RequestParam(value = "courseCategory") CourseCategory courseCategory,
-                              @RequestParam(value = "courseLevel") CourseLevel courseLevel,
-                              @RequestParam(value = "recommendations") List<Recommendation> recommendations,
-                              @RequestParam(value = "tags") List<Tag> tags,
+                              @RequestParam(value = "courseCategory", required = false) CourseCategory courseCategory,
+                              @RequestParam(value = "courseLevel",  required = false) CourseLevel courseLevel,
+                              @RequestParam(value = "recommendations",  required = false) List<Recommendation> recommendations,
+                              @RequestParam(value = "tags",  required = false) List<Tag> tags,
                               Model model){
+
         Course editedCourse = courseService.editCourse(course, courseCategory, courseLevel, recommendations, tags);
         CourseDTO courseDTO = editedCourse.of();
         model.addAttribute("course", courseDTO);
@@ -202,5 +204,27 @@ public class CourseController {
         jsonObject.addProperty("data_url", courseService.uploadCourseDescriptionImage(file));
 
         return jsonObject.toString();
+    }
+
+    @GetMapping(value = "/{id}/thumbnail")
+    public String getCourseThumbnailView(@PathVariable Long id, Model model){
+        Course course = courseService.getCourse(id);
+        model.addAttribute("course", course.of());
+        return "course/courseImage";
+    }
+    @PostMapping(value = "/{id}/upload/thumbnail")
+    @ResponseBody
+    public CourseDTO uploadCourseThumbnail(@RequestParam(value = "file") MultipartFile multipartFile,
+                                        @PathVariable Long id,
+                                        HttpServletRequest request) throws IOException{
+
+        String realPath = request.getRealPath("/imgs/upload");
+        File file = new File(realPath+"\\"+multipartFile.getOriginalFilename());
+        multipartFile.transferTo(file);
+
+        Course course = courseService.saveCourseThumbnail(id, file);
+        CourseDTO courseDTO = course.of();
+        log.info(courseDTO);
+        return courseDTO;
     }
 }

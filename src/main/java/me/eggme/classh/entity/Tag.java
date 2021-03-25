@@ -1,5 +1,6 @@
 package me.eggme.classh.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import me.eggme.classh.entity.Course;
 
@@ -23,6 +24,7 @@ public class Tag {
     private String value;
 
     // 태그에 등록된 강의
+    @JsonBackReference
     @ManyToOne
     private Course course;
 }

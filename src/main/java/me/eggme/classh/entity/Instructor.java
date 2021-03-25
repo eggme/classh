@@ -1,5 +1,7 @@
 package me.eggme.classh.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,10 +18,12 @@ public class Instructor {
     @Id @GeneratedValue
     private Long id;
 
+    @JsonBackReference
     @Setter
     @OneToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "instructor")
     private List<Course> courses = new ArrayList<>();
 

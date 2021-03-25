@@ -1,5 +1,7 @@
 package me.eggme.classh.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import me.eggme.classh.dto.*;
 import me.eggme.classh.utils.ModelMapperUtils;
@@ -34,23 +36,28 @@ public class Course extends BaseTimeEntity{
     private CourseState courseState;
 
     // 이 강의를 수강하는 학생
+    @JsonManagedReference
     @OneToMany(mappedBy = "course")
     private List<SignUpCourse> signUpCourses = new ArrayList<>();
 
     // 이 강의의 강사
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     private Instructor instructor;
 
     // 이 강의가 가지고 있는 섹션
+    @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id asc")
     private List<CourseSection> courseSections = new ArrayList<>();
 
     // 강의의 태그를 동적으로 늘릴 수 있음
+    @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tag> tags = new ArrayList<>();
 
     // 강의의 추천하는 사람의 정보
+    @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recommendation> recommendations = new ArrayList<>();
 
@@ -72,6 +79,7 @@ public class Course extends BaseTimeEntity{
     private String courseImg = "/imgs/default_course_image.png";
 
     // 강의 수강평
+    @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<CourseReview> courseReviews = new ArrayList<>();
 
@@ -109,6 +117,7 @@ public class Course extends BaseTimeEntity{
                 .sum();
         return totalTime;
     }
+
 
     // 총 강의 수
     public int getTotalClassCount(){

@@ -14,7 +14,7 @@
 <div class="description_wrap">
     <div class="flex_content">
         <div class="course_thumbnail">
-            <img class="course_img" src="/imgs/default_course_image.png"/>
+            <img class="course_img" src="${course.courseImg}"/>
             <div class="video_box">
                 <div class="play_button">
                     <div class="play_icon"></div>

@@ -13,11 +13,6 @@ $(function () {
         var course_id = $('.course_id').val();
         location.href = "/courseInfo.do?course_id=" + course_id + "&instructor=true";
     });
-    // 저장 후 다음 페이지로
-    $('.save_next_page').click(function () {
-        var course_id = $('.course_id').val();
-        location.href = "/coverImage.do?course_id=" + course_id;
-    });
     // 수업 추가하기
     $(document).on("click", ".add_class", function () {
         var section_code = $(this).parents('.section_init').data('value');
@@ -395,3 +390,7 @@ tinymce.init({
     images_upload_handler: image_upload_handler,
     content_style: '//www.tinymce.com/css/codepen.min.css'
 });
+
+function redirectThumbnail(course_id){
+    location.href = "/course/" + course_id +"/thumbnail";
+}

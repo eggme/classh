@@ -1,0 +1,41 @@
+html, body{width: 100%; height: 100%;}
+/* template css */
+.main_wrap{width: 100%; margin: 0 auto;}
+/*  상단 남색라인 */
+.menu_title{width: 100%; height: 64px; background-color: #333b3d; margin: 0 auto; text-align: center;}
+.menu_size{width: 1280px; height: 64px; margin: 0 auto;}
+.menu_size h1{display: inline-block; font-weight: 800; font-size: 24px; color: white; float : left;}
+.link_btn{color : white; font-weight: 800; font-size: 18px;}
+.right_btns{display: inline-block; float:right; margin-top: 8px;}
+.right_btns span{display: inline-block; padding : 15px 50px 15px 50px; font-size: 18px; font-family: "Noto Sans KR";}
+.link_btn:hover{cursor: pointer;}
+/* aside */
+.main_content{background-color: #F5F5F5; width: 100%; height: 100%;}
+.content_wrap{width: 1280px; margin: 0 auto;}
+.margin_h_tag{margin: 0 auto;}
+.margin_bottom{margin-bottom: 16px; margin-top: 8px;}
+
+.main_aside{display: inline-block; width: 200px; height: 100%; min-width: 100px; text-align: left; padding : 30px; float: left;}
+.items{list-style: none; margin: 0 auto; padding: 0px;}
+.item_title{font-size: 16px; font-weight: 800; color : #333333; margin-bottom: 24px;}
+.active{color : #595959 !important;}
+.items li{color: #BDBDBD; margin-bottom: 20px; font-size: 15px; ont-weight: 800;}
+.submit{padding: 8px !important; font-size: 16px !important; font-weight: 800 !important;}
+.submit:hover{cursor: pointer;}
+.main_session{padding: 15px;  float: left;  width: calc(100% - 300px); min-width: 300px; margin: 30px; background-color: white; display: inline-block; box-shadow: 2px 2px 2px 2px #e5e5e5;}
+.main_center{margin: 0 auto; padding-top: 24px; text-align: center;}
+
+.upload_box{margin-top: 20px; width: 100%;}
+.img_box{display: inline-block; float: left;}
+.upload_text{display: inline-block; margin-left : 20px; width: calc(100% - 270px);}
+.upload_text h3{font-size: 16px; color : #000A12; padding: 0; margin: 0 0 10px 0;}
+.upload_text p{font-size: 12px; color: #000A12; padding: 0; margin:0 0 20px 0;}
+.upload_item_box{border: 1px solid #979797;}
+.file_name{height: 50px; line-height: 35px; border: 0; vertical-align: middle;}
+.img_box img{width: 100%; height: 100%; max-width: 240px; max-height: 156px;}
+/* input box */
+.file_box label{float: right; margin: 0; width: 95px; height: 45px; text-align: center; display: inline-block; padding: 10px; color : #ffffff; line-height: normal; vertical-align: middle; cursor: pointer; background-color: #747474; }
+.file_box input[type="file"]{position: absolute; width: 1px; height: 1px; padding: 0px; marin : -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0;}
+.file_box .upload-name{height: 45px !important; width: calc(100% - 100px); display: inline-block; padding: 10px; line-height: normal; vertical-align: middle; color: #454545; border: 1px solid #747474; -webkit-appearance: none; -moz-appearance: none; appearance: none;}
+.file_box {height: 45px !important;}
+.upload-name{border : 0 !important;}

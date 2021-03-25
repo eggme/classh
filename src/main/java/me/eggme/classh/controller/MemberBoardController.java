@@ -1,6 +1,7 @@
 package me.eggme.classh.controller;
 
 import lombok.extern.log4j.Log4j2;
+import me.eggme.classh.dto.MemberDTO;
 import me.eggme.classh.entity.Member;
 import me.eggme.classh.service.MemberBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,8 @@ public class MemberBoardController {
     public String dashboardView(HttpSession session, Model model){
         String email = session.getAttribute("username").toString();
         Member member = memberBoardService.loadMember(email);
-        model.addAttribute(member);
+        MemberDTO memberDTO = member.of();
+        model.addAttribute("member", memberDTO);
         return "board/dashboard";
     }
 
@@ -38,7 +40,8 @@ public class MemberBoardController {
         String email = session.getAttribute("username").toString();
         Member member = memberBoardService.loadMember(email);
         log.info(email + " : " +member.toString());
-        model.addAttribute("member", member);
+        MemberDTO memberDTO = member.of();
+        model.addAttribute("member", memberDTO);
         return "board/profile";
     }
 

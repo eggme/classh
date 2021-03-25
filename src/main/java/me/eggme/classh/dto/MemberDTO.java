@@ -1,17 +1,29 @@
 package me.eggme.classh.dto;
 
-import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import me.eggme.classh.entity.CourseReview;
+import me.eggme.classh.entity.Instructor;
+import me.eggme.classh.entity.SignUpCourse;
+import me.eggme.classh.security.UserRole;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class MemberDTO implements Serializable {
 
+    private Long id;
     private String name;
     private String email;
     private String profile;
+    private String selfIntroduce;
+    private boolean isEnable;
+    private UserRole userRole;
+    private List<SignUpCourse> signUpCourses;
+    private Instructor instructor;
+    private List<CourseReview> courseReviews;
+    private LocalDateTime create_at = LocalDateTime.now();
+    private LocalDateTime modify_at = LocalDateTime.now();
 
 }

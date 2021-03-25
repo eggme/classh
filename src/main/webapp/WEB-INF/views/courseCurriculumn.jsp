@@ -63,7 +63,7 @@
 
         </div>
         <div class="main_center">
-            <div class="save_next_page">저장 후 다음이동</div>
+            <div class="save_next_page" onclick="redirectThumbnail('${course.id}')">저장 후 다음이동</div>
         </div>
     </form>
 

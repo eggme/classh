@@ -5,7 +5,11 @@ import lombok.Setter;
 import lombok.ToString;
 import me.eggme.classh.entity.*;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -27,6 +31,8 @@ public class CourseDTO {
     private String longDesc;
     private String courseImg;
     private List<CourseReview> courseReviews;
+    private LocalDateTime create_at = LocalDateTime.now();
+    private LocalDateTime modify_at = LocalDateTime.now();
 
     // 총 강의 시간
     public int getTotalTime(){
