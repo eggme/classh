@@ -11,6 +11,13 @@
 
 <link rel="stylesheet" href="/css/component/description.css" >
 
+<c:set var="total_section_class_count" value="0"/>
+<c:forEach var="section" items="${course.courseSections}" varStatus="status">
+    <c:forEach var="class_o" items="${section.courseClasses}" varStatus="status">
+        <c:set var="total_section_class_count" value="${total_section_class_count + 1}"/>
+    </c:forEach>
+</c:forEach>
+
 <div class="description_wrap">
     <div class="flex_content">
         <div class="course_thumbnail">
@@ -21,11 +28,11 @@
                 </div>
                 <div class="play_text">
                     <div class="play_text_title">이어 학습하기</div>
-                    <div class="play_text_percent">진도율 : 0강 / 1강 (0.00%)</div>
+                    <div class="play_text_percent">진도율 : 0강 / ${total_section_class_count}강 (0.00%)</div>
                 </div>
                 <div class="video_progress">
-                    <div class="course_progress">
-                        <div class="course_progress_value"></div>
+                    <div class="progress_wrap">
+                        <progress class="course_progress_data" value="80" max="100"/>
                     </div>
                 </div>
             </div>

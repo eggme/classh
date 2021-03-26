@@ -4,6 +4,19 @@ $(function(){
        let redirectUrl = $(this).attr('data-url');
        location.href="/course/"+redirectUrl;
    });
+   $('.close_button').click(function(){
+       $('.curriculum_wrap').addClass('closed');
+    });
+   $('.course_data_list').click(function(){
+       let target = $('.curriculum_wrap');
+       if($(target).hasClass('closed')){
+           $(target).addClass('opened');
+           $(target).removeClass('closed');
+       }else{
+           $(target).removeClass('opened');
+           $(target).addClass('closed');
+       }
+   });
 });
 
 function createClassContent(name, class_id, sectionCode, classCode, study_time){

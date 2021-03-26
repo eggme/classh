@@ -21,7 +21,21 @@
     <script src="/js/template/global.js"></script>
     <script src="/js/template/courseViewBoardBase.js"></script>
     <link rel="stylesheet" href="/css/template/course_view_layout.css">
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function(){
+            choiceMenu('<tiles:insertAttribute name="menu"></tiles:insertAttribute>');
+        });
+        function choiceMenu(menu){
+            console.log(menu);
+            var arr = $('.course_ul li').toArray();
+            console.log(arr.length);
+            for(var i =0; i<arr.length;i++){
+                if($(arr[i]).hasClass(menu)){
+                    $(arr[i]).addClass('active');
+                }
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="wrap">
@@ -30,18 +44,16 @@
     </div>
 
     <tiles:insertAttribute name="description"></tiles:insertAttribute>
-
     <div class="layout_main_content">
         <div class="layout_size_wrap">
             <div class="course_nav">
                 <div class="ul_wrap">
                     <ul class="course_ul">
-                        <li class="board">대시보드</li>
-                        <li class="info active">강의소개</li>
-                        <li class="question">질문 & 답변</li>
-                        <li class="newly">새소식</li>
-
-                        <li class="management">수강생 관리</li>
+                        <li class="dashboard"><a class="no_underline" href="/course/${course.url}/dashboard">대시보드</a></li>
+                        <li class="info"><a class="no_underline" href="/course/${course.url}">강의소개</a></li>
+                        <li class="question"><a class="no_underline" href="/course/${course.url}/question">질문 & 답변</a></li>
+                        <li class="newly"><a class="no_underline" href="/course/${course.url}/newly">새소식</a></li>
+                        <li class="management"><a class="no_underline" href="/course/${course.url}/management">수강생 관리</a></li>
                         <li><a class="no_underline" href="/course/${course.id}/edit/course_info">강의 수정</a></li>
                     </ul>
                 </div>

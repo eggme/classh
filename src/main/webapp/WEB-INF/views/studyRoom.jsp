@@ -16,10 +16,10 @@
 <script src="/js/studyRoom.js"></script>
 <div class="flex_container">
     <div class="study_wrap">
-        <div class="curriculum_wrap">
+        <div class="curriculum_wrap actived">
             <div class="text">
                 <span>목차</span>
-                <span><i class="fas fa-times"></i></span>
+                <span class="close_button"><i class="fas fa-times"></i></span>
             </div>
             <div class="course_title_wrap">
                 <div class="course_real_title">
@@ -50,7 +50,7 @@
                         <span class="total_class_count">${totalClass}</span>
                         <span>강 (</span>
                         <span class="course_rate">${Math.round((currentClass / totalClass) * 100)}</span>
-                        <span>%) | 시간 </span>
+                        <span>%) | 시간 : </span>
                         <span class="current_study_time"></span>
                         <span>분 / </span>
                         <span class="total_study_time"></span>
@@ -108,13 +108,17 @@
     </div>
     <div id="video_wrap">
         <div class="top_bar">
-            <div class="course_dashboard">
+            <div class="hover_interaction">
+                <div class="course_dashboard">
                 <div class="clip_board">
                     <i class="fas fa-clipboard-list"></i>
                 </div>
                 <div class="dashboard" data-url="${course.url}">
                     강의 대시보드
                 </div>
+
+            </div>
+                <div class="triangle"></div>
             </div>
             <div class="course_title">
                 <span class="course_title_value">${courseClass.name}</span>
@@ -125,7 +129,9 @@
             </div>
         </div>
         <div class="video_bg">
-            <video id="myPlayer" class="video-js vjs-default-skin vjs-16-9"></video>
+            <div class="min_height">
+                <video id="myPlayer" class="video-js vjs-default-skin vjs-fill"></video>
+            </div>
             <c:if test="${!empty courseClass.mediaPath}">
                 <script>
                     loadVideoUrl('${courseClass.mediaPath}');

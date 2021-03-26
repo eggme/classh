@@ -124,7 +124,8 @@
                     <div class="row_wrap">
                         <div class="curriculum_text">커리큘럼</div>
                         <div class="curriculum_value">
-                            총 <span class="course_total_count">${course.getTotalClassCount()}</span>개 ˙ <span class="course_total_time">
+                            총 <span class="course_total_count">${course.getTotalClassCount()}</span>개 ˙ <span
+                                class="course_total_time">
                             <script>timeFormatKorWrapper('${course.getTotalTime()}', '.course_total_time');</script>
                         </span>의 수업
                         </div>
@@ -182,7 +183,7 @@
                     <c:choose>
                         <c:when test="${!empty course.modify_at}">
                             <script>
-                                convertLocalDateTime('${course.modify_at}' , '.course_modified_value');
+                                convertLocalDateTime('${course.modify_at}', '.course_modified_value');
                             </script>
                         </c:when>
                         <c:otherwise>
@@ -214,24 +215,15 @@
                         <div class="sub_title_area">별점을 선택해주세요</div>
                     </div>
                     <div class="review_textarea_wrap">
-                        <textarea class="review_textarea" placeholder="좋은 수강평을 남겨주시면 지식공유자와 이후 배우는 사람들에게 큰 도움이 됩니다! 포인트도 드려요!! (5자 이상)"></textarea>
+                        <textarea class="review_textarea"
+                                  placeholder="좋은 수강평을 남겨주시면 지식공유자와 이후 배우는 사람들에게 큰 도움이 됩니다! 포인트도 드려요!! (5자 이상)"></textarea>
                         <div class="submit_area">
                             <div class="review_submit">등록</div>
                         </div>
                     </div>
                 </div>
             </div>
-
-       </div>
-        <div class="course_question">
-            <div class="question_btn_wrap">
-                <div class="question_button">질문 작성</div>
-            </div>
-            <%--컨텐츠 로드--%>
-            <div class="question_content_wrap_box"></div>
         </div>
-        <div class="course_newly"></div>
-        <div class="course_management"></div>
     </div>
     <div class="box_wrap">
         <div class="course_box">

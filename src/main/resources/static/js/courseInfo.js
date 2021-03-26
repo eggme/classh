@@ -20,23 +20,16 @@ $(function () {
         var arr = $('.section_head');
 
         if($(this).hasClass("closed")){
-            $(this).text('모두 닫기');
-            $(this).addClass('closed');
-        }else{
             $(this).text('모두 펼치기');
             $(this).removeClass('closed');
+        }else{
+            $(this).text('모두 닫기');
+            $(this).addClass('closed');
         }
         console.log(arr.length);
         for(var i =0 ; i<arr.length; i++){
             $(arr[i]).trigger('click');
         }
-    });
-    $('.course_ul li').click(function () {
-        var currentActive = $(this);
-        $('.course_ul li').each(function (index, item) {
-            $(item).removeClass('active');
-        });
-        currentActive.addClass('active');
     });
     $(window).scroll(function () {
         var scrollTop = $(document).scrollTop();
@@ -98,22 +91,6 @@ $(function () {
     });
     $('.cart_cancle').click(function () {
         $('.course_cart_form').css('display', 'none');
-    });
-    $('.board').click(function(){
-        tab($('.course_board'));
-    });
-    $('.info').click(function(){
-        tab($('.course_info'));
-    });
-    $('.question').click(function(){
-        loadQuestions($('.course_id').val());
-        tab($('.course_question'));
-    });
-    $('.newly').click(function(){
-        tab($('.course_newly'));
-    });
-    $('.management').click(function(){
-        tab($('.course_management'));
     });
     $('.question_button').click(function(){
         var isLogin = $('.course_id').attr('data-state');

@@ -54,14 +54,48 @@ public class CourseController {
         return "course/addCourse";
     }
 
-    // 내 강의 보기 강사만 입장 가능
+    // 내 강의 보기 강사만 입장 가능 (강의소개)
     @GetMapping(value = "/{url}")
     public String updateCourse(@PathVariable String url, Model model){
         Course course = courseService.getCourse(url);
         CourseDTO courseDTO = course.of();
         model.addAttribute("course", courseDTO);
+        return "information/courseInfo/info";
+    }
+
+    // 내 강의 보기 (대시보드)  dashboard
+    @GetMapping(value = "/{url}/dashboard")
+    public String courseDashBoard(@PathVariable String url, Model model){
+        Course course = courseService.getCourse(url);
+        CourseDTO courseDTO = course.of();
+        model.addAttribute("course", courseDTO);
         log.info(courseDTO);
-        return "information/courseInfo/dashboard";
+        return "information/courseDashboard/dashboard";
+    }
+
+    // 내 강의 보기 (질문답변)  question
+    @GetMapping(value = "/{url}/question")
+    public String courseQuestion(@PathVariable String url, Model model){
+        Course course = courseService.getCourse(url);
+        CourseDTO courseDTO = course.of();
+        model.addAttribute("course", courseDTO);
+        return "information/courseQuestion/question";
+    }
+    // 내 강의 보기 (새소식)  newly
+    @GetMapping(value = "/{url}/newly")
+    public String courseNewly(@PathVariable String url, Model model){
+        Course course = courseService.getCourse(url);
+        CourseDTO courseDTO = course.of();
+        model.addAttribute("course", courseDTO);
+        return "information/courseNewly/newly";
+    }
+    // 내 강의 보기 (수강생 관리)  management
+    @GetMapping(value = "/{url}/management")
+    public String courseManagement(@PathVariable String url, Model model){
+        Course course = courseService.getCourse(url);
+        CourseDTO courseDTO = course.of();
+        model.addAttribute("course", courseDTO);
+        return "information/courseManagement/management";
     }
 
     // 강의 만들기에서 다이렉트로 상세소개 클릭 시

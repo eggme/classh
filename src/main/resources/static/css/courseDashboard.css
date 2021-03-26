@@ -1,0 +1,45 @@
+body, body *{font-family: "Noto Sans KR";}
+
+.dashboard_wrap{width: 1200px; height: 100%; margin: 0 auto;}
+.flex_column_wrap_dashboard{padding: 12px; display: flex; flex-direction: column; justify-content: center;}
+.flex_row_wrap_dashboard{display: flex; justify-content: space-between; margin-bottom: 24px;}
+.wid_48_box{width: 48%; border: 1px solid #f1f3f5; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; display: flex; flex-direction: column; padding: 24px; color: #333;}
+.title_menu{font-size: 18px; font-weight: 700; margin-bottom: 12px;}
+.curriculum_wrap_dashboard{display: flex; flex-direction: column; padding: 24px; border-radius: 12px; border: 1px solid #f1f3f5; box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;}
+.curriculum_title{font-size: 24px; font-weight: 400;}
+.open_close_toggle{cursor: pointer;}
+.curriculum_toolbox{display: flex; justify-content: flex-end; font-size: 16px; margin-bottom: 12px; padding-right: 12px;}
+.open_close_toggle{margin-right: 12px;  font-weight: 600;}
+.current_study_status{display: flex;}
+.menu{flex-grow: 1; justify-content: center; align-items: center; flex-direction: column; padding-bottom: 16px;}
+.study_count_warp{font-size: 40px; font-weight: 400; display: flex; justify-content: center; vertical-align: center;}
+.study_title{display: flex; justify-content: center; font-size: 16px;}
+.time_separator{font-size: 12px !important; align-self: flex-end; padding-bottom: 8px;}
+.course_certification{color: #FDCC11;}
+.no_certification{color: #343A40 !important;}
+
+.section_wrap{display: flex; flex-direction: column; margin: 5px 0;}
+.curriculum_content{display: flex; flex-direction: column;}
+.curriculum_content{color : #595959;}
+.section_head {display: flex; justify-content: space-between; align-content: center; background-color: #f5f5f5; padding: 12px; border-radius: 5px; cursor: pointer;}
+.section_class_box{display: flex; justify-content: space-between; align-content: center; border-bottom: 1px solid #eee; padding: 9px 9px 9px 20px;}
+.section_head{font-size: 16px;}
+.section_title{font-weight: 800; width: 75%; display: flex; flex-grow: 1; align-items: center;}
+.right_margin{margin-right: 8px;}
+.horizontal_margin{margin: 0 5px;}
+.section_class_length_box{display: flex; flex-grow: 1; justify-content: center; align-items: center;}
+.section_box{display: flex; flex-grow: 1; justify-content: space-between; align-items: center;}
+.button_plus, .button_minus {display: flex; align-self: center;}
+.button_hide{display: none;}
+.class_title{display: flex; width: 75%; flex-grow: 1; align-items: center;}
+.class_box{display: flex; flex-grow: 1; justify-content: flex-end; align-items: center;}
+.hide_class{max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out;}
+
+@media (max-width: 1300px) {
+    .dashboard_wrap{width: 100%;}
+}
+
+@media (max-width: 800px) {
+    .wid_48_box{width: 98%;}
+    .flex_row_wrap_dashboard{flex-direction: column;}
+}

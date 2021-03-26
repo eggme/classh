@@ -76,20 +76,13 @@
     width: 100%;
     position: absolute;
     bottom : 40px;
+    text-align: center;
 }
-.course_progress {
-    align-self: end;
-    background-color: white;
-    width: 80%;
-    height: 5px;
-    border-radius: 2px;
-}
-.course_progress_value{
-    width: 50%;
-    background-color: #1dc078;
-    height: 100%;
-    border-radius: 2px;
-}
+.progress_wrap{width: 80%; display: flex; justify-content: center;}
+.course_progress_data{display: flex; width: 100%; background-color: #fff !important; color : #1dc078; border-radius: 3px; height: 6px;}
+.course_progress_data::-webkit-progress-bar{display: flex; width: 100%; background-color: #fff !important; color : #1dc078; border-radius: 3px; height: 6px;}
+.course_progress_data::-moz-progress-bar{display: flex; width: 100%; background-color: #fff !important; color : #1dc078; border-radius: 3px; height: 6px;}
+.course_progress_data::-webkit-progress-value{display: flex; background-color: #1dc078; border-radius: 3px;}
 .course_img{
     width: 100%;
     height: 100%;
