@@ -61,6 +61,7 @@
 .question_button_template{ padding: 12px 60px; margin-left: 8px; border: 1px solid #DEE2E6; border-radius: 4px; cursor: pointer;}
 .question_cancel{color: #343A40; background-color: white;}
 .question_submit{color: white; background-color: #1dc078;}
+.tox-mbtn__select-label{color: #343A40 !important;}
 
 /* 해시태그 */
 .hashtag_value{display: flex;}

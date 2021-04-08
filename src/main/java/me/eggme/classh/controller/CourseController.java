@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/course")
@@ -49,17 +50,27 @@ public class CourseController {
         Course course = courseService.createCourseDefault(courseName, email);
         CourseDTO courseDTO = course.of();
         model.addAttribute("course", courseDTO);
-        model.addAttribute("category", categories);
+        model.addAttribute("categories", categories);
         model.addAttribute("level", levels);
+        model.addAttribute("category", "course_info");
         return "course/addCourse";
     }
 
     // 내 강의 보기 강사만 입장 가능 (강의소개)
     @GetMapping(value = "/{url}")
-    public String updateCourse(@PathVariable String url, Model model){
+    public String updateCourse(@PathVariable String url, Model model, HttpSession session){
         Course course = courseService.getCourse(url);
-        CourseDTO courseDTO = course.of();
-        model.addAttribute("course", courseDTO);
+        Member member = null;
+        try{
+            String username = session.getAttribute("username").toString();
+            member = memberService.loadUser(username);
+        }catch (NullPointerException n){
+            log.info("guest 가 강의를 보는 중");
+        }
+        if(member != null){
+            model.addAttribute("member", member.of());
+        }
+        model.addAttribute("course", course.of());
         return "information/courseInfo/info";
     }
 
@@ -100,10 +111,11 @@ public class CourseController {
 
     // 강의 만들기에서 다이렉트로 상세소개 클릭 시
     @GetMapping(value="/{id}/description")
-    public String courseDecriptionView(@PathVariable Long id, Model model){
+    public String courseDescriptionView(@PathVariable Long id, Model model){
         Course course = courseService.getCourse(id);
         CourseDTO courseDTO = course.of();
         model.addAttribute("course", courseDTO);
+        model.addAttribute("category", "description");
         return "course/courseDescription";
     }
 
@@ -113,12 +125,15 @@ public class CourseController {
                               @RequestParam(value = "courseCategory", required = false) CourseCategory courseCategory,
                               @RequestParam(value = "courseLevel",  required = false) CourseLevel courseLevel,
                               @RequestParam(value = "recommendations",  required = false) List<Recommendation> recommendations,
-                              @RequestParam(value = "tags",  required = false) List<Tag> tags,
+                              @RequestParam(value = "tags",  required = false) List<SkillTag> skillTags,
                               Model model){
-
-        Course editedCourse = courseService.editCourse(course, courseCategory, courseLevel, recommendations, tags);
+        log.info("recommendations size - " + recommendations.size());
+        log.info("tags size - " + skillTags.size());
+        log.info(skillTags.stream().map(st -> st.getValue()).collect(Collectors.joining(", ")));
+        Course editedCourse = courseService.editCourse(course, courseCategory, courseLevel, recommendations, skillTags);
         CourseDTO courseDTO = editedCourse.of();
         model.addAttribute("course", courseDTO);
+        model.addAttribute("category", "description");
         return "course/courseDescription";
     }
 
@@ -127,6 +142,7 @@ public class CourseController {
     public String courseCurriculumView(@PathVariable Long id, Model model){
         Course course = courseService.getCourse(id);
         model.addAttribute("course", course);
+        model.addAttribute("category", "curriculum");
         return "course/courseCurriculumn";
     }
 
@@ -135,6 +151,7 @@ public class CourseController {
     public String saveCourseDescription(@ModelAttribute Course course, Model model){
         Course updatedCourse = courseService.editCourse(course);
         model.addAttribute("course", updatedCourse);
+        model.addAttribute("category", "curriculum");
         return "course/courseCurriculumn";
     }
 
@@ -183,12 +200,28 @@ public class CourseController {
         return courseClassDTO;
     }
 
+    // 수강생이 강의 정보에서 리뷰를 입력함
+    @PostMapping(value = "/{id}/add/review")
+    public String addCourseReview(@PathVariable Long id,
+                                  @RequestParam int rate,
+                                  @RequestParam String reviewContent,
+                                  Model model,
+                                  HttpSession session){
+        String username = session.getAttribute("username").toString();
+        Course course = courseService.saveCourseReview(id, username, rate, reviewContent);
+        Member member = memberService.loadUser(username);
+        model.addAttribute("member", member.of());
+        model.addAttribute("course", course.of());
+        return "information/courseInfo/info";
+    }
+
     // 강사가 강의를 편집하고 저장할 때 콜
     @PostMapping(value = "/edit/class/info")
     public String editCourseClassInfo(@ModelAttribute CourseClass courseClass, Model model){
         log.info(courseClass);
         Course findCourse = courseService.editCourseClass(courseClass);
         model.addAttribute("course", findCourse);
+        model.addAttribute("category", "curriculum");
         return "course/courseCurriculumn";
     }
 
@@ -207,8 +240,9 @@ public class CourseController {
         Course course = courseService.getCourse(id);
         CourseDTO courseDTO = course.of();
         model.addAttribute("course", courseDTO);
-        model.addAttribute("category", categories);
+        model.addAttribute("categories", categories);
         model.addAttribute("level", levels);
+        model.addAttribute("category", "course_info");
         return "course/addCourse";
     }
 
@@ -244,6 +278,7 @@ public class CourseController {
     public String getCourseThumbnailView(@PathVariable Long id, Model model){
         Course course = courseService.getCourse(id);
         model.addAttribute("course", course.of());
+        model.addAttribute("category", "thumbnail_");
         return "course/courseImage";
     }
     @PostMapping(value = "/{id}/upload/thumbnail")

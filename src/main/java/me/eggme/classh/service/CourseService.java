@@ -31,7 +31,7 @@ public class CourseService {
     @Autowired private CourseClassRepository courseClassRepository;
     @Autowired private SignUpCourseRepository signUpCourseRepository;
     @Autowired private RecommendationRepository recommendationRepository;
-    @Autowired private TagRepository tagRepository;
+    @Autowired private SkillTagRepository skillTagRepository;
 
     private FileUploader fileUploader;
 
@@ -167,12 +167,13 @@ public class CourseService {
      * @param courseCategory 강의 카테고리
      * @param courseLevel 강의 수준
      * @param recommendations 강의를 추천하는 사람
-     * @param tags 강의의 스킬 태그
+     * @param skillTags 강의의 스킬 태그
      * @return
      */
     @Transactional
     public Course editCourse(Course course, CourseCategory courseCategory, CourseLevel courseLevel,
-                             List<Recommendation> recommendations, List<Tag> tags){
+                             List<Recommendation> recommendations, List<SkillTag> skillTags){
+        log.info("tags size - " + skillTags.size());
         Course findCourse = courseRepository.findById(course.getId()).orElseThrow(() -> new NoSearchCourseException());
         findCourse.setName(course.getName());
         findCourse.setPrice(course.getPrice());
@@ -182,9 +183,9 @@ public class CourseService {
             if(!hasRecommendations(findCourse)) recommendations.stream().forEach(r-> findCourse.addCourseRecommendation(recommendationRepository.save(r)));
             else changeRecommendations(findCourse, recommendations);
         }
-        if(tags != null){
-            if(!hasTag(findCourse)) tags.stream().forEach(t -> findCourse.addCourseTag(tagRepository.save(t)));
-            else changeTags(course, tags);
+        if(skillTags != null){
+            if(!hasSkillTag(findCourse)) skillTags.stream().forEach(st -> findCourse.addSkillTag(skillTagRepository.save(st)));
+            else changeSkillTags(findCourse, skillTags);
         }
         return findCourse;
     }
@@ -273,6 +274,24 @@ public class CourseService {
     }
 
     /***
+     * 수강생이 강의의 수강평을 올림
+     * @param course_id
+     * @param rate
+     * @param reviewContent
+     */
+    @Transactional
+    public Course saveCourseReview(Long course_id, String username, int rate, String reviewContent) {
+        Member member = memberRepository.findByEmail(username).orElseThrow(() -> new EmailExistedException(username));
+        Course findCourse = courseRepository.findById(course_id).orElseThrow(() -> new NoSearchCourseException());
+        CourseReview courseReview = new CourseReview();
+        courseReview.setRate(rate);
+        courseReview.setReviewContent(reviewContent);
+        findCourse.addCourseReview(courseReview);
+        member.addCourseReview(courseReview);
+        return findCourse;
+    }
+
+    /***
      * 강사가 수업을 편집하고 최종 저장할 때 호출
      * @param courseClass
      */
@@ -307,18 +326,19 @@ public class CourseService {
         return course.getRecommendations().size() == 0 ? false : true;
     }
 
-    private boolean hasTag(Course course){
-        return course.getTags().size() == 0 ? false : true;
+    private boolean hasSkillTag(Course course){
+        log.info("course tags size - " + course.getSkillTags().size());
+        return course.getSkillTags().size() == 0 ? false : true;
     }
 
     @Transactional
-    protected void changeTags(Course course, List<Tag> tags){
-        tags.stream().forEach(t-> {
-            t.setCourse(course);
-            tagRepository.save(t);
+    protected void changeSkillTags(Course course, List<SkillTag> skillTags){
+        skillTags.stream().forEach(st-> {
+            st.setCourse(course);
+            skillTagRepository.save(st);
         });
-        course.getTags().clear();
-        course.getTags().addAll(tags);
+        course.getSkillTags().clear();
+        course.getSkillTags().addAll(skillTags);
     }
 
     @Transactional

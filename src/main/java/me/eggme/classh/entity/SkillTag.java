@@ -9,13 +9,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+/***
+ *  강의 등록 시 스킬태그에 들어갈 목록
+ */
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString(exclude = "course")
 @EqualsAndHashCode(exclude = "course")
-public class Tag {
+public class SkillTag {
 
     @Id @GeneratedValue
     private Long id;

@@ -273,7 +273,6 @@ function StudyFileUpload(file) {
     });
 }
 
-
 // 수업 영상 업로드
 function fileUpload(file) {
     console.log($(this));
@@ -305,12 +304,21 @@ function fileUpload(file) {
                 processData: false,
                 contentType: false,
                 cache: false,
+                xhr: function(){
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", function(evt){
+                        console.log(evt.lengthComputable);
+                        if(evt.lengthComputable){
+                            var percentComplete = (evt.loaded / evt.total) * 100;
+                            console.log(percentComplete);
+                            $('.upload-name').val("업로드 중입니다..."+percentComplete+"%");
+                        }
+                    }, false);
+                    return xhr;
+                },
                 success: function (result) {
                     $('.upload-name').val(result.mediaPath);
                     $('.mediaPath').val(result.mediaPath);
-                },
-                beforeSend: function () {
-                    $('.upload-name').val('업로드 중입니다...');
                 },
                 error: function (e) {
                     console.log("error by" + e);

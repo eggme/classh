@@ -51,7 +51,7 @@ public class Member extends BaseTimeEntity{
 
     // 내가 듣고 있는 강의들
     @JsonManagedReference
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<SignUpCourse> signUpCourses = new ArrayList<>();
 
     // 내가 수업하고 있는 강의들
@@ -61,7 +61,7 @@ public class Member extends BaseTimeEntity{
 
     // 내가 올린 강의 리뷰
     @JsonManagedReference
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<CourseReview> courseReviews = new ArrayList<>();
 
     @Builder
@@ -81,5 +81,16 @@ public class Member extends BaseTimeEntity{
         signUpCourse.setMember(this);
         course.getSignUpCourses().add(signUpCourse);
         signUpCourse.setCourse(course);
+    }
+
+    // 편의 메서드 해당 강의에 수강평을 등록했는지 여부
+    public boolean isRegisteredReview(Course course){
+        boolean isRegistered = courseReviews.stream().anyMatch(c -> c.getCourse().getId() == course.getId());
+        return isRegistered;
+    }
+
+    public void addCourseReview(CourseReview courseReview){
+        this.courseReviews.add(courseReview);
+        courseReview.setMember(this);
     }
 }

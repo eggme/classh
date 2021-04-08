@@ -31,6 +31,7 @@ public class CourseSection {
     // 섹션이 가지고 있는 수업들
     @JsonManagedReference
     @OneToMany(mappedBy = "courseSection", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OrderBy("id asc")
     private List<CourseClass> courseClasses = new ArrayList<>();
 
     // 어느 강의에 포함되는지 정함

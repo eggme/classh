@@ -54,7 +54,7 @@ public class Course extends BaseTimeEntity{
     // 강의의 태그를 동적으로 늘릴 수 있음
     @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Tag> tags = new ArrayList<>();
+    private List<SkillTag> skillTags = new ArrayList<>();
 
     // 강의의 추천하는 사람의 정보
     @JsonManagedReference
@@ -82,6 +82,17 @@ public class Course extends BaseTimeEntity{
     @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<CourseReview> courseReviews = new ArrayList<>();
+
+    // 강의 공지사항
+    @JsonManagedReference
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<CourseNotice> courseNotices = new ArrayList<>();
+
+    // 강의 자체 관련 태그 1:N 단방향
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="COURSE_TAG_ID")
+    private List<CourseTag> courseTags = new ArrayList<>();
 
     public Course(String name){
         this.name = name;
@@ -138,9 +149,15 @@ public class Course extends BaseTimeEntity{
         recommendation.setCourse(this);
     }
 
+    // 편의 메서드 리뷰 등록
+    public void addCourseReview(CourseReview courseReview){
+        this.courseReviews.add(courseReview);
+        courseReview.setCourse(this);
+    }
+
     // 편의 메서드 태그 등록
-    public void addCourseTag(Tag tag){
-        this.tags.add(tag);
-        tag.setCourse(this);
+    public void addSkillTag(SkillTag skillTag){
+        this.skillTags.add(skillTag);
+        skillTag.setCourse(this);
     }
 }

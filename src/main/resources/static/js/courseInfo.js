@@ -9,11 +9,15 @@ $(function () {
     $('.star_rate_ul li').click(function(){
         var list = $(this).parent().children();
         $(this).parent().children().removeClass('star_fill');
+        $(this).parent().children().remove(".rate_dynamic");
         var index = $(this).index();
         console.log(index);
+        var count = 0;
         for(var i = 0; i < (index+1); i++){
             $(list[i]).addClass('star_fill');
+            count++;
         }
+        $(this).parent().append("<input type='hidden' name='rate' value='"+count+"' class='rate_dynamic'/>");
     });
     /* 모두 펼치기 / 모두 닫기 버튼 이벤트 */
     $('.curriculum_close_button').click(function(){
@@ -106,6 +110,10 @@ $(function () {
     $('.question_submit').click(function(){
         $('.question_form').css('display','none');
         addQuestion();
+    });
+
+    $('.review_submit').click(function(){
+        $('.review_real_form').submit();
     });
 });
 

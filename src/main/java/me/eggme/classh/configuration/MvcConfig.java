@@ -3,18 +3,15 @@ package me.eggme.classh.configuration;
 import me.eggme.classh.converter.RecommendationFormatter;
 import me.eggme.classh.converter.StringToCourseCategoryConverter;
 import me.eggme.classh.converter.StringToCourseLevelConverter;
-import me.eggme.classh.converter.TagFormatter;
+import me.eggme.classh.converter.SkillTagFormatter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestAttributeMethodArgumentResolver;
-
-import java.util.List;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
@@ -40,6 +37,6 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addConverter(new StringToCourseCategoryConverter());
         registry.addConverter(new StringToCourseLevelConverter());
         registry.addFormatter(new RecommendationFormatter());
-        registry.addFormatter(new TagFormatter());
+        registry.addFormatter(new SkillTagFormatter());
     }
 }

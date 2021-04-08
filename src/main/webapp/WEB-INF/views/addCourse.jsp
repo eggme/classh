@@ -41,7 +41,7 @@
         <div class="course_tag_hidden"></div>
         <%--  스킬 태그 및 추천인 세팅 하면됩니다, jstl if 로 스크립트로 전송해야할듯     <c:if test></c:if>--%>
         <script>
-            <c:forEach var="skillTag" items="${course.tags}" varStatus="status">
+            <c:forEach var="skillTag" items="${course.skillTags}" varStatus="status">
                     setSkillTag('${skillTag.value}');
             </c:forEach>
         </script>
@@ -61,7 +61,7 @@
         <p class="input_des">카테고리</p>
         <div class="tag_container category">
             <input type="hidden" name="courseCategory" class="courseCategory" value=""/>
-            <c:forEach var="course_category" items="${category}" varStatus="status">
+            <c:forEach var="course_category" items="${categories}" varStatus="status">
                 <c:choose>
                     <c:when test="${course.courseCategory.value eq course_category.value}">
                         <div class="tag_box category_box category_actived"><c:out value="${course_category.value}"/></div>

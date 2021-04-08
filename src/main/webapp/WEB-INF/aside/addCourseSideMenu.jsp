@@ -8,14 +8,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <link rel="stylesheet" href="/css/aside/addCourseSideMenu.css" >
+<script type="text/javascript">
+    function activeButtonSet(value){
+        $('.items').children().removeClass('active');
+        $('.'+value).addClass('active');
+    }
+</script>
 <aside class="main_aside">
     <h2 class="item_title">강의 제작</h2>
     <ul class="items">
-        <li class="active"><a href="/course/${course.id}/edit/course_info"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;강의정보</a>
-        </li>
-        <li><a href="/course/${course.id}/description"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;상세소개</a></li>
-        <li><a href="/course/${course.id}/curriculum"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;커리큘럼</a></li>
-        <li><a href="/course/${course.id}/thumbnail"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;커버 이미지</a></li>
+        <li class="course_info active"><a href="/course/${course.id}/edit/course_info"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;강의정보</a></li>
+        <li class="description"><a href="/course/${course.id}/description"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;상세소개</a></li>
+        <li class="curriculumn"><a href="/course/${course.id}/curriculum"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;커리큘럼</a></li>
+        <li class="thumbnail_ "><a href="/course/${course.id}/thumbnail"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;커버 이미지</a></li>
+        <script>
+            activeButtonSet('${category}');
+        </script>
     </ul>
     <br/>
     <br/>

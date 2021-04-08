@@ -131,6 +131,16 @@
         <div class="video_bg">
             <div class="min_height">
                 <video id="myPlayer" class="video-js vjs-default-skin vjs-fill"></video>
+                <div class="hidden video_ended">
+                    <div class="course_ended_alert">
+                        <div class="course_next_title">[다음 수업]</div>
+                        <div class="course_next_name">adsasdsad</div>
+                        <div class="replay_and_next">
+                            <div class="replay next_button_template">수업 다시보기 <i class="fas fa-redo"></i></div>
+                            <div class="next next_button_template">다음 수업보기 <i class="fas fa-play"></i></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <c:if test="${!empty courseClass.mediaPath}">
                 <script>

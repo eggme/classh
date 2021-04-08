@@ -17,6 +17,10 @@ $(function(){
            $(target).addClass('closed');
        }
    });
+   $('.replay').click(function(){
+       $('.video_ended').addClass('hidden');
+      player.currentTime(0);
+   });
 });
 
 function createClassContent(name, class_id, sectionCode, classCode, study_time){
@@ -67,6 +71,9 @@ function loadVideoJS() {
         playsinline: true,
         autoplay: true,
         preload: 'metadata'
+    });
+    player.on("ended", function(){
+        $('.video_ended').removeClass('hidden');
     });
     // player.currentTime(start_time);
 }

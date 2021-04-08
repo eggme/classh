@@ -42,11 +42,11 @@
                     </div>
                     <div class="data_area">
                         <c:choose>
-                            <c:when test="${fn:length(course.tags) > 0}">
-                                <c:forEach var="tag" items="${course.tags}" varStatus="status">
+                            <c:when test="${fn:length(course.skillTags) > 0}">
+                                <c:forEach var="skillTag" items="${course.skillTags}" varStatus="status">
                                     <div class="tag_${status.index} flex_column">
                                         <div class="icon"><i class="fas fa-check"></i></div>
-                                        <div class="data_text">${tag.value}</div>
+                                        <div class="data_text">${skillTag.value}</div>
                                     </div>
                                 </c:forEach>
                             </c:when>
@@ -77,7 +77,7 @@
                         </div>
                         <div class="data_area">
                             <c:choose>
-                                <c:when test="${fn:length(course.tags) > 0}">
+                                <c:when test="${fn:length(course.recommendations) > 0}">
                                     <c:forEach var="recommed" items="${course.recommendations}" varStatus="status">
                                         <div class="recommendation_${status.index} flex_column">
                                             <div class="icon"><i class="fas fa-check"></i></div>
@@ -201,27 +201,87 @@
                     <div class="review_title">수강평</div>
                     <div class="review_sub_title">수강생분들이 직접 작성하신 수강평입니다. 수강평을 작성 시 300잎이 적립됩니다.</div>
                 </div>
-                <div class="review_form">
-                    <div class="review_rate">
-                        <div class="rate_area">
-                            <ul class="star_rate_ul">
-                                <li class="rate_1"><i class="fas fa-star"></i></li>
-                                <li class="rate_2"><i class="fas fa-star"></i></li>
-                                <li class="rate_3"><i class="fas fa-star"></i></li>
-                                <li class="rate_4"><i class="fas fa-star"></i></li>
-                                <li class="rate_5"><i class="fas fa-star"></i></li>
-                            </ul>
+                <c:choose>
+                    <c:when test="false">
+                        <div class="review_list_form">
+                            <div class="review_list_filter">
+                                <div class="review_list_filter_title review_list_template">VIEW</div>
+                                <div class="review_list_filter_divider"></div>
+                                <div class="review_list_filter_like review_list_template"><span class="separator highlight_active">· </span><span class="review_list_menu_title">좋아요 순</span></div>
+                                <div class="review_list_filter_recently review_list_template"><span class="separator">· </span><span class="review_list_menu_title">최신 순</span></div>
+                                <div class="review_list_filter_high_rate review_list_template"><span class="separator">· </span><span class="review_list_menu_title">높은 평점 순</span></div>
+                                <div class="review_list_filter_low_rate review_list_template"><span class="separator">· </span><span class="review_list_menu_title">낮은 평점 순</span></div>
+                            </div>
+                            <div class="review_list_content">
+                                <div class="reviewer_form">
+                                    <div class="reviewer_content">
+                                        <div claass="reviewer_profile">
+                                            <div class="image_wrapper">
+                                                <img class="reviewer_profile_img" src="/imgs/mini_icon_1.png">
+                                            </div>
+                                        </div>
+                                        <div class="reviewer_content_value">
+                                            <div class="review_rate_wrap">
+                                                <div class="review_rate_value">
+                                                    <ul class="reviewer_star_rate_ul">
+                                                        <li class="rate_1"><i class="fas fa-star"></i></li>
+                                                        <li class="rate_2"><i class="fas fa-star"></i></li>
+                                                        <li class="rate_3"><i class="fas fa-star"></i></li>
+                                                        <li class="rate_4"><i class="fas fa-star"></i></li>
+                                                        <li class="rate_5"><i class="fas fa-star"></i></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="review_rate_count"></div>
+                                            </div>
+                                            <div class="reviewer_name">승준</div>
+                                        </div>
+                                    </div>
+                                    <div class="reviewer_comment">
+                                        asdasdasda
+                                    </div>
+                                    <div class="reviewer_created_date">
+                                        <div class="created_date_wrap">
+                                            <div class="review_date">2021-03-29</div>
+                                            <div class="review_recommendation">
+                                                · 답글 작성
+                                            </div>
+                                        </div>
+                                        <div class="reviewer_like_wrap">
+                                            <div class="like_icon"><i class="far fa-heart"></i></div>
+                                            <div clsas="like_count">0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="sub_title_area">별점을 선택해주세요</div>
-                    </div>
-                    <div class="review_textarea_wrap">
-                        <textarea class="review_textarea"
-                                  placeholder="좋은 수강평을 남겨주시면 지식공유자와 이후 배우는 사람들에게 큰 도움이 됩니다! 포인트도 드려요!! (5자 이상)"></textarea>
-                        <div class="submit_area">
-                            <div class="review_submit">등록</div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="review_form">
+                            <form action="/course/${course.id}/add/review" method="post" class="review_real_form">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                <div class="review_rate">
+                                    <div class="rate_area">
+                                        <ul class="star_rate_ul">
+                                            <li class="rate_1"><i class="fas fa-star"></i></li>
+                                            <li class="rate_2"><i class="fas fa-star"></i></li>
+                                            <li class="rate_3"><i class="fas fa-star"></i></li>
+                                            <li class="rate_4"><i class="fas fa-star"></i></li>
+                                            <li class="rate_5"><i class="fas fa-star"></i></li>
+                                        </ul>
+                                    </div>
+                                    <div class="sub_title_area">별점을 선택해주세요</div>
+                                </div>
+                                <div class="review_textarea_wrap">
+                                    <textarea class="review_textarea" name="reviewContent"
+                                        placeholder="좋은 수강평을 남겨주시면 지식공유자와 이후 배우는 사람들에게 큰 도움이 됩니다! 포인트도 드려요!! (5자 이상)"></textarea>
+                                    <div class="submit_area">
+                                        <div class="review_submit">등록</div>
+                                    </div>
+                            </div>
+                            </form>
                         </div>
-                    </div>
-                </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </div>
@@ -263,4 +323,3 @@
         </div>
     </div>
 </div>
-

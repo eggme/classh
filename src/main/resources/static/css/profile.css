@@ -12,3 +12,4 @@
 .save_container{display: flex; justify-content: center; min-height: 50px; padding-bottom: 10px; margin-top: 40px;}
 .save_button{display: inline-flex; align-self: center; color: white; background-color: #1dc078; border-radius: 8px; font-size: 14px; font-weight: 700; width: 100%; max-width: 280px; min-height: 40px; align-items: center; justify-content: center; cursor: pointer;}
 .margin_bottom_24{margin-bottom: 24px;}
+.tox-mbtn__select-label{color: #343A40 !important;}

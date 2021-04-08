@@ -23,7 +23,7 @@ public class CourseDTO {
     private List<SignUpCourse> signUpCourses;
     private Instructor instructor;
     private List<CourseSection> courseSections;
-    private List<Tag> tags;
+    private List<SkillTag> skillTags;
     private List<Recommendation> recommendations;
     private CourseLevel courseLevel;
     private CourseCategory courseCategory;
