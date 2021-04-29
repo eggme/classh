@@ -1,6 +1,6 @@
 package me.eggme.classh.service;
 
-import me.eggme.classh.entity.Member;
+import me.eggme.classh.domain.entity.Member;
 import me.eggme.classh.exception.EmailExistedException;
 import me.eggme.classh.repository.MemberRepository;
 import me.eggme.classh.utils.FileUploadFactory;
@@ -8,18 +8,17 @@ import me.eggme.classh.utils.FileUploader;
 import me.eggme.classh.utils.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.File;
-import java.io.FileOutputStream;
 
 @Service
 public class MemberBoardService {
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -31,12 +30,12 @@ public class MemberBoardService {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EmailExistedException(email));
         String password = member.getPassword();
         if(validatePassword(current_pw, password)){
-            member.setPassword(bCryptPasswordEncoder.encode(new_pw));
+            member.setPassword(passwordEncoder.encode(new_pw));
         }
     }
 
     private boolean validatePassword(String input_pw, String password){
-        if(bCryptPasswordEncoder.matches(input_pw, password))
+        if(passwordEncoder.matches(input_pw, password))
             return true;
         return false;
     }

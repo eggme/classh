@@ -1,7 +1,7 @@
 package me.eggme.classh.repository;
 
-import me.eggme.classh.entity.Instructor;
-import me.eggme.classh.entity.Member;
+import me.eggme.classh.domain.entity.Instructor;
+import me.eggme.classh.domain.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

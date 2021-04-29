@@ -1,4 +1,4 @@
-<%@ page import="me.eggme.classh.entity.Course" %><%--
+<%@ page import="me.eggme.classh.domain.entity.Course" %><%--
   Created by IntelliJ IDEA.
   User: kyyet
   Date: 2021-03-18

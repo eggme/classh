@@ -1,11 +1,13 @@
 package me.eggme.classh.controller;
 
 import com.google.gson.JsonObject;
-import lombok.extern.log4j.Log4j2;
-import me.eggme.classh.dto.*;
-import me.eggme.classh.entity.*;
+import lombok.extern.slf4j.Slf4j;
+import me.eggme.classh.domain.dto.*;
+import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.service.CourseService;
 import me.eggme.classh.service.MemberService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/course")
-@Log4j2
+@Slf4j
 public class CourseController {
 
     @Autowired
@@ -80,7 +82,7 @@ public class CourseController {
         Course course = courseService.getCourse(url);
         CourseDTO courseDTO = course.of();
         model.addAttribute("course", courseDTO);
-        log.info(courseDTO);
+        log.info(courseDTO.toString());
         return "information/courseDashboard/dashboard";
     }
 
@@ -218,7 +220,7 @@ public class CourseController {
     // 강사가 강의를 편집하고 저장할 때 콜
     @PostMapping(value = "/edit/class/info")
     public String editCourseClassInfo(@ModelAttribute CourseClass courseClass, Model model){
-        log.info(courseClass);
+        log.info(courseClass.toString());
         Course findCourse = courseService.editCourseClass(courseClass);
         model.addAttribute("course", findCourse);
         model.addAttribute("category", "curriculum");
@@ -260,6 +262,14 @@ public class CourseController {
         return "instructor/instructorDashboard";
     }
 
+    /**
+     * 강의 상세 정보 입력에서 에디터로 사진 업로드 시 호출
+     * @param multipartFile 사진 file 객체
+     * @param request 페이지 요청 request 객체
+     * @return
+     * @throws IOException
+     */
+
     @PostMapping(value = "/upload/img")
     @ResponseBody
     public String uploadDescriptionImage(@RequestParam(value = "file")MultipartFile multipartFile,
@@ -274,6 +284,12 @@ public class CourseController {
         return jsonObject.toString();
     }
 
+    /**
+     * 해당 강의 썸네일 요청
+     * @param id 해당 강의의 pk
+     * @param model 데이터를 담을 model 객체
+     * @return
+     */
     @GetMapping(value = "/{id}/thumbnail")
     public String getCourseThumbnailView(@PathVariable Long id, Model model){
         Course course = courseService.getCourse(id);
@@ -281,6 +297,15 @@ public class CourseController {
         model.addAttribute("category", "thumbnail_");
         return "course/courseImage";
     }
+
+    /** Ajax로 강의 썸네일 업로드
+     *
+     * @param multipartFile 이미지 file 객체
+     * @param id 해당하는 강의의 pk
+     * @param request 페이지 요청 request 객체
+     * @return
+     * @throws IOException
+     */
     @PostMapping(value = "/{id}/upload/thumbnail")
     @ResponseBody
     public CourseDTO uploadCourseThumbnail(@RequestParam(value = "file") MultipartFile multipartFile,
@@ -293,7 +318,7 @@ public class CourseController {
 
         Course course = courseService.saveCourseThumbnail(id, file);
         CourseDTO courseDTO = course.of();
-        log.info(courseDTO);
+        log.info(courseDTO.toString());
         return courseDTO;
     }
 }

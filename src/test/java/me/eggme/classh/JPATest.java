@@ -1,9 +1,9 @@
 package me.eggme.classh;
 
-import me.eggme.classh.dto.MemberDTO;
-import me.eggme.classh.entity.Course;
-import me.eggme.classh.entity.Instructor;
-import me.eggme.classh.entity.Member;
+import me.eggme.classh.domain.dto.MemberDTO;
+import me.eggme.classh.domain.entity.Course;
+import me.eggme.classh.domain.entity.Instructor;
+import me.eggme.classh.domain.entity.Member;
 import me.eggme.classh.repository.CourseRepository;
 import me.eggme.classh.repository.InstructorRepository;
 import me.eggme.classh.repository.MemberRepository;

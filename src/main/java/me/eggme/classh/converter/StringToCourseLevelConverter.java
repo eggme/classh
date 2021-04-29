@@ -1,6 +1,6 @@
 package me.eggme.classh.converter;
 
-import me.eggme.classh.dto.CourseLevel;
+import me.eggme.classh.domain.dto.CourseLevel;
 import org.springframework.core.convert.converter.Converter;
 
 public class StringToCourseLevelConverter implements Converter<String, CourseLevel> {

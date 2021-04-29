@@ -1,6 +1,6 @@
 package me.eggme.classh.converter;
 
-import me.eggme.classh.entity.SkillTag;
+import me.eggme.classh.domain.entity.SkillTag;
 import org.springframework.format.Formatter;
 
 import java.text.ParseException;

@@ -1,12 +1,10 @@
 package me.eggme.classh.controller;
 
-import lombok.extern.log4j.Log4j2;
-import me.eggme.classh.dto.CourseClassDTO;
-import me.eggme.classh.dto.CourseDTO;
-import me.eggme.classh.entity.Course;
-import me.eggme.classh.entity.CourseClass;
-import me.eggme.classh.repository.CourseRepository;
-import me.eggme.classh.repository.MemberRepository;
+import lombok.extern.slf4j.Slf4j;
+import me.eggme.classh.domain.dto.CourseClassDTO;
+import me.eggme.classh.domain.dto.CourseDTO;
+import me.eggme.classh.domain.entity.Course;
+import me.eggme.classh.domain.entity.CourseClass;
 import me.eggme.classh.service.CourseService;
 import me.eggme.classh.service.MemberService;
 import me.eggme.classh.service.StudyService;
@@ -19,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping(value = "/study")
-@Log4j2
+@Slf4j
 public class StudyController {
 
     @Autowired

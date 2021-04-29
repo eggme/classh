@@ -1,10 +1,10 @@
 package me.eggme.classh.service;
 
-import lombok.extern.log4j.Log4j2;
-import me.eggme.classh.dto.CourseCategory;
-import me.eggme.classh.dto.CourseClassDTO;
-import me.eggme.classh.dto.CourseLevel;
-import me.eggme.classh.entity.*;
+import lombok.extern.slf4j.Slf4j;
+import me.eggme.classh.domain.dto.CourseCategory;
+import me.eggme.classh.domain.dto.CourseClassDTO;
+import me.eggme.classh.domain.dto.CourseLevel;
+import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.exception.EmailExistedException;
 import me.eggme.classh.exception.NoSearchCourseClassException;
 import me.eggme.classh.exception.NoSearchCourseException;
@@ -21,7 +21,7 @@ import java.io.File;
 import java.util.List;
 
 @Service
-@Log4j2
+@Slf4j
 public class CourseService {
 
     @Autowired private CourseRepository courseRepository;

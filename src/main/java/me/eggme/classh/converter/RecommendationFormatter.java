@@ -1,6 +1,6 @@
 package me.eggme.classh.converter;
 
-import me.eggme.classh.entity.Recommendation;
+import me.eggme.classh.domain.entity.Recommendation;
 import org.springframework.format.Formatter;
 
 import java.text.ParseException;

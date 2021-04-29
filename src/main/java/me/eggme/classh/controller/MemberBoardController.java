@@ -1,8 +1,8 @@
 package me.eggme.classh.controller;
 
-import lombok.extern.log4j.Log4j2;
-import me.eggme.classh.dto.MemberDTO;
-import me.eggme.classh.entity.Member;
+import lombok.extern.slf4j.Slf4j;
+import me.eggme.classh.domain.dto.MemberDTO;
+import me.eggme.classh.domain.entity.Member;
 import me.eggme.classh.service.MemberBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,11 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.io.IOException;
 
 @Controller
 @RequestMapping(value = "/member")
-@Log4j2
+@Slf4j
 public class MemberBoardController {
 
     @Autowired
