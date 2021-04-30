@@ -25,7 +25,7 @@
                     <p class="course_short_desc">
                         <c:choose>
                             <c:when test="${!empty course.shortDesc}">
-                                ${course.shortDesc}
+                                <c:out value="${course.shortDesc}" />
                             </c:when>
                             <c:otherwise>
                                 테스트용 강의입니다.
@@ -46,7 +46,7 @@
                                 <c:forEach var="skillTag" items="${course.skillTags}" varStatus="status">
                                     <div class="tag_${status.index} flex_column">
                                         <div class="icon"><i class="fas fa-check"></i></div>
-                                        <div class="data_text">${skillTag.value}</div>
+                                        <div class="data_text"><c:out value="${skillTag.value}" /></div>
                                     </div>
                                 </c:forEach>
                             </c:when>
@@ -81,7 +81,7 @@
                                     <c:forEach var="recommed" items="${course.recommendations}" varStatus="status">
                                         <div class="recommendation_${status.index} flex_column">
                                             <div class="icon"><i class="fas fa-check"></i></div>
-                                            <div class="data_text">${recommed.value}</div>
+                                            <div class="data_text"><c:out value="${recommed.value}"/></div>
                                         </div>
                                     </c:forEach>
                                 </c:when>
@@ -104,7 +104,7 @@
                         <div class="hello_title">안녕하세요</div>
                         <div class="instructor_name_wrap">
                             <span class="underline_course"><c:out
-                                    value="${course.instructor.member.name}"></c:out> <i
+                                    value="${course.instructor.member.nickName}"></c:out> <i
                                     class="fas fa-external-link-alt"></i></span>입니다.
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                 </div>
                 <div class="instructor_selfIntroduce">
                     <div class="introduce_value">
-                        ${course.instructor.member.selfIntroduce}
+                        <c:out value="${course.instructor.member.selfIntroduce}"/>
                     </div>
                 </div>
             </div>
@@ -146,7 +146,7 @@
                             </script>
                             <c:forEach var="course_class" items="${section.courseClasses}" varStatus="class_status">
                                 <c:choose>
-                                    <c:when test="${course_class.status eq true}">
+                                    <c:when test="${course_class.preview eq true}">
                                         <script>
                                             classSetting('${class_status.index}', '${course_class.name}', '${course_class.seconds}', '.section_class_${section_status.index}', true, '${course_class.id}', '${course.id}');
                                         </script>
@@ -302,8 +302,8 @@
                 </div>
             </div>
             <div class="course_subtext">
-                <div class="top_margin">지식공유자 : <span class="instructor_name_tab"><c:out
-                        value="${course.instructor.member.name}"></c:out></span></div>
+                <div class="top_margin">지식공유자 : <span class="instructor_name_tab">
+                    <c:out value="${course.instructor.member.nickName}"></c:out></span></div>
                 <%--  총 수업 수 구하는 로직 --%>
                 <c:set var="total_section_class_count" value="0"/>
                 <c:forEach var="section" items="${course.courseSections}" varStatus="status">
@@ -311,14 +311,14 @@
                         <c:set var="total_section_class_count" value="${total_section_class_count + 1}"/>
                     </c:forEach>
                 </c:forEach>
-                <div class="top_margin ">총 <span class="total_class"><c:out
-                        value="${total_section_class_count}"></c:out></span>개 수업 · 총 <span class="course_total_time">
+                <div class="top_margin ">총 <span class="total_class">
+                    <c:out value="${total_section_class_count}"></c:out></span>개 수업 · 총 <span class="course_total_time">
                     <script>timeFormatKorWrapper('${course.getTotalTime()}', '.course_total_time');</script>
                 </span>
                 </div>
                 <div class="top_margin">기간 : 평생 무제한 시청</div>
                 <div class="top_margin">수료증 : 발급 강의</div>
-                <div class="top_margin">수강 난이도 : <span class="course_level">${course.courseLevel.value}</span></div>
+                <div class="top_margin">수강 난이도 : <span class="course_level"><c:out value="${course.courseLevel.value}"/></span></div>
             </div>
         </div>
     </div>

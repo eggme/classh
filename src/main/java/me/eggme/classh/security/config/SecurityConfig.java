@@ -1,5 +1,6 @@
 package me.eggme.classh.security.config;
 
+import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.security.factory.UrlResourcesMapFactoryBean;
 import me.eggme.classh.security.filter.PermitAllFilter;
 import me.eggme.classh.security.handler.CustomAccessDeniedHandler;
@@ -7,6 +8,7 @@ import me.eggme.classh.security.handler.CustomAuthenticationFailureHandler;
 import me.eggme.classh.security.handler.CustomAuthenticationSuccessHandler;
 import me.eggme.classh.security.handler.CustomLogoutSuccessHandler;
 import me.eggme.classh.security.metadatasource.UrlFilterInvocationSecurityMetadataSource;
+import me.eggme.classh.security.provider.CustomAuthenticationProvider;
 import me.eggme.classh.security.service.SecurityResourceService;
 import me.eggme.classh.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +43,6 @@ import java.util.List;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-    @Autowired
-    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
-    @Autowired
     private CustomLogoutSuccessHandler customLogoutSuccessHandler;
     @Autowired
     private SecurityResourceService securityResourceService;
@@ -54,6 +52,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(customAuthenticationProvider());
     }
 
     @Override
@@ -71,8 +74,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .successHandler(customAuthenticationSuccessHandler)
-                .failureHandler(customAuthenticationFailureHandler)
+                .successHandler(customAuthenticationSuccessHandler())
+                .failureHandler(customAuthenticationFailureHandler())
                 .permitAll()
         .and()
                 .logout()
@@ -84,10 +87,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler());
-
-        http.csrf().disable();
     }
 
+    @Bean
+    public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler(){
+        return new CustomAuthenticationSuccessHandler();
+    }
+
+    @Bean
+    public CustomAuthenticationFailureHandler customAuthenticationFailureHandler(){
+        return new CustomAuthenticationFailureHandler();
+    }
 
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
@@ -131,6 +141,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public FilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource() throws Exception {
         return new UrlFilterInvocationSecurityMetadataSource(urlResourcesMapFactoryBean().getObject());
+    }
+
+    @Bean
+    public CustomAuthenticationProvider customAuthenticationProvider(){
+        return new CustomAuthenticationProvider();
     }
 
     @Bean

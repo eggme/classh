@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
@@ -68,7 +69,7 @@
             </div>
             <div class="right_wrap">
                 <div class="subText_div">
-                    <div class="green_text">반갑습니다. ${username}님</div>
+                    <div class="green_text">반갑습니다. <c:out value="${username}"/>님</div>
                     <div class="subText">
                         <div class="text">호프런에서 지식공유 의사를 밝혀주셔서 정말 감사드려요 :)</div>
                         <div class="text">강의 여는 순서를 간단히 안내 드리겠습니다.</div>

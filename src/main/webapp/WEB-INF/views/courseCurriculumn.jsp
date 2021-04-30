@@ -8,6 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<sec:csrfMetaTags/>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
@@ -45,7 +47,7 @@
                     <c:set var="isPreview" value="false"/>
                     <c:set var="inVideo" value="false"/>
                     <c:set var="inFile" value="false"/>
-                    <c:if test="${course_class.status eq true}">
+                    <c:if test="${course_class.preview eq true}">
                         <c:set var="isPreview" value="true"/>
                     </c:if>
                     <c:if test="${!empty course_class.mediaPath}">
@@ -137,7 +139,7 @@
                     <div class="isPublic_wrap">
                         <div class="isPublic_title">무료공개 여부 선택</div>
                         <div class="isPublic_toggle">
-                            <input type="checkbox" id="switch" name="status" class="isPublic_toggle_input"
+                            <input type="checkbox" id="switch" name="preview" class="isPublic_toggle_input"
                                    value="true"/>
                             <label for="switch" class="isPublic_toggle_button"></label>
                             <span class="on_off toggle_off">OFF</span>

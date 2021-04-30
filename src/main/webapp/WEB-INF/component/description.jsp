@@ -28,7 +28,7 @@
                 </div>
                 <div class="play_text">
                     <div class="play_text_title">이어 학습하기</div>
-                    <div class="play_text_percent">진도율 : 0강 / ${total_section_class_count}강 (0.00%)</div>
+                    <div class="play_text_percent">진도율 : 0강 / <c:out value="${total_section_class_count}"/>강 (0.00%)</div>
                 </div>
                 <div class="video_progress">
                     <div class="progress_wrap">
@@ -48,7 +48,7 @@
                     </div>
                     <div class="instructor_information">
                         <span class="icon"><i class="fas fa-chalkboard-teacher"></i></span>
-                        <span class="instructor_name"><c:out value="${course.instructor.member.name}"></c:out></span>
+                        <span class="instructor_name"><c:out value="${course.instructor.member.nickName}"></c:out></span>
                         <span class="after_icon size12"><i class="fas fa-crown"></i></span>
                     </div>
                     <div class="skill_tag">

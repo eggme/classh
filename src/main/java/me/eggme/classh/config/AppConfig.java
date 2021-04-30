@@ -1,6 +1,6 @@
 package me.eggme.classh.config;
 
-import me.eggme.classh.repository.ResourceRepository;
+import me.eggme.classh.repository.ResourcesRepository;
 import me.eggme.classh.security.service.SecurityResourceService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
 
     @Bean
-    public SecurityResourceService securityResourceService(ResourceRepository resourceRepository){
+    public SecurityResourceService securityResourceService(ResourcesRepository resourceRepository){
         SecurityResourceService securityResourceService = new SecurityResourceService(resourceRepository);
         return securityResourceService;
     }

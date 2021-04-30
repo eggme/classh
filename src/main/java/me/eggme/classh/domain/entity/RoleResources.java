@@ -1,5 +1,6 @@
 package me.eggme.classh.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -25,9 +26,11 @@ public class RoleResources implements Serializable {
     @GeneratedValue
     private Long id;
 
+    @JsonBackReference
     @ManyToOne
     private Role role;
 
+    @JsonBackReference
     @ManyToOne
     private Resources resources;
 }

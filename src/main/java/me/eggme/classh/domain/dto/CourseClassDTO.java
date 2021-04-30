@@ -12,7 +12,7 @@ public class CourseClassDTO implements Serializable {
     private Long id;
     private String name;
     private String mediaPath;
-    private boolean status;
+    private boolean preview;
     private String dataPath;
     private int seconds;
     private String instructorMemo;

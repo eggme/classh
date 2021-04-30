@@ -71,8 +71,10 @@ public class Course extends BaseTimeEntity implements Serializable {
     private CourseCategory courseCategory;
 
     // 강의의 짧은설명
+    @Column(length = 500)
     private String shortDesc;
     // 강의의 긴 설명
+    @Column(length = 3000)
     private String longDesc;
 
     // 강의의 등록 이미지 경로

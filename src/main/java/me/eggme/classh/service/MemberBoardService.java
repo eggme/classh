@@ -7,6 +7,9 @@ import me.eggme.classh.utils.FileUploadFactory;
 import me.eggme.classh.utils.FileUploader;
 import me.eggme.classh.utils.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,8 +29,8 @@ public class MemberBoardService {
     private FileUploader fileUploader;
 
     @Transactional
-    public void changePassword(String current_pw, String new_pw, String email){
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EmailExistedException(email));
+    public void changePassword(String current_pw, String new_pw, String username){
+        Member member = memberRepository.findByUsername(username).orElseThrow(() -> new EmailExistedException(username));
         String password = member.getPassword();
         if(validatePassword(current_pw, password)){
             member.setPassword(passwordEncoder.encode(new_pw));
@@ -41,26 +44,51 @@ public class MemberBoardService {
     }
 
     @Transactional
-    public void changeName(String name, String email) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EmailExistedException(email));
-        member.setName(name);
+    public Member changeName(String name, String username) {
+        Member member = memberRepository.findByUsername(username).orElseThrow(() -> new EmailExistedException(username));
+        member.setNickName(name);
+        /*
+            시큐리티 세션 업데이트
+         */
+        Authentication beforeAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        Member authenticationObject = ((Member)beforeAuthentication.getPrincipal());
+        authenticationObject.setNickName(member.getNickName());
+        Authentication afterAuthentication = new UsernamePasswordAuthenticationToken(authenticationObject, null, beforeAuthentication.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(afterAuthentication);
+
+        return member;
     }
 
+    /***
+     * 프로필 설정에서 사용자가 이미지를 변경할 때 호출되는 메소드
+     * 파일정보를 받아서 이미지로 변경한 후 Member 엔티티에 profile 속성에 저장
+     * @param file 파일 정보
+     * @param username 해당되는 유저의 이름
+     * @throws Exception
+     */
     @Transactional
-    public void changeProfile(File file, String email) throws Exception{
+    public void changeProfile(File file, String username) throws Exception{
         fileUploader = FileUploadFactory.getFileUploader(ResourceType.IMAGE);
         String profileURL = fileUploader.saveFile(file, ResourceType.IMAGE);
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EmailExistedException(email));
+        Member member = memberRepository.findByUsername(username).orElseThrow(() -> new EmailExistedException(username));
         member.setProfile(profileURL);
+        /*
+            시큐리티 세션 업데이트
+         */
+        Authentication beforeAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        Member authenticationObject = ((Member)beforeAuthentication.getPrincipal());
+        authenticationObject.setProfile(member.getProfile());
+        Authentication afterAuthentication = new UsernamePasswordAuthenticationToken(authenticationObject, null, beforeAuthentication.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(afterAuthentication);
     }
 
-    public Member loadMember(String email) {
-        return memberRepository.findByEmail(email).orElseThrow(() -> new EmailExistedException(email));
+    public Member loadMember(String username) {
+        return memberRepository.findByUsername(username).orElseThrow(() -> new EmailExistedException(username));
     }
 
     @Transactional
-    public void changeSelfIntroduce(String self, String email) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EmailExistedException(email));
+    public void changeSelfIntroduce(String self, String username) {
+        Member member = memberRepository.findByUsername(username).orElseThrow(() -> new EmailExistedException(username));
         member.setSelfIntroduce(self);
     }
 }

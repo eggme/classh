@@ -1,8 +1,7 @@
 package me.eggme.classh.security.service;
 
 import me.eggme.classh.domain.entity.Resources;
-import me.eggme.classh.repository.ResourceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import me.eggme.classh.repository.ResourcesRepository;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -13,9 +12,9 @@ import java.util.List;
 
 public class SecurityResourceService {
 
-    private ResourceRepository resourceRepository;
+    private ResourcesRepository resourceRepository;
 
-    public SecurityResourceService(ResourceRepository resourceRepository) {
+    public SecurityResourceService(ResourcesRepository resourceRepository) {
         this.resourceRepository = resourceRepository;
     }
 

@@ -45,7 +45,7 @@ public class CourseService {
      */
     @Transactional
     public Course createCourseDefault(String courseName, String email) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EmailExistedException(email));
+        Member member = memberRepository.findByUsername(email).orElseThrow(() -> new EmailExistedException(email));
         Course course = new Course(courseName);
         Course newCourse = courseRepository.save(course);
         newCourse.setUrl("temp_"+newCourse.getId());
@@ -95,7 +95,7 @@ public class CourseService {
      * @return
      */
     public List<Course> getCourses(String email) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EmailExistedException(email));
+        Member member = memberRepository.findByUsername(email).orElseThrow(() -> new EmailExistedException(email));
         if(member.getInstructor() == null) return null;
         List<Course> courses = member.getInstructor().getCourses();
         return courses;
@@ -150,7 +150,7 @@ public class CourseService {
     protected void createDefaultSessionAndClass(Course course){
         CourseClass courseClass = new CourseClass();
         courseClass.setName("첫번째 수업을 만들어주세요");
-        courseClass.setStatus(true);
+        courseClass.setPreview(true);
         CourseClass savedCourseClass = courseClassRepository.save(courseClass);
 
         CourseSection courseSection = new CourseSection();
@@ -281,7 +281,7 @@ public class CourseService {
      */
     @Transactional
     public Course saveCourseReview(Long course_id, String username, int rate, String reviewContent) {
-        Member member = memberRepository.findByEmail(username).orElseThrow(() -> new EmailExistedException(username));
+        Member member = memberRepository.findByUsername(username).orElseThrow(() -> new EmailExistedException(username));
         Course findCourse = courseRepository.findById(course_id).orElseThrow(() -> new NoSearchCourseException());
         CourseReview courseReview = new CourseReview();
         courseReview.setRate(rate);
@@ -302,7 +302,7 @@ public class CourseService {
         findClass.setName(courseClass.getName());
         findClass.setInstructorMemo(courseClass.getInstructorMemo());
         findClass.setMediaPath(courseClass.getMediaPath());
-        findClass.setStatus(courseClass.isStatus());
+        findClass.setPreview(courseClass.isPreview());
 
         Long id = findClass.getCourseSection().getCourse().getId();
         return courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
@@ -349,5 +349,9 @@ public class CourseService {
         });
         course.getRecommendations().clear();
         course.getRecommendations().addAll(recommendations);
+    }
+
+    public boolean isPreviewCourseClass(CourseClass courseClass) {
+        return courseClass.isPreview();
     }
 }

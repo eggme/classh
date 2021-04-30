@@ -1,7 +1,7 @@
 package me.eggme.classh.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-import org.hibernate.mapping.ToOne;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,21 +15,19 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"member", "role"})
+@EqualsAndHashCode(exclude = {"member", "role"})
 public class MemberRoles implements Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @OneToOne
+    @JsonBackReference
+    @ManyToOne
     private Member member;
 
-    @OneToMany(mappedBy = "memberRoles")
-    private Set<Role> roles = new HashSet<>();
-
-    public void addRole(Role role){
-        this.roles.add(role);
-        role.setMemberRoles(this);
-    }
-
+    @JsonBackReference
+    @ManyToOne
+    private Role role;
 }

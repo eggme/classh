@@ -2,6 +2,7 @@ package me.eggme.classh.security.handler;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import me.eggme.classh.utils.ExceptionMessages;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
@@ -20,7 +21,8 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
         log.info(e.getMessage());
         e.printStackTrace();
-        String deniedUrl = errorPage + "?exception=" + e.getMessage();
+        String exception = ExceptionMessages.getErrorMsgList().get(e);
+        String deniedUrl = errorPage + "?exception=" + exception;
         httpServletResponse.sendRedirect(deniedUrl);
     }
 }

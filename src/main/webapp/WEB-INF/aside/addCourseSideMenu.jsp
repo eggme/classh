@@ -19,7 +19,7 @@
     <ul class="items">
         <li class="course_info active"><a href="/course/${course.id}/edit/course_info"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;강의정보</a></li>
         <li class="description"><a href="/course/${course.id}/description"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;상세소개</a></li>
-        <li class="curriculumn"><a href="/course/${course.id}/curriculum"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;커리큘럼</a></li>
+        <li class="curriculum"><a href="/course/${course.id}/curriculum"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;커리큘럼</a></li>
         <li class="thumbnail_ "><a href="/course/${course.id}/thumbnail"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;커버 이미지</a></li>
         <script>
             activeButtonSet('${category}');

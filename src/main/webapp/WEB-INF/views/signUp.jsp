@@ -21,14 +21,14 @@
             <div class="input_container">
                 <label class="input_label">
                     <span class="label_text">이메일</span>
-                    <input type="email" class="text_input input_email" name="email" minlength="5" required/>
+                    <input type="email" class="text_input input_email" name="username" minlength="5" required/>
                 </label>
                 <div class="email_hidden_message inline"></div>
             </div>
             <div class="input_container">
                 <label class="input_label">
                     <span class="label_text">이메일 확인</span>
-                    <input type="email" class="text_input email_confirm" name="email_confirm" minlength="5" required/>
+                    <input type="email" class="text_input email_confirm" name="username_confirm" minlength="5" required/>
                 </label>
                 <div class="email_confirm_hidden_message inline"></div>
             </div>

@@ -1,13 +1,13 @@
 package me.eggme.classh.security.listener;
 
+import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.entity.Resources;
 import me.eggme.classh.domain.entity.Role;
 import me.eggme.classh.domain.entity.RoleResources;
-import me.eggme.classh.repository.ResourceRepository;
+import me.eggme.classh.repository.ResourcesRepository;
 import me.eggme.classh.repository.RoleRepository;
 import me.eggme.classh.repository.RoleResourcesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
+@Slf4j
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     private boolean alreadySetup = false;
@@ -23,7 +24,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
-    private ResourceRepository resourceRepository;
+    private ResourcesRepository resourceRepository;
     @Autowired
     private RoleResourcesRepository roleResourcesRepository;
 
@@ -43,15 +44,16 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private void setupSecurityResources() {
 
         Role adminRole = createRoleIfNotFound("ROLE_ADMIN", "관리자");
-        Resources adminResouces = createResourceIfNotFound("/admin/**", "", "url");
-        createRoleResourceIfNotFound(adminRole, adminResouces);
+        Role userRole = createRoleIfNotFound("ROLE_USER", "일반유저");
+        Resources adminResources = createResourceIfNotFound("/admin/**", "", "url");
+        createRoleResourceIfNotFound(adminRole, adminResources);
 
     }
 
     @Transactional
     public RoleResources createRoleResourceIfNotFound(Role role, Resources resources) {
         RoleResources roleResources = roleResourcesRepository.findByRoleAndResources(role, resources);
-
+        log.info(roleResources != null ? "RoleResources added" : "RoleResources not added");
         if(roleResources == null){
             roleResources = RoleResources.builder()
                             .role(role)
@@ -62,14 +64,14 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     }
 
     @Transactional
-    public Resources createResourceIfNotFound(String resourceName, String httpMethod, String resourceType) {
-        Resources resources = resourceRepository.findByResourcNameAndHttpMethod(resourceName, httpMethod);
-
+    public Resources createResourceIfNotFound(String resourcesName, String httpMethod, String resourcesType) {
+        Resources resources = resourceRepository.findByResourcesNameAndResourcesType(resourcesName, resourcesType);
+        log.info(resources != null ? "Resources added" : "Resources not added");
         if(resources == null){
             resources = Resources.builder()
-                    .resourceName(resourceName)
+                    .resourcesName(resourcesName)
                     .httpMethod(httpMethod)
-                    .resourceType(resourceType)
+                    .resourcesType(resourcesType)
                     .orderNum(count.incrementAndGet())
                     .build();
         }

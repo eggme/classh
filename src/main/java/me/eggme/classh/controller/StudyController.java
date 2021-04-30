@@ -9,16 +9,21 @@ import me.eggme.classh.service.CourseService;
 import me.eggme.classh.service.MemberService;
 import me.eggme.classh.service.StudyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(value = "/study")
 @Slf4j
 public class StudyController {
+
+    @Autowired
+    private Environment environment;
 
     @Autowired
     private MemberService memberService;
@@ -27,7 +32,7 @@ public class StudyController {
     @Autowired
     private StudyService studyService;
 
-    @GetMapping(value="/{id}/preview/{class_id}")
+    @GetMapping(value="/{id}/preview/{class_id}*")
     public String coursePreview(@PathVariable Long id,
                                 @PathVariable Long class_id,
                                 Model model){
@@ -35,6 +40,14 @@ public class StudyController {
         CourseClass courseClass = courseService.getCourseClass(class_id);
         CourseDTO courseDTO = course.of();
         CourseClassDTO courseClassDTO = courseClass.of();
+        // 미리보기 강의가 맞을 경우
+        if(courseService.isPreviewCourseClass(courseClass)){
+            model.addAttribute("error", false);
+        }else{
+            // 미리보기 강의가 아닐 경우 (URL 조작)
+            model.addAttribute("error", true);
+            model.addAttribute("exception", environment.getProperty("error.PreviewClassAccessDenied"));
+        }
         model.addAttribute("course", courseDTO);
         model.addAttribute("courseClass", courseClassDTO);
         return "study/studyRoom/"+courseClassDTO.getName();

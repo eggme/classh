@@ -1,12 +1,3 @@
-function findSectionObject(obj) {
-    console.log("findSectionObject -> " + id);
-    for (var i = 0; i < resultObj.length; i++) {
-        if (resultObj[i].section_number == id) {
-            return resultObj[i];
-        }
-    }
-}
-
 $(function () {
     // 미리보기
     $('.show_preview').click(function () {
@@ -142,7 +133,7 @@ function loadCourseResource(obj) {
             $('.upload-name').val(result.mediaPath);
             $('.upload-name').attr('disable', 'true');
             $('.mediaPath').val(result.mediaPath);
-            if(result.status == true){
+            if(result.preview == true){
                 console.log("wow");
                 $('.isPublic_toggle_input').attr("checked", true);
                 checkboxOn();

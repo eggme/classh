@@ -26,7 +26,7 @@ public class CourseClass implements Serializable {
     private String mediaPath;
 
     // 무료 영상 공개
-    private boolean status = false;
+    private boolean preview = false;
 
     // 자료 파일 경로
     private String dataPath;

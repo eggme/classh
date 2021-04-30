@@ -3,11 +3,13 @@ package me.eggme.classh.security.handler;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.exception.EmailExistedException;
+import me.eggme.classh.utils.ExceptionMessages;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
 import javax.security.auth.login.CredentialExpiredException;
@@ -19,38 +21,20 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
 @Slf4j
-public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
-
-    private final String USERNAME = "USERNAME";
-    private final String PASSWORD = "PASSWORD";
-    private final String ERROR_MESSAGE = "ERROR_MSG";
-    private final String DEFAULT_FAILURE_URL = "/login/error";
-
-    private Map<Class, String> errorMsgList;
-
-    public CustomAuthenticationFailureHandler(){
-        errorMsgList = new HashMap<>();
-        errorMsgList.put(EmailExistedException.class, "error.BadCredentials");
-        errorMsgList.put(BadCredentialsException.class, "error.BadCredentials");
-        errorMsgList.put(InternalAuthenticationServiceException.class, "error.BadCredentials");
-        errorMsgList.put(DisabledException.class, "error.Disaled");
-        errorMsgList.put(CredentialExpiredException.class, "error.CredentialsExpired");
-    }
+public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        HttpSession session = httpServletRequest.getSession();
-        session.removeAttribute("username");
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
-        String username = httpServletRequest.getParameter("username");
-        String password = httpServletRequest.getParameter("password");
+        String errorMessage = ExceptionMessages.getErrorMsgList().get(BadCredentialsException.class);
+        try{
+            errorMessage = ExceptionMessages.getErrorMsgList().get(exception.getClass());
+        }catch(Exception e){
+            errorMessage = ExceptionMessages.getErrorMsgList().get(BadCredentialsException.class);
+        }
+        setDefaultFailureUrl("/login?error=true&exception="+ errorMessage);
 
-        httpServletRequest.setAttribute(USERNAME, username);
-        httpServletRequest.setAttribute(PASSWORD, password);
-        httpServletRequest.setAttribute(ERROR_MESSAGE, errorMsgList.get(e.getClass()));
-
-        httpServletRequest.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(httpServletRequest, httpServletResponse);
+        super.onAuthenticationFailure(request, response, exception);
     }
 }

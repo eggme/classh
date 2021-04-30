@@ -1,22 +1,19 @@
 package me.eggme.classh.service;
 
 import lombok.extern.slf4j.Slf4j;
+import me.eggme.classh.domain.dto.MemberDTO;
 import me.eggme.classh.domain.entity.Member;
-import me.eggme.classh.exception.EmailExistedException;
+import me.eggme.classh.domain.entity.MemberRoles;
 import me.eggme.classh.repository.MemberRepository;
+import me.eggme.classh.repository.MemberRolesRepository;
 import me.eggme.classh.repository.RoleRepository;
-import me.eggme.classh.security.CustomUserDetailsService;
 import me.eggme.classh.domain.entity.Role;
 import me.eggme.classh.utils.NameGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
 
 @Service
 @Slf4j
@@ -27,26 +24,39 @@ public class MemberService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
+    private MemberRolesRepository memberRolesRepository;
+    @Autowired
     private RoleRepository roleRepository;
 
     @Transactional
-    public Long save(Member member) {
-        member.setName(NameGenerator.getName(member.getEmail()));
-        member.setPassword(passwordEncoder.encode(member.getPassword()));
-        Role role = new Role();
-        role.setRoleName("ROLE_USER");
-        role.setRoleDesc("일반유저");
-        roleRepository.save(role);
+    public Long save(MemberDTO memberDTO) {
+
+        Member member = Member.builder()
+                .username(memberDTO.getUsername())
+                .password(passwordEncoder.encode(memberDTO.getPassword()))
+                .nickName(NameGenerator.getName(memberDTO.getUsername()))
+                .build();
+        Member savedMember = memberRepository.save(member);
+        defaultMemberRoleCreator(savedMember);
         return memberRepository.save(member).getId();
     }
 
-    public Member loadUser(String username) {
-        return memberRepository.findByEmail(username).orElseThrow(() -> new ArithmeticException());
+    @Transactional
+    protected void defaultMemberRoleCreator(Member member){
+        Role role = roleRepository.defaultUserRole();
+        MemberRoles memberRoles = new MemberRoles();
+        memberRoles.setMember(member);
+        memberRoles.setRole(role);
+        memberRolesRepository.save(memberRoles);
     }
 
-    public String loadUserName(String email) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new ArithmeticException());
-        log.info(member.getEmail() + " : " + member.getName());
-        return member.getName();
+    public Member loadUser(String username) {
+        return memberRepository.findByUsername(username).orElseThrow(() -> new ArithmeticException());
+    }
+
+    public String loadUserNickname(String username) {
+        Member member = memberRepository.findByUsername(username).orElseThrow(() -> new ArithmeticException());
+        log.info(member.getUsername() + " : " + member.getNickName());
+        return member.getNickName();
     }
 }

@@ -1,46 +1,38 @@
 package me.eggme.classh.security.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import me.eggme.classh.domain.dto.LoginResponseDTO;
-import me.eggme.classh.domain.dto.ResponseDataCode;
-import me.eggme.classh.domain.dto.ResponseStatusCode;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-@Component
 @Slf4j
-public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+    private RequestCache requestCache = new HttpSessionRequestCache();
+
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        log.info(authentication.getName());
-        HttpSession session = request.getSession();
-        session.setAttribute("username", authentication.getName());
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        ObjectMapper mapper = new ObjectMapper();
-        LoginResponseDTO dto = new LoginResponseDTO();
-        dto.setCode(ResponseDataCode.SUCCESS);
-        dto.setStatus(ResponseStatusCode.SUCCESS);
-        Map<String, String> items = new HashMap<>();
-        items.put("url", "/");
-        dto.setItem(items);
+        setDefaultTargetUrl("/");
 
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("UTF-8");
-        response.getWriter().println(mapper.writeValueAsString(dto));
-        log.info(mapper.writeValueAsString(dto));
-        response.flushBuffer();
+        SavedRequest savedRequest = requestCache.getRequest(request, response);
+        if(savedRequest != null){
+            String targetUrl = savedRequest.getRedirectUrl();
+            redirectStrategy.sendRedirect(request, response, targetUrl);
+        }else{
+            redirectStrategy.sendRedirect(request, response, getDefaultTargetUrl());
+        }
     }
 }

@@ -17,8 +17,8 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseReviews"})
-@ToString(exclude = {"signUpCourses", "instructor", "courseReviews"})
+@EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles"})
+@ToString(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles"})
 public class Member extends BaseTimeEntity implements Serializable {
     // 멤버 PK
     @Id @GeneratedValue
@@ -26,11 +26,11 @@ public class Member extends BaseTimeEntity implements Serializable {
 
     // 사용자 아이디
     @Column(length = 50, nullable = false)
-    private String email;
+    private String username;
 
     // 사용자 이름
     @Column(length = 20, nullable = false)
-    private String name;
+    private String nickName;
 
     // 사용자 자기소개
     private String selfIntroduce;
@@ -40,9 +40,9 @@ public class Member extends BaseTimeEntity implements Serializable {
     private String password;
 
     // 스프링 시큐리티 인증관련, 해당 유저의 권한들
-    @JsonBackReference
-    @OneToOne(mappedBy = "member")
-    private MemberRoles memberRoles;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    private Set<MemberRoles> memberRoles = new HashSet<>();
 
     // 사용자 프로필 사진
     @Column(nullable = false)
@@ -64,10 +64,10 @@ public class Member extends BaseTimeEntity implements Serializable {
     private List<CourseReview> courseReviews = new ArrayList<>();
 
     @Builder
-    public Member(String email, String password, String name){
-        this.email = email;
+    public Member(String username, String password, String nickName){
+        this.username = username;
         this.password = password;
-        this.name = name;
+        this.nickName = nickName;
     }
 
     public MemberDTO of(){
@@ -91,10 +91,5 @@ public class Member extends BaseTimeEntity implements Serializable {
     public void addCourseReview(CourseReview courseReview){
         this.courseReviews.add(courseReview);
         courseReview.setMember(this);
-    }
-
-    public void addRole(Role role){
-        this.memberRoles.addRole(role);
-        this.memberRoles.setMember(this);
     }
 }

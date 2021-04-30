@@ -1,5 +1,6 @@
 package me.eggme.classh.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"memberRoles", "roleResources"})
-@ToString(exclude = {"memberRoles", "roleResources"})
+@ToString(exclude =  {"memberRoles", "roleResources"})
 public class Role implements Serializable {
 
     @Id
@@ -24,10 +25,12 @@ public class Role implements Serializable {
 
     private String roleDesc;
 
-    @ManyToOne
-    private MemberRoles memberRoles;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    private Set<MemberRoles> memberRoles = new HashSet<>();
 
-    @OneToMany(mappedBy = "role")
+    @JsonManagedReference
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
     private Set<RoleResources> roleResources = new HashSet<>();
 
 }

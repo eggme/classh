@@ -49,11 +49,9 @@
             <div class="nav navbar-right">
                 <ul class="nav navbar-nav right_menus">
                     <li><a class="navbar-item right_menus_white"><b>지식공유참여</b></a></li>
-                    <sec:authorize access="isAnonymous()"><li><h4><a role="button" class="label label-success btn_board login" style="margin-right: 12px;" href="/requestLogin"><b>로그인</b></a></h4></li></sec:authorize>
+                    <sec:authorize access="isAnonymous()"><li><h4><a role="button" class="label label-success btn_board login" style="margin-right: 12px;" href="/login"><b>로그인</b></a></h4></li></sec:authorize>
                     <sec:authorize access="isAnonymous()"><li><h4><a role="button" class="label label-danger btn_board" href="/signUp"><b>회원가입</b></a></h4></li></sec:authorize>
                     <sec:authorize access="isAuthenticated()">
-                        <script src="/js/header_ajax.js"></script>
-                        <input type="hidden" class="usernameToken" value="<sec:authentication property="principal.username"></sec:authentication>"/>
                         <li>
                             <div class="cart height50">
                                 <i class="fas fa-shopping-cart cart_over"></i>
@@ -76,7 +74,7 @@
                         <li class="height50">
                             <a role="button" class="height50 overmenu">
                                 <div class="header_circle_img">
-                                    <img src="/imgs/header/mini_icon_2.png" class="mini_icon">
+                                    <img src=<sec:authentication property='principal.profile' /> class="mini_icon">
                                 </div>
                             </a>
                             <div class="mouseover_menu_wrap">
@@ -85,10 +83,10 @@
                                     <div class="profile">
                                         <div class="profile_wrap">
                                             <div class="img_wrap">
-                                                <img src="/imgs/header/mini_icon_2.png" class="user_profile_img"/>
+                                                <img src=<sec:authentication property='principal.profile'/> class="user_profile_img"/>
                                             </div>
                                             <div class="text_wrap">
-                                                <span class="user_id"></span>
+                                                <span class="user_id"><sec:authentication property="principal.nickName" /></span>
                                                 <span class="fix_text">지식 공유자</span>
                                             </div>
                                         </div>

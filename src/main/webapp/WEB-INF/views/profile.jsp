@@ -46,7 +46,7 @@
                     <div class="name_menu menu_module">닉네임</div>
                     <div class="name_input">
                         <input type="text" class="name_input_area input_area_module" name="name"
-                               placeholder="닉네임을 입력해주세요" value="${member.name}">
+                               placeholder="닉네임을 입력해주세요" value="${member.nickName}">
                     </div>
                 </div>
                 <div class="save_container">

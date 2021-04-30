@@ -9,6 +9,7 @@ import me.eggme.classh.service.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,18 +40,16 @@ public class CourseController {
 
     // 지식공유자 강의 생성 페이지 뷰
     @GetMapping(value = "/add")
-    public String createCourseView(Model model, HttpSession session){
-        String email = session.getAttribute("username").toString();
-        String username = memberService.loadUserName(email);
+    public String createCourseView(Model model, @AuthenticationPrincipal Member member){
+        String username = memberService.loadUserNickname(member.getUsername());
         model.addAttribute("username", username);
         return "create/createCourse";
     }
 
     // 지식공유자 강의 기본 생성 (강의 이름만 존재)
     @PostMapping(value = "/create")
-    public String createLecture(@RequestParam(value = "course_name") String courseName, HttpSession session, Model model){
-        String email = session.getAttribute("username").toString();
-        Course course = courseService.createCourseDefault(courseName, email);
+    public String createLecture(@RequestParam(value = "course_name") String courseName, @AuthenticationPrincipal Member member, Model model){
+        Course course = courseService.createCourseDefault(courseName, member.getUsername());
         CourseDTO courseDTO = course.of();
         model.addAttribute("course", courseDTO);
         model.addAttribute("categories", categories);
@@ -60,12 +60,11 @@ public class CourseController {
 
     // 내 강의 보기 강사만 입장 가능 (강의소개)
     @GetMapping(value = "/{url}")
-    public String updateCourse(@PathVariable String url, Model model, HttpSession session){
+    public String updateCourse(@PathVariable String url, Model model, @AuthenticationPrincipal Member member){
         Course course = courseService.getCourse(url);
-        Member member = null;
+        Member loadMember = null;
         try{
-            String username = session.getAttribute("username").toString();
-            member = memberService.loadUser(username);
+            member = memberService.loadUser(member.getUsername());
         }catch (NullPointerException n){
             log.info("guest 가 강의를 보는 중");
         }
@@ -207,12 +206,10 @@ public class CourseController {
     public String addCourseReview(@PathVariable Long id,
                                   @RequestParam int rate,
                                   @RequestParam String reviewContent,
-                                  Model model,
-                                  HttpSession session){
-        String username = session.getAttribute("username").toString();
-        Course course = courseService.saveCourseReview(id, username, rate, reviewContent);
-        Member member = memberService.loadUser(username);
-        model.addAttribute("member", member.of());
+                                  Model model, @AuthenticationPrincipal Member member){
+        Course course = courseService.saveCourseReview(id, member.getUsername(), rate, reviewContent);
+        Member loadMember = memberService.loadUser(member.getUsername());
+        model.addAttribute("member", loadMember.of());
         model.addAttribute("course", course.of());
         return "information/courseInfo/info";
     }
@@ -250,9 +247,8 @@ public class CourseController {
 
     // 지식공유자 내 강의 보기
     @GetMapping(value = "/list")
-    public String courseList(HttpSession session, Model model){
-        String email = session.getAttribute("username").toString();
-        model.addAttribute("list", courseService.getCourses(email));
+    public String courseList(@AuthenticationPrincipal Member member, Model model){
+        model.addAttribute("list", courseService.getCourses(member.getUsername()));
         return "instructor/courseList";
     }
 

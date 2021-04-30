@@ -31,4 +31,9 @@
             <p class="gray-text underline"><a href="/signUp.do">회원가입 하기</a></p>
         </div>
     </form>
+    <c:if test="${error == true}">
+        <script>
+            alert('${exception}');
+        </script>
+    </c:if>
 </div>

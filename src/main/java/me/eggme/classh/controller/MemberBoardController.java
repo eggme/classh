@@ -5,6 +5,10 @@ import me.eggme.classh.domain.dto.MemberDTO;
 import me.eggme.classh.domain.entity.Member;
 import me.eggme.classh.service.MemberBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.security.Principal;
 
 @Controller
 @RequestMapping(value = "/member")
@@ -26,20 +31,19 @@ public class MemberBoardController {
     private MemberBoardService memberBoardService;
 
     @GetMapping(value = "/dashboard")
-    public String dashboardView(HttpSession session, Model model){
-        String email = session.getAttribute("username").toString();
-        Member member = memberBoardService.loadMember(email);
-        MemberDTO memberDTO = member.of();
+    public String dashboardView(@AuthenticationPrincipal Member member, Model model){
+        Member loadMember = memberBoardService.loadMember(member.getUsername());
+        MemberDTO memberDTO = loadMember.of();
+        log.info(memberDTO.toString());
         model.addAttribute("member", memberDTO);
         return "board/dashboard";
     }
 
     @GetMapping(value = "/profile")
-    public String profileView(HttpSession session, Model model){
-        String email = session.getAttribute("username").toString();
-        Member member = memberBoardService.loadMember(email);
-        log.info(email + " : " +member.toString());
-        MemberDTO memberDTO = member.of();
+    public String profileView(@AuthenticationPrincipal Member member, Model model){
+        Member loadMember = memberBoardService.loadMember(member.getUsername());
+        log.info(loadMember.getNickName() + " : " +member.toString());
+        MemberDTO memberDTO = loadMember.of();
         model.addAttribute("member", memberDTO);
         return "board/profile";
     }
@@ -47,36 +51,31 @@ public class MemberBoardController {
     @PostMapping(value = "/modify/password")
     public String modifyUserPassword(@RequestParam(value = "current_pw") String current_pw,
                                      @RequestParam(value = "new_pw") String new_pw,
-                                     HttpSession session){
-        String email = session.getAttribute("username").toString();
-        memberBoardService.changePassword(current_pw, new_pw, email);
+                                     @AuthenticationPrincipal Member member){
+        memberBoardService.changePassword(current_pw, new_pw, member.getUsername());
         return "redirect:/member/profile";
     }
 
     @PostMapping(value = "/modify/name")
-    public String modifyUserName(@RequestParam(value = "name") String name, HttpSession session){
-        String email = session.getAttribute("username").toString();
-        memberBoardService.changeName(name, email);
+    public String modifyNickName(@RequestParam(value = "name") String name, @AuthenticationPrincipal Member member){
+        memberBoardService.changeName(name, member.getUsername());
         return "redirect:/member/profile";
     }
 
     @PostMapping(value = "/modify/image")
     public String modifyProfileImage(@RequestParam(value = "image") MultipartFile multipartFile,
-                                     HttpSession session,
+                                     @AuthenticationPrincipal Member member,
                                      HttpServletRequest request) throws Exception {
-        String email = session.getAttribute("username").toString();
         String realPath = request.getRealPath("/imgs/upload");
         File file = new File(realPath+"\\"+multipartFile.getOriginalFilename());
         multipartFile.transferTo(file);
-        memberBoardService.changeProfile(file, email);
+        memberBoardService.changeProfile(file, member.getUsername());
         return "redirect:/member/profile";
     }
 
     @PostMapping(value = "/modify/self")
-    public String modifySelfIntroduce(@RequestParam(value = "self") String self,
-                                      HttpSession session){
-        String email = session.getAttribute("username").toString();
-        memberBoardService.changeSelfIntroduce(self, email);
+    public String modifySelfIntroduce(@RequestParam(value = "self") String self, @AuthenticationPrincipal Member member){
+        memberBoardService.changeSelfIntroduce(self,  member.getUsername());
         return "redirect:/member/profile";
     }
 }

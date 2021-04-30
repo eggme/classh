@@ -36,8 +36,8 @@ public class JPATest {
     @Test
     public void jpaInsertTest(){
         Member member = new Member();
-        member.setName("승준");
-        member.setEmail("kyyeto9984@naver.com");
+        member.setNickName("승준");
+        member.setUsername("kyyeto9984@naver.com");
         member.setPassword("123123");
         Member newMember = memberRepository.save(member);
 
@@ -64,9 +64,9 @@ public class JPATest {
         MemberDTO dto = modelMapper.map(newMember, MemberDTO.class);
         System.out.println(dto);
 
-        System.out.println(course.getInstructor().getMember().getName());
+        System.out.println(course.getInstructor().getMember().getNickName());
         save.getCourses().stream().forEach(c -> System.out.println(c.getName()));
-        newMember.getInstructor().getCourses().stream().forEach(c -> System.out.println(newMember.getName() + " : " + c.getName()));
+        newMember.getInstructor().getCourses().stream().forEach(c -> System.out.println(newMember.getNickName() + " : " + c.getName()));
 
     }
 

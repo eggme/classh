@@ -4,11 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.eggme.classh.domain.entity.Course;
-import me.eggme.classh.domain.entity.CourseReview;
-import me.eggme.classh.domain.entity.Instructor;
-import me.eggme.classh.domain.entity.SignUpCourse;
-import me.eggme.classh.domain.entity.Role;
+import me.eggme.classh.domain.entity.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -21,12 +17,12 @@ import java.util.List;
 public class MemberDTO implements Serializable {
 
     private Long id;
-    private String name;
-    private String email;
+    private String nickName;
+    private String username;
+    private String password;
     private String profile;
     private String selfIntroduce;
-    private boolean isEnable;
-    private Role role;
+    private MemberRoles memberRoles;
     private List<SignUpCourse> signUpCourses;
     private Instructor instructor;
     private List<CourseReview> courseReviews;

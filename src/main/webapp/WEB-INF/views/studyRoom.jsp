@@ -142,12 +142,21 @@
                     </div>
                 </div>
             </div>
-            <c:if test="${!empty courseClass.mediaPath}">
-                <script>
-                    loadVideoUrl('${courseClass.mediaPath}');
-                    loadVideoJS();
-                </script>
-            </c:if>
+            <c:out value="${error}"></c:out>
+            <c:choose>
+                <c:when test="${!error}">
+                    <c:if test="${!empty courseClass.mediaPath}">
+                        <script>
+                            loadVideoUrl('${courseClass.mediaPath}');
+                            loadVideoJS();
+                        </script>
+                    </c:if>
+                </c:when>
+                <c:otherwise>
+                    <c:out value="${exception}"></c:out>
+                </c:otherwise>
+            </c:choose>
+
             <div class="instructorMemo_wrap">
                 ${courseClass.instructorMemo}
             </div>

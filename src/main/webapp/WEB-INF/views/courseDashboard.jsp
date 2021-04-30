@@ -26,7 +26,7 @@
                         <div class="study_count_warp">
                             <span class="current_course_count">1</span>
                             <span>/</span>
-                            <span class="total_course_count">${course.getTotalClassCount()}</span>
+                            <span class="total_course_count"><c:out value="${course.getTotalClassCount()}"/></span>
                         </div>
                         <div class="study_title">완료 수업</div>
                     </div>
@@ -59,7 +59,7 @@
             <div class="curriculum_title">교육과정</div>
             <div class="curriculum_toolbox">
                 <div class="open_close_toggle">모두 펼치기</div>
-                <div class="total_class_count">${course.getTotalClassCount()} 강의</div>
+                <div class="total_class_count"><c:out value="${course.getTotalClassCount()}"/>강의</div>
             </div>
             <div class="curriculum_content">
                 <c:forEach var="section" items="${course.courseSections}" varStatus="section_status">

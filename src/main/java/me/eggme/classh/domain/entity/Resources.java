@@ -1,5 +1,6 @@
 package me.eggme.classh.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -22,14 +23,15 @@ public class Resources extends BaseTimeEntity implements Serializable {
     @GeneratedValue
     private Long id;
 
-    private String resourceName;
+    private String resourcesName;
 
     private String httpMethod;
 
     private int orderNum;
 
-    private String resourceType;
+    private String resourcesType;
 
-    @OneToMany(mappedBy="resources")
+    @JsonManagedReference
+    @OneToMany(mappedBy="resources", fetch = FetchType.EAGER)
     private Set<RoleResources> roleResourcesSet = new HashSet<>();
 }

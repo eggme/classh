@@ -4,6 +4,10 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
+    <definition name="access_denied" template="/WEB-INF/views/security/accessDenied.jsp">
+    </definition>
+
+
     <definition name="base_layout" template="/WEB-INF/template/base_template.jsp">
         <put-attribute name="title" value="ClassH - 취미부터 교육까지" />
         <put-attribute name="header" value="/WEB-INF/component/header.jsp" />
