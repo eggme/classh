@@ -77,3 +77,12 @@ function loadVideoJS() {
     });
     // player.currentTime(start_time);
 }
+/* 강의의 권한이 없을 때 myPlayer display none */
+function noAuthorized(){
+    $('#myPlayer').css('display', 'none');
+    $('.min_height').css('display', 'none');
+}
+function Authorized(){
+    $('#myPlayer').css('display', 'flex');
+    $('.min_height').css('display', 'flex');
+}

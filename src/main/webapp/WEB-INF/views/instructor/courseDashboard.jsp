@@ -68,7 +68,7 @@
                     </script>
                     <c:forEach var="course_class" items="${section.courseClasses}" varStatus="class_status">
                         <c:choose>
-                            <c:when test="${course_class.status eq true}">
+                            <c:when test="${course_class.preview eq true}">
                                 <script>
                                     classSetting('${class_status.index}', '${course_class.name}', '${course_class.seconds}', '.section_class_${section_status.index}', false, '${course_class.id}', '${course.id}');
                                 </script>

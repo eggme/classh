@@ -1,15 +1,13 @@
 package me.eggme.classh.security.listener;
 
 import lombok.extern.slf4j.Slf4j;
-import me.eggme.classh.domain.entity.Resources;
-import me.eggme.classh.domain.entity.Role;
-import me.eggme.classh.domain.entity.RoleResources;
-import me.eggme.classh.repository.ResourcesRepository;
-import me.eggme.classh.repository.RoleRepository;
-import me.eggme.classh.repository.RoleResourcesRepository;
+import me.eggme.classh.domain.entity.*;
+import me.eggme.classh.repository.*;
+import me.eggme.classh.utils.NameGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -27,6 +25,12 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private ResourcesRepository resourceRepository;
     @Autowired
     private RoleResourcesRepository roleResourcesRepository;
+    @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
+    private MemberRolesRepository memberRolesRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private static AtomicInteger count = new AtomicInteger(0);
 
@@ -42,12 +46,32 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     }
 
     private void setupSecurityResources() {
-
         Role adminRole = createRoleIfNotFound("ROLE_ADMIN", "관리자");
+        Role mdRole = createRoleIfNotFound("ROLE_MD", "MD");
         Role userRole = createRoleIfNotFound("ROLE_USER", "일반유저");
         Resources adminResources = createResourceIfNotFound("/admin/**", "", "url");
+        Resources mdResources = createResourceIfNotFound("/md/**", "", "url");
         createRoleResourceIfNotFound(adminRole, adminResources);
+        createRoleResourceIfNotFound(mdRole, mdResources);
+        createAdminIfNotFound(adminRole, "admin@hoflearn.com", "1q2w3e4r");
+    }
 
+    private void createAdminIfNotFound(Role adminRole, String email, String password) {
+        MemberRoles temp = new MemberRoles();
+        temp.setRole(adminRole);
+        int count = memberRepository.countByMemberRoles();
+        if( count == 0){
+            Member member = Member.builder()
+                    .username(email)
+                    .password(passwordEncoder.encode(password))
+                    .nickName("운영자")
+                    .build();
+            Member savedMember = memberRepository.save(member);
+            MemberRoles memberRoles = new MemberRoles();
+            memberRoles.setRole(adminRole);
+            memberRoles.setMember(savedMember);
+            memberRolesRepository.save(memberRoles);
+        }
     }
 
     @Transactional

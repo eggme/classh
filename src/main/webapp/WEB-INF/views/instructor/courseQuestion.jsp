@@ -212,7 +212,7 @@
             </div>
             <div class="course_subtext">
                 <div class="top_margin">지식공유자 : <span class="instructor_name_tab"><c:out
-                        value="${course.instructor.member.name}"></c:out></span></div>
+                        value="${course.instructor.member.nickName}"></c:out></span></div>
                 <%--  총 수업 수 구하는 로직 --%>
                 <c:set var="total_section_class_count" value="0"/>
                 <c:forEach var="section" items="${course.courseSections}" varStatus="status">

@@ -51,6 +51,8 @@
                     <li><a class="navbar-item right_menus_white"><b>지식공유참여</b></a></li>
                     <sec:authorize access="isAnonymous()"><li><h4><a role="button" class="label label-success btn_board login" style="margin-right: 12px;" href="/login"><b>로그인</b></a></h4></li></sec:authorize>
                     <sec:authorize access="isAnonymous()"><li><h4><a role="button" class="label label-danger btn_board" href="/signUp"><b>회원가입</b></a></h4></li></sec:authorize>
+                    <sec:authorize access="hasRole('ROLE_MD')"><li><h4><a role="button" class="label label-success btn_board mdPage" href="/md/dashboard">관리자페이지</a></h4></li></sec:authorize>
+                    <sec:authorize access="hasRole('ROLE_ADMIN')"><li><h4><a role="button" class="label label-success btn_board adminPage" href="/admin/dashboard">관리자페이지</a></h4></li></sec:authorize>
                     <sec:authorize access="isAuthenticated()">
                         <li>
                             <div class="cart height50">

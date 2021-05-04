@@ -37,7 +37,7 @@
     </div>
     <div class="content_wrap_color">
         <div class="content">
-            <tiles:insertAttribute name="side" ></tiles:insertAttribute>
+            <tiles:insertAttribute name="aside" ></tiles:insertAttribute>
             <div class="page_content">
                 <tiles:insertAttribute name="body"></tiles:insertAttribute>
             </div>

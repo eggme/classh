@@ -1,0 +1,22 @@
+
+.main_wrap{padding: 16px;}
+.board{border: 1px solid #DEE2E6; background-color: #fff; padding: 8px 12px;  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; display: flex;
+ flex-direction: column;}
+.board_top{padding-bottom: 16px;}
+.flex_layout{display: flex; justify-content: space-between; width: 100%; padding-bottom: 12px;}
+.board_100_layout{width: 100%; padding: 12px; display: flex; justify-content: space-between; flex-direction: row;}
+.board_65_layout{width: calc(60% - 12px);}
+.board_35_layout{width: calc(40% - 12px);}
+.board_5_layout{width: calc(50% - 8px);}
+.min_height{min-height: 300px;}
+.height_fixed{height: 280px;}
+
+.board_title{font-size: 16px; font-weight: 500; color: #343A40; padding: 8px; margin-bottom: 12px;}
+.site_desc_flex_column{display: flex; flex-direction: column;}
+.flex_row_space_between_wrap{display: flex; flex-direction: row; justify-content: space-between;}
+.today_paid_count_wrap{font-size: 14px;}
+.signup_member_count_percent_value{font-size: 18px; font-weight: 500;}
+.flex_row{display: flex; flex-direction: row; margin-bottom: 8px;}
+.value_left_margin{margin-left: 8px;}
+.height_10{height: 8px;}
+.flex{flex: 1 1 0; margin-bottom: 4px;}

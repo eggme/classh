@@ -46,7 +46,6 @@ public class StudyController {
         }else{
             // 미리보기 강의가 아닐 경우 (URL 조작)
             model.addAttribute("error", true);
-            model.addAttribute("exception", environment.getProperty("error.PreviewClassAccessDenied"));
         }
         model.addAttribute("course", courseDTO);
         model.addAttribute("courseClass", courseClassDTO);

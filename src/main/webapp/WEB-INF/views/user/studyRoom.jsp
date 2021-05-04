@@ -142,18 +142,40 @@
                     </div>
                 </div>
             </div>
-            <c:out value="${error}"></c:out>
             <c:choose>
                 <c:when test="${!error}">
                     <c:if test="${!empty courseClass.mediaPath}">
                         <script>
+                            Authorized();
                             loadVideoUrl('${courseClass.mediaPath}');
                             loadVideoJS();
                         </script>
                     </c:if>
                 </c:when>
                 <c:otherwise>
-                    <c:out value="${exception}"></c:out>
+                    <script>
+                        noAuthorized();
+                    </script>
+                    <div class="unauthorized_wrap">
+                        <div class="form_wrap">
+                            <div class="h1_area"><h1>🙊 수강권한이 없어요! 🙈</h1></div>
+                            <div class="span_area">
+                                <span class="add_br">이 수업은 수강신청 이후에 학습할 수 있습니다.<br/>이 배움으로 더욱 많은 것을 이뤄보세요!!</span>
+                            </div>
+                            <div class="price_area">
+                                <div class="price">
+                                    <c:out value="${course.price}"></c:out> 원
+                                </div>
+                            </div>
+                            <div class="button_area">
+                                <div class="payment_area">
+                                    <div class="do_payment_button error_button">바로 결제하기</div>
+                                    <div class="add_course_button error_button">수강바구니 담기</div>
+                                    <div class="go_course_info_button error_button">강의소개로 이동</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </c:otherwise>
             </c:choose>
 

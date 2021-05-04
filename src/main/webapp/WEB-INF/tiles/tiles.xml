@@ -4,6 +4,7 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
+    <!-- 에러 발생 및 권한이 없는 경우 -->
     <definition name="access_denied" template="/WEB-INF/views/security/accessDenied.jsp">
     </definition>
 
@@ -27,9 +28,9 @@
     <definition name="board/*" template="/WEB-INF/template/dashboard_layout.jsp">
         <put-attribute name="title" value="ClassH - 대시보드" />
         <put-attribute name="header" value="/WEB-INF/component/header.jsp" />
-        <put-attribute name="side" value="/WEB-INF/aside/sideMenu.jsp" />
+        <put-attribute name="aside" value="/WEB-INF/aside/sideMenu.jsp" />
         <put-attribute name="menu" value="{1}" />
-        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/user/board/{1}.jsp" />
         <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
     </definition>
 
@@ -37,9 +38,9 @@
     <definition name="instructor/*" template="/WEB-INF/template/instructor_layout.jsp">
         <put-attribute name="title" value="ClassH - 강사 대시보드" />
         <put-attribute name="header" value="/WEB-INF/component/header.jsp" />
-        <put-attribute name="side" value="/WEB-INF/aside/instructorSideMenu.jsp" />
+        <put-attribute name="aside" value="/WEB-INF/aside/instructorSideMenu.jsp" />
         <put-attribute name="menu" value="{1}" />
-        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/instructor/board/{1}.jsp" />
         <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
     </definition>
 
@@ -49,7 +50,7 @@
         <put-attribute name="header" value="/WEB-INF/component/header.jsp" />
         <put-attribute name="description" value="/WEB-INF/component/description.jsp" />
         <put-attribute name="menu" value="{2}" />
-        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/instructor/{1}.jsp" />
         <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
     </definition>
 
@@ -57,40 +58,33 @@
     <definition name="create/*" template="/WEB-INF/template/layout.jsp">
         <put-attribute name="title" value="ClassH - 강의 만들기" />
         <put-attribute name="header" value="/WEB-INF/component/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/instructor/{1}.jsp" />
         <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
     </definition>
 
     <!-- 강의 재생 폼 -->
     <definition name="study/*/*" template="/WEB-INF/template/study_layout.jsp">
         <put-attribute name="title" value="{2} Hoflearn | 학습 페이지"/>
-        <put-attribute name="view" value="/WEB-INF/views/{1}.jsp"/>
+        <put-attribute name="view" value="/WEB-INF/views/user/{1}.jsp"/>
     </definition>
 
     <!-- 강의 만들기 폼 -->
     <definition name="course/*" template="/WEB-INF/template/course_create_layout.jsp">
         <put-attribute name="title" value="ClassH - 강의 만들기" />
         <put-attribute name="header" value="/WEB-INF/component/header.jsp" />
-        <put-attribute name="side" value="/WEB-INF/aside/addCourseSideMenu.jsp" />
+        <put-attribute name="aside" value="/WEB-INF/aside/addCourseSideMenu.jsp" />
         <put-attribute name="sub" value="{1}"/>
-        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/instructor/{1}.jsp" />
         <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
     </definition>
 
-<!--    &lt;!&ndash; main &ndash;&gt;-->
-<!--    <definition name="main-layout" template="/WEB-INF/views/main/layout/base-main.jsp">-->
-<!--        <put-attribute name="header" value="/WEB-INF/views/common/layout/header.jsp" />-->
-<!--        <put-attribute name="body" value="" />-->
-<!--        <put-attribute name="footer" value="/WEB-INF/views/common/layout/footer.jsp" />-->
-<!--    </definition>-->
-<!--    <definition name="main/*" extends="main-layout">-->
-<!--        <put-attribute name="body" value="/WEB-INF/views/main/body/{1}.jsp" />-->
-<!--    </definition>-->
-<!--    <definition name="main/*/*" extends="main-layout">-->
-<!--        <put-attribute name="body" value="/WEB-INF/views/main/body/{1}/{2}.jsp" />-->
-<!--    </definition>-->
-<!--    <definition name="main/*/*/*" extends="main-layout">-->
-<!--        <put-attribute name="body" value="/WEB-INF/views/main/body/{1}/{2}/{3}.jsp" />-->
-<!--    </definition>-->
+    <!-- 관리자 페이지 -->
+    <definition name="admin/*" template="/WEB-INF/template/admin_layout.jsp">
+        <put-attribute name="title" value="ClassH - 관리자 페이지" />
+        <put-attribute name="header" value="/WEB-INF/component/header.jsp" />
+        <put-attribute name="aside" value="/WEB-INF/aside/adminSideMenu.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/admin/{1}.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
+    </definition>
 
 </tiles-definitions>

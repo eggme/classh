@@ -13,7 +13,7 @@ body, body *{font-family: "Noto Sans KR";}
 .menus li a{color: #6d6d6d;}
 .right_menus_white{color:#6d6d6d;}
 .right_menus_white:hover{color: #1dc078 !important;}
-.btn_board{color : white !important; padding : 10px; line-height: 30px !important; margin-right: 10px;}
+.btn_board{color : white !important; line-height: 30px !important; margin-right: 10px;}
 .btn_board:hover{color : white;}
 .right_menus li a i{line-height: 20px;}
 .navbar{margin-bottom: 0px;}
