@@ -14,6 +14,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByUsername(String username);
     int countByUsername(String username);
 
-    @Query("select count(m) from Member m join m.memberRoles mr where mr.role.roleName = 'ROLE_ADMIN'")
-    int countByMemberRoles();
+    @Query("select count(m) from Member m join m.memberRoles mr where mr.role.roleName = :roleName")
+    int countByMemberRoles(String roleName);
 }

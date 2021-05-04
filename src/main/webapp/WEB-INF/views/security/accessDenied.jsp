@@ -21,19 +21,28 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/1f4456927b.js" crossorigin="anonymous"></script>
 </head>
+<style type="text/css">
+    .div_wrap{width: 100%; height: 100%; display: flex; flex-direction: column;}
+    .header{display: flex; justify-content: center;}
+    .header_img_wrap{width: 100px;}
+</style>
 <body>
-<div class="header">
-    <div class="header_img_wrap">
-        <img src="/imgs/header/Logo_1.png" class="header_img" />
+<div class="div_wrap">
+    <div class="header">
+        <div class="header_img_wrap">
+            <img src="/imgs/header/Logo_1.png" class="header_img" />
+        </div>
     </div>
-</div>
-<div class="container">
-    <div class="message">
-        <h1>해당 페이지를 찾지 못했습니다</h1>
-        <p>접근 권한이 없거나 삭제되었습니다</p>
-        <a href="/">메인페이지로 이동 🏠🏃🏻‍♀</a>
+    <div class="container">
+        <div class="message">
+            <h1>해당 페이지를 찾지 못했습니다</h1>
+            <p>접근 권한이 없거나 삭제되었습니다</p>
+            <a href="/">메인페이지로 이동 🏠🏃🏻‍♀</a>
+        </div>
+        <div class="cat">
+            <img src="/imgs/coding_cat.gif" class="coding_cat"/>
+        </div>
     </div>
-    <img src="/imgs/coding_cat.gif" class="coding_cat"/>
 </div>
 </body>
 </html>

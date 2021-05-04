@@ -54,12 +54,31 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         createRoleResourceIfNotFound(adminRole, adminResources);
         createRoleResourceIfNotFound(mdRole, mdResources);
         createAdminIfNotFound(adminRole, "admin@hoflearn.com", "1q2w3e4r");
+        createMdIfNotFound(mdRole, "md@hoflearn.com", "1q2w3e4r");
+    }
+
+    private void createMdIfNotFound(Role mdRole, String email, String password) {
+        MemberRoles temp = new MemberRoles();
+        temp.setRole(mdRole);
+        int count = memberRepository.countByMemberRoles(mdRole.getRoleName());
+        if( count == 0) {
+            Member member = Member.builder()
+                    .username(email)
+                    .password(passwordEncoder.encode(password))
+                    .nickName("MD")
+                    .build();
+            Member savedMember = memberRepository.save(member);
+            MemberRoles memberRoles = new MemberRoles();
+            memberRoles.setRole(mdRole);
+            memberRoles.setMember(savedMember);
+            memberRolesRepository.save(memberRoles);
+        }
     }
 
     private void createAdminIfNotFound(Role adminRole, String email, String password) {
         MemberRoles temp = new MemberRoles();
         temp.setRole(adminRole);
-        int count = memberRepository.countByMemberRoles();
+        int count = memberRepository.countByMemberRoles(adminRole.getRoleName());
         if( count == 0){
             Member member = Member.builder()
                     .username(email)
