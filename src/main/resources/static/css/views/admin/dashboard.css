@@ -20,3 +20,23 @@
 .value_left_margin{margin-left: 8px;}
 .height_10{height: 8px;}
 .flex{flex: 1 1 0; margin-bottom: 4px;}
+
+.notice_wrap{display: flex; flex-direction: column;}
+.notice{display: flex; padding-bottom: 8px; align-items: center;}
+.notice_status_value{padding: 0 4px; font-size: 12px; border: 1px solid #ff7867; color: #ff7867; margin-right: 4px;}
+.notice_data{display: flex; font-size: 14px; flex-grow: 1;}
+.notice_tag_data{margin-right: 4px;}
+.notice_data_wrap{display: flex; justify-content: space-between; flex-grow: 1;}
+
+
+
+.qna_wrap{display: flex; flex-direction: column;}
+.qna{display: flex; justify-content: space-between; padding-bottom: 8px;}
+.qna_data{display: flex; flex-direction: column; flex-grow: 1; font-size: 16px; font-weight: 500;}
+.qna_icon{color: #00a65f; margin-right: 4px; font-weight: 600;}
+.qna_title{display: flex;}
+.qna_user{display: flex;}
+.qna_status{width: 64px; border: 1px solid; padding: 0 4px; display: flex; align-items: center; justify-content: center;}
+.success_question{color: #00a65f; border-color: #00a65f;}
+.non_success_question{color: #ff7867; border-color: #ff7867;}
+.board_sub_text_based{font-size: 12px; font-weight: 500; color: #959B9D;}

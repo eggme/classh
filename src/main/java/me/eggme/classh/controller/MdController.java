@@ -18,6 +18,6 @@ public class MdController {
     @GetMapping(value = "/dashboard")
     public String mdDashboard(@AuthenticationPrincipal Member member, Model model){
         model.addAttribute("member", member);
-        return "";
+        return "md/dashboard";
     }
 }

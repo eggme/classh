@@ -13,3 +13,34 @@
 .items li{color: #BDBDBD; margin-bottom: 20px; font-size: 15px; font-weight: 700;}
 .submit{padding: 8px !important; font-size: 16px !important; font-weight: 800 !important;}
 .submit:hover{cursor: pointer;}
+
+.course_submit_form{z-index: 50; display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4); padding-top: 50px;}
+.course_submit_content{z-index: 51; width: 480px; height: 760px; background-color: #fefefe;margin: 5px auto; border: 1px solid #888; border-radius: 5px;}
+.course_submit_container{width: 94%; margin : 0 auto; display: flex; justify-content: center; align-items: center;}
+.course_submit_text_description{display: flex; flex-direction: column; width: 70%; }
+.course_submit_text_description div{font-size : 16px; display: flex; justify-content: center; line-height: 1.6; text-align: center;}
+.course_submit_text_title{display: flex; justify-content: center; font-size: 24px; margin-bottom: 24px;}
+.course_submit_container{display: flex; flex-direction: column; justify-content: center;}
+.course_submit_icon{color: #00a65f; font-size: 64px;
+    display: flex; justify-content: center; align-items: center; margin-top: 64px; margin-bottom: 48px;}
+.course_submit_button_area{ width: 100%; margin-top: 30px; display: flex; justify-content: center;}
+.course_submit{background-color: #ff7867; color: white; padding: 12px 48px; margin-right: 4px; border-radius: 4px; cursor: pointer;}
+.course_cancel{background-color: #959B9D; color: white; padding: 12px 48px; margin-left: 4px; border-radius: 4px; cursor: pointer;}
+
+.course_submit_success_form{z-index: 50; display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4); padding-top: 50px;}
+.course_submit_success_content{z-index: 51; width: 480px; height: 760px; background-color: #fefefe;margin: 5px auto; border: 1px solid #888; border-radius: 5px;}
+.course_submit_success_container{width: 94%; margin : 0 auto; display: flex; justify-content: center; align-items: center;}
+.course_submit_success_text_description{display: flex; flex-direction: column; width: 70%; }
+.course_submit_success_text_description div{font-size : 16px; display: flex; justify-content: center; line-height: 1.6; text-align: center;}
+.course_submit_success_text_title{display: flex; justify-content: center; font-size: 24px; margin-bottom: 24px;}
+.course_submit_success_container{display: flex; flex-direction: column; justify-content: center;}
+.course_submit_success_icon{color: #00a65f; font-size: 64px;
+    display: flex; justify-content: center; align-items: center; margin-top: 64px; margin-bottom: 48px;}
+.course_submit_success_button_area{ width: 100%; margin-top: 30px; display: flex; justify-content: center;}
+.course_submit_success{background-color: #ff7867; color: white; padding: 12px 48px; margin-right: 4px; border-radius: 4px; cursor: pointer;}
+
+
+
+.animate{-webkit-animation: animatezoom 0.6s; animation: animatezoom 0.6s;}
+@-webkit-keyframes animatezoom { from {-webkit-transform: scale(0)} to {-webkit-transform: scale(1)} }
+@keyframes animatezoom { from {transform: scale(0)} to {transform: scale(1)} }

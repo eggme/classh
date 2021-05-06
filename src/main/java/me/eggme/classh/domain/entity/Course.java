@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import me.eggme.classh.domain.dto.*;
 import me.eggme.classh.utils.ModelMapperUtils;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -50,6 +52,7 @@ public class Course extends BaseTimeEntity implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id asc")
+    @BatchSize(size = 10)
     private List<CourseSection> courseSections = new ArrayList<>();
 
     // 강의의 태그를 동적으로 늘릴 수 있음

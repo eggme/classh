@@ -20,23 +20,19 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/1f4456927b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/views/security/accessDenied.css" />
 </head>
-<style type="text/css">
-    .div_wrap{width: 100%; height: 100%; display: flex; flex-direction: column;}
-    .header{display: flex; justify-content: center;}
-    .header_img_wrap{width: 100px;}
-</style>
 <body>
 <div class="div_wrap">
     <div class="header">
         <div class="header_img_wrap">
-            <img src="/imgs/header/Logo_1.png" class="header_img" />
+            <a href="/" class="img_a_tag"><img src="/imgs/header/Logo_1.png" class="header_img" /></a>
         </div>
     </div>
-    <div class="container">
+    <div class="container_wrap">
         <div class="message">
-            <h1>해당 페이지를 찾지 못했습니다</h1>
-            <p>접근 권한이 없거나 삭제되었습니다</p>
+            <h1>해당 페이지를 찾지 못했습니다.</h1>
+            <p>접근 권한이 없거나 더 이상 제공되지 않는 페이지입니다.</p>
             <a href="/">메인페이지로 이동 🏠🏃🏻‍♀</a>
         </div>
         <div class="cat">

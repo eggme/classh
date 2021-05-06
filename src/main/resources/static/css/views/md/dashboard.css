@@ -1,0 +1,70 @@
+.main_wrap{padding: 16px;}
+.board{border: 1px solid #DEE2E6; background-color: #fff; padding: 8px 12px;  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; display: flex;
+    flex-direction: column;}
+.board_top{padding-bottom: 16px;}
+.flex_layout{display: flex; justify-content: space-between; width: 100%; padding-bottom: 12px;}
+
+.board_5_layout{width: calc(50% - 8px);}
+.min_height{min-height: 300px;}
+.board_title{font-size: 16px; font-weight: 500; color: #343A40; padding: 8px; margin-bottom: 12px;}
+.board_base{display: flex; flex-direction: column; justify-content: center; padding-bottom: 4px; cursor: pointer;}
+.md_row_wrap{display: flex; justify-content: center;}
+.md_column_wrap{display: flex; flex-direction: column; justify-content: center;width: 100%;}
+.md_row_based{display: flex; flex-direction: row;  padding-right: 8px;}
+.status_wrap{display: flex; padding: 4px; }
+.timestamp{font-size: 14px; font-weight: 500;}
+.time{font-size: 14px; color: #959B9D; font-weight: 400;}
+.space_between{display: flex; justify-content: space-between; flex-grow: 1;}
+.status{align-content: center; font-size: 10px; padding: 2px; border-radius: 4px; border: 1px solid;}
+.category{padding: 2px; border-radius: 4px; border: 1px solid #00a65f; color: #00a65f; font-size: 10px;}
+.published{border-color: #ff7867; color: #ff7867;}
+.rejected{border-color: #959B9D; color: #959B9D;}
+.status_box{display: flex; justify-content: space-between; align-items: flex-end; flex-direction: column;}
+.separator{margin-right: 4px; margin-left: 4px;}
+.board_sub_text_based{font-size: 12px; font-weight: 500; color: #959B9D;}
+
+.img_border{border-radius: 4px; width: 64px; height: 44px; overflow: hidden; display: flex; justify-content: center; margin-right: 8px;}
+.img_value{width: 100%; height: 100%; object-fit: cover;}
+
+.course_title_wrap{display: flex; flex-grow: 1; flex-direction: column; justify-content: space-between; padding-bottom: 2px;}
+.title{font-size: 16px; font-weight: 600;}
+.content_wrapper{display: flex; padding: 4px;}
+.course_content_wrap{display: flex; flex-grow: 1; }
+
+.instructor_img_box{margin-right: 8px;}
+.img_box{width: 48px; height: 48px; border-radius: 70%; overflow: hidden;}
+.instructor_img_value{width: 100%; height: 100%; object-fit: cover;}
+.question{display: flex; margin-bottom: 8px;}
+.question_box{display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;}
+.question_value_wrapper{display: flex; justify-content: space-between; margin-bottom: 4px;}
+.question_value_area{font-size: 16px; font-weight: 600; }
+.question_icon{color: #00a65f;}
+.question_value{color: #343A40;}
+.tags{display: flex; justify-content: center;}
+.tag{background-color: #00a65f; color: white; border-radius: 12px; padding: 2px 8px; margin-right: 4px; font-size: 14px;}
+.tag:last-child{margin-right: 0 !important;}
+.instructor_value_wrapper{display: flex; justify-content: space-between;}
+.instructor_information{display: flex;}
+.height_fixed{height: 280px;}
+
+.success_question{color: #00a65f; border-color: #00a65f;}
+.non_success_question{color: #ff7867; border-color: #ff7867;}
+
+.system_notice_wrap{display: flex; flex-direction: column;}
+.system_notice{display: flex; padding-bottom: 8px; align-items: center;}
+.notice{padding: 0 4px; font-size: 12px; border: 1px solid #ff7867; color: #ff7867; margin-right: 4px;}
+.notice_data{display: flex; font-size: 14px; flex-grow: 1;}
+.notice_tag_data{margin-right: 4px;}
+.notice_data_wrap{display: flex; justify-content: space-between; flex-grow: 1;}
+
+.qna_wrap{display: flex; flex-direction: column;}
+.qna{display: flex; justify-content: space-between; padding-bottom: 8px;}
+.qna_data{display: flex; flex-direction: column; flex-grow: 1; font-size: 16px; font-weight: 500;}
+.qna_icon{color: #00a65f; margin-right: 4px; font-weight: 600;}
+.qna_title{display: flex;}
+.qna_user{display: flex;}
+.qna_status{width: 64px; border: 1px solid; padding: 0 4px; display: flex; align-items: center; justify-content: center;}
+@media (max-width: 1070px) {
+    .board_5_layout{width: calc(100% - 16px);}
+    .flex_layout{flex-direction: column;}
+}

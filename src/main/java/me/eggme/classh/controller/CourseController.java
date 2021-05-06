@@ -6,6 +6,7 @@ import me.eggme.classh.domain.dto.*;
 import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.service.CourseService;
 import me.eggme.classh.service.MemberService;
+import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -162,6 +163,37 @@ public class CourseController {
         return courseSectionDTO;
     }
 
+    // ajax 요청 : 강사가 섹션을 수정함
+    @PostMapping(value = "/edit/section")
+    @ResponseBody
+    public CourseSectionDTO editCourseSection(@ModelAttribute CourseSection courseSection){
+        log.info(courseSection.toString());
+        CourseSection createdSection = courseService.editSection(courseSection);
+        CourseSectionDTO courseSectionDTO = createdSection.of();
+        return courseSectionDTO;
+    }
+
+    /***
+     *  ajax 요청 : 강사가 섹션을 삭제함
+     */
+    @PostMapping(value = "/{id}/delete/section")
+    @ResponseBody
+    public String deleteCourseSection(@PathVariable Long id){
+        courseService.deleteCourseSection(id);
+        return "success";
+    }
+
+    /***
+     *  ajax 요청 : 강사가 수업을 삭제함
+     */
+    @PostMapping(value = "/{id}/delete/class")
+    @ResponseBody
+    public String deleteCourseClass(@PathVariable Long id){
+        log.info("class id = "+id);
+        courseService.deleteCourseClass(id);
+        return "success";
+    }
+
     // ajax 요청 : 강사가 수업을 추가함
     @PostMapping(value = "/{id}/save/class")
     @ResponseBody
@@ -312,5 +344,15 @@ public class CourseController {
         CourseDTO courseDTO = course.of();
         log.info(courseDTO.toString());
         return courseDTO;
+    }
+
+    /***
+     * 강사가 최종 제출 버튼을 눌렀을 때
+     */
+    @PostMapping(value = "/confirm")
+    @ResponseBody
+    public String courseConfirm(Long id){
+
+        return "success";
     }
 }

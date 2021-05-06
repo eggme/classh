@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import me.eggme.classh.domain.dto.CourseSectionDTO;
 import me.eggme.classh.utils.ModelMapperUtils;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,8 +31,9 @@ public class CourseSection implements Serializable {
 
     // 섹션이 가지고 있는 수업들
     @JsonManagedReference
-    @OneToMany(mappedBy = "courseSection", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "courseSection", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @OrderBy("id asc")
+    @BatchSize(size = 10)
     private List<CourseClass> courseClasses = new ArrayList<>();
 
     // 어느 강의에 포함되는지 정함

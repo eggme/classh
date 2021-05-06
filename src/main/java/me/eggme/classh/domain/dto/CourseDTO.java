@@ -41,6 +41,8 @@ public class CourseDTO implements Serializable {
         return totalTime;
     }
 
+    // 강의 검증 만들어야 합니다. ( 데이터를 입력했는지, 수업을 일정 개수 이상 등록했는지.. )
+
     // 총 강의 수
     public int getTotalClassCount(){
         int totalClassCount = courseSections.stream().mapToInt(s -> s.getCourseClasses().size()).sum();

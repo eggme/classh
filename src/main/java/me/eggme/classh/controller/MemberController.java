@@ -71,13 +71,6 @@ public class MemberController {
         return "access_denied";
     }
 
-
-    @RequestMapping(value = "/test")
-    public String test(){
-        return "root/test";
-    }
-
-
     @RequestMapping(value = "/errors")
     @ResponseBody
     public String errorPage(Exception e){

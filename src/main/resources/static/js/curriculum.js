@@ -8,10 +8,32 @@ $(function () {
     $(document).on("click", ".add_class", function () {
         var section_code = $(this).parents('.section_init').data('value');
         var section_id = $(this).parents('.section_init').data('code');
-        console.log(section_code + " : " + section_id);
         $('.class_form').attr('data-value', section_code);
         $('.class_form').attr('data-code', section_id);
         $('.class_form').css('display', 'block');
+    });
+    // 수업 삭제
+    $(document).on('click', '.remove_class', function(){
+        let result = confirm("정말로 삭제하시겠습니까?");
+        if(result) {
+            var class_id = $(this).parents('.class_box_line').data('class');
+            console.log(class_id);
+            deleteClass(class_id);
+        }
+    });
+    // 섹션 편집
+    $(document).on('click', ".edit_section", function(){
+        let section_id = $(this).parents('.section_init').data('code');
+        $('.edit_section_form').attr('data-id', section_id);
+        $('.edit_section_form').css('display', 'block');
+    });
+    // 섹션 삭제
+    $(document).on('click', '.remove_section', function(){
+        let result = confirm("정말로 삭제하시겠습니까?");
+        if(result){
+            let section_id = $(this).parents('.section_init').data('code');
+            deleteSection(section_id);
+        }
     });
     // 수업 편집
     $(document).on("click", ".edit_class", function () {
@@ -19,7 +41,7 @@ $(function () {
         findClassData($(this));
         $('.class_description_form').css('display', 'block');
     });
-    $('.class_cancle').click(function () {
+    $('.class_cancel').click(function () {
         $('.class_form').css('display', 'none');
     });
     $('.class_submit').click(function () {
@@ -48,31 +70,19 @@ $(function () {
     $('.add_section').click(function () {
         $('.section_form').css('display', 'block');
     });
-    $('.section_cancle').click(function () {
+    $('.section_cancel').click(function () {
         $('.section_form').css('display', 'none');
     });
     $('.section_submit').click(function () {
-        let id = $('.section_form').attr("data-id");
-        let name = $('.title_section').val();
-        let goal = $('.goal_section').val();
-        let section_code = $('.section_box').children('div').length;
-        $.ajax({
-            url: "/course/" + id + "/save/section",
-            dataType: "json",
-            method: "post",
-            data: {
-                "name": name,
-                "goal": goal
-            },
-            success: function (result) {
-                createSectionBox(name, section_code, result.id);
-            },
-            error: function (e) {
-                console.log(e);
-            }
-        });
+        saveSection();
     });
-    $('.class_description_cancle').click(function () {
+    $('.edit_section_submit').click(function(){
+        editSection();
+    });
+    $('.edit_section_cancel').click(function(){
+       $('.edit_section_form').css('display','none');
+    });
+    $('.class_description_cancel').click(function () {
         $('#ex_filename').val();
         $('.class_description_form').css('display', 'none');
     });
@@ -82,10 +92,6 @@ $(function () {
         $('.class_description_form').css('display', 'none');
 
     });
-    $('.remove_class').on('click', function () {
-        // 섹션 삭제 클릭 시 실행
-    });
-
     $('.isPublic_toggle_button').on('click', function () {
         if (!$('.isPublic_toggle_input').is(":checked")) {
             checkboxOn();
@@ -94,6 +100,91 @@ $(function () {
         }
     });
 });
+/* 수업 삭제하기 */
+function deleteClass(class_id){
+    $.ajax({
+        url: "/course/"+class_id+"/delete/class",
+        method : "post",
+        success : function(result){
+            console.log(result);
+            let section_box = $('.class_box_line[data-class='+class_id+']');
+            console.log($(section_box).attr('class'));
+            $(section_box).remove();
+        },
+        error : function(e){
+            console.log(e);
+        }
+    });
+}
+
+/* 섹션 삭제하기 */
+function deleteSection(section_id){
+    $.ajax({
+        url: "/course/"+section_id+"/delete/section",
+        method : "post",
+        success : function(result){
+            console.log(result);
+            let section_box = $('.section_init[data-code='+section_id+']');
+            console.log($(section_box).attr('class'));
+            $(section_box).remove();
+        },
+        error : function(e){
+            console.log(e);
+        }
+    });
+}
+
+/* 섹션 추가하기 */
+function saveSection(){
+    let id = $('.section_form').attr("data-id");
+    let name = $('.title_section').val();
+    let goal = $('.goal_section').val();
+    let section_code = $('.section_box').children('div').length;
+    $.ajax({
+        url: "/course/" + id + "/save/section",
+        dataType: "json",
+        method: "post",
+        data: {
+            "name": name,
+            "goal": goal
+        },
+        success: function (result) {
+            createSectionBox(name, section_code, result.id);
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+}
+
+/* 섹션 수정하기 */
+function editSection(){
+    let id = $('.edit_section_form').attr("data-id");
+    let name = $('.title_edit_section').val();
+    let goal = $('.goal_edit_section').val();
+    let section_code = $('.section_box').children('div').length;
+    $.ajax({
+        url: "/course/edit/section",
+        dataType: "json",
+        method: "post",
+        data: {
+            "id": id,
+            "name": name,
+            "goal": goal
+        },
+        success: function (result) {
+            let section_box = $('.section_init[data-code='+result.id+']');
+            let section_title = $(section_box).find('.section_title');
+            $(section_title).text(" : "+result.name);
+            $('.title_edit_section').val('');
+            $('.goal_edit_section').val('');
+            $('.edit_section_form').css('display','none');
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+}
 
 function clearForm(){
     $('.title_class_description').val('');
@@ -209,7 +300,7 @@ function createSectionBox(title, section_code, section_id) {
         "<span class='section_title'>&nbsp;: " + title + "</span>" +
         "</div>" +
         "<div class='section_menu'>" +
-        "<div class='remove_class'>" +
+        "<div class='remove_section'>" +
         "<i class='fas fa-trash-alt'></i>" +
         "</div>" +
         "<div class='edit_section'>" +

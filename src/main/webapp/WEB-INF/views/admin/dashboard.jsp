@@ -26,7 +26,9 @@
                     <div class="board_title">방문자 요약</div>
                     <div class="board_content height_fixed">
                         <canvas id="line_chart" style="width: 100%;"></canvas>
-                        <script type="text/javascript" src="/js/views/customChart.js"></script>
+                        <script>
+                            drawingLineChart('line_chart');
+                        </script>
                     </div>
                 </div>
                 <div class="board_35_layout">
@@ -129,14 +131,18 @@
             <div class="board_title">카테고리 별 이용자</div>
             <div class="board_content height_fixed">
                 <canvas id="doughnut_chart" style="width: 100%"></canvas>
-                <script type="text/javascript" src="/js/views/doughnutChart.js"></script>
+                <script>
+                    drawingDoughnutChart('doughnut_chart');
+                </script>
             </div>
         </div>
         <div class="board_5_layout board">
             <div class="board_title">상위 Top 7 강사 별 수익통계</div>
             <div class="board_content height_fixed">
                 <canvas id="bar_chart" style="width: 100%"></canvas>
-                <script type="text/javascript" src="/js/views/barChart.js"></script>
+                <script>
+                    drawingBarChart('bar_chart');
+                </script>
             </div>
         </div>
     </div>
@@ -144,11 +150,197 @@
         <div class="board_5_layout board">
             <div class="board_title">공지사항</div>
             <div class="board_content">
+                <div class="board_content">
+                    <div class="notice_wrap">
+                        <div class="notice">
+                            <div class="notice_status">
+                                <div class="notice_status_value">공지</div>
+                            </div>
+                            <div class="notice_data_wrap">
+                                <div class="notice_data">
+                                    <div class="notice_tag_data">[시스템]</div>
+                                    <div class="notice_data">시스템 공지사항 입니다. 이것은 시스템 공지사항 입니다.</div>
+                                </div>
+                                <div class="notice_time">
+                                    2021.05.11
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notice">
+                            <div class="notice_status">
+                                <div class="notice_status_value">공지</div>
+                            </div>
+                            <div class="notice_data_wrap">
+                                <div class="notice_data">
+                                    <div class="notice_tag_data">[시스템]</div>
+                                    <div class="notice_data">시스템 공지사항 입니다. 이것은 시스템 공지사항 입니다.</div>
+                                </div>
+                                <div class="notice_time">
+                                    2021.05.11
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notice">
+                            <div class="notice_status">
+                                <div class="notice_status_value">공지</div>
+                            </div>
+                            <div class="notice_data_wrap">
+                                <div class="notice_data">
+                                    <div class="notice_tag_data">[시스템]</div>
+                                    <div class="notice_data">시스템 공지사항 입니다. 이것은 시스템 공지사항 입니다.</div>
+                                </div>
+                                <div class="notice_time">
+                                    2021.05.11
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notice">
+                            <div class="notice_status">
+                                <div class="notice_status_value">공지</div>
+                            </div>
+                            <div class="notice_data_wrap">
+                                <div class="notice_data">
+                                    <div class="notice_tag_data">[시스템]</div>
+                                    <div class="notice_data">시스템 공지사항 입니다. 이것은 시스템 공지사항 입니다.</div>
+                                </div>
+                                <div class="notice_time">
+                                    2021.05.11
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notice">
+                            <div class="notice_data_wrap">
+                                <div class="notice_data">
+                                    <div class="notice_tag_data">[시스템]</div>
+                                    <div class="notice_data">시스템 공지사항 입니다. 이것은 시스템 공지사항 입니다.</div>
+                                </div>
+                                <div class="notice_time">
+                                    2021.05.11
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notice">
+                            <div class="notice_data_wrap">
+                                <div class="notice_data">
+                                    <div class="notice_tag_data">[시스템]</div>
+                                    <div class="notice_data">시스템 공지사항 입니다. 이것은 시스템 공지사항 입니다.</div>
+                                </div>
+                                <div class="notice_time">
+                                    2021.05.11
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notice">
+                            <div class="notice_data_wrap">
+                                <div class="notice_data">
+                                    <div class="notice_tag_data">[시스템]</div>
+                                    <div class="notice_data">시스템 공지사항 입니다. 이것은 시스템 공지사항 입니다.</div>
+                                </div>
+                                <div class="notice_time">
+                                    2021.05.11
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notice">
+                            <div class="notice_data_wrap">
+                                <div class="notice_data">
+                                    <div class="notice_tag_data">[시스템]</div>
+                                    <div class="notice_data">시스템 공지사항 입니다. 이것은 시스템 공지사항 입니다.</div>
+                                </div>
+                                <div class="notice_time">
+                                    2021.05.11
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="board_5_layout board">
             <div class="board_title">Q&A</div>
             <div class="board_content">
+                <div class="qna_wrap">
+                    <div class="qna">
+                        <div class="qna_data">
+                            <div class="qna_title">
+                                <div class="qna_icon">Q.</div>
+                                <div class="qna_value">궁금합니다. 정말로요</div>
+                            </div>
+                            <div class="qna_user">
+                                <div class="qna_username board_sub_text_based">이승준</div>
+                                <div class="separator board_sub_text_based">|</div>
+                                <div class="qna_timestamp board_sub_text_based">2021년 5월 6일 14:59</div>
+                            </div>
+                        </div>
+                        <div class="qna_status non_success_question">
+                            미답변
+                        </div>
+                    </div>
+                    <div class="qna">
+                        <div class="qna_data">
+                            <div class="qna_title">
+                                <div class="qna_icon">Q.</div>
+                                <div class="qna_value">궁금합니다. 정말로요</div>
+                            </div>
+                            <div class="qna_user">
+                                <div class="qna_username board_sub_text_based">이승준</div>
+                                <div class="separator board_sub_text_based">|</div>
+                                <div class="qna_timestamp board_sub_text_based">2021년 5월 6일 14:59</div>
+                            </div>
+                        </div>
+                        <div class="qna_status non_success_question">
+                            미답변
+                        </div>
+                    </div>
+                    <div class="qna">
+                        <div class="qna_data">
+                            <div class="qna_title">
+                                <div class="qna_icon">Q.</div>
+                                <div class="qna_value">궁금합니다. 정말로요</div>
+                            </div>
+                            <div class="qna_user">
+                                <div class="qna_username board_sub_text_based">이승준</div>
+                                <div class="separator board_sub_text_based">|</div>
+                                <div class="qna_timestamp board_sub_text_based">2021년 5월 6일 14:59</div>
+                            </div>
+                        </div>
+                        <div class="qna_status non_success_question">
+                            미답변
+                        </div>
+                    </div>
+                    <div class="qna">
+                        <div class="qna_data">
+                            <div class="qna_title">
+                                <div class="qna_icon">Q.</div>
+                                <div class="qna_value">궁금합니다. 정말로요</div>
+                            </div>
+                            <div class="qna_user">
+                                <div class="qna_username board_sub_text_based">이승준</div>
+                                <div class="separator board_sub_text_based">|</div>
+                                <div class="qna_timestamp board_sub_text_based">2021년 5월 6일 14:59</div>
+                            </div>
+                        </div>
+                        <div class="qna_status success_question">
+                            답변완료
+                        </div>
+                    </div>
+                    <div class="qna">
+                        <div class="qna_data">
+                            <div class="qna_title">
+                                <div class="qna_icon">Q.</div>
+                                <div class="qna_value">궁금합니다. 정말로요</div>
+                            </div>
+                            <div class="qna_user">
+                                <div class="qna_username board_sub_text_based">이승준</div>
+                                <div class="separator board_sub_text_based">|</div>
+                                <div class="qna_timestamp board_sub_text_based">2021년 5월 6일 14:59</div>
+                            </div>
+                        </div>
+                        <div class="qna_status success_question">
+                            답변완료
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

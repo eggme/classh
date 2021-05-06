@@ -1,4 +1,4 @@
-var context = document.getElementById('doughnut_chart').getContext('2d');
+var context = document.getElementsByClassName('doughnut_chart').getContext('2d');
 var customChart = new Chart(context, {
     type : 'doughnut',
     data : {

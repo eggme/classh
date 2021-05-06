@@ -228,6 +228,19 @@ public class CourseService {
     }
 
     /***
+     * 강사가 섹션을 수정했을 때
+     */
+    @Transactional
+    public CourseSection editSection(CourseSection courseSection){
+        CourseSection savedCourseSection =
+                courseSessionRepository.findById(courseSection.getId()).orElseThrow(
+                        () -> new NoSearchCourseSectionException());
+        savedCourseSection.setName(courseSection.getName());
+        savedCourseSection.setGoal(courseSection.getGoal());
+        return savedCourseSection;
+    }
+
+    /***
      * 강사가 수업을 추가 했을 때
      * @param courseClass
      * @return
@@ -353,5 +366,32 @@ public class CourseService {
 
     public boolean isPreviewCourseClass(CourseClass courseClass) {
         return courseClass.isPreview();
+    }
+
+    /***
+     * 해당하는 섹션을 삭제
+     * @param id 식별자
+     */
+    @Transactional
+    public void deleteCourseSection(Long id) {
+        CourseSection savedCourseSection
+                = courseSessionRepository.findById(id).orElseThrow(
+                () -> new NoSearchCourseSectionException());
+        courseSessionRepository.delete(savedCourseSection);
+    }
+
+    /***
+     * 해당하는 수업을 삭제
+     * @param id 식별자
+     */
+    @Transactional
+    public void deleteCourseClass(Long id) {
+        CourseClass savedCourseClass
+                = courseClassRepository.findById(id).orElseThrow(
+                () -> new NoSearchCourseClassException()
+        );
+        log.info(savedCourseClass.toString());
+        courseClassRepository.deleteById(id);
+        log.info(savedCourseClass.toString());
     }
 }

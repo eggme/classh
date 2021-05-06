@@ -81,7 +81,7 @@
             </div>
             <div class="add_class_buttons">
                 <div class="submit_button class_submit">저장</div>
-                <div class="cancle_button class_cancle">취소</div>
+                <div class="cancel_button class_cancel">취소</div>
             </div>
         </div>
     </div>
@@ -100,7 +100,26 @@
             </div>
             <div class="add_section_buttons">
                 <div class="submit_button section_submit">저장</div>
-                <div class="cancle_button section_cancle">취소</div>
+                <div class="cancel_button section_cancel">취소</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="edit_section_form" tabindex="1" role="dialog" data-id="${course.id}">
+    <div class="edit_section_content animate">
+        <div class="edit_section_container">
+            <h2>섹션 변경</h2>
+            <p>제목</p>
+            <div class="edit_section_input">
+                <input type="text" class="gray_input title_edit_section" placeholder="제목을 입력해주세요."/>
+            </div>
+            <p>학습 목표</p>
+            <div class="edit_section_input">
+                <input type="text" class="gray_input goal_edit_section" placeholder="이 섹션의 학습 목표를 적어주세요."/>
+            </div>
+            <div class="edit_section_buttons">
+                <div class="submit_button edit_section_submit">저장</div>
+                <div class="cancel_button edit_section_cancel">취소</div>
             </div>
         </div>
     </div>
@@ -164,7 +183,7 @@
                 </div>
                 <div class="add_class_description_buttons">
                     <div class="submit_button class_description_submit">저장</div>
-                    <div class="cancle_button class_description_cancle">취소</div>
+                    <div class="cancel_button class_description_cancel">취소</div>
                 </div>
             </div>
         </div>
