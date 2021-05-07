@@ -2,6 +2,7 @@ package me.eggme.classh.domain.dto;
 
 import lombok.*;
 import me.eggme.classh.domain.entity.*;
+import me.eggme.classh.utils.CourseValidation;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -30,6 +31,7 @@ public class CourseDTO implements Serializable {
     private List<CourseReview> courseReviews;
     private LocalDateTime create_at = LocalDateTime.now();
     private LocalDateTime modify_at = LocalDateTime.now();
+    private CourseValidation courseValidation;
 
     // 총 강의 시간
     public int getTotalTime(){
@@ -41,11 +43,17 @@ public class CourseDTO implements Serializable {
         return totalTime;
     }
 
-    // 강의 검증 만들어야 합니다. ( 데이터를 입력했는지, 수업을 일정 개수 이상 등록했는지.. )
-
     // 총 강의 수
     public int getTotalClassCount(){
         int totalClassCount = courseSections.stream().mapToInt(s -> s.getCourseClasses().size()).sum();
         return totalClassCount;
+    }
+
+    // '제출' 상태 이면 false 반환
+    public boolean isSubmitted(){
+        if(getCourseState().getValue().equals(CourseState.SUBMIT.getValue())){
+            return true;
+        }
+        return false;
     }
 }

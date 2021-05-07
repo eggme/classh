@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.CourseCategory;
 import me.eggme.classh.domain.dto.CourseClassDTO;
 import me.eggme.classh.domain.dto.CourseLevel;
+import me.eggme.classh.domain.dto.CourseState;
 import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.exception.EmailExistedException;
 import me.eggme.classh.exception.NoSearchCourseClassException;
@@ -173,7 +174,6 @@ public class CourseService {
     @Transactional
     public Course editCourse(Course course, CourseCategory courseCategory, CourseLevel courseLevel,
                              List<Recommendation> recommendations, List<SkillTag> skillTags){
-        log.info("tags size - " + skillTags.size());
         Course findCourse = courseRepository.findById(course.getId()).orElseThrow(() -> new NoSearchCourseException());
         findCourse.setName(course.getName());
         findCourse.setPrice(course.getPrice());
@@ -340,7 +340,6 @@ public class CourseService {
     }
 
     private boolean hasSkillTag(Course course){
-        log.info("course tags size - " + course.getSkillTags().size());
         return course.getSkillTags().size() == 0 ? false : true;
     }
 
@@ -390,8 +389,16 @@ public class CourseService {
                 = courseClassRepository.findById(id).orElseThrow(
                 () -> new NoSearchCourseClassException()
         );
-        log.info(savedCourseClass.toString());
         courseClassRepository.deleteById(id);
-        log.info(savedCourseClass.toString());
+    }
+
+    /***
+     * 강사가 최종적으로 제출 버튼을 눌러 임시저장 상태에서 제출 상태로 변경
+     * @param id
+     */
+    @Transactional
+    public void submitted(Long id) {
+        Course savedCourse = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
+        savedCourse.setCourseState(CourseState.SUBMIT);
     }
 }

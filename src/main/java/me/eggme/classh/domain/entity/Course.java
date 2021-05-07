@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import me.eggme.classh.domain.dto.*;
+import me.eggme.classh.utils.CourseValidation;
 import me.eggme.classh.utils.ModelMapperUtils;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
@@ -100,13 +101,19 @@ public class Course extends BaseTimeEntity implements Serializable {
     @JoinColumn(name="COURSE_TAG_ID")
     private List<CourseTag> courseTags = new ArrayList<>();
 
+    // 강의 검증관련 컬럼에 매핑되지 않음
+    @Transient
+    private CourseValidation courseValidation;
+
     public Course(String name){
         this.name = name;
         this.courseState = CourseState.TEMPORARY;
     }
 
     public CourseDTO of(){
-        return ModelMapperUtils.getModelMapper().map(this, CourseDTO.class);
+        CourseDTO courseDTO = ModelMapperUtils.getModelMapper().map(this, CourseDTO.class);
+        courseDTO.setCourseValidation(new CourseValidation(courseDTO));
+        return courseDTO;
     }
 
     // 편의 메서드

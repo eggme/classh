@@ -2,7 +2,7 @@ body, body *{font-family: "Noto Sans KR";}
 .main_section{margin-left: 10px; width: 1030px; height: 100%; margin-bottom: 80px; display: inline-block;}
 
 .flex_row_wrap{display: flex; width: 100%; flex-wrap: wrap;}
-.mini_card_wrap{display: flex; flex-direction: column; background-color: white; width: calc(92% / 5); box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; padding: 8px; margin: 8px; height: 100px;}
+.mini_card_wrap{display: flex; flex-direction: column; background-color: white; width: calc(92% / 5); box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; padding: 8px; margin: 8px; height: 100px; border-radius: 2px;}
 .card_height {height: 100%; min-height: 380px;}
 .card_wrap_3{background-color: white; width: calc(((92% / 10) * 3) + (16px * 1)); box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; padding: 8px; margin: 8px;}
 .card_wrap_7{background-color: white; width: calc(((92% / 10) * 7) + (16px * 2)); box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; padding: 8px; margin: 8px;}
@@ -15,7 +15,7 @@ body, body *{font-family: "Noto Sans KR";}
 .margin_table{margin : 24px 0 0 0px;text-align: center;width: 90%;}
 .table_head th{border: 1px solid #dbdbdb; text-align: center; color: #363636;}
 .MyHome{background-color: #ebfff7 !important;}
-.MyHome:hover{background-color: #1dc078; color: white;}
+.MyHome:hover{background-color: #1dc078 !important; color: white;}
 
 @media (max-width: 1300px) {
     .mini_card_wrap{width: calc(92% / 2);}

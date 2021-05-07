@@ -6,6 +6,7 @@ import me.eggme.classh.domain.dto.*;
 import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.service.CourseService;
 import me.eggme.classh.service.MemberService;
+import me.eggme.classh.utils.CourseValidation;
 import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -125,9 +126,6 @@ public class CourseController {
                               @RequestParam(value = "recommendations",  required = false) List<Recommendation> recommendations,
                               @RequestParam(value = "tags",  required = false) List<SkillTag> skillTags,
                               Model model){
-        log.info("recommendations size - " + recommendations.size());
-        log.info("tags size - " + skillTags.size());
-        log.info(skillTags.stream().map(st -> st.getValue()).collect(Collectors.joining(", ")));
         Course editedCourse = courseService.editCourse(course, courseCategory, courseLevel, recommendations, skillTags);
         CourseDTO courseDTO = editedCourse.of();
         model.addAttribute("course", courseDTO);
@@ -139,7 +137,8 @@ public class CourseController {
     @GetMapping(value = "{id}/curriculum")
     public String courseCurriculumView(@PathVariable Long id, Model model){
         Course course = courseService.getCourse(id);
-        model.addAttribute("course", course);
+        CourseDTO courseDTO = course.of();
+        model.addAttribute("course", courseDTO);
         model.addAttribute("category", "curriculum");
         return "course/courseCurriculumn";
     }
@@ -148,7 +147,8 @@ public class CourseController {
     @PostMapping(value = "/{id}/save/description")
     public String saveCourseDescription(@ModelAttribute Course course, Model model){
         Course updatedCourse = courseService.editCourse(course);
-        model.addAttribute("course", updatedCourse);
+        CourseDTO courseDTO = updatedCourse.of();
+        model.addAttribute("course", courseDTO);
         model.addAttribute("category", "curriculum");
         return "course/courseCurriculumn";
     }
@@ -229,7 +229,7 @@ public class CourseController {
         return courseClassDTO;
     }
 
-    // 수강생이 강의 정보에서 리뷰를 입력함
+    // 수강생이 강의 정보에서 리뷰를 입력함 ???
     @PostMapping(value = "/{id}/add/review")
     public String addCourseReview(@PathVariable Long id,
                                   @RequestParam int rate,
@@ -247,7 +247,8 @@ public class CourseController {
     public String editCourseClassInfo(@ModelAttribute CourseClass courseClass, Model model){
         log.info(courseClass.toString());
         Course findCourse = courseService.editCourseClass(courseClass);
-        model.addAttribute("course", findCourse);
+        CourseDTO courseDTO = findCourse.of();
+        model.addAttribute("course", courseDTO);
         model.addAttribute("category", "curriculum");
         return "course/courseCurriculumn";
     }
@@ -352,7 +353,7 @@ public class CourseController {
     @PostMapping(value = "/confirm")
     @ResponseBody
     public String courseConfirm(Long id){
-
+        courseService.submitted(id);
         return "success";
     }
 }

@@ -96,7 +96,6 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     @Transactional
     public RoleResources createRoleResourceIfNotFound(Role role, Resources resources) {
         RoleResources roleResources = roleResourcesRepository.findByRoleAndResources(role, resources);
-        log.info(roleResources != null ? "RoleResources added" : "RoleResources not added");
         if(roleResources == null){
             roleResources = RoleResources.builder()
                             .role(role)
@@ -109,7 +108,6 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     @Transactional
     public Resources createResourceIfNotFound(String resourcesName, String httpMethod, String resourcesType) {
         Resources resources = resourceRepository.findByResourcesNameAndResourcesType(resourcesName, resourcesType);
-        log.info(resources != null ? "Resources added" : "Resources not added");
         if(resources == null){
             resources = Resources.builder()
                     .resourcesName(resourcesName)

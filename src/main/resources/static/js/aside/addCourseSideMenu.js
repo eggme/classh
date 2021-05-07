@@ -1,5 +1,14 @@
 $(function () {
-    $('.submit').click(function () {
+
+    $('.nonValidated').mouseover(function(){
+        $('.guide_wrap').removeClass('hidden');
+    });
+
+    $('.nonValidated').mouseout(function(){
+        $('.guide_wrap').addClass('hidden');
+    });
+
+    $('.final_submit').click(function () {
         $('.course_submit_form').css('display', 'block');
     });
     $('.course_submit').click(function () {
@@ -27,3 +36,29 @@ $(function () {
         });
     });
 });
+
+/* 메뉴 활성화용 검증 */
+function validationMenu(info, desc, curriculum, cover){
+    if(info){
+        $('.course_info').find(".check").addClass('validated');
+    }
+    if(desc){
+        $('.description').find(".check").addClass('validated');
+    }
+    if(curriculum){
+        $('.curriculum').find(".check").addClass('validated');
+    }
+    if(cover){
+        $('.thumbnail_').find(".check").addClass('validated');
+    }
+}
+
+/* 강의 최종 검수 */
+function validation(check){
+    console.log(check);
+    if(!check){
+        $('.final_submit').addClass('nonValidated');
+    }else{
+        $('.final_submit').removeClass('nonValidated');
+    }
+}
