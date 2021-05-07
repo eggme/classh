@@ -56,4 +56,14 @@ public class CourseDTO implements Serializable {
         }
         return false;
     }
+
+    // 해당강의에 수강평을 썼는지 검증
+    public boolean isWroteReview(Member member){
+        for(CourseReview review : courseReviews){
+            if(review.getMember().getId() == member.getId()){
+                return true;
+            }
+        }
+        return false;
+    }
 }

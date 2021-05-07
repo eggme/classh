@@ -8,6 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
@@ -192,17 +194,133 @@
                             </script>
                         </c:otherwise>
                     </c:choose>
-                </span>)
-                </div>
-            </div>
-            <%-- 강의 수강평 --%>
-            <div class="course_review_wrap">
-                <div class="review_title_wrap">
+                    </span>)
+                    </div>
+                    </div>
+                    <%-- 강의 수강평 --%>
+                    <div class="course_review_wrap">
+                    <div class="review_title_wrap">
                     <div class="review_title">수강평</div>
                     <div class="review_sub_title">수강생분들이 직접 작성하신 수강평입니다. 수강평을 작성 시 300잎이 적립됩니다.</div>
-                </div>
-                <c:choose>
-                    <c:when test="false">
+                    </div>
+                    <c:set var="isWroteReview" value="false" />
+                    <sec:authorize access="isAuthenticated()">
+                        <sec:authentication property="principal" var="member" />
+                        <c:set var="isWroteReview" value="${course.isWroteReview(member)}"/>
+                        <c:choose>
+                            <c:when test="${isWroteReview}">
+                                <div class="review_list_form">
+                                    <div class="review_list_filter">
+                                        <div class="review_list_filter_title review_list_template">VIEW</div>
+                                        <div class="review_list_filter_divider"></div>
+                                        <div class="review_list_filter_like review_list_template"><span class="separator highlight_active">· </span><span class="review_list_menu_title">좋아요 순</span></div>
+                                        <div class="review_list_filter_recently review_list_template"><span class="separator">· </span><span class="review_list_menu_title">최신 순</span></div>
+                                        <div class="review_list_filter_high_rate review_list_template"><span class="separator">· </span><span class="review_list_menu_title">높은 평점 순</span></div>
+                                        <div class="review_list_filter_low_rate review_list_template"><span class="separator">· </span><span class="review_list_menu_title">낮은 평점 순</span></div>
+                                    </div>
+                                <div class="review_list_content">
+                                <c:forEach var="review" items="${course.courseReviews}" varStatus="review_status">
+                                    <c:set var="mem" value="${review.member}" />
+                                        <div class="reviewer_form" data-id="${review.id}">
+                                                <div class="reviewer_content">
+                                                    <div claass="reviewer_profile">
+                                                        <div class="image_wrapper">
+                                                            <img class="reviewer_profile_img" src="${mem.profile}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="reviewer_content_flex_wrap">
+                                                        <div class="reviewer_content_value">
+                                                            <div class="review_rate_wrap">
+                                                                <div class="review_rate_value">
+                                                                    <ul class="reviewer_star_rate_ul">
+                                                                        <c:forEach var="fillStarDraw" begin="1" end="5" step="1" >
+                                                                            <c:choose>
+                                                                                <c:when test="${fillStarDraw le review.rate}">
+                                                                                    <li class="rate_${fillStarDraw}"><i class="fas fa-star star_fill"></i></li>
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                    <li class="rate_${fillStarDraw}"><i class="fas fa-star"></i></li>
+                                                                                </c:otherwise>
+                                                                            </c:choose>
+                                                                        </c:forEach>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="review_rate_count"></div>
+                                                            </div>
+                                                            <div class="reviewer_name"><c:out value="${mem.nickName}"/></div>
+                                                        </div>
+                                                        <div class="reviewer_toolbox">
+                                                            <c:set var="isWroteMe" value="${review.isWroteReview(member)}"></c:set>
+                                                            <c:if test="${isWroteMe}">
+                                                                <div class="toolbox_icon">
+                                                                    <i class="fas fa-ellipsis-v"></i>
+                                                                </div>
+                                                                <div class="toolbox hidden">
+                                                                    <div class="edit_button_wrap">
+                                                                        <div class="edit_icon"><i class="far fa-edit"></i></div>
+                                                                        <div class="edit_text">수정</div>
+                                                                    </div>
+                                                                    <div class="delete_button_wrap">
+                                                                        <div class="delete_icon"><i class="far fa-trash-alt"></i></div>
+                                                                        <div class="delete_text">삭제</div>
+                                                                    </div>
+                                                                </div>
+                                                            </c:if>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="reviewer_comment">
+                                                    <c:out value="${review.reviewContent}"/>
+                                                </div>
+                                                <div class="reviewer_created_date">
+                                                    <div class="created_date_wrap">
+                                                        <div class="review_date">
+                                                            <fmt:parseDate var="dateString" value="${review.modify_at}" pattern="yyyy-MM-dd'T'HH:mm" type="both"/>
+                                                            <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
+                                                        </div>
+                                                        <div class="review_recommendation">
+                                                            &nbsp;· 답글 작성
+                                                        </div>
+                                                    </div>
+                                                    <div class="reviewer_like_wrap">
+                                                        <div class="like_icon"><i class="far fa-heart"></i></div>
+                                                        <div clsas="like_count">0</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                </c:forEach>
+                                    </div>
+                                </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="review_form">
+                                <form action="/course/${course.id}/add/review" method="post" class="review_real_form">
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                    <div class="review_rate">
+                                        <div class="rate_area">
+                                            <ul class="star_rate_ul">
+                                                <li class="rate_1"><i class="fas fa-star"></i></li>
+                                                <li class="rate_2"><i class="fas fa-star"></i></li>
+                                                <li class="rate_3"><i class="fas fa-star"></i></li>
+                                                <li class="rate_4"><i class="fas fa-star"></i></li>
+                                                <li class="rate_5"><i class="fas fa-star"></i></li>
+                                            </ul>
+                                        </div>
+                                        <div class="sub_title_area">별점을 선택해주세요</div>
+                                    </div>
+                                    <div class="review_textarea_wrap">
+                                    <textarea class="review_textarea" name="reviewContent"
+                                              placeholder="좋은 수강평을 남겨주시면 지식공유자와 이후 배우는 사람들에게 큰 도움이 됩니다! 포인트도 드려요!! (5자 이상)"></textarea>
+                                        <div class="submit_area">
+                                            <div class="review_submit">등록</div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </sec:authorize>
+                <sec:authorize access="isAnonymous()">
                         <div class="review_list_form">
                             <div class="review_list_filter">
                                 <div class="review_list_filter_title review_list_template">VIEW</div>
@@ -213,75 +331,59 @@
                                 <div class="review_list_filter_low_rate review_list_template"><span class="separator">· </span><span class="review_list_menu_title">낮은 평점 순</span></div>
                             </div>
                             <div class="review_list_content">
-                                <div class="reviewer_form">
-                                    <div class="reviewer_content">
-                                        <div claass="reviewer_profile">
-                                            <div class="image_wrapper">
-                                                <img class="reviewer_profile_img" src="/imgs/mini_icon_1.png">
-                                            </div>
-                                        </div>
-                                        <div class="reviewer_content_value">
-                                            <div class="review_rate_wrap">
-                                                <div class="review_rate_value">
-                                                    <ul class="reviewer_star_rate_ul">
-                                                        <li class="rate_1"><i class="fas fa-star"></i></li>
-                                                        <li class="rate_2"><i class="fas fa-star"></i></li>
-                                                        <li class="rate_3"><i class="fas fa-star"></i></li>
-                                                        <li class="rate_4"><i class="fas fa-star"></i></li>
-                                                        <li class="rate_5"><i class="fas fa-star"></i></li>
-                                                    </ul>
+                                <c:forEach var="review" items="${course.courseReviews}" varStatus="review_status">
+                                    <c:set var="mem" value="${review.member}" />
+                                    <div class="reviewer_form">
+                                        <div class="reviewer_content">
+                                            <div claass="reviewer_profile">
+                                                <div class="image_wrapper">
+                                                    <img class="reviewer_profile_img" src="${mem.profile}">
                                                 </div>
-                                                <div class="review_rate_count"></div>
                                             </div>
-                                            <div class="reviewer_name">승준</div>
-                                        </div>
-                                    </div>
-                                    <div class="reviewer_comment">
-                                        asdasdasda
-                                    </div>
-                                    <div class="reviewer_created_date">
-                                        <div class="created_date_wrap">
-                                            <div class="review_date">2021-03-29</div>
-                                            <div class="review_recommendation">
-                                                · 답글 작성
+                                            <div class="reviewer_content_value">
+                                                <div class="review_rate_wrap">
+                                                    <div class="review_rate_value">
+                                                        <ul class="reviewer_star_rate_ul">
+                                                            <c:forEach var="fillStarDraw" begin="1" end="5" step="1" >
+                                                                <c:choose>
+                                                                    <c:when test="${fillStarDraw le review.rate}">
+                                                                        <li class="rate_${fillStarDraw}"><i class="fas fa-star star_fill"></i></li>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <li class="rate_${fillStarDraw}"><i class="fas fa-star"></i></li>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </c:forEach>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="review_rate_count"></div>
+                                                </div>
+                                                <div class="reviewer_name"><c:out value="${mem.nickName}"/></div>
                                             </div>
                                         </div>
-                                        <div class="reviewer_like_wrap">
-                                            <div class="like_icon"><i class="far fa-heart"></i></div>
-                                            <div clsas="like_count">0</div>
+                                        <div class="reviewer_comment">
+                                            <c:out value="${review.reviewContent}"/>
+                                        </div>
+                                        <div class="reviewer_created_date">
+                                            <div class="created_date_wrap">
+                                                <div class="review_date">
+                                                    <fmt:parseDate var="dateString" value="${review.modify_at}" pattern="yyyy-MM-dd'T'HH:mm" type="both"/>
+                                                    <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
+                                                </div>
+                                                <div class="review_recommendation">
+                                                    · 답글 작성
+                                                </div>
+                                            </div>
+                                            <div class="reviewer_like_wrap">
+                                                <div class="like_icon"><i class="far fa-heart"></i></div>
+                                                <div clsas="like_count">0</div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </c:forEach>
                             </div>
                         </div>
-                    </c:when>
-                    <c:otherwise>
-                        <div class="review_form">
-                            <form action="/course/${course.id}/add/review" method="post" class="review_real_form">
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                <div class="review_rate">
-                                    <div class="rate_area">
-                                        <ul class="star_rate_ul">
-                                            <li class="rate_1"><i class="fas fa-star"></i></li>
-                                            <li class="rate_2"><i class="fas fa-star"></i></li>
-                                            <li class="rate_3"><i class="fas fa-star"></i></li>
-                                            <li class="rate_4"><i class="fas fa-star"></i></li>
-                                            <li class="rate_5"><i class="fas fa-star"></i></li>
-                                        </ul>
-                                    </div>
-                                    <div class="sub_title_area">별점을 선택해주세요</div>
-                                </div>
-                                <div class="review_textarea_wrap">
-                                    <textarea class="review_textarea" name="reviewContent"
-                                        placeholder="좋은 수강평을 남겨주시면 지식공유자와 이후 배우는 사람들에게 큰 도움이 됩니다! 포인트도 드려요!! (5자 이상)"></textarea>
-                                    <div class="submit_area">
-                                        <div class="review_submit">등록</div>
-                                    </div>
-                            </div>
-                            </form>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
+                </sec:authorize>
             </div>
         </div>
     </div>
@@ -322,4 +424,35 @@
             </div>
         </div>
     </div>
+</div>
+
+<%-- 댓글 수정 모달 --%>
+<div class="edit_review_form_wrap" data-id="">
+    <form class="edit_review_form" method="post" action="/course/edit/review">
+        <input type="hidden" name="id" value="" class="id">
+        <input type="hidden" name="course_id" value="${course.id}">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <div class="edit_review_content animate">
+            <div class="edit_review_container">
+                <div class="edit_review_exit"><i class="fas fa-times exit"></i></div>
+                <div class="edit_review_title">힘이 되는 수강평을 남겨주세요!</div>
+                <div class="rate_area">
+                    <ul class="star_rate_ul sizeUp">
+                        <li class="edit_rate_1"><i class="fas fa-star"></i></li>
+                        <li class="edit_rate_2"><i class="fas fa-star"></i></li>
+                        <li class="edit_rate_3"><i class="fas fa-star"></i></li>
+                        <li class="edit_rate_4"><i class="fas fa-star"></i></li>
+                        <li class="edit_rate_5"><i class="fas fa-star"></i></li>
+                    </ul>
+                </div>
+                <div class="edit_review_reviewContent">
+                    <textarea name="reviewContent" class="reviewContent" ></textarea>
+                </div>
+                <div class="add_class_description_buttons">
+                    <div class="edit_review_cancel">취소</div>
+                    <div class="edit_review_submit">저장하기</div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>

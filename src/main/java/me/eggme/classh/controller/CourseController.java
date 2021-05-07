@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.*;
 import me.eggme.classh.domain.entity.*;
+import me.eggme.classh.service.CourseReviewService;
 import me.eggme.classh.service.CourseService;
 import me.eggme.classh.service.MemberService;
 import me.eggme.classh.utils.CourseValidation;
@@ -32,6 +33,8 @@ public class CourseController {
 
     @Autowired
     public CourseService courseService;
+    @Autowired
+    public CourseReviewService courseReviewService;
 
     private static EnumSet categories = EnumSet.allOf(CourseCategory.class);
     private static EnumSet levels = EnumSet.allOf(CourseLevel.class);
@@ -69,7 +72,8 @@ public class CourseController {
         if(member != null){
             model.addAttribute("member", member.of());
         }
-        model.addAttribute("course", course.of());
+        CourseDTO courseDTO = course.of();
+        model.addAttribute("course", courseDTO);
         return "information/courseInfo/info";
     }
 
@@ -237,8 +241,8 @@ public class CourseController {
                                   Model model, @AuthenticationPrincipal Member member){
         Course course = courseService.saveCourseReview(id, member.getUsername(), rate, reviewContent);
         Member loadMember = memberService.loadUser(member.getUsername());
-        model.addAttribute("member", loadMember.of());
-        model.addAttribute("course", course.of());
+        CourseDTO courseDTO = course.of();
+        model.addAttribute("course", courseDTO);
         return "information/courseInfo/info";
     }
 
@@ -355,5 +359,31 @@ public class CourseController {
     public String courseConfirm(Long id){
         courseService.submitted(id);
         return "success";
+    }
+
+    /***
+     * 수강생이 본인 수강평을 편집할 때 본인 수강평 정보를 조회하는 메서드
+     */
+    @PostMapping(value = "/select/review")
+    @ResponseBody
+    public CourseReviewDTO selectReview(@RequestParam(value = "review_id") Long review_id){
+        log.info("리뷰 아이디 : " + review_id);
+        CourseReview savedReview = courseReviewService.selectReview(review_id);
+        CourseReviewDTO courseReviewDTO = savedReview.of();
+        return courseReviewDTO;
+    }
+
+    /***
+     * 수강생이 본인 수강평을 수정함
+     */
+    @PostMapping(value = "/edit/review")
+    public String editReview(@ModelAttribute CourseReview courseReview,
+                             @RequestParam(value = "course_id") Long course_id,
+                             Model model){
+        courseReviewService.editReview(courseReview);
+        Course savedCourse = courseService.getCourse(course_id);
+        CourseDTO courseDTO = savedCourse.of();
+        model.addAttribute("course", courseDTO);
+        return "information/courseInfo/info";
     }
 }

@@ -1,4 +1,47 @@
 $(function () {
+    $(document).on('click', '.toolbox_icon', function(){
+        $(this).next().removeClass("hidden");
+    });
+    $('html').click(function(e){
+        if(!$(e.target).hasClass("toolbox_icon")){
+            $('.toolbox_icon').next().addClass("hidden");
+        }
+    });
+    $('.exit').click(function(){
+        $('.edit_review_form_wrap').css('display', 'none');
+    });
+    $('.edit_review_cancel').click(function(){
+        $('.edit_review_form_wrap').css('display', 'none');
+    });
+    $('.edit_review_submit').click(function(){
+        $('.edit_review_form').submit();
+    });
+    $('.edit_button_wrap').on('click', function(){
+        let review_id = $(this).closest('.reviewer_form').attr('data-id');
+        $.ajax({
+            url : '/course/select/review',
+            method : 'post',
+            dataType : 'json',
+            data : {'review_id' : review_id},
+            success : function(result){
+                console.log(result);
+                $('.reviewContent').val(result.reviewContent);
+                $('.id').val(result.id);
+                for(var i = 1; i <= 5; i++){
+                    if(i <= result.rate){
+                        $('.edit_rate_'+i).addClass('star_fill');
+                    }
+                }
+                $('.sizeUp').append("<input type='hidden' name='rate' value='"+result.rate+"' class='rate_dynamic'/>");
+                $('.edit_review_form_wrap').css('display', 'block');
+            },error : function (e){
+                console.log(e);
+            }
+        })
+    });
+    $('.delete_button_wrap').on('click', function(){
+        console.log($(this).closest('.reviewer_form').attr('data-id'));
+    });
     $('.course_preview').on('click', function(){
        const class_id = $(this).attr('data-id');
        const course_id = $(this).attr('data-course');

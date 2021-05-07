@@ -3,6 +3,10 @@ package me.eggme.classh.domain.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import me.eggme.classh.domain.dto.CourseDTO;
+import me.eggme.classh.domain.dto.CourseReviewDTO;
+import me.eggme.classh.domain.dto.CourseSectionDTO;
+import me.eggme.classh.utils.ModelMapperUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -40,5 +44,16 @@ public class CourseReview extends BaseBoardEntity implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "courseReview", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CourseComment> courseComments = new ArrayList<>();
+
+    public CourseReviewDTO of(){
+        return ModelMapperUtils.getModelMapper().map(this, CourseReviewDTO.class);
+    }
+
+    public boolean isWroteReview(Member member){
+        if(getMember().getId() == member.getId()){
+            return true;
+        }
+        return false;
+    }
 
 }
