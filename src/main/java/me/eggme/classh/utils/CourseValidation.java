@@ -4,11 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.CourseDTO;
 import me.eggme.classh.exception.CourseValidationException;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
-public class CourseValidation {
+public class CourseValidation implements Serializable {
 
     private CourseDTO courseDTO;
 

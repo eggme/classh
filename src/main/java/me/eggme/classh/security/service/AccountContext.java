@@ -9,8 +9,7 @@ import java.util.Collection;
 
 public class AccountContext extends User {
 
-    @Getter
-    private Member member;
+    @Getter private Member member;
 
     public AccountContext(Member member, Collection<? extends GrantedAuthority> authorities) {
         super(member.getUsername(), member.getPassword(), authorities);

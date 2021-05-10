@@ -3,10 +3,7 @@ package me.eggme.classh.domain.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -26,6 +23,6 @@ public class Recommendation implements Serializable {
 
     // 추천하는 강의
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Course course;
 }

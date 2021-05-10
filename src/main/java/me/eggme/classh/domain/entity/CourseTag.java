@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /***
@@ -28,10 +25,10 @@ public class CourseTag implements Serializable {
     public String tag;
 
     @JsonBackReference
-    @ManyToOne // 강의에 대한 태그
+    @ManyToOne(cascade = CascadeType.ALL) // 강의에 대한 태그
     private Course course;
 
     @JsonBackReference
-    @ManyToOne // 강의 질문에 대한 태그
+    @ManyToOne(cascade = CascadeType.ALL) // 강의 질문에 대한 태그
     private CourseQuestion courseQuestion;
 }

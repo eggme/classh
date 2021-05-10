@@ -15,8 +15,7 @@ import java.util.stream.Collectors;
 @Service("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private MemberRepository memberRepository;
+    @Autowired private MemberRepository memberRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -31,15 +30,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .collect(Collectors.toList())
                 .stream().map(r -> r.getRoleName()).collect(Collectors.toList())
                 .stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-
-//        CustomUserDetailsVO customUserDetailsVO = CustomUserDetailsVO.builder()
-//                .username(member.getUsername())
-//                .password(member.getPassword())
-//                .profile(member.getProfile())
-//                .nickname(member.getNickName())
-//                .authorityList(collect)
-//                .build();
-
         return new AccountContext(member, collect);
     }
 }

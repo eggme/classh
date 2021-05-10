@@ -41,11 +41,11 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
         setupSecurityResources();
 
-
         alreadySetup = true;
     }
 
-    private void setupSecurityResources() {
+    @Transactional
+    public void setupSecurityResources() {
         Role adminRole = createRoleIfNotFound("ROLE_ADMIN", "관리자");
         Role mdRole = createRoleIfNotFound("ROLE_MD", "MD");
         Role userRole = createRoleIfNotFound("ROLE_USER", "일반유저");
@@ -57,7 +57,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         createMdIfNotFound(mdRole, "md@hoflearn.com", "1q2w3e4r");
     }
 
-    private void createMdIfNotFound(Role mdRole, String email, String password) {
+    @Transactional
+    public void createMdIfNotFound(Role mdRole, String email, String password) {
         MemberRoles temp = new MemberRoles();
         temp.setRole(mdRole);
         int count = memberRepository.countByMemberRoles(mdRole.getRoleName());
@@ -75,7 +76,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         }
     }
 
-    private void createAdminIfNotFound(Role adminRole, String email, String password) {
+    @Transactional
+    public void createAdminIfNotFound(Role adminRole, String email, String password) {
         MemberRoles temp = new MemberRoles();
         temp.setRole(adminRole);
         int count = memberRepository.countByMemberRoles(adminRole.getRoleName());

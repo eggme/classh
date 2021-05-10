@@ -24,12 +24,12 @@ public class CourseComment extends BaseBoardEntity implements Serializable {
     private String commentContent;
 
     // 댓글 단 사람 정보
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Member member;
 
     // 댓글의 부모
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PARENT_ID")
     private CourseComment parent;
 
@@ -39,17 +39,17 @@ public class CourseComment extends BaseBoardEntity implements Serializable {
     private List<CourseComment> children = new ArrayList<>();
 
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "COURSE_QUESTION_ID")
     private CourseQuestion courseQuestion;
 
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "COURSE_NOTICE_ID")
     private CourseNotice courseNotice;
 
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "COURSE_REVIEW_ID")
     private CourseReview courseReview;
 }

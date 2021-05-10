@@ -386,4 +386,13 @@ public class CourseController {
         model.addAttribute("course", courseDTO);
         return "information/courseInfo/info";
     }
+
+    /***
+     *  강사가 해당 강의를 삭제함
+     */
+    @PostMapping(value = "/delete")
+    public String deleteCourse(@RequestParam(value = "id") Long id){
+        courseService.deleteCourse(id);
+        return "success";
+    }
 }

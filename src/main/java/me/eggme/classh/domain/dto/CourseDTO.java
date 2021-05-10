@@ -1,5 +1,8 @@
 package me.eggme.classh.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.utils.CourseValidation;
@@ -12,6 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class CourseDTO implements Serializable {
     private Long id;
     private String name;
@@ -31,6 +35,7 @@ public class CourseDTO implements Serializable {
     private List<CourseReview> courseReviews;
     private LocalDateTime create_at = LocalDateTime.now();
     private LocalDateTime modify_at = LocalDateTime.now();
+    @JsonIgnore
     private CourseValidation courseValidation;
 
     // 총 강의 시간

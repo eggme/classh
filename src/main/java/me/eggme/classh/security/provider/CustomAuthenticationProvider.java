@@ -14,26 +14,20 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     private UserDetailsService userDetailsService;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
         String username = authentication.getName();
         String password = (String)authentication.getCredentials();
-
         AccountContext accountContext = (AccountContext) userDetailsService.loadUserByUsername(username);
-
         if(!passwordEncoder.matches(password, accountContext.getMember().getPassword())){
             throw new BadCredentialsException("BadCredentialsException");
         }
-
         UsernamePasswordAuthenticationToken authenticationToken
                 = new UsernamePasswordAuthenticationToken(accountContext.getMember(), null,
                                                             accountContext.getAuthorities());
-
         return authenticationToken;
     }
 

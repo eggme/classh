@@ -16,6 +16,7 @@ function changeImage(file, id){
         },
         success : function(result){
             $('.course_cover_image').attr('src', result.courseImg);
+            location.href="/course/"+id+"/thumbnail";
         }
     })
 }

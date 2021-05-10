@@ -37,17 +37,17 @@ public class CourseQuestion extends BaseBoardEntity implements Serializable {
 
     // 어느 강의에 질문인지
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     public Course course;
 
     // 어떤 수업에 질문인지
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     public CourseClass courseClass;
 
     // 질문을 쓴 사람이 누구인지
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Member member;
 
     // 질문답변의 답글

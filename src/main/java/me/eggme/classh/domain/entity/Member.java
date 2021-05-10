@@ -41,7 +41,7 @@ public class Member extends BaseTimeEntity implements Serializable {
 
     // 스프링 시큐리티 인증관련, 해당 유저의 권한들
     @JsonManagedReference
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MemberRoles> memberRoles = new HashSet<>();
 
     // 사용자 프로필 사진
@@ -50,17 +50,17 @@ public class Member extends BaseTimeEntity implements Serializable {
 
     // 내가 듣고 있는 강의들
     @JsonManagedReference
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SignUpCourse> signUpCourses = new ArrayList<>();
 
     // 내가 수업하고 있는 강의들
     @JsonBackReference
-    @OneToOne(mappedBy = "member")
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private Instructor instructor;
 
     // 내가 올린 강의 리뷰
     @JsonManagedReference
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CourseReview> courseReviews = new ArrayList<>();
 
     @Builder

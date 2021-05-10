@@ -1,6 +1,5 @@
 package me.eggme.classh.security.config;
 
-import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.security.factory.UrlResourcesMapFactoryBean;
 import me.eggme.classh.security.filter.PermitAllFilter;
 import me.eggme.classh.security.handler.CustomAccessDeniedHandler;
@@ -10,7 +9,6 @@ import me.eggme.classh.security.handler.CustomLogoutSuccessHandler;
 import me.eggme.classh.security.metadatasource.UrlFilterInvocationSecurityMetadataSource;
 import me.eggme.classh.security.provider.CustomAuthenticationProvider;
 import me.eggme.classh.security.service.SecurityResourceService;
-import me.eggme.classh.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +24,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -49,7 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SecurityResourceService securityResourceService;
 
-    private String[] permitResources = {"/resource/**", "/imgs/**", "/js/**", "/video/**", "/css/**", "/webjars/**", "/static/**"};
+    private String[] permitResources = {"/resource/**", "/imgs/**", "/js/**", "/video/**",
+            "/css/**", "/webjars/**", "/static/**"};
 
     @Override
     public void configure(WebSecurity web) throws Exception {

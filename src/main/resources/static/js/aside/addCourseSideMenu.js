@@ -16,6 +16,7 @@ $(function () {
     });
     $('.course_success_submit').click(function () {
         $('.course_submit_success_form').css('display', 'none');
+        location.href="/course/list";
     });
     $('.course_cancel').click(function () {
         $('.course_submit_form').css('display', 'none');

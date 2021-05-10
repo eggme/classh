@@ -401,4 +401,14 @@ public class CourseService {
         Course savedCourse = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
         savedCourse.setCourseState(CourseState.SUBMIT);
     }
+
+    /***
+     * 강사가 강의를 삭제함
+     * @param id 강의 pk
+     */
+    @Transactional
+    public void deleteCourse(Long id) {
+        Course findCourse = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
+        courseRepository.delete(findCourse);
+    }
 }

@@ -41,12 +41,12 @@ public class Course extends BaseTimeEntity implements Serializable {
 
     // 이 강의를 수강하는 학생
     @JsonManagedReference
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SignUpCourse> signUpCourses = new ArrayList<>();
 
     // 이 강의의 강사
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Instructor instructor;
 
     // 이 강의가 가지고 있는 섹션
@@ -87,12 +87,12 @@ public class Course extends BaseTimeEntity implements Serializable {
 
     // 강의 수강평
     @JsonManagedReference
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CourseReview> courseReviews = new ArrayList<>();
 
     // 강의 공지사항
     @JsonManagedReference
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CourseNotice> courseNotices = new ArrayList<>();
 
     // 강의 자체 관련 태그 1:N 단방향

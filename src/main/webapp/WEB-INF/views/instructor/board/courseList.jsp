@@ -27,7 +27,7 @@
             </tr>
             <!-- DB 데이터가 들어갈 공간  -->
             <c:forEach var="course" items="${list}">
-                <tr class="tr_padding">
+                <tr class="tr_padding" data-id="${course.id}">
                     <td><img class="course_thumbnail" src="${course.courseImg}"></td>
                     <td class="course_id"><a href='/course/${course.url}'><c:out value="${course.name}"/></a></td>
                     <td><span>0</span></td>
@@ -35,7 +35,7 @@
                     <td><span>0</span></td>
                     <td><span><c:out value="${course.price}"/></span></td>
                     <td><span><c:out value="${course.courseState.value}" /></span></td>
-                    <td><button type="button">삭제</button></td>
+                    <td><button type="button" class="course_delete">삭제</button></td>
                 </tr>
             </c:forEach>
             <c:if test="${empty list}">
@@ -45,4 +45,24 @@
             </c:if>
         </table>
     </div>
+</div>
+
+<div class="course_delete_form_wrap" data-id="">
+    <form class="course_delete_form">
+        <div class="course_delete_form_content animate">
+            <div class="course_delete_form_container">
+                <div class="course_delete_form_content_wrap">
+                    <div class="course_delete_form_title">🧨 정말 진짜 삭제할까요?? 🧨</div>
+                    <div class="course_delete_form_desc">
+                        <span class="course_delete_form_course_name"></span>
+                        강의를 삭제합니다.<br /> 신중히 결정해 주세요!!
+                    </div>
+                </div>
+                <div class="course_delete_form_button_area">
+                    <div class="course_delete_form_submit">확인</div>
+                    <div class="course_delete_form_cancel">취소</div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>

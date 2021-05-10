@@ -1,19 +1,25 @@
-// $(function () {
-//     $('.course_name').click(function () {
-//         let course_id = $(this).attr("data-id");
-//         let course_name = $(this).text();
-//         let token_name = $('.t').attr('name');
-//         let token_value = $('.t').attr("value");
-//
-//         var form = $("<form></form>");
-//         form.attr("action", "/course/info");
-//         form.attr("method", "post");
-//         form.appendTo("body");
-//
-//         form.append("<input type='hidden' name='id' value='"+course_id+"'/>");
-//         form.append("<input type='hidden' name='name' value='"+course_name+"'/>");
-//         form.append("<input type='hidden' name='"+token_name+"' value='"+token_value+"'/>");
-//
-//         form.submit();
-//     });
-// });
+$(function(){
+   $('.course_delete').on('click', function(){
+        $('.course_delete_form_wrap').attr('data-id', $(this).closest(".tr_padding").attr('data-id'))
+        $('.course_delete_form_course_name').text($(this).parent().siblings('.course_id').text());
+        $('.course_delete_form_wrap').css("display", "block");
+   });
+
+   $('.course_delete_form_submit').click(function(){
+       let id = $('.course_delete_form_wrap').attr('data-id');
+       $.ajax({
+           url : "/course/delete",
+           method : "post",
+           data : {"id" : id},
+           success : function(result){
+               location.href="/course/list";
+           },error : function(e){
+               console.log(e);
+           }
+       })
+   });
+
+   $('.course_delete_form_cancel').click(function(){
+       $('.course_delete_form_wrap').css("display", "none");
+   });
+});

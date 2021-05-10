@@ -21,11 +21,12 @@ public class Instructor implements Serializable {
 
     @JsonBackReference
     @Setter
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Member member;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "instructor")
+    @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("id asc")
     private List<Course> courses = new ArrayList<>();
 
     public void setCourses(Course course){
