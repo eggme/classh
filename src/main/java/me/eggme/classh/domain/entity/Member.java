@@ -17,8 +17,8 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles"})
-@ToString(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles"})
+@EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions"})
+@ToString(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions"})
 public class Member extends BaseTimeEntity implements Serializable {
     // 멤버 PK
     @Id @GeneratedValue
@@ -50,18 +50,22 @@ public class Member extends BaseTimeEntity implements Serializable {
 
     // 내가 듣고 있는 강의들
     @JsonManagedReference
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SignUpCourse> signUpCourses = new ArrayList<>();
 
     // 내가 수업하고 있는 강의들
     @JsonBackReference
-    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "member", orphanRemoval = true)
     private Instructor instructor;
 
     // 내가 올린 강의 리뷰
     @JsonManagedReference
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CourseReview> courseReviews = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CourseQuestion> courseQuestions = new ArrayList<>();
 
     @Builder
     public Member(String username, String password, String nickName){

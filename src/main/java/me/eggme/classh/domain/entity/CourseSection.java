@@ -38,7 +38,7 @@ public class CourseSection implements Serializable {
 
     // 어느 강의에 포함되는지 정함
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Course course;
 
     public int getTotalTime(){

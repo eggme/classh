@@ -23,6 +23,6 @@ public class Recommendation implements Serializable {
 
     // 추천하는 강의
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Course course;
 }

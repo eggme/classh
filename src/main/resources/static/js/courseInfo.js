@@ -40,7 +40,17 @@ $(function () {
         })
     });
     $('.delete_button_wrap').on('click', function(){
-        console.log($(this).closest('.reviewer_form').attr('data-id'));
+        let review_id = $(this).closest('.reviewer_form').attr('data-id');
+        $.ajax({
+            url : '/course/delete/review',
+            method : 'post',
+            data : {'review_id' : review_id},
+            success: function(result){
+                location.reload(true);
+            },error : function (e){
+                console.log(e);
+            }
+        })
     });
     $('.course_preview').on('click', function(){
        const class_id = $(this).attr('data-id');
@@ -369,4 +379,17 @@ function convertLocalDateTime(localDate, obj){
     console.log(date);
     console.log(year+"년 "+month+"월 "+day+"일");
     $(obj).text(year+"년 "+month+"월 "+day+"일");
+}
+
+function setStarRate(avg){
+    $('.star_value').css('width', 'calc(('+avg+'/5)*100%)');
+}
+
+function setRatePercent(data){
+    let result = JSON.parse(data);
+    $('.rate_5').find('.rate_value').css('width', result.rateFive+"%");
+    $('.rate_4').find('.rate_value').css('width', result.rateFour+"%");
+    $('.rate_3').find('.rate_value').css('width', result.rateThree+"%");
+    $('.rate_2').find('.rate_value').css('width', result.rateTwo+"%");
+    $('.rate_1').find('.rate_value').css('width', result.rateOne+"%");
 }

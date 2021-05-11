@@ -21,7 +21,7 @@ public class Instructor implements Serializable {
 
     @JsonBackReference
     @Setter
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     private Member member;
 
     @JsonManagedReference

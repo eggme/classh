@@ -32,12 +32,12 @@ public class CourseReview extends BaseBoardEntity implements Serializable {
 
     // 수강평을 남기는 사람
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Member member;
 
     // 수강평이 남겨지는 강의
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Course course;
 
     // 리뷰의 답변

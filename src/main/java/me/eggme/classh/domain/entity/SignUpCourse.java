@@ -18,10 +18,10 @@ public class SignUpCourse implements Serializable {
     private Long id;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Member member;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Course course;
 }

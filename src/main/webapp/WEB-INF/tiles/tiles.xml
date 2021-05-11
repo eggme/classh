@@ -96,4 +96,12 @@
         <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
     </definition>
 
+    <!-- QnA 게시판 -->
+    <definition name="questions/*" template="/WEB-INF/template/layout.jsp">
+        <put-attribute name="title" value="ClassH - 질문 | 답변" />
+        <put-attribute name="header" value="/WEB-INF/component/header.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/instructor/{1}.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
+    </definition>
+
 </tiles-definitions>

@@ -1,12 +1,15 @@
 package me.eggme.classh.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import me.eggme.classh.domain.dto.CourseClassDTO;
 import me.eggme.classh.utils.ModelMapperUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -38,8 +41,12 @@ public class CourseClass implements Serializable {
     private String instructorMemo;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private CourseSection courseSection;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "courseClass", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CourseQuestion> courseQuestions = new ArrayList<>();
 
     public CourseClassDTO of(){
         return ModelMapperUtils.getModelMapper().map(this, CourseClassDTO.class);

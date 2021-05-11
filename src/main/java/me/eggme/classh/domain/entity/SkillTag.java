@@ -26,6 +26,6 @@ public class SkillTag implements Serializable {
 
     // 태그에 등록된 강의
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Course course;
 }

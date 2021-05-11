@@ -3,7 +3,10 @@ package me.eggme.classh.domain.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import me.eggme.classh.domain.dto.CourseDTO;
+import me.eggme.classh.domain.dto.CourseQuestionDTO;
 import me.eggme.classh.domain.dto.QuestionStatus;
+import me.eggme.classh.utils.ModelMapperUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -29,6 +32,7 @@ public class CourseQuestion extends BaseBoardEntity implements Serializable {
     private String title;
 
     // 질문의 내용
+    @Column(length = 3000)
     private String content;
 
     // 질문의 해결 상태
@@ -38,12 +42,12 @@ public class CourseQuestion extends BaseBoardEntity implements Serializable {
     // 어느 강의에 질문인지
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
-    public Course course;
+    private Course course;
 
     // 어떤 수업에 질문인지
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
-    public CourseClass courseClass;
+    private CourseClass courseClass;
 
     // 질문을 쓴 사람이 누구인지
     @JsonBackReference
@@ -59,4 +63,32 @@ public class CourseQuestion extends BaseBoardEntity implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "courseQuestion",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CourseTag> courseTags = new ArrayList<>();
+
+    public CourseQuestionDTO of(){
+        CourseQuestionDTO courseQuestionDTO = ModelMapperUtils.getModelMapper().map(this, CourseQuestionDTO.class);
+        return courseQuestionDTO;
+    }
+
+    public CourseQuestionDTO ofWithOutTag(){
+        CourseQuestionDTO courseQuestionDTO = ModelMapperUtils.getModelMapper().map(this, CourseQuestionDTO.class);
+        courseQuestionDTO.setContent(courseQuestionDTO.getContent().replaceAll("\\<.*?\\>",""));
+        courseQuestionDTO.setContent(courseQuestionDTO.getContent().replace("&bull;",""));
+        return courseQuestionDTO;
+    }
+
+
+    public void setMember(Member member){
+        this.member = member;
+        member.getCourseQuestions().add(this);
+    }
+
+    public void setCourse(Course course){
+        this.course = course;
+        course.getCourseQuestions().add(this);
+    }
+
+    public void setCourseClass(CourseClass courseClass){
+        this.courseClass = courseClass;
+        courseClass.getCourseQuestions().add(this);
+    }
 }

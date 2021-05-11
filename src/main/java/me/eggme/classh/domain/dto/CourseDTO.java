@@ -3,13 +3,19 @@ package me.eggme.classh.domain.dto;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
 import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.utils.CourseValidation;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.OptionalDouble;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -60,6 +66,69 @@ public class CourseDTO implements Serializable {
             return true;
         }
         return false;
+    }
+
+    // 리뷰 평균 점수
+    public double getReviewAvg(){
+        if(courseReviews == null) return 0;
+        OptionalDouble average = courseReviews.stream().mapToInt(cr -> cr.getRate()).average();
+        return average.getAsDouble();
+    }
+
+    // 리뷰 총 개수
+    public int getReviewCount(){
+        if(courseReviews == null) return 0;
+        return courseReviews.size();
+    }
+
+    public String getRatePercent() throws JsonProcessingException {
+        Map<String, Double> map = new HashMap<>();
+        map.put("rateFive", getRatePercentConversion(getReviewScoreCountByFive()));
+        map.put("rateFour", getRatePercentConversion(getReviewScoreCountByFour()));
+        map.put("rateThree", getRatePercentConversion(getReviewScoreCountByThree()));
+        map.put("rateTwo", getRatePercentConversion(getReviewScoreCountByTwo()));
+        map.put("rateOne", getRatePercentConversion(getReviewScoreCountByOne()));
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(map);
+    }
+
+    private double getRatePercentConversion(int count){
+        return (count / ((double)this.getReviewCount())) * 100;
+    }
+
+    // 리뷰 5점 개수
+    public int getReviewScoreCountByFive(){
+        if(courseReviews == null) return 0;
+        List<CourseReview> reviewRateByFive = courseReviews.stream().filter(cr -> cr.getRate() == 5).collect(Collectors.toList());
+        return reviewRateByFive.size();
+    }
+
+    // 리뷰 4점 개수
+    public int getReviewScoreCountByFour(){
+        if(courseReviews == null) return 0;
+        List<CourseReview> reviewRateByFour = courseReviews.stream().filter(cr -> cr.getRate() == 4).collect(Collectors.toList());
+        return reviewRateByFour.size();
+    }
+
+    // 리뷰 3점 개수
+    public int getReviewScoreCountByThree(){
+        if(courseReviews == null) return 0;
+        List<CourseReview> reviewRateByThree = courseReviews.stream().filter(cr -> cr.getRate() == 3).collect(Collectors.toList());
+        return reviewRateByThree.size();
+    }
+
+    // 리뷰 2점 개수
+    public int getReviewScoreCountByTwo(){
+        if(courseReviews == null) return 0;
+        List<CourseReview> reviewRateByTwo = courseReviews.stream().filter(cr -> cr.getRate() == 2).collect(Collectors.toList());
+        return reviewRateByTwo.size();
+    }
+
+    // 리뷰 1점 개수
+    public int getReviewScoreCountByOne(){
+        if(courseReviews == null) return 0;
+        List<CourseReview> reviewRateByOne = courseReviews.stream().filter(cr -> cr.getRate() == 1).collect(Collectors.toList());
+        return reviewRateByOne.size();
     }
 
     // 해당강의에 수강평을 썼는지 검증

@@ -41,17 +41,17 @@ public class Course extends BaseTimeEntity implements Serializable {
 
     // 이 강의를 수강하는 학생
     @JsonManagedReference
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SignUpCourse> signUpCourses = new ArrayList<>();
 
     // 이 강의의 강사
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Instructor instructor;
 
     // 이 강의가 가지고 있는 섹션
     @JsonManagedReference
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id asc")
     @BatchSize(size = 10)
     private List<CourseSection> courseSections = new ArrayList<>();
@@ -100,6 +100,11 @@ public class Course extends BaseTimeEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="COURSE_TAG_ID")
     private List<CourseTag> courseTags = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("modify_at desc")
+    private List<CourseQuestion> courseQuestions = new ArrayList<>();
 
     // 강의 검증관련 컬럼에 매핑되지 않음
     @Transient

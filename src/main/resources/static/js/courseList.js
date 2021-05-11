@@ -23,3 +23,4 @@ $(function(){
        $('.course_delete_form_wrap').css("display", "none");
    });
 });
+

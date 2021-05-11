@@ -12,14 +12,14 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-<link rel="stylesheet" href="/css/courseQuestion.css" >
+<link rel="stylesheet" href="/css/courseQuestion.css">
 <script src="/js/courseQuestion.js"></script>
 
 <div class="main_section">
     <div class="real_course_content">
         <div class="search_wrap">
             <div class="input_area">
-                <input type="text" name="query" class="question_input" />
+                <input type="text" name="query" class="question_input"/>
                 <div class="search_icon_wrap">
                     <i class="fas fa-search"></i>
                 </div>
@@ -30,168 +30,62 @@
             </div>
         </div>
         <div class="question_area">
-            <div class="question_content">
-                <div class="question_data_area">
-                    <div class="question_content_wrap">
-                        <div class="review_title">localhost:8080 로그인</div>
-                        <div class="review_content">
-                            안녕하세요 ! 강의를 보며 따라하고 있는데 설정을 다 따라해도 localhost 에 접근하려하면 자꾸 로그인하라고 떠서 진도를 못나가고 있습니다 ㅜㅜ 혹시 해결방법이 있나요 ?&n...
+            <c:forEach var="question" items="${list}" varStatus="question_status" >
+                <div class="question_content" data-id="${question.id}">
+                    <div class="question_data_area">
+                        <div class="question_content_wrap">
+                            <div class="review_title">
+                                <c:out value="${question.title}" />
+                            </div>
+                            <div class="review_content">
+                                <c:out value="${question.content}"></c:out>
+                            </div>
+                            <div class="review_tags">
+                                <c:forEach var="tags" items="${question.courseTags}" varStatus="tag_status">
+                                    <div class='review_hash_tag'>
+                                        <span class='review_tag_value'>#
+                                            <c:out value="${tags.tag}"></c:out>
+                                        </span>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                        <div class="question_member_wrap">
+                            <div class="member_name">
+                                <c:out value="${question.member.nickName}"/>
+                            </div>
+                            <div class="separator"> · </div>
+                            <div class="question_time question_${question.id}">
+                                <script>
+                                    convertLocalDateTime("${question.modify_at}", '.question_${question.id}');
+                                </script>
+                            </div>
+                            <div class="separator"> · </div>
+                            <div class="course_title">
+                                <c:out value="${question.course.name}"/>
+                                <c:if test="${!question.courseClass eq null}">
+                                    <div class="separator"> ·</div>
+                                    <div class="courseClass_title">
+                                        <c:out value="${question.courseClass.name}"/>
+                                    </div>
+                                </c:if>
+                            </div>
                         </div>
                     </div>
-                    <div class="question_member_wrap">
-                        <div class="member_name">구공탄</div>
-                        <div class="separator"> · </div>
-                        <div class="question_time"></div>
-                        <div class="separator"> · </div>
-                        <div class="course_title">${course.name}</div>
-                    </div>
-                </div>
-                <div class="question_toolbar">
-                    <div class="circle_answer_area">
-                        <div class="answer_count">1</div>
-                        <div class="answer_title">답변</div>
-                    </div>
-                    <div class="like_area">
-                        <div class="like_icon"><i class="fas fa-heart"></i></div>
-                        <div class="like_count">0</div>
-                    </div>
-                </div>
-            </div>
-            <div class="question_content">
-                <div class="question_data_area">
-                    <div class="question_content_wrap">
-                        <div class="review_title">localhost:8080 로그인</div>
-                        <div class="review_content">
-                            안녕하세요 ! 강의를 보며 따라하고 있는데 설정을 다 따라해도 localhost 에 접근하려하면 자꾸 로그인하라고 떠서 진도를 못나가고 있습니다 ㅜㅜ 혹시 해결방법이 있나요 ?&n...
+                    <div class="question_toolbar">
+                        <div class="circle_answer_area">
+                            <div class="answer_count">1</div>
+                            <div class="answer_title">
+                                <c:out value="${question.questionStatus.getValue()}"/>
+                            </div>
+                        </div>
+                        <div class="like_area">
+                            <div class="like_icon"><i class="fas fa-heart"></i></div>
+                            <div class="like_count">0</div>
                         </div>
                     </div>
-                    <div class="question_member_wrap">
-                        <div class="member_name">구공탄</div>
-                        <div class="separator"> · </div>
-                        <div class="question_time"></div>
-                        <div class="separator"> · </div>
-                        <div class="course_title">${course.name}</div>
-                    </div>
                 </div>
-                <div class="question_toolbar">
-                    <div class="circle_answer_area">
-                        <div class="answer_count">1</div>
-                        <div class="answer_title">답변</div>
-                    </div>
-                    <div class="like_area">
-                        <div class="like_icon"><i class="fas fa-heart"></i></div>
-                        <div class="like_count">0</div>
-                    </div>
-                </div>
-            </div>
-            <div class="question_content">
-                <div class="question_data_area">
-                    <div class="question_content_wrap">
-                        <div class="review_title">localhost:8080 로그인</div>
-                        <div class="review_content">
-                            안녕하세요 ! 강의를 보며 따라하고 있는데 설정을 다 따라해도 localhost 에 접근하려하면 자꾸 로그인하라고 떠서 진도를 못나가고 있습니다 ㅜㅜ 혹시 해결방법이 있나요 ?&n...
-                        </div>
-                    </div>
-                    <div class="question_member_wrap">
-                        <div class="member_name">구공탄</div>
-                        <div class="separator"> · </div>
-                        <div class="question_time"></div>
-                        <div class="separator"> · </div>
-                        <div class="course_title">${course.name}</div>
-                    </div>
-                </div>
-                <div class="question_toolbar">
-                    <div class="circle_answer_area">
-                        <div class="answer_count">1</div>
-                        <div class="answer_title">답변</div>
-                    </div>
-                    <div class="like_area">
-                        <div class="like_icon"><i class="fas fa-heart"></i></div>
-                        <div class="like_count">0</div>
-                    </div>
-                </div>
-            </div>
-            <div class="question_content">
-                <div class="question_data_area">
-                    <div class="question_content_wrap">
-                        <div class="review_title">localhost:8080 로그인</div>
-                        <div class="review_content">
-                            안녕하세요 ! 강의를 보며 따라하고 있는데 설정을 다 따라해도 localhost 에 접근하려하면 자꾸 로그인하라고 떠서 진도를 못나가고 있습니다 ㅜㅜ 혹시 해결방법이 있나요 ?&n...
-                        </div>
-                    </div>
-                    <div class="question_member_wrap">
-                        <div class="member_name">구공탄</div>
-                        <div class="separator"> · </div>
-                        <div class="question_time"></div>
-                        <div class="separator"> · </div>
-                        <div class="course_title">${course.name}</div>
-                    </div>
-                </div>
-                <div class="question_toolbar">
-                    <div class="circle_answer_area">
-                        <div class="answer_count">1</div>
-                        <div class="answer_title">답변</div>
-                    </div>
-                    <div class="like_area">
-                        <div class="like_icon"><i class="fas fa-heart"></i></div>
-                        <div class="like_count">0</div>
-                    </div>
-                </div>
-            </div>
-            <div class="question_content">
-                <div class="question_data_area">
-                    <div class="question_content_wrap">
-                        <div class="review_title">localhost:8080 로그인</div>
-                        <div class="review_content">
-                            안녕하세요 ! 강의를 보며 따라하고 있는데 설정을 다 따라해도 localhost 에 접근하려하면 자꾸 로그인하라고 떠서 진도를 못나가고 있습니다 ㅜㅜ 혹시 해결방법이 있나요 ?&n...
-                        </div>
-                    </div>
-                    <div class="question_member_wrap">
-                        <div class="member_name">구공탄</div>
-                        <div class="separator"> · </div>
-                        <div class="question_time"></div>
-                        <div class="separator"> · </div>
-                        <div class="course_title">${course.name}</div>
-                    </div>
-                </div>
-                <div class="question_toolbar">
-                    <div class="circle_answer_area">
-                        <div class="answer_count">1</div>
-                        <div class="answer_title">답변</div>
-                    </div>
-                    <div class="like_area">
-                        <div class="like_icon"><i class="fas fa-heart"></i></div>
-                        <div class="like_count">0</div>
-                    </div>
-                </div>
-            </div>
-            <div class="question_content">
-                <div class="question_data_area">
-                    <div class="question_content_wrap">
-                        <div class="review_title">localhost:8080 로그인</div>
-                        <div class="review_content">
-                            안녕하세요 ! 강의를 보며 따라하고 있는데 설정을 다 따라해도 localhost 에 접근하려하면 자꾸 로그인하라고 떠서 진도를 못나가고 있습니다 ㅜㅜ 혹시 해결방법이 있나요 ?&n...
-                        </div>
-                    </div>
-                    <div class="question_member_wrap">
-                        <div class="member_name">구공탄</div>
-                        <div class="separator"> · </div>
-                        <div class="question_time"></div>
-                        <div class="separator"> · </div>
-                        <div class="course_title">${course.name}</div>
-                    </div>
-                </div>
-                <div class="question_toolbar">
-                    <div class="circle_answer_area">
-                        <div class="answer_count">1</div>
-                        <div class="answer_title">답변</div>
-                    </div>
-                    <div class="like_area">
-                        <div class="like_icon"><i class="fas fa-heart"></i></div>
-                        <div class="like_count">0</div>
-                    </div>
-                </div>
-            </div>
+            </c:forEach>
         </div>
     </div>
     <div class="box_wrap">
@@ -232,32 +126,35 @@
         </div>
     </div>
 </div>
-<div class="question_write_form_wrapper">
+<div class="question_write_form_wrapper" data-id="${course.id}">
     <div class="question_write_form animate">
-        <div class="question_relative_wrap">
-            <div class="question_name_wrap question_wrap_template">
-                <div class="question_name_menu question_menu_template">제목</div>
-                <div class="question_name_input question_input_template">
-                    <input type="text" class="question_name" name="name" placeholder="제목을 입력해주세요.">
-                </div>
-            </div>
-            <div class="question_tag_wrap question_wrap_template">
-                <div class="question_tag_menu question_menu_template">태그</div>
-                <div class="question_tag_input">
-                    <div class="tag_wrap_template">
-                        <div class="hashtag"><i class="fas fa-hashtag"></i></div>
-                        <div class="hashtag_value">
-
-                        </div>
-                        <input type="text" class="question_tag" placeholder="태그를 설정해주세요.">
+        <form class="question_form" action="/question/add" method="post">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <input type="hidden" name="course_id" class="course_id" />
+            <div class="question_relative_wrap">
+                <div class="question_name_wrap question_wrap_template">
+                    <div class="question_name_menu question_menu_template">제목</div>
+                    <div class="question_name_input question_input_template">
+                        <input type="text" class="question_name" name="title" placeholder="제목을 입력해주세요.">
                     </div>
-                    <div class="tag_description">최대 10개의 태그를 달 수 있어요!</div>
                 </div>
-            </div>
-            <div class="question_content_wrap question_wrap_template">
-            <div class="question_content_menu question_menu_template">질문 내용</div>
-            <div class="question_content_input">
-                <textarea id="myQuestion">
+                <div class="question_tag_wrap question_wrap_template">
+                    <div class="question_tag_menu question_menu_template">태그</div>
+                    <div class="question_tag_input">
+                        <div class="tag_wrap_template">
+                            <div class="hashtag"><i class="fas fa-hashtag"></i></div>
+                            <div class="hashtag_value">
+
+                            </div>
+                            <input type="text" class="question_tag" placeholder="태그를 설정해주세요.">
+                        </div>
+                        <div class="tag_description">최대 10개의 태그를 달 수 있어요!</div>
+                    </div>
+                </div>
+                <div class="question_content_wrap question_wrap_template">
+                    <div class="question_content_menu question_menu_template">질문 내용</div>
+                    <div class="question_content_input">
+                <textarea id="myQuestion" name="content">
                     <p><b>강의와 관련있는 질문을 남겨주세요.</b></p>
 <p>• 강의와 관련이 없는 질문은 지식공유자가 답변하지 않을 수 있습니다. (사적 상담, 컨설팅, 과제 풀이 등)</p>
 <p>• 질문을 남기기 전, 비슷한 내용을 질문한 수강생이 있는지 먼저 검색을 해주세요. (중복 질문을 자제해주세요.)</p>
@@ -278,12 +175,13 @@
 <p>• 정중한 의견 및 문의 제시, 감사 인사 등의 커뮤니케이션은 더 나은 강의를 위한 기틀이 됩니다.</p>
 <p>• 질문이 있을 때에는 강의를 만든 지식공유자에 대한 기본적인 예의를 꼭 지켜주세요.</p>
 <p>• 반말, 욕설, 과격한 표현 등 지식공유자를 불쾌하게 할 수 있는 내용은 스팸 처리 등 제재를 가할 수 있습니다.</p> </textarea>
+                    </div>
+                </div>
             </div>
-        </div>
-        </div>
-        <div class="question_button_wrap">
-            <div class="question_button_template question_cancel">취소</div>
-            <div class="question_button_template question_submit">저장</div>
-        </div>
+            <div class="question_button_wrap">
+                <div class="question_button_template question_cancel">취소</div>
+                <div class="question_button_template question_submit">저장</div>
+            </div>
+        </form>
     </div>
 </div>

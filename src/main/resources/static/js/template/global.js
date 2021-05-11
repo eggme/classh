@@ -32,3 +32,15 @@ function image_upload_handler(blobInfo, success) {
         }
     });
 }
+
+function convertLocalDateTime(localDate, obj){
+    let date = new Date(localDate);
+    let year = date.getFullYear();
+    let month = date.getMonth()+1;
+    let day = date.getDate();
+    $(obj).text(year+"년 "+month+"월 "+day+"일");
+}
+
+function showHtmlTagWithText(text, obj){
+    $(obj).html(text);
+}

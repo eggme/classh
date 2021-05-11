@@ -15,8 +15,9 @@ $(function () {
         let value = trim($(this).val().trim());
         if (key.keyCode == 13) {
             if (!pattern.test(value) && value != "") {
+                let length = $('.hashtag_value').children().length;
                 var template = "<div class='hash_tag_template'>"+
-                                    "<input type='hidden' name='tags' value="+ value +" />"+
+                                    "<input type='hidden' name='courseTags["+length+"].tag' value="+ value +" />"+
                                     "<span class='tag_value'>"+ value +"</span>" +
                                     "<span><i class='fas fa-times'></i></span>" +
                                 "</div>";
@@ -29,6 +30,16 @@ $(function () {
     });
     $(document).on('click', '.hash_tag_template', function(){
        $(this).remove();
+    });
+
+    /* 질문답변 게시판 질문 답변 작성 시 */
+    $('.question_submit').click(function(){
+        $('.course_id').val($('.question_write_form_wrapper').attr('data-id'));
+        $('.question_form').submit();
+    });
+    $('.question_content').on('click',function(){
+        let id = $(this).attr('data-id');
+       location.href="/question/"+id;
     });
 });
 

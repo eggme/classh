@@ -1,0 +1,22 @@
+body, html{width: 100%; height: 100%; margin: 0 auto;}
+.main_section{display: flex; justify-content: center; width: 100%; height: 100%;}
+
+.question_wrap{padding: 24px 12px; width: 700px;}
+.question_title_wrap{padding-bottom: 12px; border-bottom: 1px solid #DEE2E6;}
+.title_menu{font-size: 32px; color: #1dc078; margin-right: 8px;}
+.question_title{margin-bottom: 8px; display: flex; align-items: center; font-weight: 500;}
+.title_value{font-size: 24px;}
+.question_user{margin-bottom: 8px; display: flex;font-weight: 400;}
+.modify_at_wrap{color: #adb5bd; display: flex;}
+.left_side_wrap{padding-right: 32px;padding-top: 64px; }
+.back_button{padding: 8px 12px; border: 1px solid #DEE2E6; border-radius: 8px; cursor: pointer;}
+.tool_box{border: 1px solid #DEE2E6; border-radius: 8px; padding: 8px 20px; cursor: pointer;}
+.right_side_wrap{padding-left: 32px; padding-top: 64px;}
+.tool_box_wrap{ position: sticky; display: flex; justify-content: center; flex-direction: column;}
+.question_content_wrap{padding: 12px; margin-top: 8px;}
+.question_data_box{display: flex; flex-direction: column; background-color: #f1f3f5; border-radius: 12px; padding: 12px;}
+.review_tags{display: flex;}
+.review_hash_tag{display: flex; align-self: center; padding: 6px; margin: 3px; border-radius: 3px; background-color: #eff3fa; color: #616568; white-space: nowrap; font-size: 13px; }
+.course_tag_data_wrap{display: flex;}
+.course_tag, .course_data{margin-right: 8px; color: #616568; font-weight: 500;}
+.course_tag_value{display: flex;}

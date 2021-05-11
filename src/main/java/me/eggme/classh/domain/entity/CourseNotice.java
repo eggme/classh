@@ -31,12 +31,12 @@ public class CourseNotice extends BaseBoardEntity implements Serializable {
 
     // 공지사항 쓴 사람
     @JsonBackReference
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Member member;
 
     // 아떤 강의의 공지사항인지 FK
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Course course;
 
     // 공지사항의 답글

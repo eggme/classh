@@ -31,4 +31,10 @@ public class CourseReviewService {
         savedReview.setRate(courseReview.getRate());
         savedReview.setReviewContent(courseReview.getReviewContent());
     }
+
+    @Transactional
+    public void deleteReview(Long review_id) {
+        CourseReview savedReview = courseReviewRepository.findById(review_id).orElseThrow(() -> new NoSearchCourseReviewException("해당되는 리뷰가 없습니다."));
+        courseReviewRepository.delete(savedReview);
+    }
 }

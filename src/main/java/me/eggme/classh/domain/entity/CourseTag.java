@@ -25,10 +25,10 @@ public class CourseTag implements Serializable {
     public String tag;
 
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL) // 강의에 대한 태그
+    @ManyToOne // 강의에 대한 태그
     private Course course;
 
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL) // 강의 질문에 대한 태그
+    @ManyToOne // 강의 질문에 대한 태그
     private CourseQuestion courseQuestion;
 }

@@ -88,13 +88,13 @@ public class CourseController {
     }
 
     // 내 강의 보기 (질문답변)  question
-    @GetMapping(value = "/{url}/question")
-    public String courseQuestion(@PathVariable String url, Model model){
-        Course course = courseService.getCourse(url);
-        CourseDTO courseDTO = course.of();
-        model.addAttribute("course", courseDTO);
-        return "information/courseQuestion/question";
-    }
+//    @GetMapping(value = "/{url}/question")
+//    public String courseQuestion(@PathVariable String url, Model model){
+//        Course course = courseService.getCourse(url);
+//        CourseDTO courseDTO = course.of();
+//        model.addAttribute("course", courseDTO);
+//        return "information/courseQuestion/question";
+//    }
     // 내 강의 보기 (새소식)  newly
     @GetMapping(value = "/{url}/newly")
     public String courseNewly(@PathVariable String url, Model model){
@@ -281,7 +281,9 @@ public class CourseController {
     // 지식공유자 내 강의 보기
     @GetMapping(value = "/list")
     public String courseList(@AuthenticationPrincipal Member member, Model model){
-        model.addAttribute("list", courseService.getCourses(member.getUsername()));
+        List<Course> courses = courseService.getCourses(member.getUsername());
+        List<CourseDTO> list = courses.stream().map(c -> c.of()).collect(Collectors.toList());
+        model.addAttribute("list", list);
         return "instructor/courseList";
     }
 
@@ -367,10 +369,16 @@ public class CourseController {
     @PostMapping(value = "/select/review")
     @ResponseBody
     public CourseReviewDTO selectReview(@RequestParam(value = "review_id") Long review_id){
-        log.info("리뷰 아이디 : " + review_id);
         CourseReview savedReview = courseReviewService.selectReview(review_id);
         CourseReviewDTO courseReviewDTO = savedReview.of();
         return courseReviewDTO;
+    }
+
+    @PostMapping(value = "/delete/review")
+    @ResponseBody
+    public String deleteReview(@RequestParam(value = "review_id") Long review_id){
+        courseReviewService.deleteReview(review_id);
+        return "success";
     }
 
     /***
@@ -391,6 +399,7 @@ public class CourseController {
      *  강사가 해당 강의를 삭제함
      */
     @PostMapping(value = "/delete")
+    @ResponseBody
     public String deleteCourse(@RequestParam(value = "id") Long id){
         courseService.deleteCourse(id);
         return "success";
