@@ -98,6 +98,12 @@ border: 1px solid #fcfcfc; border-radius: 8px 8px 0 0;}
 .question_submit{color: white; background-color: #1dc078;}
 .tox-mbtn__select-label{color: #343A40 !important;}
 
+.hidden{display: none;}
+.write_reply_button_wrap{display: flex; justify-content: flex-end; margin-top: 8px;}
+.write_reply_submit{padding: 8px 12px; background-color: #1dc078; color: white; font-weight: 500; cursor: pointer; border-radius: 8px;}
+.write_reply_form_wrap{display: flex; justify-content: center; width: 90%;}
+.write_reply_form{display: flex; flex-direction: column; justify-content: center; flex-grow: 1;}
+
 .question_delete_form_wrapper{padding-top: 20%;}
 .question_delete_wrapper{width: 340px !important; height: 260px !important;}
 .question_delete_form{display: flex; flex-direction: column; justify-content: center;}

@@ -180,7 +180,17 @@
                                 </div>
                             </div>
                             <div class="reply_add_box">
-                                <div class="write_reply">댓글 달기</div>
+                                <div class="write_reply" data-id="${comment.id}">댓글 달기</div>
+                                <div class="write_reply_form_wrap hidden">
+                                    <form class="write_reply_form" action="/question/comment/add/comment" method="post">
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                        <input type="hidden" name="comment_id" class="comment_id" />
+                                        <textarea name="commentContent" class="comment_reply"></textarea>
+                                        <div class="write_reply_button_wrap">
+                                            <div class="write_reply_submit">답변 등록</div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

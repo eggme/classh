@@ -75,6 +75,17 @@ $(function () {
             }
         })
     });
+    /* 답변에서 댓글을 클릭 */
+    $('.write_reply').on('click', function(){
+        $('.comment_id').val($(this).attr('data-id'));
+        $(this).addClass('hidden');
+        $('.write_reply_form_wrap').removeClass('hidden');
+    });
+
+    /* 답변에서 댓글을 입력하고 답변 등록을 클릭 */
+    $('.write_reply_submit').on('click', function(){
+        $('.write_reply_form').submit();
+    });
     /* 질문삭제 폼 취소 클릭 */
     $('.question_delete_cancel').click(function(){
         $('.question_delete_form_wrapper').css("display", "none");
@@ -141,6 +152,16 @@ tinymce.init({
         return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source1 + '"' + (data.source1mime ? ' type="' + data.source1mime + '"' : '') + ' />\n' + (data.source2 ? '<source src="' + data.source2 + '"' + (data.source2mime ? ' type="' + data.source2mime + '"' : '') + ' />\n' : '') + '</video>';
     },
     images_upload_handler: image_upload_handler,
+    content_style: '//www.tinymce.com/css/codepen.min.css'
+});
+
+tinymce.init({
+    mode: 'textareas',
+    selector: '.comment_reply',
+    height: 200,
+    plugins: 'code',
+    language_url: '/js/ko_KR.js',
+    toolbar: 'undo redo | code ',
     content_style: '//www.tinymce.com/css/codepen.min.css'
 });
 

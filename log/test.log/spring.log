@@ -10988,3 +10988,76 @@ me.eggme.classh.exception.NoSearchCourseException: 해당되는 강의가 없습
 <p>&bull; 질문이 있을 때에는 강의를 만든 지식공유자에 대한 기본적인 예의를 꼭 지켜주세요.</p>
 <p>&bull; 반말, 욕설, 과격한 표현 등 지식공유자를 불쾌하게 할 수 있는 내용은 스팸 처리 등 제재를 가할 수 있습니다.</p>, questionStatus=UNRESOLVED)
 2021-05-12 17:22:53.348  WARN 6808 --- [http-nio-8081-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; nested exception is java.lang.NumberFormatException: For input string: "temp_111"]
+2021-05-12 17:34:34.011  INFO 16680 --- [restartedMain] me.eggme.classh.ClasshApplication        : Starting ClasshApplication using Java 1.8.0_231 on DESKTOP-KQPV944 with PID 16680 (C:\Users\kyyet\IdeaProjects\classh\target\classes started by kyyet in C:\Users\kyyet\IdeaProjects\classh)
+2021-05-12 17:34:34.014  INFO 16680 --- [restartedMain] me.eggme.classh.ClasshApplication        : No active profile set, falling back to default profiles: default
+2021-05-12 17:34:34.094  INFO 16680 --- [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\kyyet\IdeaProjects\classh\src\main\webapp\WEB-INF\lib\ojdbc8-19.8.0.0.jar referenced one or more files that do not exist: file:/C:/Users/kyyet/IdeaProjects/classh/src/main/webapp/WEB-INF/lib/oraclepki.jar
+2021-05-12 17:34:34.095  INFO 16680 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-05-12 17:34:34.095  INFO 16680 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-05-12 17:34:34.841  INFO 16680 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-12 17:34:34.982  INFO 16680 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 128 ms. Found 16 JPA repository interfaces.
+2021-05-12 17:34:35.235  INFO 16680 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@618371e' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-12 17:34:35.241  INFO 16680 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-05-12 17:34:35.473  INFO 16680 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2021-05-12 17:34:35.479  INFO 16680 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-12 17:34:35.479  INFO 16680 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.43]
+2021-05-12 17:34:35.758  INFO 16680 --- [restartedMain] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2021-05-12 17:34:35.761  INFO 16680 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-05-12 17:34:35.762  INFO 16680 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1665 ms
+2021-05-12 17:34:35.827  WARN 16680 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-05-12 17:34:35.962  INFO 16680 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-12 17:34:36.051  INFO 16680 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.28.Final
+2021-05-12 17:34:36.134  INFO 16680 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-05-12 17:34:36.206  INFO 16680 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-05-12 17:34:36.846  INFO 16680 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-05-12 17:34:36.855  INFO 16680 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+2021-05-12 17:34:37.862  INFO 16680 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-12 17:34:37.876  INFO 16680 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-12 17:34:38.774  INFO 16680 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2021-05-12 17:34:39.225  INFO 16680 --- [restartedMain] org.apache.tiles.access.TilesAccess      : Publishing TilesContext for context: org.springframework.web.servlet.view.tiles3.SpringWildcardServletTilesApplicationContext
+2021-05-12 17:34:39.304  INFO 16680 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest$StaticResourceRequestMatcher@62d2c50d with []
+2021-05-12 17:34:39.351  INFO 16680 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3f62c5f0, org.springframework.security.web.context.SecurityContextPersistenceFilter@34c7a634, org.springframework.security.web.header.HeaderWriterFilter@403f52e7, org.springframework.web.filter.CharacterEncodingFilter@4673b87b, org.springframework.security.web.csrf.CsrfFilter@28774d86, org.springframework.security.web.authentication.logout.LogoutFilter@3b4abfa1, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@208fb702, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@12333173, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7b7468a1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@730cbbd0, org.springframework.security.web.session.SessionManagementFilter@2d86f930, org.springframework.security.web.access.ExceptionTranslationFilter@71682b5a, me.eggme.classh.security.filter.PermitAllFilter@219103cf, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6fa0707f]
+2021-05-12 17:34:39.487  INFO 16680 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-05-12 17:34:39.566  INFO 16680 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-05-12 17:34:39.784  INFO 16680 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2021-05-12 17:34:39.841  INFO 16680 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-05-12 17:34:39.842  INFO 16680 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-05-12 17:34:39.844  INFO 16680 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2021-05-12 17:34:39.942  INFO 16680 --- [restartedMain] me.eggme.classh.ClasshApplication        : Started ClasshApplication in 6.427 seconds (JVM running for 7.799)
+2021-05-12 17:34:57.201  INFO 16680 --- [http-nio-8081-exec-9] me.eggme.classh.service.MemberService    : kyyeto9984@naver.com : kyyeto9984
+2021-05-12 17:35:25.979  INFO 16680 --- [http-nio-8081-exec-5] me.eggme.classh.utils.CourseValidation   : 스킬태그 개수 : 2
+2021-05-12 17:35:25.979  INFO 16680 --- [http-nio-8081-exec-5] me.eggme.classh.utils.CourseValidation   : 추천인 개수 : 2
+2021-05-12 17:35:25.980  INFO 16680 --- [http-nio-8081-exec-5] me.eggme.classh.utils.CourseValidation   : 스킬태그 개수 : 2
+2021-05-12 17:35:25.980  INFO 16680 --- [http-nio-8081-exec-5] me.eggme.classh.utils.CourseValidation   : 추천인 개수 : 2
+2021-05-12 17:35:59.885  INFO 16680 --- [http-nio-8081-exec-6] me.eggme.classh.utils.CourseValidation   : 스킬태그 개수 : 2
+2021-05-12 17:35:59.885  INFO 16680 --- [http-nio-8081-exec-6] me.eggme.classh.utils.CourseValidation   : 추천인 개수 : 2
+2021-05-12 17:35:59.886  INFO 16680 --- [http-nio-8081-exec-6] me.eggme.classh.utils.CourseValidation   : 스킬태그 개수 : 2
+2021-05-12 17:35:59.886  INFO 16680 --- [http-nio-8081-exec-6] me.eggme.classh.utils.CourseValidation   : 추천인 개수 : 2
+2021-05-12 17:36:22.449  INFO 16680 --- [http-nio-8081-exec-2] m.e.classh.controller.CourseController   : CourseClass(id=129, name=Spring 소개와 학습 안내, mediaPath=http://res.cloudinary.com/dg8tebwjm/video/upload/v1616547500/411588adce77bb905eed50c12d441a51577dba7f218822e07ce47c72a4da7c1d.mp4, preview=true, dataPath=, seconds=0, instructorMemo=, courseQuestions=[])
+2021-05-12 17:36:22.485  INFO 16680 --- [http-nio-8081-exec-2] me.eggme.classh.utils.CourseValidation   : 스킬태그 개수 : 2
+2021-05-12 17:36:22.485  INFO 16680 --- [http-nio-8081-exec-2] me.eggme.classh.utils.CourseValidation   : 추천인 개수 : 2
+2021-05-12 17:36:22.486  INFO 16680 --- [http-nio-8081-exec-2] me.eggme.classh.utils.CourseValidation   : 스킬태그 개수 : 2
+2021-05-12 17:36:22.486  INFO 16680 --- [http-nio-8081-exec-2] me.eggme.classh.utils.CourseValidation   : 추천인 개수 : 2
+2021-05-12 17:36:48.570  INFO 16680 --- [http-nio-8081-exec-4] m.e.classh.controller.CourseController   : CourseClass(id=137, name=느슨한 결합력과 인터페이스, mediaPath=http://res.cloudinary.com/dg8tebwjm/video/upload/v1616547991/78030bfba74f5bfd625ecb75755f3b8073f351ab4a6bce15438f7d157e93e891.mp4, preview=false, dataPath=, seconds=0, instructorMemo=, courseQuestions=[])
+2021-05-12 17:36:48.607  INFO 16680 --- [http-nio-8081-exec-4] me.eggme.classh.utils.CourseValidation   : 스킬태그 개수 : 2
+2021-05-12 17:36:48.607  INFO 16680 --- [http-nio-8081-exec-4] me.eggme.classh.utils.CourseValidation   : 추천인 개수 : 2
+2021-05-12 17:36:48.608  INFO 16680 --- [http-nio-8081-exec-4] me.eggme.classh.utils.CourseValidation   : 스킬태그 개수 : 2
+2021-05-12 17:36:48.608  INFO 16680 --- [http-nio-8081-exec-4] me.eggme.classh.utils.CourseValidation   : 추천인 개수 : 2
+2021-05-12 17:36:49.713  INFO 16680 --- [http-nio-8081-exec-2] me.eggme.classh.utils.CourseValidation   : 스킬태그 개수 : 2
+2021-05-12 17:36:49.713  INFO 16680 --- [http-nio-8081-exec-2] me.eggme.classh.utils.CourseValidation   : 추천인 개수 : 2
+2021-05-12 17:36:49.714  INFO 16680 --- [http-nio-8081-exec-2] me.eggme.classh.utils.CourseValidation   : 스킬태그 개수 : 2
+2021-05-12 17:36:49.714  INFO 16680 --- [http-nio-8081-exec-2] me.eggme.classh.utils.CourseValidation   : 추천인 개수 : 2
+2021-05-12 17:36:59.620  INFO 16680 --- [http-nio-8081-exec-5] m.e.classh.controller.CourseController   : CourseDTO(id=128, name=테스트용 강의, price=15550, url=temp_128, courseState=TEMPORARY, signUpCourses=[SignUpCourse(id=131)], instructor=Instructor(id=132), courseSections=[CourseSection(id=130, name=첫번째 섹션의 제목을 입력해주세요., goal=null)], skillTags=[SkillTag(id=135, value=테스트1), SkillTag(id=136, value=테스트2)], recommendations=[Recommendation(id=133, value=테스트3), Recommendation(id=134, value=테스트4)], courseLevel=BEGINNING, courseCategory=CULTURE, shortDesc=테스트1테스트1테스트1테스트1테스트1테스트1테스트1테스트1테스트1, longDesc=<p>테스트1테스트1테스트1테스트1</p>
+<p><img src="http://res.cloudinary.com/dg8tebwjm/image/upload/v1620808550/4037c00e587bf065e9edd7fd36b0f2cf8bc8f052727e9c09fca019d350f4c551.png" alt="" width="566" height="610" /></p>
+<p>&nbsp;</p>
+<p>테스트1테스트1테스트1</p>
+<p>테스트1</p>
+<p>테스트1</p>, courseImg=http://res.cloudinary.com/dg8tebwjm/image/upload/v1616651090/e2f7554f6a85c7449578b289034eda7e6fe1680dd2fc9fba72fb333d38866633.jpg, courseReviews=[], create_at=2021-05-12T17:35:05.105, modify_at=2021-05-12T17:36:59.612, courseValidation=me.eggme.classh.utils.CourseValidation@b02e722)
+2021-05-12 17:36:59.706  INFO 16680 --- [http-nio-8081-exec-1] me.eggme.classh.utils.CourseValidation   : 스킬태그 개수 : 2
+2021-05-12 17:36:59.707  INFO 16680 --- [http-nio-8081-exec-1] me.eggme.classh.utils.CourseValidation   : 추천인 개수 : 2
+2021-05-12 17:36:59.707  INFO 16680 --- [http-nio-8081-exec-1] me.eggme.classh.utils.CourseValidation   : 스킬태그 개수 : 2
+2021-05-12 17:36:59.707  INFO 16680 --- [http-nio-8081-exec-1] me.eggme.classh.utils.CourseValidation   : 추천인 개수 : 2
+2021-05-12 17:38:31.079  INFO 16680 --- [http-nio-8081-exec-1] m.e.c.c.CourseQuestionController         : 질문 pk : 139
+2021-05-12 17:38:31.080  INFO 16680 --- [http-nio-8081-exec-1] m.e.c.c.CourseQuestionController         : 댓글 작성자 : Member(id=126, username=kyyeto9984@naver.com, nickName=kyyeto9984, selfIntroduce=null, password={bcrypt}$2a$10$aCTyXsNY1dGCzhhRHJhdC.flxWQ0sK4fByenCDDBLfkRB.nWNRmEq, profile=/imgs/mini_icon_1.png)
+2021-05-12 17:38:31.080  INFO 16680 --- [http-nio-8081-exec-1] m.e.c.c.CourseQuestionController         : 댓글 정보 : <p>이건 넘모 어렵네요</p>
+<p><img src="http://res.cloudinary.com/dg8tebwjm/image/upload/v1620610955/0412ce63278670ed47fc97f4b69c0e1ff8a1be7ee0bca47968140cc31937f6ef.png" alt="" width="304" height="166" /></p>
+<p>ㅋㅋㅋ</p>

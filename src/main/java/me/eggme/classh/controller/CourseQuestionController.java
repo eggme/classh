@@ -158,11 +158,33 @@ public class CourseQuestionController {
         return objectMapper.writeValueAsString(map);
     }
 
+    /***
+     * 사용자가 올린 질문의 상태를 바꿈 (미해결 -> 해결, 해결 -> 미해결)
+     * @param id 상태를 바꿀 질문의 pk
+     * @param status 상태 정보
+     * @return
+     */
     @PostMapping(value = "/changeStatus")
     @ResponseBody
     public String changeCourseQuestionStatus(@RequestParam(value = "id") Long id,
                                              @RequestParam(value = "status") String status){
         courseQuestionService.changeCourseQuestionStatus(id, status);
         return "success";
+    }
+
+    /***
+     * 질문에 달린 답변에 댓글을 입력
+     * @param id 답변 pk
+     * @param member 댓글을 입력하는 주체
+     * @param conent 댓글 내용
+     * @return
+     */
+    @PostMapping(value = "/comment/add/comment")
+    @PreAuthorize("isAuthenticated()")
+    public String addCourseCommentInComment(@RequestParam(value = "comment_id") Long id,
+                                            @AuthenticationPrincipal Member member,
+                                            @RequestParam(value = "commentContent") String conent){
+        /* 여기서 부터 작성하면 됩니다 */
+        return "redirect:/question/"+id;
     }
 }
