@@ -25,24 +25,28 @@
                 <th>상태</th>
                 <th>관리</th>
             </tr>
-            <!-- DB 데이터가 들어갈 공간  -->
-            <c:forEach var="course" items="${list}">
-                <tr class="tr_padding" data-id="${course.id}">
-                    <td><img class="course_thumbnail" src="${course.courseImg}"></td>
-                    <td class="course_id"><a href='/course/${course.url}'><c:out value="${course.name}"/></a></td>
-                    <td><span><c:out value="${course.getReviewAvg()}"/></span></td>
-                    <td><span>${fn:length(course.signUpCourses)}</span></td>
-                    <td><span>0</span></td>
-                    <td><span><c:out value="${course.price}"/></span></td>
-                    <td><span><c:out value="${course.courseState.value}" /></span></td>
-                    <td><button type="button" class="course_delete">삭제</button></td>
-                </tr>
-            </c:forEach>
-            <c:if test="${empty list}">
-                <tr>
-                    <td colspan="8" style="padding-top: 20px;">강의가 없습니다.</td>
-                </tr>
-            </c:if>
+            <c:choose>
+                <c:when test="${empty list}">
+                    <tr>
+                        <td colspan="8" style="padding-top: 20px;">강의가 없습니다.</td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <!-- DB 데이터가 들어갈 공간  -->
+                    <c:forEach var="course" items="${list}">
+                        <tr class="tr_padding" data-id="${course.id}">
+                            <td><img class="course_thumbnail" src="${course.courseImg}"></td>
+                            <td class="course_id"><a href='/course/${course.url}'><c:out value="${course.name}"/></a></td>
+                            <td><span><c:out value="${course.getReviewAvg()}"/></span></td>
+                            <td><span>${fn:length(course.signUpCourses)}</span></td>
+                            <td><span>0</span></td>
+                            <td><span><c:out value="${course.price}"/></span></td>
+                            <td><span><c:out value="${course.courseState.value}" /></span></td>
+                            <td><button type="button" class="course_delete">삭제</button></td>
+                        </tr>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
         </table>
     </div>
 </div>

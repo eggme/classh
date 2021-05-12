@@ -71,8 +71,8 @@ public class CourseDTO implements Serializable {
     // 리뷰 평균 점수
     public double getReviewAvg(){
         if(courseReviews == null) return 0;
-        OptionalDouble average = courseReviews.stream().mapToInt(cr -> cr.getRate()).average();
-        return average.getAsDouble();
+        double average = courseReviews.stream().mapToInt(cr -> cr.getRate()).average().orElseGet(() -> 0);
+        return average;
     }
 
     // 리뷰 총 개수

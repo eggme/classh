@@ -68,3 +68,5 @@
 .hashtag_value{display: flex;}
 .hash_tag_template{display: flex; align-self: center; padding: 6px; margin: 3px; border-radius: 3px; background-color: #f1f3f5; color: #616568; white-space: nowrap; font-size: 13px; cursor: pointer;}
 .tag_value{margin-right: 4px;}
+
+.empty_list{padding-top: 24px; font-size: 28px; display: flex; justify-content: center;}

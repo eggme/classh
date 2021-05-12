@@ -9,11 +9,15 @@ body, html{width: 100%; height: 100%; margin: 0 auto;}
 .title_menu{font-size: 32px; color: #1dc078; margin-right: 8px;}
 .question_title{margin-bottom: 8px; display: flex; align-items: center; font-weight: 500;}
 .title_value{font-size: 24px;}
-.question_user{margin-bottom: 8px; display: flex;font-weight: 400;}
+.question_user{margin-bottom: 8px; display: flex; justify-content: space-between; font-weight: 400;}
+.question_user_wrap{display: flex;}
+.question_user_toolbox_wrap{display: flex; text-decoration: underline; cursor: pointer; font-weight: 500;}
+.question_user_toolbox_wrap div{margin-right: 12px;}
 .modify_at_wrap{color: #adb5bd; display: flex;}
 .left_side_wrap{padding-right: 12px;padding-top: 64px; }
 .back_button{padding: 8px 12px; border: 1px solid #DEE2E6; border-radius: 8px; cursor: pointer;}
 .tool_box{border: 1px solid #DEE2E6; border-radius: 8px; padding: 8px 20px; cursor: pointer; margin-bottom: 12px; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;}
+.resolved{background-color: #1dc078 !important; color: white !important;}
 .right_side_wrap{padding-left: 12px; padding-top: 64px;}
 .tool_box_wrap{ position: sticky; display: flex; justify-content: center; flex-direction: column;}
 .question_content_wrap{padding: 12px; margin-top: 8px;}
@@ -73,14 +77,38 @@ border: 1px solid #fcfcfc; border-radius: 8px 8px 0 0;}
 
 .anonymous_user{display: flex; justify-content: center; text-align: center; font-weight: 500;}
 
-.question_write_form_wrapper{display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4);  padding-top: 3%; padding-bottom: 3%; z-index: 98;}
-.question_write_form{display: flex; flex-direction: column; width: 920px; height: 100%; background-color: #fefefe; margin: 5px auto; border: 1px solid #888; border-radius: 5px; z-index: 99; padding: 32px; position: relative;}
+.question_wrap_template{display: flex; flex-direction: column; width: 100%; margin-bottom: 24px;}
+.question_menu_template{margin-bottom: 8px; font-size: 15px; font-weight: 500; color: #3e4042;}
+.question_input_template{width: 100%;}
+.question_name{width: 100%; border: 1px solid #DEE2E6; border-radius: 3px; padding: 8px; height: 50px; font-size: 16px;}
+
+.tag_wrap_template{display: flex; padding: 8px; height: 50px; width: 100%; border: 1px solid #DEE2E6; border-radius: 3px;}
+.hash_tag_template{display: flex; align-self: center; padding: 6px; margin: 3px; border-radius: 3px; background-color: #f1f3f5; color: #616568; white-space: nowrap; font-size: 13px; cursor: pointer;}
+.hashtag{font-size: 16px; color: #666666; align-self: center; margin-right: 4px;}
+.hashtag_value{display: flex; align-self: center; margin-right: 4px;}
+.tag_value{margin-right: 4px;}
+.question_tag{border: none; outline: none; font-size: 16px; align-self: center;}
+.tag_description{font-size: 12px; color: #868e96; margin-top: 6px;}
+.modal_form_wrapper{display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4);  padding-top: 3%; padding-bottom: 3%; z-index: 98;}
+.modal_form{display: flex; flex-direction: column; width: 920px; height: 100%; background-color: #fefefe; margin: 5px auto; border: 1px solid #888; border-radius: 5px; z-index: 99; padding: 32px; position: relative;}
 .question_relative_wrap{display: flex; flex-direction: column; overflow-y: scroll; padding-bottom: 24px; height: calc(100% - 70px);}
 .question_button_wrap{display: flex; position: absolute; bottom: 16px; right: 16px;}
 .question_button_template{ padding: 12px 60px; margin-left: 8px; border: 1px solid #DEE2E6; border-radius: 4px; cursor: pointer;}
 .question_cancel{color: #343A40; background-color: white;}
 .question_submit{color: white; background-color: #1dc078;}
 .tox-mbtn__select-label{color: #343A40 !important;}
+
+.question_delete_form_wrapper{padding-top: 20%;}
+.question_delete_wrapper{width: 340px !important; height: 260px !important;}
+.question_delete_form{display: flex; flex-direction: column; justify-content: center;}
+.question_delete_icon_wrap{display: flex; justify-content: center;}
+.question_delete_icon i{color: #ffa016; font-size: 64px;}
+.question_delete_text{display: flex; justify-content: center; flex-direction: column; margin-top: 24px; margin-bottom: 12px;}
+.question_delete_title{display: flex; justify-content: center; font-size: 24px; font-weight: 500;}
+.question_delete_content{display: flex; justify-content: center; font-size: 16px; font-weight: 500;}
+.question_delete_button_area{display: flex; justify-content: center; align-items: center; margin-top: 12px;}
+.question_delete_cancel{background-color: #F8F9FA; border-radius: 8px; padding: 8px 24px; margin-right: 4px; cursor: pointer;}
+.question_delete_submit{background-color: #1dc078; color: white; border-radius: 8px; padding: 8px 24px; margin-left: 4px; cursor: pointer;}
 
 .animate{-webkit-animation: animatezoom 0.6s; animation: animatezoom 0.6s;}
 @-webkit-keyframes animatezoom { from {-webkit-transform: scale(0)} to {-webkit-transform: scale(1)} }

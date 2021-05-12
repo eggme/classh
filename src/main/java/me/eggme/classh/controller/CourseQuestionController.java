@@ -1,5 +1,7 @@
 package me.eggme.classh.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.*;
 import me.eggme.classh.domain.entity.Course;
@@ -17,7 +19,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -30,6 +34,12 @@ public class CourseQuestionController {
     @Autowired
     private CourseService courseService;
 
+    /***
+     * 질문에 등록된 정보를 조회 (답변, 강의, 수업 등)
+     * @param id 질문 pk
+     * @param model
+     * @return
+     */
     @GetMapping(value = "/{id}")
     public String getCourseQuestion(@PathVariable Long id, Model model){
         CourseQuestion savedCourseQuestion = courseQuestionService.getCourseQuestion(id);
@@ -50,6 +60,12 @@ public class CourseQuestionController {
         return "questions/courseQnA";
     }
 
+    /***
+     * 해당 강의에 등록된 질문을 검색
+     * @param model
+     * @param course_id 강의 pk
+     * @return
+     */
     @GetMapping(value = "/select/{id}")
     public String selectCourseQuestion(Model model, @PathVariable(value = "id") Long course_id){
 
@@ -63,6 +79,13 @@ public class CourseQuestionController {
         return "information/courseQuestion/question";
     }
 
+    /***
+     * 질문을 작성하는 메소드
+     * @param courseQuestion 작성 할 질문 객체
+     * @param member 질문을 작성하는 유저
+     * @param course_id 질문이 등록될 강의
+     * @return
+     */
     @PostMapping(value = "/add")
     @PreAuthorize("isAuthenticated()")
     public String inputCourseQuestion(@ModelAttribute CourseQuestion courseQuestion,
@@ -72,6 +95,14 @@ public class CourseQuestionController {
         return "redirect:/question/select/"+course_id;
     }
 
+    /***
+     * 질문에 답변을 입력하는 메소드
+     * @param question_id 질문 pk
+     * @param member 답변을 올리는 유저
+     * @param commentContent 답변 내용
+     * @param model
+     * @return
+     */
     @PostMapping(value = "/add/comment")
     @PreAuthorize("isAuthenticated()")
     public String addCourseComment(@RequestParam(value = "q_id") Long question_id,
@@ -83,5 +114,55 @@ public class CourseQuestionController {
         log.info("댓글 정보 : " + commentContent);
         courseQuestionService.addCourseComment(question_id, member, commentContent);
         return "redirect:/question/"+question_id;
+    }
+
+    /***
+     * 질문 수정 폼을 만들 때 id를 기반으로 검색해서 json으로 뿌려줌
+     * @param id 질문 pk
+     * @return
+     * @throws JsonProcessingException
+     */
+    @PostMapping(value = "/select")
+    @ResponseBody
+    public CourseQuestionDTO getCourseQuestionJson(@RequestParam(value = "id") Long id) throws JsonProcessingException {
+        CourseQuestion savedCourseQuestion = courseQuestionService.getCourseQuestion(id);
+        CourseQuestionDTO courseQuestionDTO = savedCourseQuestion.of();
+        return courseQuestionDTO;
+    }
+
+    /***
+     * 질문을 올린 사람이 질문을 수정할 때 요청
+     * @param courseQuestion 수정된 질문 내용
+     * @param model
+     * @return
+     */
+    @PostMapping(value = "/edit")
+    public String editCourseQuestion(@ModelAttribute CourseQuestion courseQuestion, Model model){
+        CourseQuestion savedCourseQuestion = courseQuestionService.editCourseQuestion(courseQuestion);
+        log.info(savedCourseQuestion.toString());
+        return "redirect:/question/"+savedCourseQuestion.getId();
+    }
+
+    /***
+     * 질문을 삭제할 시 질문리스트로 이동
+     * @param id 삭제할 질문 pk
+     * @return
+     */
+    @PostMapping(value = "/delete")
+    @ResponseBody
+    public String deleteCourseQuestion(@RequestParam(value = "id") Long id) throws JsonProcessingException {
+        String url = courseQuestionService.deleteCourseQuestion(id);
+        Map<String, String> map = new HashMap<>();
+        map.put("url", url);
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(map);
+    }
+
+    @PostMapping(value = "/changeStatus")
+    @ResponseBody
+    public String changeCourseQuestionStatus(@RequestParam(value = "id") Long id,
+                                             @RequestParam(value = "status") String status){
+        courseQuestionService.changeCourseQuestionStatus(id, status);
+        return "success";
     }
 }

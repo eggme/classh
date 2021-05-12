@@ -9,10 +9,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
+<link rel="stylesheet" href="/css/views/instructor/courseQnA.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="/css/views/instructor/courseQnA.css"/>
 <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="/js/views/instructor/courseQnA.js"></script>
 
@@ -32,16 +32,27 @@
                     </div>
                 </div>
                 <div class="question_user">
-                    <div class="username_value">
+                    <div class="question_user_wrap">
+                        <div class="username_value">
                         <c:out value="${member.nickName}"/>
                     </div>
-                    <div class="modify_at_wrap">
+                        <div class="modify_at_wrap">
                         <div class="separator">&nbsp;·&nbsp;</div>
                         <div class="modify_at_value">
                             <script>
                                 convertLocalDateTime('${courseQuestion.modify_at}', '.modify_at_value');
                             </script>
                         </div>
+                    </div>
+                    </div>
+                    <div class="question_user_toolbox_wrap">
+                        <sec:authorize access="isAuthenticated()">
+                            <sec:authentication property="principal.id" var="user_id"/>
+                            <c:if test="${courseQuestion.member.id eq user_id}">
+                                <div class="question_edit_box" data-id="${courseQuestion.id}">수정</div>
+                                <div class="question_delete_box" data-id="${courseQuestion.id}">삭제</div>
+                            </c:if>
+                        </sec:authorize>
                     </div>
                 </div>
             </div>
@@ -86,7 +97,20 @@
         <div class="right_side_wrap">
             <div class="tool_box_wrap">
                 <div class="tool_box question_status">
-                    <c:out value="${courseQuestion.questionStatus.getValue()}"/>
+                    <script>
+                        resolvedClass('${courseQuestion.questionStatus.getValue()}', '.question_status');
+                    </script>
+                    <sec:authorize access="isAuthenticated()">
+                        <sec:authentication property="principal.id" var="user_id"/>
+                        <c:choose>
+                            <c:when test="${courseQuestion.member.id eq user_id}">
+                                <div class="isMeWrote" data-id="1" data-qid="${courseQuestion.id}"></div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="isMeWrote" data-id="0"></div>
+                            </c:otherwise>
+                        </c:choose>
+                    </sec:authorize>
                 </div>
                 <div class="tool_box like_box">
                     <div class="like_icon">
@@ -204,11 +228,11 @@
 </div>
 
 
-<div class="question_write_form_wrapper" data-id="${course.id}">
-    <div class="question_write_form animate">
-        <form class="question_form" action="/question/add" method="post">
+<div class="question_write_form_wrapper modal_form_wrapper" data-id="">
+    <div class="question_write_form modal_form animate">
+        <form class="question_edit_form" action="/question/edit" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <input type="hidden" name="course_id" class="course_id" />
+            <input type="hidden" name="id" class="q_id" />
             <div class="question_relative_wrap">
                 <div class="question_name_wrap question_wrap_template">
                     <div class="question_name_menu question_menu_template">제목</div>
@@ -229,36 +253,38 @@
                         <div class="tag_description">최대 10개의 태그를 달 수 있어요!</div>
                     </div>
                 </div>
-                <div class="question_content_wrap question_wrap_template">
+                <div class="question_wrap_template">
                     <div class="question_content_menu question_menu_template">질문 내용</div>
                     <div class="question_content_input">
-                <textarea id="myQuestion" name="content">
-                    <p><b>강의와 관련있는 질문을 남겨주세요.</b></p>
-<p>• 강의와 관련이 없는 질문은 지식공유자가 답변하지 않을 수 있습니다. (사적 상담, 컨설팅, 과제 풀이 등)</p>
-<p>• 질문을 남기기 전, 비슷한 내용을 질문한 수강생이 있는지 먼저 검색을 해주세요. (중복 질문을 자제해주세요.)</p>
-<p>• <u>서비스 운영 관련 질문은 인프런 우측 하단 ‘문의하기’</u>를 이용해주세요. (영상 재생 문제, 사이트 버그, 강의 환불 등)</p>
-<br/>
-<p><b>질문 전달에도 요령이 필요합니다.</b></p>
-<p>• 지식공유자가 질문을 좀 더 쉽게 확인할 수 있게 도와주세요.</p>
-<p>• 강의실 페이지(/lecture) 에서 '질문하기'를 이용해주시면 질문과 연관된 수업 영상 제목이 함께 등록됩니다.</p>
-<p>• 강의 대시보드에서 질문을 남길 경우, <u>관련 섹션 및 수업 제목을 기재</u>해주세요.</p>
-<p>• 수업 특정 구간에 대한 질문은 꼭 <u>영상 타임코드</u>를 남겨주세요!</p>
-<br/>
-<p><b>구체적인 질문일수록 명확한 답을 받을 수 있어요.</b></p>
-<p>• 질문 제목은 핵심 키워드를 포함해 간결하게 적어주세요.</p>
-<p>• 질문 내용은 자세하게 적어주시되, 지식공유자가 답변할 수 있도록 <u>구체적으로 남겨주세요.</u></p>
-<p>• 정확한 질문 내용과 함께 코드를 적어주시거나, <u>캡쳐 이미지</u>를 첨부하면 더욱 좋습니다.</p>
-<br/>
-<p><b>기본적인 예의를 지켜주세요.</b></p>
-<p>• 정중한 의견 및 문의 제시, 감사 인사 등의 커뮤니케이션은 더 나은 강의를 위한 기틀이 됩니다.</p>
-<p>• 질문이 있을 때에는 강의를 만든 지식공유자에 대한 기본적인 예의를 꼭 지켜주세요.</p>
-<p>• 반말, 욕설, 과격한 표현 등 지식공유자를 불쾌하게 할 수 있는 내용은 스팸 처리 등 제재를 가할 수 있습니다.</p> </textarea>
+                <textarea id="myQuestion" name="content"></textarea>
                     </div>
                 </div>
             </div>
             <div class="question_button_wrap">
                 <div class="question_button_template question_cancel">취소</div>
                 <div class="question_button_template question_submit">저장</div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="question_delete_form_wrapper modal_form_wrapper" data-id="">
+    <div class="question_delete_wrapper modal_form animate">
+        <form class="question_delete_form">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <input type="hidden" name="id" class="q_id" />
+            <div class="question_delete_icon_wrap">
+                <div class="question_delete_icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+            </div>
+            <div class="question_delete_text">
+                <div class="question_delete_title">글 삭제</div>
+                <div class="question_delete_content">해당 글을 삭제하시겠습니까?</div>
+            </div>
+            <div class="question_delete_button_area">
+                <div class="question_delete_cancel">취소</div>
+                <div class="question_delete_submit">삭제</div>
             </div>
         </form>
     </div>

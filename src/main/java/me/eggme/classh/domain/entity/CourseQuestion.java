@@ -22,8 +22,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = {"members", "course", "courseClass", "member", "courseComments", "courseTags"})
-@EqualsAndHashCode(exclude = {"members", "course", "courseClass", "member", "courseComments", "courseTags"})
+@ToString(exclude = {"course", "courseClass", "member", "courseComments", "courseTags"})
+@EqualsAndHashCode(exclude = {"course", "courseClass", "member", "courseComments", "courseTags"})
 public class CourseQuestion extends BaseBoardEntity implements Serializable {
 
     @Id @GeneratedValue
@@ -42,17 +42,17 @@ public class CourseQuestion extends BaseBoardEntity implements Serializable {
 
     // 어느 강의에 질문인지
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Course course;
 
     // 어떤 수업에 질문인지
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private CourseClass courseClass;
 
     // 질문을 쓴 사람이 누구인지
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Member member;
 
     // 질문답변의 답글

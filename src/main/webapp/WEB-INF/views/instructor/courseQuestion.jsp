@@ -30,62 +30,71 @@
             </div>
         </div>
         <div class="question_area">
-            <c:forEach var="question" items="${list}" varStatus="question_status" >
-                <div class="question_content" data-id="${question.id}">
-                    <div class="question_data_area">
-                        <div class="question_content_wrap">
-                            <div class="review_title">
-                                <c:out value="${question.title}" />
-                            </div>
-                            <div class="review_content">
-                                <c:out value="${question.content}"></c:out>
-                            </div>
-                            <div class="review_tags">
-                                <c:forEach var="tags" items="${question.courseTags}" varStatus="tag_status">
-                                    <div class='review_hash_tag'>
+            <c:choose>
+                <c:when test="${empty list}">
+                    <div class="empty_list">아직 관련 글이 없습니다. 첫 글을 남겨주세요!</div>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="question" items="${list}" varStatus="question_status" >
+                        <div class="question_content" data-id="${question.id}">
+                            <div class="question_data_area">
+                                <div class="question_content_wrap">
+                                    <div class="review_title">
+                                        <c:out value="${question.title}" />
+                                    </div>
+                                    <div class="review_content">
+                                        <c:out value="${question.content}"></c:out>
+                                    </div>
+                                    <div class="review_tags">
+                                        <c:forEach var="tags" items="${question.courseTags}" varStatus="tag_status">
+                                            <div class='review_hash_tag'>
                                         <span class='review_tag_value'>#
                                             <c:out value="${tags.tag}"></c:out>
                                         </span>
+                                            </div>
+                                        </c:forEach>
                                     </div>
-                                </c:forEach>
-                            </div>
-                        </div>
-                        <div class="question_member_wrap">
-                            <div class="member_name">
-                                <c:out value="${question.member.nickName}"/>
-                            </div>
-                            <div class="separator"> · </div>
-                            <div class="question_time question_${question.id}">
-                                <script>
-                                    convertLocalDateTime("${question.modify_at}", '.question_${question.id}');
-                                </script>
-                            </div>
-                            <div class="separator"> · </div>
-                            <div class="course_title">
-                                <c:out value="${question.course.name}"/>
-                                <c:if test="${!question.courseClass eq null}">
-                                    <div class="separator"> ·</div>
-                                    <div class="courseClass_title">
-                                        <c:out value="${question.courseClass.name}"/>
+                                </div>
+                                <div class="question_member_wrap">
+                                    <div class="member_name">
+                                        <c:out value="${question.member.nickName}"/>
                                     </div>
-                                </c:if>
+                                    <div class="separator"> · </div>
+                                    <div class="question_time question_${question.id}">
+                                        <script>
+                                            convertLocalDateTime("${question.modify_at}", '.question_${question.id}');
+                                        </script>
+                                    </div>
+                                    <div class="separator"> · </div>
+                                    <div class="course_title">
+                                        <c:out value="${question.course.name}"/>
+                                        <c:if test="${!question.courseClass eq null}">
+                                            <div class="separator"> ·</div>
+                                            <div class="courseClass_title">
+                                                <c:out value="${question.courseClass.name}"/>
+                                            </div>
+                                        </c:if>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="question_toolbar">
+                                <div class="circle_answer_area">
+                                    <div class="answer_count">
+                                        <c:out value="${question.getCommentSize()}"/>
+                                    </div>
+                                    <div class="answer_title">
+                                        <c:out value="${question.questionStatus.getValue()}"/>
+                                    </div>
+                                </div>
+                                <div class="like_area">
+                                    <div class="like_icon"><i class="fas fa-heart"></i></div>
+                                    <div class="like_count">0</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="question_toolbar">
-                        <div class="circle_answer_area">
-                            <div class="answer_count">1</div>
-                            <div class="answer_title">
-                                <c:out value="${question.questionStatus.getValue()}"/>
-                            </div>
-                        </div>
-                        <div class="like_area">
-                            <div class="like_icon"><i class="fas fa-heart"></i></div>
-                            <div class="like_count">0</div>
-                        </div>
-                    </div>
-                </div>
-            </c:forEach>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
     <div class="box_wrap">

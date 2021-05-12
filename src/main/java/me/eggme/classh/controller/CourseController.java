@@ -282,7 +282,10 @@ public class CourseController {
     @GetMapping(value = "/list")
     public String courseList(@AuthenticationPrincipal Member member, Model model){
         List<Course> courses = courseService.getCourses(member.getUsername());
-        List<CourseDTO> list = courses.stream().map(c -> c.of()).collect(Collectors.toList());
+        List<CourseDTO> list = null;
+        if(courses != null) {
+             list = courses.stream().map(c -> c.of()).collect(Collectors.toList());
+        }
         model.addAttribute("list", list);
         return "instructor/courseList";
     }

@@ -1,6 +1,8 @@
 package me.eggme.classh.service;
 
+import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.CourseCommentDTO;
+import me.eggme.classh.domain.dto.QuestionStatus;
 import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.exception.NoSearchCourseException;
 import me.eggme.classh.repository.*;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class CourseQuestionService {
 
     @Autowired private CourseQuestionRepository courseQuestionRepository;
@@ -91,5 +94,57 @@ public class CourseQuestionService {
         List<CourseComment> commentList = courseCommentRepository.findByCourseQuestion(savedCourseQuestion);
         List<CourseCommentDTO> commentDTOList = commentList.stream().map(cc -> cc.of()).collect(Collectors.toList());
         return commentDTOList;
+    }
+
+    /***
+     * 질문을 올린 사람이 질문을 수정할 때 호출
+     * @param courseQuestion 수정한 질문
+     * @return
+     */
+    @Transactional
+    public CourseQuestion editCourseQuestion(CourseQuestion courseQuestion) {
+        CourseQuestion savedCourseQuestion = courseQuestionRepository.findById(courseQuestion.getId()).orElseThrow(() -> new RuntimeException());
+        savedCourseQuestion.setTitle(courseQuestion.getTitle());
+
+        Course savedCourse = savedCourseQuestion.getCourse();
+
+        savedCourseQuestion.getCourseTags().clear();
+
+        List<CourseTag> savedCourseTagList = courseQuestion.getCourseTags().stream().map(ct -> {
+            CourseTag savedCourseTag = courseTagRepository.save(ct);
+            savedCourseTag.setCourse(savedCourse);
+            savedCourseTag.setCourseQuestion(savedCourseQuestion);
+            return savedCourseTag;
+        }).collect(Collectors.toList());
+
+        savedCourseQuestion.getCourseTags().addAll(savedCourseTagList);
+
+        savedCourseQuestion.setContent(courseQuestion.getContent());
+        return savedCourseQuestion;
+    }
+
+    /***
+     * 질문이 상태를 반전시킴 해결 -> 미해결, 미해결 -> 해결
+     * @param id 반전시킬 질문 pk
+     */
+    @Transactional
+    public void changeCourseQuestionStatus(Long id, String status) {
+        QuestionStatus questionStatus = QuestionStatus.findByValue(status);
+        CourseQuestion savedCourseQuestion = courseQuestionRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        savedCourseQuestion.setQuestionStatus(questionStatus);
+    }
+
+    /***
+     * 질문을 삭제하고 삭제한 질문의 강의 url을 구해서 질문리스트페이지로 이동
+     * @param id 삭제할 질문의 pk
+     * @return
+     */
+    @Transactional
+    public String deleteCourseQuestion(Long id) {
+        String resultUrl = "";
+        CourseQuestion savedCourseQuestion = courseQuestionRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        resultUrl = savedCourseQuestion.getCourse().getUrl();
+        courseQuestionRepository.delete(savedCourseQuestion);
+        return resultUrl;
     }
 }

@@ -16,8 +16,8 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = {"parent", "children", "courseQuestion", "courseNotice", "courseReview"})
-@EqualsAndHashCode(exclude = {"parent", "children", "courseQuestion", "courseNotice", "courseReview"})
+@ToString(exclude = {"member", "parent", "children", "courseQuestion", "courseNotice", "courseReview"})
+@EqualsAndHashCode(exclude = {"member","parent", "children", "courseQuestion", "courseNotice", "courseReview"})
 public class CourseComment extends BaseBoardEntity implements Serializable {
 
     @Id @GeneratedValue
@@ -27,7 +27,8 @@ public class CourseComment extends BaseBoardEntity implements Serializable {
     private String commentContent;
 
     // 댓글 단 사람 정보
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
+    @OneToOne
     private Member member;
 
     // 댓글의 부모
