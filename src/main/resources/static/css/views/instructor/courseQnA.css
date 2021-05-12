@@ -1,22 +1,70 @@
 body, html{width: 100%; height: 100%; margin: 0 auto;}
-.main_section{display: flex; justify-content: center; width: 100%; height: 100%;}
+.main_section{display: flex; flex-direction: column; justify-content: center; width: 100%; height: 100%;}
+.question_box_wrap{display: flex; justify-content: center; width: 100%; background-color: white;}
+.answer_box_wrap{display: flex; flex-direction: column; justify-content: center; width: 100%; background-color: #F8F9FA; padding-top: 24px; padding-bottom: 36px;}
 
-.question_wrap{padding: 24px 12px; width: 700px;}
-.question_title_wrap{padding-bottom: 12px; border-bottom: 1px solid #DEE2E6;}
+
+.question_wrap{padding: 24px 36px; width: 720px;}
+.question_title_wrap{padding-bottom: 12px; border-bottom: 1px solid #f1f3f5;}
 .title_menu{font-size: 32px; color: #1dc078; margin-right: 8px;}
 .question_title{margin-bottom: 8px; display: flex; align-items: center; font-weight: 500;}
 .title_value{font-size: 24px;}
 .question_user{margin-bottom: 8px; display: flex;font-weight: 400;}
 .modify_at_wrap{color: #adb5bd; display: flex;}
-.left_side_wrap{padding-right: 32px;padding-top: 64px; }
+.left_side_wrap{padding-right: 12px;padding-top: 64px; }
 .back_button{padding: 8px 12px; border: 1px solid #DEE2E6; border-radius: 8px; cursor: pointer;}
-.tool_box{border: 1px solid #DEE2E6; border-radius: 8px; padding: 8px 20px; cursor: pointer;}
-.right_side_wrap{padding-left: 32px; padding-top: 64px;}
+.tool_box{border: 1px solid #DEE2E6; border-radius: 8px; padding: 8px 20px; cursor: pointer; margin-bottom: 12px; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;}
+.right_side_wrap{padding-left: 12px; padding-top: 64px;}
 .tool_box_wrap{ position: sticky; display: flex; justify-content: center; flex-direction: column;}
 .question_content_wrap{padding: 12px; margin-top: 8px;}
-.question_data_box{display: flex; flex-direction: column; background-color: #f1f3f5; border-radius: 12px; padding: 12px;}
+.question_data_box{display: flex; flex-direction: column; justify-content: center; background-color: #f8f9fa; border-radius: 12px; padding: 12px;}
+.course_data_wrap{margin-bottom: 4px;}
 .review_tags{display: flex;}
 .review_hash_tag{display: flex; align-self: center; padding: 6px; margin: 3px; border-radius: 3px; background-color: #eff3fa; color: #616568; white-space: nowrap; font-size: 13px; }
 .course_tag_data_wrap{display: flex;}
 .course_tag, .course_data{margin-right: 8px; color: #616568; font-weight: 500;}
 .course_tag_value{display: flex;}
+.course_tag{align-self: center;}
+.like_box{display: flex; justify-content: center;}
+.like_icon{margin-right: 8px;}
+.answer_main_box_wrap{width: 100%; display: flex; justify-content: center; }
+.user_answer_main_box_wrap{width: 100%; display: flex; justify-content: center; }
+.answer_main_text_size_wrap{width: 720px; padding-left: 24px; display: flex; margin-bottom: 8px; align-items: flex-end;}
+
+.answer_main_text_wrap{display: flex;justify-content: center; align-self: center; margin-bottom: 8px;}
+.answer_title_menu{font-size: 30px; color: #616568; font-weight: 500; display: flex; line-height: 110%; margin-right: 4px;}
+.answer_title_value_area{display: flex; font-size: 20px; color: #616568; font-weight: 500; }
+
+.answer_box{display: flex; flex-direction:column; justify-content: center; padding: 24px 28px;  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; background-color: white;
+border: 1px solid #fcfcfc; border-radius: 8px 8px 0 0;}
+.answer_template{ display: flex; justify-content: center; flex-direction: column; padding-bottom: 24px;}
+.answer_size_wrap{width: 720px; display: flex; flex-direction: column;}
+.answer_profile_wrap{display: flex; padding-bottom: 18px; border-bottom: 1px solid #f1f3f5;}
+.answer_profile_image_wrap{width: 48px; height: 48px; overflow: hidden; border-radius: 70%; margin-right: 8px;}
+.answer_profile_image{width: 100%; height: 100%; object-fit: cover;}
+.answer_profile_data_wrap{display: flex; flex-direction: column; margin-left: 4px; justify-content: center;}
+.answer_profile_username{font-size: 16px; font-weight: 500; color: #343A40;margin-bottom: 4px;}
+.answer_profile_modify_at{font-size: 13px; font-weight: 500; color: #abb0b5;}
+
+.user_answer_profile_wrap{display: flex; padding: 12px 30px 30px 24px;}
+.user_answer_profile_image_wrap{width: 48px; height: 48px; overflow: hidden; border-radius: 70%; margin-right: 8px;}
+.user_answer_profile_image{width: 100%; height: 100%; object-fit: cover;}
+.user_answer_profile_data_wrap{display: flex; flex-direction: column; margin-left: 4px; justify-content: center;}
+.user_answer_profile_username{font-size: 16px; font-weight: 500; color: #343A40;margin-bottom: 4px;}
+.user_answer_profile_template{font-size: 13px; font-weight: 500; color: #abb0b5;}
+
+.answer_content{padding: 18px 0;}
+.answer_content_toolbox{display: flex; padding-top: 12px;}
+.like_box_wrap{display: flex; border: 1px solid #DEE2E6; border-radius: 16px; padding: 8px 20px; cursor: pointer;}
+.question_content, .answer_content{font-size: 16px;}
+
+.reply_box{background-color: #fcfcfc; display: flex; flex-direction: column; padding-bottom: 12px; border-radius : 0 0 8px 8px; border-color: #fcfcfc;  box-shadow: rgba(99, 99, 99, 0.2) 0px 1px 4px 0px;}
+.reply_add_box{border-top: 1px solid #f1f3f5; display: flex; justify-content: center; padding-top: 12px;}
+.reply_menu_box{display: flex; justify-content: space-between; padding: 12px 30px; align-items: center;}
+.reply_title_menu{font-size: 16px; font-weight: 700; color: #1b1c1d;}
+.replay_toggle_button{font-size : 14px; font-weight: 500; color: #495057; cursor: pointer;}
+.write_reply{text-decoration: underline; font-weight: 500; color: #495057; cursor: pointer;}
+.user_answer_wrap{display: flex; flex-direction: column; padding: 12px 0; border-radius: 8px; border: 1px solid #fcfcfc; background-color: white; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;}
+.tox-menubar button{color: #222f3e !important;}
+.user_answer_submit_wrap{display: flex; justify-content: flex-end; padding: 8px 8px 0 0;}
+.user_answer_submit{background-color: #1dc078; font-size: 16px; color: white; font-weight: 500; border-radius: 8px; padding: 8px 12px; cursor: pointer;}
