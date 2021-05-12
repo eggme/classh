@@ -17,12 +17,12 @@ body, html{width: 100%; height: 100%; margin: 0 auto;}
 .right_side_wrap{padding-left: 12px; padding-top: 64px;}
 .tool_box_wrap{ position: sticky; display: flex; justify-content: center; flex-direction: column;}
 .question_content_wrap{padding: 12px; margin-top: 8px;}
-.question_data_box{display: flex; flex-direction: column; justify-content: center; background-color: #f8f9fa; border-radius: 12px; padding: 12px;}
+.question_data_box{display: flex; flex-direction: column; justify-content: center; background-color: #f8f9fa; border-radius: 12px; padding: 16px 20px;}
 .course_data_wrap{margin-bottom: 4px;}
 .review_tags{display: flex;}
 .review_hash_tag{display: flex; align-self: center; padding: 6px; margin: 3px; border-radius: 3px; background-color: #eff3fa; color: #616568; white-space: nowrap; font-size: 13px; }
 .course_tag_data_wrap{display: flex;}
-.course_tag, .course_data{margin-right: 8px; color: #616568; font-weight: 500;}
+.course_tag, .course_data{margin-right: 8px; color: #616568;}
 .course_tag_value{display: flex;}
 .course_tag{align-self: center;}
 .like_box{display: flex; justify-content: center;}
@@ -33,7 +33,7 @@ body, html{width: 100%; height: 100%; margin: 0 auto;}
 
 .answer_main_text_wrap{display: flex;justify-content: center; align-self: center; margin-bottom: 8px;}
 .answer_title_menu{font-size: 30px; color: #616568; font-weight: 500; display: flex; line-height: 110%; margin-right: 4px;}
-.answer_title_value_area{display: flex; font-size: 20px; color: #616568; font-weight: 500; }
+.answer_title_value_area{display: flex; font-size: 16px; color: #616568; font-weight: 500; }
 
 .answer_box{display: flex; flex-direction:column; justify-content: center; padding: 24px 28px;  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; background-color: white;
 border: 1px solid #fcfcfc; border-radius: 8px 8px 0 0;}
@@ -68,3 +68,25 @@ border: 1px solid #fcfcfc; border-radius: 8px 8px 0 0;}
 .tox-menubar button{color: #222f3e !important;}
 .user_answer_submit_wrap{display: flex; justify-content: flex-end; padding: 8px 8px 0 0;}
 .user_answer_submit{background-color: #1dc078; font-size: 16px; color: white; font-weight: 500; border-radius: 8px; padding: 8px 12px; cursor: pointer;}
+.course_data_wrap{display: flex;}
+.link_template{text-decoration: underline; cursor: pointer; color: #3e74c6; word-break: break-all;}
+
+.anonymous_user{display: flex; justify-content: center; text-align: center; font-weight: 500;}
+
+.question_write_form_wrapper{display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4);  padding-top: 3%; padding-bottom: 3%; z-index: 98;}
+.question_write_form{display: flex; flex-direction: column; width: 920px; height: 100%; background-color: #fefefe; margin: 5px auto; border: 1px solid #888; border-radius: 5px; z-index: 99; padding: 32px; position: relative;}
+.question_relative_wrap{display: flex; flex-direction: column; overflow-y: scroll; padding-bottom: 24px; height: calc(100% - 70px);}
+.question_button_wrap{display: flex; position: absolute; bottom: 16px; right: 16px;}
+.question_button_template{ padding: 12px 60px; margin-left: 8px; border: 1px solid #DEE2E6; border-radius: 4px; cursor: pointer;}
+.question_cancel{color: #343A40; background-color: white;}
+.question_submit{color: white; background-color: #1dc078;}
+.tox-mbtn__select-label{color: #343A40 !important;}
+
+.animate{-webkit-animation: animatezoom 0.6s; animation: animatezoom 0.6s;}
+@-webkit-keyframes animatezoom { from {-webkit-transform: scale(0)} to {-webkit-transform: scale(1)} }
+@keyframes animatezoom { from {transform: scale(0)} to {transform: scale(1)} }
+
+@media (max-width: 900px) {
+    .left_side_wrap, .right_side_wrap{display: none;}
+    .question_wrap, .question_box_wrap, .answer_box_wrap, .answer_size_wrap, .answer_main_text_wrap{width: 100%;}
+}

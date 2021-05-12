@@ -2,9 +2,9 @@ package me.eggme.classh.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
+import me.eggme.classh.domain.dto.CourseCommentDTO;
+import me.eggme.classh.utils.ModelMapperUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,9 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@ToString(exclude = {"parent", "children"})
-@EqualsAndHashCode(exclude = {"parent", "children"})
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(exclude = {"parent", "children", "courseQuestion", "courseNotice", "courseReview"})
+@EqualsAndHashCode(exclude = {"parent", "children", "courseQuestion", "courseNotice", "courseReview"})
 public class CourseComment extends BaseBoardEntity implements Serializable {
 
     @Id @GeneratedValue
@@ -52,4 +55,8 @@ public class CourseComment extends BaseBoardEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "COURSE_REVIEW_ID")
     private CourseReview courseReview;
+
+    public CourseCommentDTO of() {
+        return ModelMapperUtils.getModelMapper().map(this, CourseCommentDTO.class);
+    }
 }

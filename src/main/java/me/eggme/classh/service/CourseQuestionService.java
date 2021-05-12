@@ -1,16 +1,12 @@
 package me.eggme.classh.service;
 
-import me.eggme.classh.domain.entity.Course;
-import me.eggme.classh.domain.entity.CourseQuestion;
-import me.eggme.classh.domain.entity.CourseTag;
-import me.eggme.classh.domain.entity.Member;
+import me.eggme.classh.domain.dto.CourseCommentDTO;
+import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.exception.NoSearchCourseException;
-import me.eggme.classh.repository.CourseQuestionRepository;
-import me.eggme.classh.repository.CourseRepository;
-import me.eggme.classh.repository.CourseTagRepository;
-import me.eggme.classh.repository.MemberRepository;
+import me.eggme.classh.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,6 +20,7 @@ public class CourseQuestionService {
     @Autowired private CourseRepository courseRepository;
     @Autowired private CourseTagRepository courseTagRepository;
     @Autowired private MemberRepository memberRepository;
+    @Autowired private CourseCommentRepository courseCommentRepository;
 
     /***
      * 사용자가 질문게시판에 질문을 올림
@@ -63,5 +60,36 @@ public class CourseQuestionService {
         CourseQuestion savedCourseQuestion = courseQuestionRepository.findById(id).orElseThrow(()
                 -> new RuntimeException());
         return savedCourseQuestion;
+    }
+
+    /***
+     * 질문&답변에 답변을 저장하는 메소드
+     * @param question_id 질문 pk
+     * @param member 답변을 저장하려고하는 유저 객체
+     * @param commentContent 답변
+     */
+    @Transactional
+    public void addCourseComment(Long question_id, Member member, String commentContent) {
+        CourseComment courseComment = CourseComment.builder()
+                                .commentContent(commentContent)
+                                .build();
+        CourseComment savedCourseComment = courseCommentRepository.save(courseComment);
+        Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() -> new UsernameNotFoundException("해당 유저를 찾을 수 없습니다"));
+        CourseQuestion savedCourseQuestion = courseQuestionRepository.findById(question_id).orElseThrow(() -> new RuntimeException());
+
+        savedCourseComment.setMember(savedMember);
+        savedCourseComment.setCourseQuestion(savedCourseQuestion);
+    }
+
+    /***
+     * 질문에 대한 답변들을 조회
+     * @param savedCourseQuestion
+     * @return
+     */
+    @Transactional
+    public List<CourseCommentDTO> selectCourseComment(CourseQuestion savedCourseQuestion) {
+        List<CourseComment> commentList = courseCommentRepository.findByCourseQuestion(savedCourseQuestion);
+        List<CourseCommentDTO> commentDTOList = commentList.stream().map(cc -> cc.of()).collect(Collectors.toList());
+        return commentDTOList;
     }
 }

@@ -1,3 +1,18 @@
+$(function(){
+   $('.user_answer_submit').click(function(){
+       $('.q_id').val($('.user_answer_form').attr('data-qid'));
+       $('.user_answer_form').submit();
+   });
+   $('.back_button').click(function() {
+       let id = $(this).attr('data-id');
+       location.href="/question/select/"+id;
+   });
+   $('.course_link').on('click', function(){
+      let url = $(this).attr('data-id');
+      location.href = "/course/"+url;
+   });
+});
+
 
 tinymce.init({
     mode : 'textareas',

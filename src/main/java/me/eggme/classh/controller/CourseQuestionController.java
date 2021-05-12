@@ -1,11 +1,9 @@
 package me.eggme.classh.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import me.eggme.classh.domain.dto.CourseClassDTO;
-import me.eggme.classh.domain.dto.CourseDTO;
-import me.eggme.classh.domain.dto.CourseQuestionDTO;
-import me.eggme.classh.domain.dto.MemberDTO;
+import me.eggme.classh.domain.dto.*;
 import me.eggme.classh.domain.entity.Course;
+import me.eggme.classh.domain.entity.CourseComment;
 import me.eggme.classh.domain.entity.CourseQuestion;
 import me.eggme.classh.domain.entity.Member;
 import me.eggme.classh.service.CourseQuestionService;
@@ -35,12 +33,14 @@ public class CourseQuestionController {
     @GetMapping(value = "/{id}")
     public String getCourseQuestion(@PathVariable Long id, Model model){
         CourseQuestion savedCourseQuestion = courseQuestionService.getCourseQuestion(id);
+        List<CourseCommentDTO> courseCommentDTOList = courseQuestionService.selectCourseComment(savedCourseQuestion);
         CourseQuestionDTO courseQuestionDTO = savedCourseQuestion.of();
         CourseDTO courseDTO = courseQuestionDTO.getCourse().of();
         MemberDTO memberDTO = courseQuestionDTO.getMember().of();
         model.addAttribute("courseQuestion", courseQuestionDTO);
         model.addAttribute("course", courseDTO);
         model.addAttribute("member", memberDTO);
+        model.addAttribute("list", courseCommentDTOList);
 
         if(courseQuestionDTO.getCourseClass() != null){
             CourseClassDTO courseClassDTO = courseQuestionDTO.getCourseClass().of();
@@ -70,5 +70,18 @@ public class CourseQuestionController {
                                       @RequestParam(value = "course_id") Long course_id){
         courseQuestionService.saveCourseQuestion(courseQuestion, member, course_id);
         return "redirect:/question/select/"+course_id;
+    }
+
+    @PostMapping(value = "/add/comment")
+    @PreAuthorize("isAuthenticated()")
+    public String addCourseComment(@RequestParam(value = "q_id") Long question_id,
+                                   @AuthenticationPrincipal Member member,
+                                   @RequestParam(value = "commentContent") String commentContent,
+                                   Model model){
+        log.info("질문 pk : " + question_id);
+        log.info("댓글 작성자 : " + member.toString());
+        log.info("댓글 정보 : " + commentContent);
+        courseQuestionService.addCourseComment(question_id, member, commentContent);
+        return "redirect:/question/"+question_id;
     }
 }

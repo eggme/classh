@@ -7,6 +7,7 @@ import me.eggme.classh.domain.dto.CourseDTO;
 import me.eggme.classh.domain.dto.CourseQuestionDTO;
 import me.eggme.classh.domain.dto.QuestionStatus;
 import me.eggme.classh.utils.ModelMapperUtils;
+import org.springframework.core.annotation.Order;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -57,6 +58,7 @@ public class CourseQuestion extends BaseBoardEntity implements Serializable {
     // 질문답변의 답글
     @JsonManagedReference
     @OneToMany(mappedBy = "courseQuestion", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("modify_at desc")
     private List<CourseComment> courseComments = new ArrayList<>();
 
     // 달릴 해시태그들 1:N 단방향
