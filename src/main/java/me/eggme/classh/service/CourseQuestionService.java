@@ -60,8 +60,8 @@ public class CourseQuestionService {
 
     @Transactional
     public CourseQuestion getCourseQuestion(Long id) {
-        CourseQuestion savedCourseQuestion = courseQuestionRepository.findById(id).orElseThrow(()
-                -> new RuntimeException());
+        CourseQuestion savedCourseQuestion = courseQuestionRepository.findByIdAndComments(id).orElse(
+           courseQuestionRepository.findById(id).orElseThrow(() -> new RuntimeException()));
         return savedCourseQuestion;
     }
 
@@ -147,4 +147,80 @@ public class CourseQuestionService {
         courseQuestionRepository.delete(savedCourseQuestion);
         return resultUrl;
     }
+
+    /***
+     * 질문답변 게시판의 질문에 대한 답변의 댓글을 추가할 때 실행
+     * @param id 댓글이 달릴 답변 pk
+     * @param member 댓글을 작성하는 사람
+     * @param content 댓글 내용
+     */
+    @Transactional
+    public void addReply(Long id, Member member, String content) {
+        CourseComment savedCourseComment = courseCommentRepository.findById(id).orElseThrow(() ->
+                new RuntimeException());
+        Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
+                new UsernameNotFoundException("해당 유저를 찾을 수 없습니다."));
+
+        CourseComment childCourseComment = CourseComment.builder()
+                                .commentContent(content)
+                                .build();
+        CourseComment savedChildCourseComment = courseCommentRepository.save(childCourseComment);
+        savedChildCourseComment.setMember(savedMember);
+        savedChildCourseComment.setParent(savedCourseComment);
+
+        savedCourseComment.getChildren().add(savedChildCourseComment);
+    }
+
+    /***
+     * 답변이나 댓글을 삭제할때 호출
+     * @param id 삭제할 댓글/답글 pk
+     */
+    @Transactional
+    public Long deleteCourseComment(Long id) {
+        CourseComment savedCourseComment = courseCommentRepository.findById(id).orElseThrow(() -> new RuntimeException("답글이 존재하지 않습니다"));
+        Long redirectId = 0L;
+        if( savedCourseComment.getCourseQuestion() == null ) {
+            redirectId = savedCourseComment.getParent().getCourseQuestion().getId();
+            savedCourseComment.getParent().getChildren().remove(savedCourseComment);
+        }else {
+            redirectId = savedCourseComment.getCourseQuestion().getId();
+            savedCourseComment.getCourseQuestion().getCourseComments().remove(savedCourseComment);
+        }
+
+        courseCommentRepository.delete(savedCourseComment);
+        return redirectId;
+    }
+
+    /***
+     * id를 기반으로 답변/댓글을 검색 후 반환
+     * @param id 답변/댓글 pk
+     * @return
+     */
+    @Transactional
+    public CourseComment getCourseComment(Long id) {
+        CourseComment savedCourseComment = courseCommentRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("해당되는 댓글이 없습니다."));
+        return savedCourseComment;
+    }
+
+    /***
+     * id를 기반으로 답변/댓글을 수정하고 질문 id를 반환
+     * @param id 답변/댓글 pk
+     * @param content 수정될 답변/댓글 내용
+     */
+    @Transactional
+    public Long editCourseComment(Long id, String content) {
+        CourseComment savedCourseComment = courseCommentRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("해당되는 댓글이 없습니다."));
+        savedCourseComment.setCommentContent(content);
+
+        Long redirect_id = 0L;
+        if(savedCourseComment.getCourseQuestion() != null)
+            redirect_id = savedCourseComment.getCourseQuestion().getId();
+        else
+            redirect_id = savedCourseComment.getParent().getCourseQuestion().getId();
+
+        return redirect_id;
+    }
+
 }

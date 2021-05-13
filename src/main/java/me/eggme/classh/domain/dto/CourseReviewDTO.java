@@ -22,4 +22,11 @@ public class CourseReviewDTO implements Serializable {
     private Member member;
     private Course course;
     private List<CourseComment> courseComments;
+
+    public boolean isWroteReview(Member member){
+        if(getMember().getId() == member.getId()){
+            return true;
+        }
+        return false;
+    }
 }

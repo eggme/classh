@@ -35,6 +35,10 @@ public class CourseReviewService {
     @Transactional
     public void deleteReview(Long review_id) {
         CourseReview savedReview = courseReviewRepository.findById(review_id).orElseThrow(() -> new NoSearchCourseReviewException("해당되는 리뷰가 없습니다."));
+        /* 연관객체 동기화 */
+        savedReview.getCourse().getCourseReviews().remove(savedReview);
+        savedReview.getMember().getCourseReviews().remove(savedReview);
+
         courseReviewRepository.delete(savedReview);
     }
 }

@@ -109,9 +109,6 @@ public class CourseQuestionController {
                                    @AuthenticationPrincipal Member member,
                                    @RequestParam(value = "commentContent") String commentContent,
                                    Model model){
-        log.info("질문 pk : " + question_id);
-        log.info("댓글 작성자 : " + member.toString());
-        log.info("댓글 정보 : " + commentContent);
         courseQuestionService.addCourseComment(question_id, member, commentContent);
         return "redirect:/question/"+question_id;
     }
@@ -124,7 +121,7 @@ public class CourseQuestionController {
      */
     @PostMapping(value = "/select")
     @ResponseBody
-    public CourseQuestionDTO getCourseQuestionJson(@RequestParam(value = "id") Long id) throws JsonProcessingException {
+    public CourseQuestionDTO getCourseQuestionJson(@RequestParam(value = "id") Long id) {
         CourseQuestion savedCourseQuestion = courseQuestionService.getCourseQuestion(id);
         CourseQuestionDTO courseQuestionDTO = savedCourseQuestion.of();
         return courseQuestionDTO;
@@ -139,7 +136,6 @@ public class CourseQuestionController {
     @PostMapping(value = "/edit")
     public String editCourseQuestion(@ModelAttribute CourseQuestion courseQuestion, Model model){
         CourseQuestion savedCourseQuestion = courseQuestionService.editCourseQuestion(courseQuestion);
-        log.info(savedCourseQuestion.toString());
         return "redirect:/question/"+savedCourseQuestion.getId();
     }
 
@@ -176,15 +172,63 @@ public class CourseQuestionController {
      * 질문에 달린 답변에 댓글을 입력
      * @param id 답변 pk
      * @param member 댓글을 입력하는 주체
-     * @param conent 댓글 내용
+     * @param content 댓글 내용
      * @return
      */
     @PostMapping(value = "/comment/add/comment")
     @PreAuthorize("isAuthenticated()")
-    public String addCourseCommentInComment(@RequestParam(value = "comment_id") Long id,
+    @ResponseBody
+    public String addReply(@RequestParam(value = "comment_id") Long id,
+                                            @RequestParam(value = "question_id") Long question_id,
                                             @AuthenticationPrincipal Member member,
-                                            @RequestParam(value = "commentContent") String conent){
+                                            @RequestParam(value = "commentContent") String content) throws JsonProcessingException {
+        courseQuestionService.addReply(id,  member, content);
         /* 여기서 부터 작성하면 됩니다 */
-        return "redirect:/question/"+id;
+        Map<String, Long> map = new HashMap<>();
+        map.put("id", question_id);
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(map);
+    }
+
+    /***
+     * 질문 게시글에 답변/댓글을 삭제함
+     * @param id 삭제할 답변/댓글 pk
+     * @return
+     */
+    @PostMapping(value = "/comment/delete")
+    @PreAuthorize("isAuthenticated()")
+    public String deleteComment(@RequestParam(value = "id") Long id){
+        log.info("삭제할 값 : " + id);
+        Long redirect_id = courseQuestionService.deleteCourseComment(id);
+        return "redirect:/question/"+redirect_id;
+    }
+
+    /***
+     * 답변 수정 클릭 시 id를 가지고 답변의 정보를 조회 후 json으로 출력
+     * @param id
+     * @return
+     */
+    @PostMapping(value = "/select/comment")
+    @PreAuthorize("isAuthenticated()")
+    @ResponseBody
+    public CourseCommentDTO selectCourseComment(@RequestParam(value = "id") Long id){
+        CourseComment savedCourseComment = courseQuestionService.getCourseComment(id);
+        CourseCommentDTO courseCommentDTO = savedCourseComment.of();
+        return courseCommentDTO;
+    }
+
+    /****
+     * 답변/댓글 정보를 수정할 때 실행되는 콜백 
+     * @param id 답변/댓글 pk
+     * @param content 수정될 답변/댓글 데이터
+     * @return
+     */
+    @PostMapping(value = "/comment/edit")
+    @PreAuthorize("isAuthenticated()")
+    public String editCourseComment(@RequestParam(value="id") Long id,
+                                    @RequestParam(value = "commentContent") String content){
+        log.info(content);
+        Long redirect_id = courseQuestionService.editCourseComment(id, content);
+        return "redirect:/question/"+redirect_id;
     }
 }

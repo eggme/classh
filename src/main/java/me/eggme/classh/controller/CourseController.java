@@ -65,11 +65,11 @@ public class CourseController {
         Course course = courseService.getCourse(url);
         Member loadMember = null;
         try{
-            member = memberService.loadUser(member.getUsername());
+            loadMember = memberService.loadUser(member.getUsername());
         }catch (NullPointerException n){
             log.info("guest 가 강의를 보는 중");
         }
-        if(member != null){
+        if(loadMember != null){
             model.addAttribute("member", member.of());
         }
         CourseDTO courseDTO = course.of();
@@ -83,18 +83,9 @@ public class CourseController {
         Course course = courseService.getCourse(url);
         CourseDTO courseDTO = course.of();
         model.addAttribute("course", courseDTO);
-        log.info(courseDTO.toString());
         return "information/courseDashboard/dashboard";
     }
 
-    // 내 강의 보기 (질문답변)  question
-//    @GetMapping(value = "/{url}/question")
-//    public String courseQuestion(@PathVariable String url, Model model){
-//        Course course = courseService.getCourse(url);
-//        CourseDTO courseDTO = course.of();
-//        model.addAttribute("course", courseDTO);
-//        return "information/courseQuestion/question";
-//    }
     // 내 강의 보기 (새소식)  newly
     @GetMapping(value = "/{url}/newly")
     public String courseNewly(@PathVariable String url, Model model){
@@ -171,7 +162,6 @@ public class CourseController {
     @PostMapping(value = "/edit/section")
     @ResponseBody
     public CourseSectionDTO editCourseSection(@ModelAttribute CourseSection courseSection){
-        log.info(courseSection.toString());
         CourseSection createdSection = courseService.editSection(courseSection);
         CourseSectionDTO courseSectionDTO = createdSection.of();
         return courseSectionDTO;
@@ -193,7 +183,6 @@ public class CourseController {
     @PostMapping(value = "/{id}/delete/class")
     @ResponseBody
     public String deleteCourseClass(@PathVariable Long id){
-        log.info("class id = "+id);
         courseService.deleteCourseClass(id);
         return "success";
     }
@@ -241,15 +230,13 @@ public class CourseController {
                                   Model model, @AuthenticationPrincipal Member member){
         Course course = courseService.saveCourseReview(id, member.getUsername(), rate, reviewContent);
         Member loadMember = memberService.loadUser(member.getUsername());
-        CourseDTO courseDTO = course.of();
-        model.addAttribute("course", courseDTO);
-        return "information/courseInfo/info";
+        String url = course.getUrl();
+        return "redirect:/course/"+url;
     }
 
     // 강사가 강의를 편집하고 저장할 때 콜
     @PostMapping(value = "/edit/class/info")
     public String editCourseClassInfo(@ModelAttribute CourseClass courseClass, Model model){
-        log.info(courseClass.toString());
         Course findCourse = courseService.editCourseClass(courseClass);
         CourseDTO courseDTO = findCourse.of();
         model.addAttribute("course", courseDTO);
@@ -352,7 +339,6 @@ public class CourseController {
 
         Course course = courseService.saveCourseThumbnail(id, file);
         CourseDTO courseDTO = course.of();
-        log.info(courseDTO.toString());
         return courseDTO;
     }
 
@@ -393,9 +379,8 @@ public class CourseController {
                              Model model){
         courseReviewService.editReview(courseReview);
         Course savedCourse = courseService.getCourse(course_id);
-        CourseDTO courseDTO = savedCourse.of();
-        model.addAttribute("course", courseDTO);
-        return "information/courseInfo/info";
+        String url = savedCourse.getUrl();
+        return "redirect:/course/"+url;
     }
 
     /***

@@ -87,12 +87,12 @@ public class Course extends BaseTimeEntity implements Serializable {
 
     // 강의 수강평
     @JsonManagedReference
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CourseReview> courseReviews = new ArrayList<>();
 
     // 강의 공지사항
     @JsonManagedReference
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CourseNotice> courseNotices = new ArrayList<>();
 
     // 강의 자체 관련 태그 1:N 단방향
@@ -102,7 +102,7 @@ public class Course extends BaseTimeEntity implements Serializable {
     private List<CourseTag> courseTags = new ArrayList<>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("modify_at desc")
     private List<CourseQuestion> courseQuestions = new ArrayList<>();
 

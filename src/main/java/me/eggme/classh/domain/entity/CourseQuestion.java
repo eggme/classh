@@ -1,6 +1,7 @@
 package me.eggme.classh.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import me.eggme.classh.domain.dto.CourseDTO;
@@ -42,23 +43,23 @@ public class CourseQuestion extends BaseBoardEntity implements Serializable {
 
     // 어느 강의에 질문인지
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Course course;
 
     // 어떤 수업에 질문인지
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private CourseClass courseClass;
 
     // 질문을 쓴 사람이 누구인지
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Member member;
 
     // 질문답변의 답글
     @JsonManagedReference
-    @OneToMany(mappedBy = "courseQuestion", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("modify_at desc")
+    @OneToMany(mappedBy = "courseQuestion", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OrderBy("create_at desc")
     private List<CourseComment> courseComments = new ArrayList<>();
 
     // 달릴 해시태그들 1:N 단방향

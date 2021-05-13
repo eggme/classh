@@ -34,7 +34,6 @@ public class MemberBoardController {
     public String dashboardView(@AuthenticationPrincipal Member member, Model model){
         Member loadMember = memberBoardService.loadMember(member.getUsername());
         MemberDTO memberDTO = loadMember.of();
-        log.info(memberDTO.toString());
         model.addAttribute("member", memberDTO);
         return "board/dashboard";
     }
@@ -42,7 +41,6 @@ public class MemberBoardController {
     @GetMapping(value = "/profile")
     public String profileView(@AuthenticationPrincipal Member member, Model model){
         Member loadMember = memberBoardService.loadMember(member.getUsername());
-        log.info(loadMember.getNickName() + " : " +member.toString());
         MemberDTO memberDTO = loadMember.of();
         model.addAttribute("member", memberDTO);
         return "board/profile";

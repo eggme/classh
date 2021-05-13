@@ -78,13 +78,105 @@ $(function () {
     /* 답변에서 댓글을 클릭 */
     $('.write_reply').on('click', function(){
         $('.comment_id').val($(this).attr('data-id'));
+        $('.question_id').val($(this).attr('data-qid'));
         $(this).addClass('hidden');
-        $('.write_reply_form_wrap').removeClass('hidden');
+        $(this).next().removeClass('hidden');
     });
+
+    /* 답변 수정 버튼 누를 시 */
+    $('.answer_edit_wrap').on('click', function(){
+        let id = $(this).attr('data-id');
+        $('.comment_edit_form_wrapper').attr('data-id', id);
+        $.ajax({
+            url : '/question/select/comment',
+            method : "post",
+            dataType : "json",
+            data : {"id" : id},
+            success: function(result){
+                $('.c_id').val(result.id);
+                tinymce.get('myComment').setContent(result.commentContent);
+                $('.comment_edit_form_wrapper').css('display', 'block');
+            },error:function(e){
+                console.log(e);
+            }
+        });
+    });
+
+    /* 댓글 수정 버튼 누를 시 */
+    $('.reply_user_edit').on('click', function (){
+        let id = $(this).attr('data-id');
+        $('.comment_edit_form_wrapper').attr('data-id', id);
+        $.ajax({
+           url : '/question/select/comment',
+           method : "post",
+           dataType : "json",
+           data : {"id" : id},
+           success: function(result){
+               $('.c_id').val(result.id);
+               tinymce.get('myComment').setContent(result.commentContent);
+               $('.comment_edit_form_wrapper').css('display', 'block');
+           },error:function(e){
+               console.log(e);
+            }
+        });
+    });
+
+    /* 답변 수정 모달에서 취소 누를 시 */
+    $('.comment_edit_cancel').click(function(){
+        $('.comment_edit_form_wrapper').css('display', 'none');
+    });
+
+    /* 답변 수정 모달에서 저장 누를 시 */
+    $('.comment_edit_submit').click(function(){
+        $('.comment_edit_form').submit();
+    });
+
+    /* 댓글 삭제 버튼 누를 시 */
+    $('.reply_user_delete').on('click', function(){
+        $('.comment_delete_form_wrapper').attr('data-id', $(this).attr('data-id'));
+        $('.comment_delete_form_wrapper').css('display', 'block');
+    });
+
+    /* 답변 삭제 버튼 누를 시 */
+    $('.answer_delete_wrap').on('click', function(){
+        $('.comment_delete_form_wrapper').attr('data-id', $(this).attr('data-id'));
+        $('.comment_delete_form_wrapper').css('display', 'block');
+    });
+
+    /* 답변 삭제 모달에서 삭제 버튼 누를 시 */
+    $('.comment_delete_submit').click(function(){
+        let id = $('.comment_delete_form_wrapper').attr('data-id');
+        $('.c_id').val(id);
+        $('.comment_delete_form').submit();
+    });
+
+    /* 답변 삭제 모달에서 취소 버튼 누를 시 */
+    $('.comment_delete_cancel').click(function(){
+        $('.comment_delete_form_wrapper').css('display', 'none');
+    })
 
     /* 답변에서 댓글을 입력하고 답변 등록을 클릭 */
     $('.write_reply_submit').on('click', function(){
-        $('.write_reply_form').submit();
+        let data = tinymce.activeEditor.getContent();
+        let cid = $('.comment_id').val();
+        let qid = $('.question_id').val();
+        if(data.length > 0){
+            $.ajax({
+                url : "/question/comment/add/comment",
+                method : "post",
+                data : {
+                    'comment_id' : cid,
+                    'question_id' : qid,
+                    'commentContent' : data
+                },
+                dataType: "json",
+                success: function(result){
+                    location.href="/question/"+result.id
+                },error:function(e){
+                    console.log(e);
+                }
+            });
+        }
     });
     /* 질문삭제 폼 취소 클릭 */
     $('.question_delete_cancel').click(function(){
@@ -165,6 +257,8 @@ tinymce.init({
     content_style: '//www.tinymce.com/css/codepen.min.css'
 });
 
+
+
 tinymce.init({
     mode: 'textareas',
     selector: '#myQuestion',
@@ -182,6 +276,25 @@ tinymce.init({
     images_upload_handler: image_upload_handler,
     content_style: '//www.tinymce.com/css/codepen.min.css'
 });
+
+tinymce.init({
+    mode: 'textareas',
+    selector: '#myComment',
+    height: 400,
+    plugins: 'image code media image',
+    language_url: '/js/ko_KR.js',
+    toolbar: 'undo redo | link image | code | media ',
+    media_live_embeds: true,
+    image_title: true,
+    automatic_uploads: true,
+    file_picker_types: 'image',
+    video_template_callback: function (data) {
+        return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source1 + '"' + (data.source1mime ? ' type="' + data.source1mime + '"' : '') + ' />\n' + (data.source2 ? '<source src="' + data.source2 + '"' + (data.source2mime ? ' type="' + data.source2mime + '"' : '') + ' />\n' : '') + '</video>';
+    },
+    images_upload_handler: image_upload_handler,
+    content_style: '//www.tinymce.com/css/codepen.min.css'
+});
+
 
 
 function resolvedClass(text, obj){

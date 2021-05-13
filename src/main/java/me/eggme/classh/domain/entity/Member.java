@@ -50,7 +50,7 @@ public class Member extends BaseTimeEntity implements Serializable {
 
     // 내가 듣고 있는 강의들
     @JsonManagedReference
-    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<SignUpCourse> signUpCourses = new ArrayList<>();
 
     // 내가 수업하고 있는 강의들
@@ -60,11 +60,11 @@ public class Member extends BaseTimeEntity implements Serializable {
 
     // 내가 올린 강의 리뷰
     @JsonManagedReference
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CourseReview> courseReviews = new ArrayList<>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CourseQuestion> courseQuestions = new ArrayList<>();
 
     @Builder

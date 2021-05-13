@@ -50,13 +50,14 @@ public class MemberService {
         memberRolesRepository.save(memberRoles);
     }
 
+    @Transactional
     public Member loadUser(String username) {
         return memberRepository.findByUsername(username).orElseThrow(() -> new ArithmeticException());
     }
 
+    @Transactional
     public String loadUserNickname(String username) {
         Member member = memberRepository.findByUsername(username).orElseThrow(() -> new ArithmeticException());
-        log.info(member.getUsername() + " : " + member.getNickName());
         return member.getNickName();
     }
 }

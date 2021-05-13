@@ -28,32 +28,33 @@ public class CourseComment extends BaseBoardEntity implements Serializable {
 
     // 댓글 단 사람 정보
     @JsonBackReference
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Member member;
 
     // 댓글의 부모
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PARENT_ID")
     private CourseComment parent;
 
     // 댓글의 자식들
     @JsonManagedReference
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OrderBy("create_at asc")
     private List<CourseComment> children = new ArrayList<>();
 
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "COURSE_QUESTION_ID")
     private CourseQuestion courseQuestion;
 
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "COURSE_NOTICE_ID")
     private CourseNotice courseNotice;
 
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "COURSE_REVIEW_ID")
     private CourseReview courseReview;
 

@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface CourseCommentRepository extends JpaRepository<CourseComment, Long> {
-    @Query("select cc from CourseComment cc where cc.courseQuestion=:courseQuestion order by cc.modify_at asc")
+    @Query("select cc from CourseComment cc where cc.courseQuestion=:courseQuestion and cc.parent is null order by cc.modify_at asc")
     List<CourseComment> findByCourseQuestion(CourseQuestion courseQuestion);
 }

@@ -168,6 +168,15 @@
                                         </div>
                                         <div class="like_count">0</div>
                                     </div>
+                                    <div class="answer_tool_box">
+                                        <sec:authorize access="isAuthenticated()">
+                                            <sec:authentication property="principal.id" var="user_id"/>
+                                            <c:if test="${courseQuestion.member.id eq user_id}">
+                                                <div class="answer_edit_wrap" data-id="${comment.id}">수정</div>
+                                                <div class="answer_delete_wrap" data-id="${comment.id}">삭제</div>
+                                            </c:if>
+                                        </sec:authorize>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -175,21 +184,64 @@
                             <div class="reply_menu_box">
                                 <div class="reply_title_menu">댓글</div>
                                 <div class="replay_toggle_button">
-                                    <div class="open_button">더보기 <i class="fas fa-chevron-up"></i></div>
-                                        <%--                            <div class="hide_button">접기<i class="fas fa-chevron-down"></i></div>--%>
+                                    <div class="open_button">접기 <i class="fas fa-chevron-up"></i></div>
+                                <%--<div class="hide_button">더보기 <i class="fas fa-chevron-down"></i></div>--%>
                                 </div>
                             </div>
+                            <div class="reply_list_wrap">
+                                <c:set var="reply_wrap" value="${comment.children}"></c:set>
+                                <c:if test="${!empty reply_wrap}">
+                                    <c:forEach var="reply" items="${reply_wrap}" varStatus="reply_st">
+                                        <div class="reply_template">
+                                            <div class="reply_image_box">
+                                                <div class="reply_image_wrap">
+                                                    <img src="${reply.member.profile}" class="reply_image" />
+                                                </div>
+                                                <div class="reply_image_line"></div>
+                                            </div>
+                                            <div class="reply_content_box">
+                                                <div class="reply_user_profile">
+                                                    <c:if test="${reply.member.id eq courseQuestion.member.id}">
+                                                        <div class="reply_additional_box">질문자</div>
+                                                    </c:if>
+                                                    <div class="reply_username_box">
+                                                        <c:out value="${reply.member.nickName}"></c:out>
+                                                    </div>
+                                                    <div class="separator">·</div>
+                                                    <div class="reply_modify_at">
+                                                        <script>
+                                                            convertLocalDateTime('${reply.modify_at}', '.reply_modify_at');
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                                <div class="reply_user_content">
+                                                        ${reply.commentContent}
+                                                </div>
+                                                <sec:authorize access="isAuthenticated()">
+                                                    <sec:authentication var="auth" property="principal.id"></sec:authentication>
+                                                    <c:if test="${reply.member.id eq auth}">
+                                                        <div class="reply_user_toolbox">
+                                                            <div class="reply_user_edit" data-id="${reply.id}">수정</div>
+                                                            <div class="reply_user_delete" data-id="${reply.id}">삭제</div>
+                                                        </div>
+                                                    </c:if>
+                                                </sec:authorize>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </c:if>
+                            </div>
                             <div class="reply_add_box">
-                                <div class="write_reply" data-id="${comment.id}">댓글 달기</div>
+                                <div class="write_reply" data-id="${comment.id}" data-qid="${courseQuestion.id}">댓글 달기</div>
                                 <div class="write_reply_form_wrap hidden">
-                                    <form class="write_reply_form" action="/question/comment/add/comment" method="post">
-                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                    <div class="write_reply_form">
                                         <input type="hidden" name="comment_id" class="comment_id" />
-                                        <textarea name="commentContent" class="comment_reply"></textarea>
+                                        <input type="hidden" name="question_id" class="question_id" />
+                                        <textarea name="commentContent" class="comment_reply" id="tiny${comment.id}"></textarea>
                                         <div class="write_reply_button_wrap">
                                             <div class="write_reply_submit">답변 등록</div>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -295,6 +347,47 @@
             <div class="question_delete_button_area">
                 <div class="question_delete_cancel">취소</div>
                 <div class="question_delete_submit">삭제</div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="comment_delete_form_wrapper modal_form_wrapper" data-id="">
+    <div class="comment_delete_wrapper modal_form animate">
+        <form class="comment_delete_form" action="/question/comment/delete" method="post">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <input type="hidden" name="id" class="c_id" />
+            <div class="comment_delete_icon_wrap">
+                <div class="comment_delete_icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+            </div>
+            <div class="comment_delete_text">
+                <div class="comment_delete_title">답변 삭제</div>
+                <div class="comment_delete_content">해당 답변을 삭제하시겠습니까?</div>
+            </div>
+            <div class="comment_delete_button_area">
+                <div class="comment_delete_cancel">취소</div>
+                <div class="comment_delete_submit">삭제</div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="comment_edit_form_wrapper modal_form_wrapper" data-id="">
+    <div class="comment_edit_wrapper modal_form animate">
+        <form class="comment_edit_form" action="/question/comment/edit" method="post">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <input type="hidden" name="id" class="c_id" />
+            <div class="comment_edit_title_wrap">
+                <div class="comment_edit_title">답변 수정</div>
+            </div>
+            <div class="comment_edit_content_wrap">
+                <textarea class="comment_edit_content" name="commentContent" id="myComment"></textarea>
+            </div>
+            <div class="comment_edit_button_area">
+                <div class="comment_edit_cancel">취소</div>
+                <div class="comment_edit_submit">저장</div>
             </div>
         </form>
     </div>
