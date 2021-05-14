@@ -3,9 +3,11 @@ package me.eggme.classh.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import me.eggme.classh.domain.dto.CourseCommentDTO;
 import me.eggme.classh.domain.dto.CourseDTO;
 import me.eggme.classh.domain.dto.CourseNoticeDTO;
 import me.eggme.classh.domain.entity.Course;
+import me.eggme.classh.domain.entity.CourseComment;
 import me.eggme.classh.domain.entity.CourseNotice;
 import me.eggme.classh.domain.entity.Member;
 import me.eggme.classh.service.CourseService;
@@ -43,7 +45,7 @@ public class NoticeController {
     public String courseNewly(@PathVariable String url, Model model){
         Course course = courseService.getCourse(url);
         CourseDTO courseDTO = course.of();
-        List<CourseNotice> list = courseNoticeService.getCourseNoticeList(course.getId());
+        List<CourseNoticeDTO> list = courseNoticeService.getCourseNoticeList(course.getId());
         log.info("새소식 " +list.size()+" 개");
         model.addAttribute("course", courseDTO);
         model.addAttribute("list", list);
@@ -87,6 +89,13 @@ public class NoticeController {
         return courseNoticeDTO;
     }
 
+    /***
+     * 새소식을 수정하는 과정 중 최종적으로 바꾼 데이터를 반영시키는 작업을 함
+     * @param courseNotice 바뀐 새소식
+     * @param isPublic 공개범위
+     * @return 강의 url
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/edit")
     @PreAuthorize("isAuthenticated()")
     @ResponseBody
@@ -102,6 +111,12 @@ public class NoticeController {
         return mapper.writeValueAsString(map);
     }
 
+    /***
+     * 새소식을 삭제하는 함수
+     * @param id 삭제할 새소식 pk
+     * @return 강의 url
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/delete")
     @PreAuthorize("isAuthenticated()")
     @ResponseBody
@@ -112,4 +127,45 @@ public class NoticeController {
         return mapper.writeValueAsString(map);
     }
 
+    /***
+     * 새소식의 댓글을 추가할 때 호출
+     * @param id 추가될 새소식의 pk
+     * @param member 추가할 사람
+     * @param content 추가될 댓글의 내용
+     * @return
+     */
+    @PostMapping(value = "/add/comment")
+    public String addCommentForNotice(@RequestParam(value = "notice_id") Long id,
+                                      @AuthenticationPrincipal Member member,
+                                      @RequestParam(value = "commentContent") String content){
+        String url = courseNoticeService.addCommentForNotice(id, member, content);
+        return "redirect:/notice/"+url;
+    }
+
+    /***
+     * 새소식의 댓글을 삭제할 때 호출
+     * @param id 삭제할 댓글 pk
+     * @return
+     */
+    @PostMapping(value = "/delete/comment")
+    @ResponseBody
+    public String deleteCommentForNotice(@RequestParam(value = "comment_id") Long id){
+        courseNoticeService.deleteCommentForNotice(id);
+        return "success";
+    }
+
+    /***
+     *  새소식의 댓글을 수정할 때 호출
+     * @param id 수정할 댓글 pk
+     * @param content 수정될 댓글 내용
+     * @return 수정된 댓글 json
+     */
+    @PostMapping(value = "/edit/comment")
+    @ResponseBody
+    public CourseCommentDTO editCommentForNotice(@RequestParam(value = "comment_id") Long id,
+                                       @RequestParam(value = "commentContent") String content){
+        CourseComment courseComment = courseNoticeService.editCommentForNotice(id, content);
+        CourseCommentDTO courseCommentDTO = courseComment.of();
+        return courseCommentDTO;
+    }
 }

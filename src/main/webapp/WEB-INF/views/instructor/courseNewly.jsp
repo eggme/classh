@@ -70,14 +70,68 @@
                                         <div class="comment_like_icon"><i class="fas fa-heart"></i></div>
                                         <div clss="comment_like_count">(<span class="real_count">0</span>)</div>
                                     </div>
-                                    <form action="/notice/add/comment" class="notice_comment_form" method="post">
-                                        <div class="comment_textarea_wrap">
-                                            <textarea class="comment_textarea" placeholder="내용을 입력해주세요"></textarea>
+                                    <sec:authorize access="isAuthenticated()">
+                                        <%-- 임시, 수강권한이 있는 유저인지 체크해야합니다. --%>
+                                        <form action="/notice/add/comment" class="notice_comment_form" method="post">
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                            <input type="hidden" name="notice_id" value="${noti.id}">
+                                            <div class="comment_textarea_wrap">
+                                                <textarea class="comment_textarea" name="commentContent" placeholder="내용을 입력해주세요"></textarea>
+                                            </div>
+                                            <div class="comment_write_button_wrap">
+                                                <div class="comment_write_button">댓글 입력</div>
+                                            </div>
+                                        </form>
+                                    </sec:authorize>
+                                </div>
+                                <div class="notice_comment_wrap">
+                                    <c:if test="${fn:length(noti.courseComments) > 0}">
+                                        <div class="show_comment">다른 댓글 보기(<c:out value="${noti.commentSize()}"/>)</div>
+                                        <div class="notice_comment_template_area hidden">
+                                            <c:forEach var="comment" items="${noti.courseComments}" varStatus="nc_status">
+                                            <div class="notice_comment_template">
+                                                <div class="notice_comment_template_wrap">
+                                                    <div class="notice_profile_image_wrap">
+                                                        <img class="notice_profile_image" src="/imgs/mini_icon_1.png"/>
+                                                    </div>
+                                                    <div class="notice_profile_content_wrap">
+                                                        <div class="notice_profile_content">
+                                                            <div class="notice_profile_username">
+                                                                <c:out value="${comment.member.nickName}"></c:out>
+                                                            </div>
+                                                            <div class="notice_profile_create_at">
+                                                                <script>
+                                                                    convertLocalDateTime('${comment.create_at}', '.notice_profile_create_at');
+                                                                </script>
+                                                            </div>
+                                                            <div class="notice_profile_toolbox">
+                                                                <sec:authorize access="isAuthenticated()">
+                                                                    <sec:authentication property="principal.id" var="user_id"/>
+                                                                    <c:if test="${noti.member.id eq user_id}">
+                                                                        <div class="notice_profile_edit" data-id="${comment.id}">수정</div>
+                                                                        <div class="notice_profile_delete" data-id="${comment.id}">삭제</div>
+                                                                    </c:if>
+                                                                </sec:authorize>
+                                                            </div>
+                                                        </div>
+                                                        <div class="notice_content"><c:out value="${comment.commentContent}"></c:out></div>
+                                                    </div>
+                                                </div>
+                                                <div class="notice_like_wrap">
+                                                    <div class="notice_like_box">이 답변이 도움이 되었나요?</div>
+                                                    <div class="notice_like">
+                                                        <i class="far fa-heart"></i>
+                                                            <%-- 색칠된 하트 --%>
+                                                            <%--<i class="fas fa-heart"></i>--%>
+                                                        <div class="like_count_box">
+                                                            (<span class="like_count">0</span>)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
                                         </div>
-                                        <div class="comment_write_button_wrap">
-                                            <div class="comment_write_button">댓글 입력</div>
-                                        </div>
-                                    </form>
+                                    </c:if>
                                 </div>
                             </div>
                         </div>
