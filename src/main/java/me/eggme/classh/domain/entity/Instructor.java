@@ -3,6 +3,7 @@ package me.eggme.classh.domain.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -27,6 +28,7 @@ public class Instructor implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id asc")
+    @BatchSize(size = 10)
     private List<Course> courses = new ArrayList<>();
 
     public void setCourses(Course course){

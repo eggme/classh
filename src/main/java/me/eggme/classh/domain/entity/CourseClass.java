@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import me.eggme.classh.domain.dto.CourseClassDTO;
 import me.eggme.classh.utils.ModelMapperUtils;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -46,6 +47,7 @@ public class CourseClass implements Serializable {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "courseClass", cascade = CascadeType.ALL, orphanRemoval = true)
+    @BatchSize(size = 10)
     private List<CourseQuestion> courseQuestions = new ArrayList<>();
 
     public CourseClassDTO of(){

@@ -25,7 +25,7 @@
 .real_profile_wrap{width: 48px; height: 48px; overflow: hidden; border-radius: 70%;}
 .real_profile_img{width: 100%; height: 100%; object-fit: cover;}
 .news_content{display: flex; flex-direction: column; justify-content: space-between; margin-left: 24px; width: 100%;}
-.instructor_tool{cursor: pointer; color: #3273dc; padding: 0 1px;}
+.instructor_tool{display: flex; cursor: pointer; color: #3273dc; padding: 0 1px;}
 .news_toolbar{display: flex;}
 .instructor_name{font-weight: 500;}
 .news_title{font-size: 16px; font-weight: 600;}
@@ -40,8 +40,6 @@
 .comment_write_button{padding: 6px 12px; font-size: 16px; font-weight: 600; border: 1px solid #DEE2E6; border-radius: 4px; cursor: pointer;}
 .comment_write_button:hover{border: 1px solid #b6b6b6;}
 
-.newly_write_form_wrapper{display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4);  padding-top: 10%; padding-bottom: 10%; z-index: 98;}
-.newly_write_form{display: flex; flex-direction: column; width: 920px; height: 100%; background-color: #fefefe; margin: 5px auto; border: 1px solid #888; border-radius: 5px; z-index: 99; padding: 32px; position: relative;}
 
 .animate{-webkit-animation: animatezoom 0.6s; animation: animatezoom 0.6s;}
 @-webkit-keyframes animatezoom { from {-webkit-transform: scale(0)} to {-webkit-transform: scale(1)} }
@@ -50,7 +48,7 @@
 .newly_wrap_template{display: flex; flex-direction: column; width: 100%; margin-bottom: 24px;}
 .newly_menu_template{margin-bottom: 8px; font-size: 15px; font-weight: 500; color: #3e4042;}
 .newly_input_template{width: 100%;}
-.newly_name{width: 100%; border: 1px solid #DEE2E6; border-radius: 3px; padding: 8px; height: 50px; font-size: 16px;}
+.newly_input_component{width: 100%; border: 1px solid #DEE2E6; border-radius: 3px; padding: 8px; height: 50px; font-size: 16px;}
 .radio_wrap{display: flex;}
 .newly_tag_input{display: flex;}
 .newly_wrap_template_row{display: flex}
@@ -60,5 +58,20 @@
 
 .newly_button_wrap{display: flex; position: absolute; bottom: 16px; right: 16px;}
 .newly_button_template{ padding: 12px 60px; margin-left: 8px; border: 1px solid #DEE2E6; border-radius: 4px; cursor: pointer; font-weight: 600;}
-.newly_cancel{color: #343A40; background-color: white;}
-.newly_submit{color: white; background-color: #1dc078;}
+.newly_cancel_template{color: #343A40; background-color: white;}
+.newly_submit_template{color: white; background-color: #1dc078;}
+
+.modal_form_wrapper{display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4);  padding-top: 7%; padding-bottom: 3%; z-index: 98;}
+.modal_form{display: flex; flex-direction: column; width: 920px; height: 680px; background-color: #fefefe; margin: 5px auto; border: 1px solid #888; border-radius: 5px; z-index: 99; padding: 32px; position: relative;}
+
+.newly_delete_form_wrapper{padding-top: 20%;}
+.newly_delete_wrapper{width: 340px !important; height: 260px !important;}
+.newly_delete_form{display: flex; flex-direction: column; justify-content: center;}
+.newly_delete_icon_wrap{display: flex; justify-content: center;}
+.newly_delete_icon i{color: #ffa016; font-size: 64px;}
+.newly_delete_text{display: flex; justify-content: center; flex-direction: column; margin-top: 24px; margin-bottom: 12px;}
+.newly_delete_title{display: flex; justify-content: center; font-size: 24px; font-weight: 500;}
+.newly_delete_content{display: flex; justify-content: center; font-size: 16px; font-weight: 500;}
+.newly_delete_button_area{display: flex; justify-content: center; align-items: center; margin-top: 12px;}
+.newly_delete_cancel{background-color: #F8F9FA; border-radius: 8px; padding: 8px 24px; margin-right: 4px; cursor: pointer;}
+.newly_delete_submit{background-color: #1dc078; color: white; border-radius: 8px; padding: 8px 24px; margin-left: 4px; cursor: pointer;}

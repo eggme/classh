@@ -2,6 +2,7 @@ package me.eggme.classh.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -27,10 +28,12 @@ public class Role implements Serializable {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    @BatchSize(size = 10)
     private Set<MemberRoles> memberRoles = new HashSet<>();
 
     @JsonManagedReference
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    @BatchSize(size = 10)
     private Set<RoleResources> roleResources = new HashSet<>();
 
 }

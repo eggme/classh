@@ -2,6 +2,7 @@ package me.eggme.classh.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -33,5 +34,6 @@ public class Resources extends BaseTimeEntity implements Serializable {
 
     @JsonManagedReference
     @OneToMany(mappedBy="resources", fetch = FetchType.EAGER)
+    @BatchSize(size = 10)
     private Set<RoleResources> roleResourcesSet = new HashSet<>();
 }

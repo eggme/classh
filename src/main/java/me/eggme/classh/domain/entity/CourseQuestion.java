@@ -8,6 +8,7 @@ import me.eggme.classh.domain.dto.CourseDTO;
 import me.eggme.classh.domain.dto.CourseQuestionDTO;
 import me.eggme.classh.domain.dto.QuestionStatus;
 import me.eggme.classh.utils.ModelMapperUtils;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.core.annotation.Order;
 
 import javax.persistence.*;
@@ -60,6 +61,7 @@ public class CourseQuestion extends BaseBoardEntity implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "courseQuestion", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("create_at desc")
+    @BatchSize(size = 10)
     private List<CourseComment> courseComments = new ArrayList<>();
 
     // 달릴 해시태그들 1:N 단방향

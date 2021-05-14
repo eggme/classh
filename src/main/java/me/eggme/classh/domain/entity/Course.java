@@ -42,6 +42,7 @@ public class Course extends BaseTimeEntity implements Serializable {
     // 이 강의를 수강하는 학생
     @JsonManagedReference
     @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, orphanRemoval = true)
+    @BatchSize(size = 10)
     private List<SignUpCourse> signUpCourses = new ArrayList<>();
 
     // 이 강의의 강사
@@ -53,17 +54,18 @@ public class Course extends BaseTimeEntity implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id asc")
-    @BatchSize(size = 10)
     private List<CourseSection> courseSections = new ArrayList<>();
 
     // 강의의 태그를 동적으로 늘릴 수 있음
     @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @BatchSize(size = 10)
     private List<SkillTag> skillTags = new ArrayList<>();
 
     // 강의의 추천하는 사람의 정보
     @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @BatchSize(size = 10)
     private List<Recommendation> recommendations = new ArrayList<>();
 
     // 강의의 레벨
@@ -88,11 +90,13 @@ public class Course extends BaseTimeEntity implements Serializable {
     // 강의 수강평
     @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @BatchSize(size = 10)
     private List<CourseReview> courseReviews = new ArrayList<>();
 
     // 강의 공지사항
     @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @BatchSize(size = 10)
     private List<CourseNotice> courseNotices = new ArrayList<>();
 
     // 강의 자체 관련 태그 1:N 단방향
@@ -104,6 +108,7 @@ public class Course extends BaseTimeEntity implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("modify_at desc")
+    @BatchSize(size = 10)
     private List<CourseQuestion> courseQuestions = new ArrayList<>();
 
     // 강의 검증관련 컬럼에 매핑되지 않음

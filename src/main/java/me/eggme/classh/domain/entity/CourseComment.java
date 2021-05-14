@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import me.eggme.classh.domain.dto.CourseCommentDTO;
 import me.eggme.classh.utils.ModelMapperUtils;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -41,21 +42,22 @@ public class CourseComment extends BaseBoardEntity implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("create_at asc")
+    @BatchSize(size = 10)
     private List<CourseComment> children = new ArrayList<>();
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "COURSE_QUESTION_ID")
+//    @JoinColumn(name = "COURSE_QUESTION_ID")
     private CourseQuestion courseQuestion;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "COURSE_NOTICE_ID")
+//    @JoinColumn(name = "COURSE_NOTICE_ID")
     private CourseNotice courseNotice;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "COURSE_REVIEW_ID")
+//    @JoinColumn(name = "COURSE_REVIEW_ID")
     private CourseReview courseReview;
 
     public CourseCommentDTO of() {

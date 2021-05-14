@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface CourseQuestionRepository extends JpaRepository<CourseQuestion, Long> {
 
-    @Query("select cq from CourseQuestion cq join fetch cq.courseComments where cq.id=:id")
+    @Query("select distinct cq from CourseQuestion cq join fetch cq.courseComments where cq.id=:id")
     Optional<CourseQuestion> findByIdAndComments(Long id);
 
 }

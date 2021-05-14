@@ -86,14 +86,6 @@ public class CourseController {
         return "information/courseDashboard/dashboard";
     }
 
-    // 내 강의 보기 (새소식)  newly
-    @GetMapping(value = "/{url}/newly")
-    public String courseNewly(@PathVariable String url, Model model){
-        Course course = courseService.getCourse(url);
-        CourseDTO courseDTO = course.of();
-        model.addAttribute("course", courseDTO);
-        return "information/courseNewly/newly";
-    }
     // 내 강의 보기 (수강생 관리)  management
     @GetMapping(value = "/{url}/management")
     public String courseManagement(@PathVariable String url, Model model){

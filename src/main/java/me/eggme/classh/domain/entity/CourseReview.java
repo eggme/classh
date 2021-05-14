@@ -7,6 +7,7 @@ import me.eggme.classh.domain.dto.CourseDTO;
 import me.eggme.classh.domain.dto.CourseReviewDTO;
 import me.eggme.classh.domain.dto.CourseSectionDTO;
 import me.eggme.classh.utils.ModelMapperUtils;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -43,6 +44,7 @@ public class CourseReview extends BaseBoardEntity implements Serializable {
     // 리뷰의 답변
     @JsonManagedReference
     @OneToMany(mappedBy = "courseReview", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @BatchSize(size = 10)
     private List<CourseComment> courseComments = new ArrayList<>();
 
     public CourseReviewDTO of(){
