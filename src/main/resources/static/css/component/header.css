@@ -40,8 +40,8 @@ body, body *{font-family: "Noto Sans KR";}
 .login-container{text-align: center;background-color: #fefefe;margin: 5px auto;border: 1px solid #888;min-height: 500px;width: 20%; min-width: 360px;}
 .login_form_input {width: 80%;padding: 12px 20px;margin: 8px 0;background-color: #f6f6f6;display: inline-block;border: 1px solid #ccc;box-sizing: border-box;}
 .image_container{text-align: center; margin: 24px 0 30px 0;}
-button {background-color: #1dc078; color: white !important; padding: 14px 20px;margin: 10px 0;border: #1dc078 solid 1px;cursor: pointer;width: 80%; font-weight: bold;}
-button:hover {opacity: 0.8;}
+.right_menus button {background-color: #1dc078; color: white !important; padding: 14px 20px;margin: 10px 0;border: #1dc078 solid 1px;cursor: pointer;width: 80%; font-weight: bold;}
+.right_menus button:hover {opacity: 0.8;}
 .close {color: #000;font-size: 50px;font-weight: bold; margin-top: 10px; margin-right: 15px;}
 .height50{max-height: 50px!important;}
 .height50 a{padding: 10px !important;}

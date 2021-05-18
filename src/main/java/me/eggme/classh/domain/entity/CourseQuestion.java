@@ -81,19 +81,28 @@ public class CourseQuestion extends BaseBoardEntity implements Serializable {
         return courseQuestionDTO;
     }
 
+    /* 연관관계 편의 메서드 */
+
+    public void deleteCourseQuestion(){
+        this.setCourse(null);
+        this.setMember(null);
+        this.setCourseClass(null);
+        if(this.getCourseTags() != null) this.getCourseTags().stream().forEach(ct -> ct.deleteCourseTag());
+        if(this.getCourseComments() != null) this.getCourseComments().stream().forEach(cc -> cc.deleteCourseComment());
+    }
 
     public void setMember(Member member){
         this.member = member;
-        member.getCourseQuestions().add(this);
+        if(member != null) member.getCourseQuestions().add(this);
     }
 
     public void setCourse(Course course){
         this.course = course;
-        course.getCourseQuestions().add(this);
+        if( course != null) course.getCourseQuestions().add(this);
     }
 
     public void setCourseClass(CourseClass courseClass){
         this.courseClass = courseClass;
-        courseClass.getCourseQuestions().add(this);
+        if(courseClass != null) courseClass.getCourseQuestions().add(this);
     }
 }

@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" href="/css/aside/adminSideMenu.css">
+<script src="/js/aside/mdSideMenu.js"></script>
 
 <div class="aside_main_wrap">
     <div class="aside_flex_wrap">
@@ -34,7 +35,7 @@
                         <div class="aside_menu_value">공지사항</div>
                         <div class="aside_menu_icon"><i class="fas fa-chevron-down"></i></div>
                     </li>
-                    <li class="flex_row_space_between_wrap">
+                    <li class="flex_row_space_between_wrap aside_course_list">
                         <div class="aside_menu_value">강의 관리</div>
                         <div class="aside_menu_icon"><i class="fas fa-chevron-down"></i></div>
                     </li>

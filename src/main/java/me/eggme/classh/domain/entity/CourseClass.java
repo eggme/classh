@@ -53,4 +53,10 @@ public class CourseClass implements Serializable {
     public CourseClassDTO of(){
         return ModelMapperUtils.getModelMapper().map(this, CourseClassDTO.class);
     }
+
+    /* 연관관계 편의 메서드 */
+    public void deleteCourseClass(){
+        this.setCourseSection(null);
+        if(this.getCourseQuestions() != null) this.getCourseQuestions().stream().forEach(cq -> cq.deleteCourseQuestion());
+    }
 }

@@ -144,6 +144,7 @@ public class CourseQuestionService {
         String resultUrl = "";
         CourseQuestion savedCourseQuestion = courseQuestionRepository.findById(id).orElseThrow(() -> new RuntimeException());
         resultUrl = savedCourseQuestion.getCourse().getUrl();
+        savedCourseQuestion.deleteCourseQuestion();
         courseQuestionRepository.delete(savedCourseQuestion);
         return resultUrl;
     }

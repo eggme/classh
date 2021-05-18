@@ -1,10 +1,7 @@
 package me.eggme.classh.service;
 
 import lombok.extern.slf4j.Slf4j;
-import me.eggme.classh.domain.dto.CourseCategory;
-import me.eggme.classh.domain.dto.CourseClassDTO;
-import me.eggme.classh.domain.dto.CourseLevel;
-import me.eggme.classh.domain.dto.CourseState;
+import me.eggme.classh.domain.dto.*;
 import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.exception.EmailExistedException;
 import me.eggme.classh.exception.NoSearchCourseClassException;
@@ -15,11 +12,15 @@ import me.eggme.classh.utils.FileUploadFactory;
 import me.eggme.classh.utils.FileUploader;
 import me.eggme.classh.utils.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.File;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -409,6 +410,18 @@ public class CourseService {
     @Transactional
     public void deleteCourse(Long id) {
         Course findCourse = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
+        findCourse.deleteCourse();
         courseRepository.delete(findCourse);
+    }
+
+    /***
+     * 모든 강의를 조회
+     * @return
+     */
+    @Transactional
+    public List<CourseDTO> getCourses(Pageable pageable) {
+        List<CourseDTO> courseDTOList = courseRepository.findAll(pageable).stream().map(c ->
+                c.of()).collect(Collectors.toList());
+        return courseDTOList;
     }
 }

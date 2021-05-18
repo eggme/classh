@@ -30,6 +30,7 @@ public class CourseComment extends BaseBoardEntity implements Serializable {
     // 댓글 단 사람 정보
     @JsonBackReference
     @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     // 댓글의 부모
@@ -47,20 +48,30 @@ public class CourseComment extends BaseBoardEntity implements Serializable {
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "COURSE_QUESTION_ID")
+    @JoinColumn(name = "COURSE_QUESTION_ID")
     private CourseQuestion courseQuestion;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "COURSE_NOTICE_ID")
+    @JoinColumn(name = "COURSE_NOTICE_ID")
     private CourseNotice courseNotice;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "COURSE_REVIEW_ID")
+    @JoinColumn(name = "COURSE_REVIEW_ID")
     private CourseReview courseReview;
 
     public CourseCommentDTO of() {
         return ModelMapperUtils.getModelMapper().map(this, CourseCommentDTO.class);
+    }
+
+    /* 연관관계 편의 메서드 */
+
+    public void deleteCourseComment() {
+        if(this.getParent() != null) this.setParent(null);
+        if(this.getChildren() != null) this.getChildren().stream().forEach(cc -> cc.setParent(null));
+        this.setCourseNotice(null);
+        this.setCourseReview(null);
+        this.setCourseQuestion(null);
     }
 }

@@ -9,6 +9,7 @@ import me.eggme.classh.domain.entity.CourseComment;
 import me.eggme.classh.domain.entity.Member;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -22,6 +23,8 @@ public class CourseReviewDTO implements Serializable {
     private Member member;
     private Course course;
     private List<CourseComment> courseComments;
+    private LocalDateTime create_at = LocalDateTime.now();
+    private LocalDateTime modify_at = LocalDateTime.now();
 
     public boolean isWroteReview(Member member){
         if(getMember().getId() == member.getId()){

@@ -19,9 +19,17 @@ public class SignUpCourse implements Serializable {
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="COURSE_ID")
     private Course course;
+
+    /* 연관관계 편의 메서드 */
+    public void deleteSignUpCourse(){
+        this.setMember(null);
+        this.setCourse(null);
+    }
 }

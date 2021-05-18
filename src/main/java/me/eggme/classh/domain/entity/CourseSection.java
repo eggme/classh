@@ -54,4 +54,10 @@ public class CourseSection implements Serializable {
     public CourseSectionDTO of(){
         return ModelMapperUtils.getModelMapper().map(this, CourseSectionDTO.class);
     }
+
+    /* 연관관계 편의 메서드 */
+    public void deleteCourseSection(){
+        this.setCourse(null);
+        if(this.getCourseClasses() != null )this.getCourseClasses().stream().forEach(cc -> cc.deleteCourseClass());
+    }
 }

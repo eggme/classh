@@ -1,4 +1,4 @@
-.main_wrap{padding: 16px;}
+board_title.main_wrap{padding: 16px;}
 .board{border: 1px solid #DEE2E6; background-color: #fff; padding: 8px 12px;  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; display: flex;
     flex-direction: column;}
 .board_top{padding-bottom: 16px;}
@@ -6,7 +6,7 @@
 
 .board_5_layout{width: calc(50% - 8px);}
 .min_height{min-height: 300px;}
-.board_title{font-size: 16px; font-weight: 500; color: #343A40; padding: 8px; margin-bottom: 12px;}
+.board_title{font-size: 16px; font-weight: 500; color: #343A40; padding: 8px; margin-bottom: 12px; cursor: pointer;}
 .board_base{display: flex; flex-direction: column; justify-content: center; padding-bottom: 4px; cursor: pointer;}
 .md_row_wrap{display: flex; justify-content: center;}
 .md_column_wrap{display: flex; flex-direction: column; justify-content: center;width: 100%;}

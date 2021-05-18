@@ -38,9 +38,9 @@
                     </div>
                         <div class="modify_at_wrap">
                         <div class="separator">&nbsp;·&nbsp;</div>
-                        <div class="modify_at_value">
+                        <div class="modify_at_value courseQuestion_${courseQuestion.id}">
                             <script>
-                                convertLocalDateTime('${courseQuestion.modify_at}', '.modify_at_value');
+                                convertLocalDateTime('${courseQuestion.modify_at}', '.courseQuestion_${courseQuestion.id}');
                             </script>
                         </div>
                     </div>
@@ -148,9 +148,9 @@
                                     <div class="answer_profile_username">
                                         <c:out value="${commentMember.nickName}"/>
                                     </div>
-                                    <div class="answer_profile_modify_at">
+                                    <div class="answer_profile_modify_at comment_${comment_id}">
                                         <script>
-                                            convertLocalDateTime('${commentMember.modify_at}', '.answer_profile_modify_at');
+                                            convertLocalDateTime('${comment.modify_at}', '.comment_${comment_id}');
                                         </script>
                                     </div>
                                 </div>
@@ -208,9 +208,9 @@
                                                         <c:out value="${reply.member.nickName}"></c:out>
                                                     </div>
                                                     <div class="separator">·</div>
-                                                    <div class="reply_modify_at">
+                                                    <div class="reply_modify_at reply_${reply.id}">
                                                         <script>
-                                                            convertLocalDateTime('${reply.modify_at}', '.reply_modify_at');
+                                                            convertLocalDateTime('${reply.modify_at}', '.reply_${reply.id}');
                                                         </script>
                                                     </div>
                                                 </div>

@@ -69,10 +69,10 @@ public class CourseDTO implements Serializable {
     }
 
     // 리뷰 평균 점수
-    public double getReviewAvg(){
-        if(courseReviews == null) return 0;
+    public String getReviewAvg(){
+        if(courseReviews == null) return "0";
         double average = courseReviews.stream().mapToInt(cr -> cr.getRate()).average().orElseGet(() -> 0);
-        return average;
+        return String.format("%.1f", average);
     }
 
     // 리뷰 총 개수

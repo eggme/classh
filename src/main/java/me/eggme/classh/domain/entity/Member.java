@@ -52,7 +52,7 @@ public class Member extends BaseTimeEntity implements Serializable {
 
     // 내가 듣고 있는 강의들
     @JsonManagedReference
-    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @BatchSize(size = 10)
     private List<SignUpCourse> signUpCourses = new ArrayList<>();
 

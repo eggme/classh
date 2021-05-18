@@ -1,0 +1,21 @@
+.main_wrap{padding: 16px; width: 100%; height: 100%; background-color: white;}
+.board_flex_wrap{display: flex; flex-direction: column; padding: 16px;}
+.course_search_area{display: flex; margin-bottom: 16px;}
+.course_list_title{display: flex; font-size: 24px; font-weight: 500; color: #343A40; margin-bottom: 16px;}
+.select_box{min-width: 100px; padding: 12px; border: 1px solid #DEE2E6; cursor: pointer; position: relative; z-index: 4;}
+.select_caret_box{display: flex; justify-content: space-between;}
+.input_box{display: flex; flex-grow: 1;}
+.input_box input{flex-grow: 1;}
+.input_component{display: flex; outline: none; border: 1px solid #DEE2E6; font-size: 16px; padding-left: 12px; color: #343A40;}
+.select_click_box{position: absolute; top: 44px; left: 0; border: 1px solid #DEE2E6; display: flex; flex-direction: column; box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; background-color: white;}
+.select_menu_template{color: #343A40; padding: 8px 16px;}
+.hidden{display: none;}
+.select_menu_template:hover{background-color: #F8F9FA;}
+.course_table{display: flex; flex-grow: 1; flex-direction: column; justify-content: center;}
+.course_table_head{display: grid; display: -ms-grid; grid-template-columns: repeat(8, 1fr); -ms-grid-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; background-color: #DEE2E6; padding: 12px 0;}
+.course_table_body{display: flex; flex-direction: column; -ms-grid-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;}
+.course_list_template{display: grid; display: -ms-grid; grid-template-columns: repeat(8, 1fr); align-items: center; margin-bottom: 4px; padding-bottom: 4px; border-bottom: 1px solid #F8F9FA; cursor: pointer;}
+.table_menu_template{display: flex; flex-grow: 1; justify-content: center; align-items: center; font-size: 16px; font-weight: 500;}
+.course_list_template:hover{background-color: #F8F9FA;}
+.image_template{border-radius: 4px; overflow: hidden;}
+.course_image{width: 100%; height: 100%; object-fit: cover;}

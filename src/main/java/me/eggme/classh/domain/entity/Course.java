@@ -41,7 +41,7 @@ public class Course extends BaseTimeEntity implements Serializable {
 
     // 이 강의를 수강하는 학생
     @JsonManagedReference
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @BatchSize(size = 10)
     private List<SignUpCourse> signUpCourses = new ArrayList<>();
 
@@ -52,7 +52,7 @@ public class Course extends BaseTimeEntity implements Serializable {
 
     // 이 강의가 가지고 있는 섹션
     @JsonManagedReference
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true,  fetch = FetchType.EAGER)
     @OrderBy("id asc")
     private List<CourseSection> courseSections = new ArrayList<>();
 
@@ -124,6 +124,12 @@ public class Course extends BaseTimeEntity implements Serializable {
         CourseDTO courseDTO = ModelMapperUtils.getModelMapper().map(this, CourseDTO.class);
         courseDTO.setCourseValidation(new CourseValidation(courseDTO));
         return courseDTO;
+    }
+
+    public void deleteCourse(){
+        /* 수강 관계 제거 */
+        if(this.getSignUpCourses() != null) this.getSignUpCourses().stream().forEach(sc-> sc.deleteSignUpCourse());
+        if(this.getCourseSections() != null) this.getCourseSections().stream().forEach(ss -> ss.deleteCourseSection());
     }
 
     // 편의 메서드

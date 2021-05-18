@@ -44,9 +44,9 @@
                                         <div class="instructor_name">
                                             <c:out value="${noti.member.nickName}"></c:out>
                                         </div>
-                                        <div class="upload_time">
+                                        <div class="upload_time noti_${noti.id}">
                                             <script>
-                                                convertLocalDateTime("${noti.create_at}", '.upload_time');
+                                                convertLocalDateTime("${noti.create_at}", '.noti_${noti.id}');
                                             </script>
                                         </div>
 
@@ -92,16 +92,16 @@
                                             <div class="notice_comment_template">
                                                 <div class="notice_comment_template_wrap">
                                                     <div class="notice_profile_image_wrap">
-                                                        <img class="notice_profile_image" src="/imgs/mini_icon_1.png"/>
+                                                        <img class="notice_profile_image" src="${comment.member.profile}"/>
                                                     </div>
                                                     <div class="notice_profile_content_wrap">
                                                         <div class="notice_profile_content">
                                                             <div class="notice_profile_username">
                                                                 <c:out value="${comment.member.nickName}"></c:out>
                                                             </div>
-                                                            <div class="notice_profile_create_at">
+                                                            <div class="notice_profile_create_at comment_${comment.id}">
                                                                 <script>
-                                                                    convertLocalDateTime('${comment.create_at}', '.notice_profile_create_at');
+                                                                    convertLocalDateTime('${comment.create_at}', '.comment_${comment.id}');
                                                                 </script>
                                                             </div>
                                                             <div class="notice_profile_toolbox">

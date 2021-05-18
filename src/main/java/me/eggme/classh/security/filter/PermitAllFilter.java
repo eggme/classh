@@ -23,10 +23,8 @@ public class PermitAllFilter extends FilterSecurityInterceptor {
             permitAllRequestMatchers.add(new AntPathRequestMatcher(resource));
         }
     }
-
     @Override
     protected InterceptorStatusToken beforeInvocation(Object object) {
-
         boolean permitAll = false;
         HttpServletRequest request = ((FilterInvocation) object).getRequest();
         for(RequestMatcher requestMatcher : permitAllRequestMatchers){

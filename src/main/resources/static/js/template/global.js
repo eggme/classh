@@ -38,9 +38,28 @@ function convertLocalDateTime(localDate, obj){
     let year = date.getFullYear();
     let month = date.getMonth()+1;
     let day = date.getDate();
+    console.log(localDate);
     $(obj).text(year+"년 "+month+"월 "+day+"일");
 }
 
 function showHtmlTagWithText(text, obj){
     $(obj).html(text);
+}
+
+function CostSeparator(cost, obj){
+    $(obj).html(Number(cost).toLocaleString());
+}
+
+function timeFormatKor(second, obj) {
+    var hours = Math.floor(second / 3600);
+    var minutes = Math.floor((second - (hours * 3600)) / 60);
+    var result = "";
+    console.log(hours + " : " + second);
+    if (hours > 0) {
+        result = hours + " 시간 " + minutes + " 분";
+    } else {
+        result = minutes + " 분";
+    }
+    console.log(result);
+    $(obj).html(result);
 }

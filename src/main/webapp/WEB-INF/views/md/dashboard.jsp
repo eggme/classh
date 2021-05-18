@@ -11,6 +11,7 @@
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.2.20171210/classList.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.js"></script>
+<script src="/js/views/md/dashboard.js"></script>
 <link rel="stylesheet" href="/css/views/md/dashboard.css"/>
 <div class="main_wrap">
     <div class="board_flex_wrap">
