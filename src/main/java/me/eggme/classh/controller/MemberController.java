@@ -12,6 +12,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.env.Environment;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,10 +26,7 @@ public class MemberController {
     private Environment environment;
 
     @Autowired
-    private MemberService service;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    private MemberService memberService;
 
     @RequestMapping(value = "/")
     public String index(){
@@ -53,14 +51,14 @@ public class MemberController {
 
     @PostMapping(value = "/signUp")
     public String signUpUser(@ModelAttribute MemberDTO memberDTO){
-        service.save(memberDTO);
+        memberService.save(memberDTO);
         return "redirect:/";
     }
 
     @PostMapping(value = "/userData")
     @ResponseBody
     public MemberDTO loadUserData(@AuthenticationPrincipal Member member) throws JsonProcessingException {
-        Member loadMember = service.loadUser(member.getUsername());
+        Member loadMember = memberService.loadUser(member.getUsername());
         MemberDTO dto = loadMember.of();
         return dto;
     }
@@ -75,6 +73,22 @@ public class MemberController {
     @ResponseBody
     public String errorPage(Exception e){
         return e.getMessage();
+    }
+
+
+    @GetMapping(value = "/addInstructor")
+    @PreAuthorize("isAuthenticated()")
+    public String addInstructorPage(){
+        return "inst/addInstructor";
+    }
+
+    @PostMapping(value = "/add/instructor")
+    public String addInstructor(@AuthenticationPrincipal Member member,
+                                @ModelAttribute Member additionalMemberData){
+        log.info(member.toString());
+        log.info(additionalMemberData.toString());
+        memberService.createInstructor(member, additionalMemberData);
+        return "redirect:/";
     }
 
 }

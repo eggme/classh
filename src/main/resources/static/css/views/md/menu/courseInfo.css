@@ -1,0 +1,45 @@
+html, body{width: 100%; height: 100%; margin: 0 auto; font-size: 16px;}
+
+.marin_wrap{width: 100%;}
+.board_flex_wrap{display: flex; flex-direction: column; justify-content: center;}
+.course_toolbox{display: flex; justify-content: flex-end; background-color: #019958; padding: 8px 0; box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;}
+.course_tool_button_template{padding: 8px 24px; font-size: 18px; font-weight: 600; border-radius: 4px; cursor: pointer; margin-right: 12px;}
+
+.course_tool_back_button{background-color: white; color: #1dc078;}
+.course_tool_submitted_button{background-color: #1dc078; color: white;}
+.course_tool_reject_button{background-color: white; color: #ff7867;}
+
+.course_header_wrap{display: flex; width: 100%; justify-content: center; background-color: #002333; padding: 12px;}
+.course_header_left{display: flex; justify-content: center; flex-direction: column; align-items: center; flex-grow: 1;}
+.course_header_right{display: flex; flex-grow: 2;}
+.course_header_right_column{display: flex; flex-direction: column; margin-right: 12px;}
+.course_thumbnail_image{width: 360px; border-radius: 8px; overflow: hidden;}
+.course_thumbnail_image_value{width: 100%; height: 100%; object-fit: cover;}
+
+.course_header_right *{font-size: 16px; font-weight: 500; color: white;}
+.course_preview_box{padding: 8px 16px; background-color: #1dc078; cursor: pointer; border-radius: 2px;}
+
+.course_content_wrap{padding: 18px; display: flex; justify-content: center; flex-grow: 1;}
+.course_content_left_wrap{display: flex;flex-grow: 1; margin-right: 6px;}
+.course_content_right_wrap{display: flex; justify-content: center; flex-direction: column; flex-grow: 4; margin-left: 6px;}
+.course_content_question_warp{margin-bottom: 6px;}
+.course_content_newly_warp{margin-top: 6px;}
+
+.course_card_template{padding: 12px; background-color: white; border-radius: 4px; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;}
+.course_curriculum{width: 100%;}
+.section_wrap{display: flex; flex-direction: column; margin: 5px 0;}
+.section_head {display: flex; justify-content: space-between; align-content: center; background-color: #f5f5f5; padding: 12px; border-radius: 5px; cursor: pointer;}
+.section_class_box{display: flex; justify-content: space-between; align-content: center; border-bottom: 1px solid #eee; padding: 9px 9px 9px 20px;}
+.section_head{font-size: 16px;}
+.section_box{display: flex; flex-grow: 1; justify-content: space-between; align-items: center;}
+.button_plus, .button_minus {display: flex; align-self: center;}
+.button_hide{display: none;}
+.right_margin{margin-right: 8px;}
+.horizontal_margin{margin: 0 5px;}
+.class_title{display: flex; width: 75%; flex-grow: 1; align-items: center;}
+.class_box{display: flex; flex-grow: 1; justify-content: flex-end; align-items: center;}
+.section_class_length_box{display: flex; flex-grow: 1; justify-content: center; align-items: center;}
+.course_preview{color: #1dc078; border: 1px solid  #1dc078; border-radius: 4px; padding: 2px 4px; cursor: pointer; font-size: 13px;}
+.section_title{font-weight: 800; width: 75%; display: flex; flex-grow: 1; align-items: center;}
+.curriculum_area{display: flex; flex-direction : column; margin-bottom: 14px;}
+.curriculum_text{color: #343a40; font-size: 18px; font-weight: 600; align-self: center;}

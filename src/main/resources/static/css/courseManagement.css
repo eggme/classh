@@ -4,11 +4,12 @@
 .course_price{text-align: left; font-size: 28px; color : black; font-weight: bold; margin-bottom: 20px;}
 .course_status{color: #343a40;font-size: 24px;font-weight: 700;margin-bottom: 12px;}
 .mini_box{display: flex; justify-content: center;}
-.mini_box_content{padding: 10px 24px; font-size: 14px; color: #495057; font-weight: 500; cursor: pointer;}
+.mini_box_content{padding: 10px 18px; font-size: 14px; color: #495057; font-weight: 500; cursor: pointer;}
 .add_box{border-right : 1px solid #f1f3f5; }
 .learning_box {background-color: #00C471; font-size: 16px; font-weight: bold; color : white; text-align: center; border-radius: 1px; width: 270px;height: 48px; line-height: 48px; margin-bottom: 10px; cursor: pointer; border-radius: 5px;}
 .learning_box:hover{background-color: #00a65f;}
 .course_subtext{width: 100%; height: 100%; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; color: #868e96; font-size: 12px; text-align: left; padding: 16px 24px; background-color: #f8f9fa;}
+.course_subtext *{font-size: 12px;}
 .course_box{display: flex; flex-direction: column; height: 360px; z-index: 10; background-color: white; border: #E9ECEF 1px solid; border-radius: 20px;  width: 320px;}
 .course_box_warp{display: flex; flex-direction: column; padding: 24px; border-bottom: 1px solid #f1f3f5;}
 .top_margin{margin-top: 5px;}
@@ -47,3 +48,5 @@
 
 .student_info_wrap{ display: flex; order: 3; flex-shrink:0;}
 .student_info_button{align-self: center; background-color: #efefef; border-radius: 4px; font-size: 16px; padding: 8px 16px; white-space: nowrap; cursor: pointer;}
+
+.student_date *, .course_ofTime *{font-size: 14px;}

@@ -13,6 +13,8 @@ body, body *{font-family: "Noto Sans KR";}
 .current_study_status{display: flex;}
 .menu{flex-grow: 1; justify-content: center; align-items: center; flex-direction: column; padding-bottom: 16px;}
 .study_count_warp{font-size: 40px; font-weight: 400; display: flex; justify-content: center; vertical-align: center;}
+.study_count_warp span{font-size: 40px; font-weight: 400;}
+.study_count_warp span i{font-size: 40px;}
 .study_title{display: flex; justify-content: center; font-size: 16px;}
 .time_separator{font-size: 12px !important; align-self: flex-end; padding-bottom: 8px;}
 .course_certification{color: #FDCC11;}

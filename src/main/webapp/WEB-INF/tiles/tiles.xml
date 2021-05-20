@@ -23,6 +23,13 @@
         <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
         <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
     </definition>
+    <!-- 강사 등록 페이지 -->
+    <definition name="inst/*" template="/WEB-INF/template/layout.jsp">
+        <put-attribute name="title" value="ClassH - 나의 지식에 가치를 부여하세요" />
+        <put-attribute name="header" value="/WEB-INF/component/header.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/instructor/{1}.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/component/footer.jsp" />
+    </definition>
 
     <!-- 유저 대시보드 -->
     <definition name="board/*" template="/WEB-INF/template/dashboard_layout.jsp">

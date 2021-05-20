@@ -7,8 +7,8 @@ $(function(){
         $('.select_click_box').removeClass("hidden");
     });
     $('.course_list_template').on('click', function(){
-        let url = $(this).attr('data-url');
-        window.open("/course/"+url);
+        let id = $(this).attr('data-id');
+        location.href="/md/info/"+id;
     });
 
     $('html').click(function(e){

@@ -48,7 +48,7 @@
                 <c:choose>
                     <c:when test="${fn:length(list) > 0}">
                         <c:forEach var="course" items="${list}" varStatus="course_status">
-                            <div class="course_list_template" data-url="${course.url}">
+                            <div class="course_list_template" data-id="${course.id}">
                                 <div class="table_value_template table_menu_template course_id">
                                     <c:out value="${course.id}" />
                                 </div>

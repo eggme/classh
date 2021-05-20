@@ -40,7 +40,11 @@
                             <td><span><c:out value="${course.getReviewAvg()}"/></span></td>
                             <td><span>${fn:length(course.signUpCourses)}</span></td>
                             <td><span>0</span></td>
-                            <td><span><c:out value="${course.price}"/></span></td>
+                            <td><span class="course_price_${course.id}">
+                                <script>
+                                    CostSeparator('${course.price}', '.course_price_${course.id}');
+                                </script>
+                            </span></td>
                             <td><span><c:out value="${course.courseState.value}" /></span></td>
                             <td><button type="button" class="course_delete">삭제</button></td>
                         </tr>

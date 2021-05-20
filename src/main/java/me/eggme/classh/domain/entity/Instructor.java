@@ -35,5 +35,4 @@ public class Instructor implements Serializable {
         this.courses.add(course);
         course.setInstructor(this);
     }
-
 }

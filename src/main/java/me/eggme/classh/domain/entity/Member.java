@@ -33,6 +33,15 @@ public class Member extends BaseTimeEntity implements Serializable {
     @Column(length = 20, nullable = false)
     private String nickName;
 
+    // 사용자의 실명
+    private String memberName;
+
+    // 사용자의 이메일
+    private String email;
+
+    // 사용자의 연락처
+    private String tel;
+
     // 사용자 자기소개
     private String selfIntroduce;
 
