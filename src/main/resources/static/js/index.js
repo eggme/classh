@@ -1,24 +1,25 @@
-// const promise_ajax = function (text) {
-//     return new Promise(function (resolve, reject) {
-//         $.ajax({
-//             url: '/searchCourse.do',
-//             method: 'post',
-//             async: false,
-//             data: {'search_value': text},
-//             success: function (result) {
-//                 console.log("resolve");
-//                 resolve(result);
-//             },
-//             error: function (e) {
-//                 reject(e);
-//             },
-//             complete: function () {
-//                 $('.search_loading').css('display', 'none');
-//                 $('.search_result').css('display', 'block');
-//             }
-//         });
-//     });
-// };
+const promise_ajax = function (text) {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            url: '/course/search',
+            method: 'post',
+            async: false,
+            dataType: "json",
+            data: {'search_value': text},
+            success: function (result) {
+                console.log("resolve");
+                resolve(result);
+            },
+            error: function (e) {
+                reject(e);
+            },
+            complete: function () {
+                $('.search_loading').css('display', 'none');
+                $('.search_result').css('display', 'block');
+            }
+        });
+    });
+};
 var timeout = null;
 $(function () {
     $('.search_input').on('keyup', function () {
@@ -95,17 +96,17 @@ $(function () {
 function setSearchDataForm(course) {
     console.log('call');
     var template = "<div class='course_parent'>" +
-        "<a href='/courseInfo.do?course_id=" + course.course_Id + "' class='course_click'>" +
+        "<a href='/course/" + course.url + "' class='course_click'>" +
         "<div class='course_search_content'>" +
         "<div class='search_image_wrap'>" +
-        "<img class='search_img' src='" + course.courseInfo.course_img + "'>" +
+        "<img class='search_img' src='" + course.courseImg + "'>" +
         "</div>" +
         "<div class='search_result_content'>" +
         "<div class='search_content_title'>" +
-        "<span class='search_title'>" + course.title + "</span>" +
+        "<span class='search_title'>" + course.name + "</span>" +
         "</div>" +
         "<div class='search_content_name'>" +
-        "<span class='search_name'>" + course.name + "</span>" +
+        "<span class='search_name'>" + course.nickName + "</span>" +
         "</div>" +
         "</div>" +
         "</div>" +

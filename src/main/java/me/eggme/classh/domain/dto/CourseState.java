@@ -11,6 +11,15 @@ public enum CourseState {
     REJECT("승인거절"),
     RELEASE("승인완료");
 
-
     private String value;
+
+    public static CourseState getState(String state){
+        for(CourseState courseState : CourseState.values()){
+            if(courseState.getValue().equals(state)){
+                return courseState;
+            }
+        }
+        return null;
+    }
+
 }

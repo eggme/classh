@@ -1,18 +1,46 @@
-$(function(){
-    $('.course_preview_box').click(function(){
-       let url = $(this).attr("data-url");
-       window.open("/course/"+url);
+$(function () {
+    /* 강의 미리보기 클릭 */
+    $('.course_preview_box').click(function () {
+        let url = $(this).attr("data-url");
+        window.open("/course/" + url);
     });
-    $('.course_tool_back_button').click(function(){
-       history.go(-1);
+    /* 뒤로가기 클릭 */
+    $('.course_tool_back_button').click(function () {
+        history.go(-1);
+    });
+    /* 강의 승인완료 클릭 */
+    $('.course_tool_submitted_button').click(function () {
+        changeCourseState('승인완료');
+    });
+    /* 강의 승인거절 클릭 */
+    $('.course_tool_reject_button').click(function () {
+        changeCourseState('승인거절');
     });
 });
 
+function changeCourseState(state){
+    let id = $('.marin_wrap').attr('data-id');
+    $.ajax({
+        url : '/md/course/change',
+        method : 'post',
+        dataType : 'json',
+        data : {
+            id : id,
+            courseState: state
+        },success: function(result){
+            console.log(result);
+            location.href="/md/course/list";
+        },error : function (e){
+
+        }
+    });
+}
+
 function classSetting(class_code, title, study_time, parent, status, class_id, course_id) {
     var status_template = "";
-    if(status == true){
-        status_template = "<span class='course_preview right_margin' data-id='"+class_id+"' data-course='"+course_id+"'>미리보기</span>";
-    }else {
+    if (status == true) {
+        status_template = "<span class='course_preview right_margin' data-id='" + class_id + "' data-course='" + course_id + "'>미리보기</span>";
+    } else {
         status_template = "";
     }
     var template = "<div class='section_class_content_" + class_code + " section_class_box'>" +
@@ -59,16 +87,16 @@ function timeFormat(second) {
     var seconds = second - (hours * 3600) - (minutes * 60);
     var result = "";
     if (hours > 0) {
-        result = (hours*60) + minutes + " : " + seconds;
+        result = (hours * 60) + minutes + " : " + seconds;
     } else if (minutes < 10) {
-        if(seconds < 10){
+        if (seconds < 10) {
             result = "0" + minutes + " : 0" + seconds;
-        }else{
+        } else {
             result = "0" + minutes + " : " + seconds;
         }
-    } else if(seconds < 10){
+    } else if (seconds < 10) {
         result = minutes + " : 0" + seconds;
-    }else{
+    } else {
         result = minutes + " : " + seconds;
     }
     return result;

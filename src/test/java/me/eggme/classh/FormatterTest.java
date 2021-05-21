@@ -1,6 +1,7 @@
 package me.eggme.classh;
 
 import me.eggme.classh.domain.dto.CourseCommentDTO;
+import me.eggme.classh.domain.dto.CourseState;
 import me.eggme.classh.domain.dto.QuestionStatus;
 import me.eggme.classh.domain.entity.CourseComment;
 import org.junit.Test;
@@ -31,6 +32,12 @@ public class FormatterTest {
         courseCommentDTO.getChildren().add(courseCommentDTO_child3);
         list.add(courseCommentDTO);
         System.out.println(list.size());
+    }
+
+    @Test
+    public void ConvertCourseState(){
+        CourseState courseState = CourseState.getState("승인완료");
+        System.out.println(courseState.toString());
     }
 
 }

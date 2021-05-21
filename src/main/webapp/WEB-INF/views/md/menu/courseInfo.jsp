@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="/css/views/md/menu/courseInfo.css">
 <script src="/js/views/md/menu/courseInfo.js"></script>
 
-<div class="marin_wrap">
+<div class="marin_wrap" data-id="${course.id}">
     <div class="board_flex_wrap">
         <div class="course_toolbox">
             <div class="course_tool_back_button course_tool_button_template">뒤로가기</div>
@@ -51,7 +51,8 @@
                         총 수업 개수 : <c:out value="${total_section_class_count}"/>
                     </div>
                     <div class="course_total_time">
-                        <script>timeFormatKorWrapper('${course.getTotalTime()}', '.course_total_time');</script>
+                        총 수업 시간 : <span class="course_total_time_value"></span>
+                        <script>timeFormatKor('${course.getTotalTime()}', '.course_total_time_value');</script>
                     </div>
                 </div>
                 <div class="course_header_right_column">

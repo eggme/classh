@@ -41,6 +41,7 @@ public class CourseDTO implements Serializable {
     private List<CourseReview> courseReviews;
     private LocalDateTime create_at = LocalDateTime.now();
     private LocalDateTime modify_at = LocalDateTime.now();
+    private String nickName;
     @JsonIgnore
     private CourseValidation courseValidation;
 
@@ -60,9 +61,18 @@ public class CourseDTO implements Serializable {
         return totalClassCount;
     }
 
-    // '제출' 상태 이면 false 반환
+    // '제출' 상태 이면 true 반환
     public boolean isSubmitted(){
-        if(getCourseState().getValue().equals(CourseState.SUBMIT.getValue())){
+        if(getCourseState().getValue().equals(CourseState.SUBMIT.getValue()) ||
+                getCourseState().getValue().equals(CourseState.RELEASE.getValue())){
+            return true;
+        }
+        return false;
+    }
+
+    // '승인완료' 상태이면 true 반환
+    public boolean isReleased(){
+        if(getCourseState().getValue().equals(CourseState.RELEASE.getValue())){
             return true;
         }
         return false;

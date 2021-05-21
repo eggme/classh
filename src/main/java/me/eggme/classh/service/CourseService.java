@@ -28,7 +28,6 @@ public class CourseService {
 
     @Autowired private CourseRepository courseRepository;
     @Autowired private MemberRepository memberRepository;
-    @Autowired private InstructorRepository instructorRepository;
     @Autowired private CourseSessionRepository courseSessionRepository;
     @Autowired private CourseClassRepository courseClassRepository;
     @Autowired private SignUpCourseRepository signUpCourseRepository;
@@ -50,54 +49,22 @@ public class CourseService {
         Member member = memberRepository.findByUsername(email).orElseThrow(() -> new EmailExistedException(email));
         Course course = new Course(courseName);
         Course newCourse = courseRepository.save(course);
-        newCourse.setUrl("temp_"+newCourse.getId());
+        newCourse.setUrl("temp_" + newCourse.getId());
 
         createDefaultSessionAndClass(newCourse);
         connectCourseUserRelation(newCourse, member);
+        member.getInstructor().setCourses(newCourse);
 
-        if(isRegisteredInstructor(member)){
-            member.getInstructor().setCourses(newCourse);
-        }else{
-            Instructor instructor = saveInstructor(member, newCourse);
-            member.setInstructor(instructor);
-        }
         return newCourse;
     }
 
     /***
-     * 해당 유저가 강사인지 아닌지 체크
-     * @param member - 유저
-     * @return
-     */
-    private boolean isRegisteredInstructor(Member member){
-        Instructor instructor = instructorRepository.findByMember(member);
-        if(instructor == null){
-            return false;
-        }
-        return true;
-    }
-
-    /***
-     * 해당 유저가 강사로 등록이 되어있지 않다면 강사 정보를 생성해서 반환
-     * @param member - 어떤 유저가
-     * @param course - 어떤 강의에 강사인가
-     * @return
-     */
-    @Transactional
-    protected Instructor saveInstructor(Member member, Course course) {
-        Instructor instructor = new Instructor();
-        instructor.setMember(member);
-        instructor.setCourses(course);
-        return instructorRepository.save(instructor);
-    }
-
-    /***
      * 해당 강사의 강의들을 모두 반환
-     * @param email - 강사의 이메일
+     * @param username - 강사의 이메일
      * @return
      */
-    public List<Course> getCourses(String email) {
-        Member member = memberRepository.findByUsername(email).orElseThrow(() -> new EmailExistedException(email));
+    public List<Course> getCourses(String username) {
+        Member member = memberRepository.findByUsername(username).orElseThrow(() -> new EmailExistedException(username));
         if(member.getInstructor() == null) return null;
         List<Course> courses = member.getInstructor().getCourses();
         return courses;
@@ -422,6 +389,41 @@ public class CourseService {
     public List<CourseDTO> getCourses(Pageable pageable) {
         List<CourseDTO> courseDTOList = courseRepository.findAll(pageable).stream().map(c ->
                 c.of()).collect(Collectors.toList());
+        return courseDTOList;
+    }
+
+    /***
+     * 강의 상태를 변경
+     * @param id 강의 pk
+     * @param courseState 변경할 상태 객체
+     */
+    @Transactional
+    public void changeCourseState(Long id, CourseState courseState){
+        Course savedCourse = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
+        savedCourse.setCourseState(courseState);
+    }
+
+    /***
+     * index 페이지에서 RELEASE 상태의 강의를 12개 조회
+     * @return
+     */
+    @Transactional
+    public List<CourseDTO> getCourseList(){
+        CourseState courseState = CourseState.RELEASE;
+        List<Course> list = courseRepository.findTop12ByCourseState(courseState);
+        List<CourseDTO> courseDTOList = list.stream().map(c -> c.of()).collect(Collectors.toList());
+
+        return courseDTOList;
+    }
+
+    /***
+     * 강의 검색 기능
+     * @param value 검색어
+     */
+    @Transactional
+    public List<CourseDTO> getCourseList(String value) {
+        List<Course> list = courseRepository.findByNameContainingIgnoreCase(value);
+        List<CourseDTO> courseDTOList = list.stream().map(c -> c.of()).collect(Collectors.toList());
         return courseDTOList;
     }
 }

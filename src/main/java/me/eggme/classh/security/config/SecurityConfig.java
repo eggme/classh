@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SecurityResourceService securityResourceService;
 
-    private String[] permitResources = {"/resource/**", "/imgs/**", "/js/**", "/video/**",
+    private String[] permitResources = {"/", "/login", "/resource/**", "/imgs/**", "/js/**", "/video/**",
             "/css/**", "/webjars/**", "/static/**"};
 
     @Override

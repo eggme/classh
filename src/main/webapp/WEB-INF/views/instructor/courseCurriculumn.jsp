@@ -36,13 +36,28 @@
         </div>
         <div class="gray_line_divisor"></div>
         <div class="toolbox">
-            <a class="add_section"><i class="fas fa-plus-circle"></i>&nbsp;섹션 추가하기</a>
+            <c:choose>
+                <c:when test="${!course.isReleased()}">
+                    <a class="add_section"><i class="fas fa-plus-circle"></i>&nbsp;섹션 추가하기</a>
+                </c:when>
+            </c:choose>
+
         </div>
         <div class="section_box">
             <c:forEach var="course_section" items="${course.courseSections}" varStatus="section_status">
-                <script>
-                    createSectionBox('${course_section.name}', '${section_status.index}', '${course_section.id}');
-                </script>
+                <c:choose>
+                    <c:when test="${!course.isReleased()}">
+                        <script>
+                            createSectionBox('${course_section.name}', '${section_status.index}', '${course_section.id}', false);
+                        </script>
+                    </c:when>
+                    <c:otherwise>
+                        <script>
+                            createSectionBox('${course_section.name}', '${section_status.index}', '${course_section.id}', true);
+                        </script>
+                    </c:otherwise>
+                </c:choose>
+
                 <c:forEach var="course_class" items="${course_section.courseClasses}" varStatus="class_status">
                     <c:set var="isPreview" value="false"/>
                     <c:set var="inVideo" value="false"/>
@@ -56,16 +71,29 @@
                     <c:if test="${!empty course_class.dataPath}">
                         <c:set var="inFile" value="true"/>
                     </c:if>
-                    <script>
-                        createClassBox('${course_class.name}', '${course_section.id}', '${section_status.index}', '${class_status.index}', '${course_class.id}', ${isPreview}, ${inVideo}, ${inFile});
-                    </script>
+                    <c:choose>
+                        <c:when test="${!course.isReleased()}">
+                            <script>
+                                createClassBox('${course_class.name}', '${course_section.id}', '${section_status.index}', '${class_status.index}', '${course_class.id}', ${isPreview}, ${inVideo}, ${inFile}, false);
+                            </script>
+                        </c:when>
+                        <c:otherwise>
+                            <script>
+                                createClassBox('${course_class.name}', '${course_section.id}', '${section_status.index}', '${class_status.index}', '${course_class.id}', ${isPreview}, ${inVideo}, ${inFile}, true);
+                            </script>
+                        </c:otherwise>
+                    </c:choose>
+
                 </c:forEach>
             </c:forEach>
             <%--createSectionBox--%>
-
         </div>
         <div class="main_center">
-            <div class="save_next_page" onclick="redirectThumbnail('${course.id}')">저장 후 다음이동</div>
+            <c:choose>
+                <c:when test="${!course.isReleased()}">
+                    <div class="save_next_page" onclick="redirectThumbnail('${course.id}')">저장 후 다음이동</div>
+                </c:when>
+            </c:choose>
         </div>
     </form>
 
@@ -132,8 +160,8 @@
     <form action="/course/edit/class/info" method="post" class="editClassForm">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <input type="hidden" class="id" name="id" value="0"/>
-        <input type="hidden" class="mediaPath"  name="mediaPath" value="0"/>
-        <input type="hidden" class="dataPath"  name="dataPath" value="0"/>
+        <input type="hidden" class="mediaPath" name="mediaPath" value="0"/>
+        <input type="hidden" class="dataPath" name="dataPath" value="0"/>
         <div class="add_class_description_content animate">
             <div class="add_class_description_container">
                 <div class="absolute_top">

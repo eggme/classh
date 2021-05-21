@@ -21,7 +21,6 @@ public class CourseValidation implements Serializable {
         try{
             if(courseDTO == null) log.info("null");
             courseNameValidation();
-            priceValidation();
             skillTagsValidation();
             recommendationsValidation();
             courseCategoryValidation();

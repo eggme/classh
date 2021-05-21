@@ -1,0 +1,21 @@
+.footer_wrap{background-color: #303740; padding: 0; width: 100%; height: auto;}
+.footer_flex_wrap{display: flex; flex-direction: column; justify-content: center; width: 1152px; margin: 0 auto; height: 100%;}
+.footer_top_wrap{display: flex; justify-content: space-between; flex-grow: 1; padding: 32px 20px; border-bottom: 1px solid #444; height: 100%;}
+
+.list_title_template{font-size: 14px; font-weight: 500; color: white;}
+.list_item_template{font-size: 14px; color: #bdbdbd;}
+.list_title{margin-bottom: 12px;}
+.list_item{margin-bottom: 4px;}
+
+.footer_bottom_wrap{display: flex; justify-content: space-between; padding: 32px 20px;}
+.left_menu{display: flex; flex-direction: column;}
+.logo_title{display: flex; align-items: flex-end; margin-bottom: 8px;}
+.logo_img{width: 95px; height: auto; object-fit: cover;}
+.footer_weight_template{font-size: 12px; font-weight: 600; color: #bdbdbd;}
+.separator{width: 1px; height: 16px; border-left: 1px solid #dbdbdb; margin: 0 8px; }
+.company_info{font-size: 10px; color: #bdbdbd; margin-bottom: 8px;}
+.all_right{font-size: 8px; color: #bdbdbd;}
+.right_menu{display: flex; justify-content: flex-end; align-self: center;}
+.circle_template{display: flex; justify-content: center; align-items: center; width: 34px; height: 34px; border-radius: 70%; background-color: #bdbdbd; color: #bdbdbd; text-align: center; margin-right: 12px; outline: none;}
+.circle_template:visited{color: #bdbdbd;}
+.circle_template i{color: #333333; font-size: 22px; font-style: normal; font-weight: 600;}

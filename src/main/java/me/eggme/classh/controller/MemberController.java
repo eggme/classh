@@ -2,21 +2,20 @@ package me.eggme.classh.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
+import me.eggme.classh.domain.dto.CourseDTO;
 import me.eggme.classh.domain.dto.MemberDTO;
 import me.eggme.classh.domain.entity.Member;
+import me.eggme.classh.service.CourseService;
 import me.eggme.classh.service.MemberService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.env.Environment;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -28,8 +27,15 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
-    @RequestMapping(value = "/")
-    public String index(){
+    @Autowired
+    private CourseService courseService;
+
+    @GetMapping(value = "/")
+    public String index(Model model){
+        log.info("메인페이지이빈다.");
+        List<CourseDTO> courseList = courseService.getCourseList();
+        log.info("강의 수 = "+courseList.size());
+        model.addAttribute("list", courseList);
         return "root/index";
     }
 

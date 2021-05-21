@@ -11,6 +11,7 @@ import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,7 +81,7 @@ public class Course extends BaseTimeEntity implements Serializable {
     @Column(length = 500)
     private String shortDesc;
     // 강의의 긴 설명
-    @Column(length = 3000)
+    @Column(columnDefinition = "CLOB")
     private String longDesc;
 
     // 강의의 등록 이미지 경로
@@ -122,6 +123,10 @@ public class Course extends BaseTimeEntity implements Serializable {
 
     public CourseDTO of(){
         CourseDTO courseDTO = ModelMapperUtils.getModelMapper().map(this, CourseDTO.class);
+        String myCourseInstructorNickName = this.getInstructor().getCourses().stream().filter(c ->
+                c.getId() == this.getId()).findFirst().map(fc ->
+                fc.getInstructor().getMember().getNickName()).orElse(new String());
+        courseDTO.setNickName(myCourseInstructorNickName);
         courseDTO.setCourseValidation(new CourseValidation(courseDTO));
         return courseDTO;
     }

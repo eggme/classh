@@ -22,7 +22,14 @@
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <input type="hidden" name="course_id" value="" />
         <p class="input_des">강의 두줄 요약<span class="red_text">(강의소개 상단에 보여집니다. 잠재 수강생들이 매력을 느낄만한 글을 짧게 남겨주세요.)</span></p>
-        <textarea class="text_area" name="shortDesc" placeholder="ex) 이 강의를 통해 수강생은 컴퓨터 공학의 기초를 다질 수 있을 것으로 예상합니다."><c:out value="${course.shortDesc}"/></textarea>
+        <c:choose>
+            <c:when test="${!course.isReleased()}">
+                <textarea class="text_area" name="shortDesc" placeholder="ex) 이 강의를 통해 수강생은 컴퓨터 공학의 기초를 다질 수 있을 것으로 예상합니다."><c:out value="${course.shortDesc}"/></textarea>
+            </c:when>
+            <c:otherwise>
+                <textarea class="text_area" name="shortDesc" placeholder="ex) 이 강의를 통해 수강생은 컴퓨터 공학의 기초를 다질 수 있을 것으로 예상합니다." readonly><c:out value="${course.shortDesc}"/></textarea>
+            </c:otherwise>
+        </c:choose>
         <br />
         <div class="gray_line_divisor"></div>
         <div class="noti_wrap">
@@ -35,10 +42,13 @@
             </div>
         </div>
         <p class="input_des">강의 상세 내용<span class="red_text">(해당 내용은 강의 소개에서 보여집니다.)</span></p>
-
         <textarea id="editor" name="longDesc"><c:out value="${course.longDesc}"/></textarea>
         <div class="main_center">
-            <div class="save_next_page">저장 후 다음이동</div>
+            <c:choose>
+                <c:when test="${!course.isReleased()}">
+                    <div class="save_next_page">저장 후 다음이동</div>
+                </c:when>
+            </c:choose>
         </div>
     </form>
 

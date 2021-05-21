@@ -36,21 +36,16 @@ html, body {
 }
 
 footer {
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    height: 60px;
-    width: 100%;
-    background: grey;
-    color: white;
+    flex-shrink: 0;
 }
 
 .wrap {
     min-height: 100%;
     position: relative;
-    padding-bottom: 60px;
+    display: flex;
+    flex-direction: column;
 }
+.layout_main_content{flex: 1;}
 
 .menu_template_line {
     width: 100%;

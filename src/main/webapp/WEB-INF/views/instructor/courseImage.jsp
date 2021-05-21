@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
@@ -35,12 +36,24 @@
                     <p>이미지 크기 : 768 x 500(px), 확장자 : jpg. jpeg, png, <span style="background-color: #FFFF77;">이미지에 한글을 포함할 수 없습니다.</span>
                     </p>
                     <div class="upload_item_box">
-                        <div class="file_box">
-                            <input class="upload-name" value="커버 이미지를 선택해주세요." disabled="disabled">
-                            <label for="ex_filename">파일 선택</label>
-                            <input class="upload-hidden" id="ex_filename" name="file" type="file"
-                                   accept=".jpg, .jpeg, .png" onchange="changeImage(this, '${course.id}')">
-                        </div>
+                        <c:choose>
+                            <c:when test="${!course.isReleased()}">
+                                <div class="file_box">
+                                    <input class="upload-name" value="커버 이미지를 선택해주세요." disabled="disabled">
+                                    <label for="ex_filename">파일 선택</label>
+                                    <input class="upload-hidden" id="ex_filename" name="file" type="file"
+                                           accept=".jpg, .jpeg, .png" onchange="changeImage(this, '${course.id}')">
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="file_box">
+                                    <input class="upload-name" value="커버 이미지를 선택해주세요." disabled="disabled" readonly>
+                                    <label for="ex_filename_otherwise" style="cursor: not-allowed !important;">파일 선택</label>
+                                    <input class="upload-hidden" id="ex_filename_otherwise" name="file" type="hidden"
+                                           accept=".jpg, .jpeg, .png" readonly>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
             </div>

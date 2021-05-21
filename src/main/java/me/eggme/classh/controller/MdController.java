@@ -1,7 +1,10 @@
 package me.eggme.classh.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.CourseDTO;
+import me.eggme.classh.domain.dto.CourseState;
 import me.eggme.classh.domain.entity.Course;
 import me.eggme.classh.domain.entity.Member;
 import me.eggme.classh.service.CourseService;
@@ -13,12 +16,11 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/md")
@@ -38,8 +40,6 @@ public class MdController {
     @GetMapping(value = "/course/list")
     public String mdCourseList(Pageable pageable, Model model){
         List<CourseDTO> list = courseService.getCourses(pageable);
-        log.info("강의 개수 : " +list.size());
-        list.forEach(c-> log.info(c.toString()));
         model.addAttribute("list", list);
         return "md/menu/courseList";
     }
@@ -50,5 +50,20 @@ public class MdController {
         CourseDTO courseDTO = course.of();
         model.addAttribute("course", courseDTO);
         return "md/menu/courseInfo";
+    }
+
+    @PostMapping(value = "/course/change")
+    @ResponseBody
+    public String changeCourseState(@RequestParam Long id,
+                                    @RequestParam CourseState courseState) throws JsonProcessingException {
+        log.info(courseState.getValue());
+        courseService.changeCourseState(id, courseState);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("result", "success");
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        return mapper.writeValueAsString(map);
     }
 }

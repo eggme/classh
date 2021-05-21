@@ -63,35 +63,34 @@ $(function () {
     });
 });
 
-function pageInitialized() {
-    var course_title = $('.course_title').val();
-    $('.course_title_input').val(course_title);
-    var course_price = $('.course_price').val();
-    if (course_price != 0)
-        $('.course_price_input').val(course_price);
-    setSkillTag();
-    setRecommends();
-    setCategory();
-    setLevel();
-}
-
-function setSkillTag(msg) {
+function setSkillTag(msg, isReleased) {
     var sample = '<div class="course_tag_hidden_form">'
         + '<div class="course_tag_text">' + msg + '</div>'
         + '<div class="course_tag_remove">'
         + '<i class="far fa-trash-alt"></i>'
         + '</div>'
         + '<input type="hidden" name="tags" value="' + msg + '" /></div>';
+    console.log(isReleased);
+    if(isReleased){
+        sample = '<div class="course_tag_hidden_form">'
+            + '<div class="course_tag_text">' + msg + '</div>'
+            + '<input type="hidden" name="tags" value="' + msg + '" /></div>';
+    }
     $(sample).appendTo('.course_tag_hidden');
 }
 
-function setRecommends(msg) {
+function setRecommends(msg, isReleased) {
     var sample = '<div class="course_recommend_hidden_form">'
         + '<div class="course_recommend_text">' + msg + '</div>'
         + '<div class="course_recommend_remove">'
         + '<i class="far fa-trash-alt"></i>'
         + '</div>'
         + '<input type="hidden" name="recommendations" value="' + msg + '" /></div>';
+    if(isReleased){
+        sample = '<div class="course_recommend_hidden_form">'
+            + '<div class="course_recommend_text">' + msg + '</div>'
+            + '<input type="hidden" name="recommendations" value="' + msg + '" /></div>';
+    }
     $(sample).appendTo('.course_recommend_hidden');
 }
 

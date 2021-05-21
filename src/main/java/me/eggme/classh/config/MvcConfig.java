@@ -1,9 +1,6 @@
 package me.eggme.classh.config;
 
-import me.eggme.classh.converter.RecommendationFormatter;
-import me.eggme.classh.converter.StringToCourseCategoryConverter;
-import me.eggme.classh.converter.StringToCourseLevelConverter;
-import me.eggme.classh.converter.SkillTagFormatter;
+import me.eggme.classh.converter.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,12 +12,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestAttributeMet
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("root/index");
-        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-    }
 
     @Bean
     public RequestAttributeMethodArgumentResolver requestAttributeMethodArgumentResolver(){
@@ -36,6 +27,7 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new StringToCourseCategoryConverter());
         registry.addConverter(new StringToCourseLevelConverter());
+        registry.addConverter(new StringToCourseStatusConverter());
         registry.addFormatter(new RecommendationFormatter());
         registry.addFormatter(new SkillTagFormatter());
     }

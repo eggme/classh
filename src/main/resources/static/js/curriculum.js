@@ -244,7 +244,7 @@ function loadCourseResource(obj) {
 
 
 // 수업 박스 생성
-function createClassBox(title, course_section_id, section_index, class_index, class_id, isPreview, inVideo, inFile) {
+function createClassBox(title, course_section_id, section_index, class_index, class_id, isPreview, inVideo, inFile, isReleased) {
     var video = "";
     var preview = "";
     var file_form = "";
@@ -270,7 +270,7 @@ function createClassBox(title, course_section_id, section_index, class_index, cl
     }else{
         preview = "";
     }
-    let template = "<div class='class_" + class_id + " class_box_line' data-value='" + class_index + "' data-code='" + course_section_id + "' data-class='" + class_id + "'>" +
+    var template = "<div class='class_" + class_id + " class_box_line' data-value='" + class_index + "' data-code='" + course_section_id + "' data-class='" + class_id + "'>" +
         "<div class='class_text classes'>" +
         "<p>수업 " + class_index + " : " + title + "</p>" +
         "</div>" +
@@ -286,14 +286,26 @@ function createClassBox(title, course_section_id, section_index, class_index, cl
             "</div>" +
         "</div>" +
         "</div>";
+    if(isReleased){
+        template = "<div class='class_" + class_id + " class_box_line' data-value='" + class_index + "' data-code='" + course_section_id + "' data-class='" + class_id + "'>" +
+            "<div class='class_text classes'>" +
+            "<p>수업 " + class_index + " : " + title + "</p>" +
+            "</div>" +
+            "<div class='class_toolbox'>" +
+            video +
+            preview +
+            file_form +
+            "</div>" +
+            "</div>";
+    }
     $(template).appendTo($('.section_' + section_index).find(".class_box"));
     $('.title_class').val('');
     $('.class_form').css('display', 'none');
 }
 
 // 섹션 박스 생성
-function createSectionBox(title, section_code, section_id) {
-    let template = "<div class='section_" + section_code + " section_init section_margin' data-value=" + section_code + " data-code=" + section_id + ">" +
+function createSectionBox(title, section_code, section_id, isReleased) {
+    var template = "<div class='section_" + section_code + " section_init section_margin' data-value=" + section_code + " data-code=" + section_id + ">" +
         "<div class='section_data'>" +
         "<div class='section_info sections'>" +
         "<span class='section_number'>섹션 " + section_code + "</span>" +
@@ -316,6 +328,22 @@ function createSectionBox(title, section_code, section_id) {
         "</div>" +
         "</div>" +
         "</div>";
+    if(isReleased){
+        template = "<div class='section_" + section_code + " section_init section_margin' data-value=" + section_code + " data-code=" + section_id + ">" +
+            "<div class='section_data'>" +
+            "<div class='section_info sections'>" +
+            "<span class='section_number'>섹션 " + section_code + "</span>" +
+            "<span class='section_title'>&nbsp;: " + title + "</span>" +
+            "</div>" +
+            "<div class='section_menu'>" +
+            "</div>" +
+            "<div class='class_wrap'>" +
+            "<div class='class_box'>" +
+            "</div>" +
+            "</div>" +
+            "</div>" +
+            "</div>";
+    }
     $(template).appendTo('.section_box');
     $('.title_section').val('');
     $('.section_form').css('display', 'none');

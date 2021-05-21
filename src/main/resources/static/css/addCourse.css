@@ -12,6 +12,7 @@ html, body, .main_wrap{width: 100%; height: auto; min-height: 100%;}
 .main_session{padding: 15px;  float: left;  width: 100%; max-width: 900px; min-width: 300px; margin: 0 30px 50px 30px; background-color: white; display: inline-block; box-shadow: 2px 2px 2px 2px #e5e5e5;}
 .gray_input{width: 100%; height: 45px; border: 0; margin-bottom: 12px; border-radius: 2px; padding: 0 12px; max-width: 450px; box-shadow: none; font-size: 16px; color : #595959; background-color: #f6f6f6;}
 
+.readonly{cursor: not-allowed;}
 /* 금액 부분 CSS */
 .price_wrap{position: relative; }
 .price_input{text-align: right; }
@@ -24,7 +25,9 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
     margin: 0;
 }
 /* 금액 부분 CSS 끝 */
-.course_recommend_add, .course_tag_add{cursor: pointer; width: 100%; max-width: 450px; height: 45px; color : #fff; background-color: #1dc078; font-size: 16px; text-align: center; line-height: 45px;}
+.course_button_template{
+    cursor: pointer; width: 100%; max-width: 450px; height: 45px; color : #fff; background-color: #1dc078; font-size: 16px; text-align: center; line-height: 45px;
+}
 .tag_container{display: block;}
 .tag_box{cursor: pointer; padding: 12px; border: 1px solid #dedede; color: #333; font-size: 16px; display: inline-block; margin: 0 8px 8px 0;}
 .main_center{margin: 0 auto; padding-top: 24px; text-align: center;}
@@ -39,7 +42,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 /* 끝 */
 /* 배울 수 있는 강의 및 추천인 추가 박스 */
 .course_recommend_hidden_form, .course_tag_hidden_form{display: flex; justify-content: flex-start; align-items: center; max-width: 450px; min-height: 45px; border: 1px solid #cfcfcf; color : #000A12; margin-top: 10px;}
-.course_recommend_text, .course_tag_text{flex-grow: 1; margin-left: 20px;}
+.course_recommend_text, .course_tag_text{flex-grow: 1; margin-left: 20px; font-size: 14px;}
+
 .course_recommend_remove, .course_tag_remove{flex-shrink: 0; width: 34px;}
 .course_recommend_remove, .course_tag_remove{cursor: pointer;}
 /* 끝 */

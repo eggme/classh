@@ -1,5 +1,7 @@
 package me.eggme.classh.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.*;
@@ -383,5 +385,13 @@ public class CourseController {
     public String deleteCourse(@RequestParam(value = "id") Long id){
         courseService.deleteCourse(id);
         return "success";
+    }
+
+    @PostMapping(value = "/search")
+    @ResponseBody
+    public String searchCourse(@RequestParam(value = "search_value") String value) throws JsonProcessingException {
+        List<CourseDTO> list = courseService.getCourseList(value);
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(list);
     }
 }

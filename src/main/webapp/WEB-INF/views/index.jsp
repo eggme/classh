@@ -6,12 +6,32 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 
 <link href="/css/index.css" rel="stylesheet"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="/js/index.js"></script>
+<!-- Swiper -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
+<script>
+    $(function () {
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView : 5,
+            spaceBetween: 10,
+            slidesPerGroup : 5,
+            direction: 'horizontal',
+            navigation : { // 네비게이션
+                nextEl : '.swiper-button-next', // 다음 버튼 클래스명
+                prevEl : '.swiper-button-prev', // 이번 버튼 클래스명
+            }
+        });
+    });
+</script>
+
 <div class="starter-template">
     <!-- Slider Carousel -->
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -115,38 +135,46 @@
             <h5>이미 검증된 쉽고 친절한 입문 강의들!!!</h5>
         </div>
         <div class="course_container">
-<%--            <div class="course_items">--%>
-<%--                <% if (list != null && list.size() > 0) {--%>
-<%--                    for (Course course : list) {--%>
-<%--                        String category = course.getCategory() != null ? course.getCategory().getName() : "";--%>
-<%--                %>--%>
-<%--                <div class="course">--%>
-<%--                    <a class="noATagCss" href="/courseInfo.do?course_id=<%=course.getCourse_Id()%>">--%>
-<%--                        <div class="course_image">--%>
-<%--                            <img src="<%=course.getCourseInfo().getCourse_img()%>">--%>
-<%--                        </div>--%>
-<%--                        <div class="course_content">--%>
-<%--                            <div class="c_title"><b><%=course.getTitle()%>--%>
-<%--                            </b></div>--%>
-<%--                            <div class="c_instructor"><%=course.getName()%>--%>
-<%--                            </div>--%>
-<%--                            <div class="c_price">--%>
-<%--                                <%if (course.getPrice() == 0) {%>--%>
-<%--                                무료--%>
-<%--                                <%} else {%>--%>
-<%--                                &#x20a9;<%=new DecimalFormat("###,###,###,###").format(course.getPrice())%>--%>
-<%--                                <%}%>--%>
-<%--                            </div>--%>
-<%--                            <div class="c_tag">강의 카테고리 : <%=category%>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </a>--%>
-<%--                </div>--%>
-<%--                <%--%>
-<%--                        }--%>
-<%--                    }--%>
-<%--                %>--%>
-<%--            </div>--%>
+            <div class="course_items">
+                <div class="swiper-container">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                            <c:forEach var="course" items="${list}" varStatus="courseStatus">
+                                <div class="swiper-slide">
+                                    <div class="course">
+                                        <a class="noATagCss" href="/course/${course.url}">
+                                            <div class="course_image">
+                                                <img src="${course.courseImg}">
+                                            </div>
+                                            <div class="course_content">
+                                                <div class="c_title"><b><c:out value="${course.name}"/></b></div>
+                                                <div class="c_instructor"><c:out
+                                                        value="${course.instructor.member.nickName}"/></div>
+                                                <div class="c_price">
+                                                    <c:choose>
+                                                        <c:when test="${course.price eq 0}">
+                                                            무료
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            &#x20a9;<span class="course_price_${course.id}"></span>
+                                                            <script>CostSeparator('${course.price}', '.course_price_${course.id}')</script>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    <div class="c_tag">강의 카테고리 : <c:out
+                                                            value="${course.courseCategory.getValue()}"/></div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                    </div>
+                    <!-- If we need navigation buttons -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            </div>
         </div>
     </section>
 </div>
