@@ -13,8 +13,7 @@ import org.springframework.core.annotation.Order;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /***
  *  강의 질문&답변 댓글과 답글을 어떻게 구분할 것인가?
@@ -62,12 +61,12 @@ public class CourseQuestion extends BaseBoardEntity implements Serializable {
     @OneToMany(mappedBy = "courseQuestion", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("create_at desc")
     @BatchSize(size = 10)
-    private List<CourseComment> courseComments = new ArrayList<>();
+    private Set<CourseComment> courseComments = new LinkedHashSet<>();
 
     // 달릴 해시태그들 1:N 단방향
     @JsonManagedReference
     @OneToMany(mappedBy = "courseQuestion",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CourseTag> courseTags = new ArrayList<>();
+    private Set<CourseTag> courseTags = new HashSet<>();
 
     public CourseQuestionDTO of(){
         CourseQuestionDTO courseQuestionDTO = ModelMapperUtils.getModelMapper().map(this, CourseQuestionDTO.class);

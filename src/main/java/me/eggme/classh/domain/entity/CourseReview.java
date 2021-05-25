@@ -12,7 +12,9 @@ import org.hibernate.annotations.BatchSize;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -45,7 +47,7 @@ public class CourseReview extends BaseBoardEntity implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "courseReview", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @BatchSize(size = 10)
-    private List<CourseComment> courseComments = new ArrayList<>();
+    private Set<CourseComment> courseComments = new LinkedHashSet<>();
 
     public CourseReviewDTO of(){
         return ModelMapperUtils.getModelMapper().map(this, CourseReviewDTO.class);

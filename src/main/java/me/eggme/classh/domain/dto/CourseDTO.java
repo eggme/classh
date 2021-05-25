@@ -11,10 +11,7 @@ import me.eggme.classh.utils.CourseValidation;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.OptionalDouble;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
@@ -28,22 +25,32 @@ public class CourseDTO implements Serializable {
     private int price;
     private String url;
     private CourseState courseState;
-    private List<SignUpCourse> signUpCourses;
+    private Set<SignUpCourse> signUpCourses;
     private Instructor instructor;
-    private List<CourseSection> courseSections;
-    private List<SkillTag> skillTags;
-    private List<Recommendation> recommendations;
+    private Set<CourseSection> courseSections;
+    private Set<SkillTag> skillTags;
+    private Set<Recommendation> recommendations;
     private CourseLevel courseLevel;
     private CourseCategory courseCategory;
     private String shortDesc;
     private String longDesc;
     private String courseImg;
-    private List<CourseReview> courseReviews;
+    private Set<CourseReview> courseReviews;
     private LocalDateTime create_at = LocalDateTime.now();
     private LocalDateTime modify_at = LocalDateTime.now();
     private String nickName;
     @JsonIgnore
     private CourseValidation courseValidation;
+
+    // 수강신청 상태인지 체크
+    public boolean isCourseRegistration(Member member){
+        if(signUpCourses != null){
+            SignUpCourse findCourseRegistration = signUpCourses.stream().filter(suc ->
+                    suc.getMember().getId() == member.getId()).findFirst().orElse(null);
+            if(findCourseRegistration != null) return true;
+        }
+        return false;
+    }
 
     // 총 강의 시간
     public int getTotalTime(){

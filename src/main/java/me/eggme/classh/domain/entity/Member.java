@@ -63,7 +63,7 @@ public class Member extends BaseTimeEntity implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @BatchSize(size = 10)
-    private List<SignUpCourse> signUpCourses = new ArrayList<>();
+    private Set<SignUpCourse> signUpCourses = new HashSet<>();
 
     // 내가 수업하고 있는 강의들
     @JsonBackReference
@@ -75,13 +75,20 @@ public class Member extends BaseTimeEntity implements Serializable {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("create_at asc")
     @BatchSize(size = 10)
-    private List<CourseReview> courseReviews = new ArrayList<>();
+    private Set<CourseReview> courseReviews = new HashSet<>();
 
+    // 내가 올린 질문
     @JsonManagedReference
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("create_at asc")
     @BatchSize(size = 10)
-    private List<CourseQuestion> courseQuestions = new ArrayList<>();
+    private Set<CourseQuestion> courseQuestions = new HashSet<>();
+
+    @JsonBackReference
+    @OneToOne(mappedBy = "member", orphanRemoval = true)
+    @OrderBy("create_at asc")
+    @BatchSize(size = 10)
+    private Cart cart;
 
     @Builder
     public Member(String username, String password, String nickName){
@@ -93,6 +100,16 @@ public class Member extends BaseTimeEntity implements Serializable {
     public MemberDTO of(){
         return ModelMapperUtils.getModelMapper().map(this, MemberDTO.class);
     }
+
+    public boolean isPutInTheCart(Long course_id){
+        if(this.getCart() != null){
+            Course course = this.getCart().getCourses().stream().filter(c ->
+                    c.getId() == course_id).findFirst().orElse(null);
+            if(course != null) return true;
+        }
+        return false;
+    }
+
 
     // 연관관계 편의 메소드 - 수강 신청
     public void connectCourse(Course course, SignUpCourse signUpCourse){

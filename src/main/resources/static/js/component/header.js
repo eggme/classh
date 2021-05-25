@@ -33,18 +33,20 @@ $(function(){
         $('.cart_over').css('color', '#959B9D');
     });
     $('.cart_button').click(function(){
-        location.href="/userCart.do";
+        location.href="/course/carts";
     })
 });
 function loadCourseCart(){
-    var user_name = $('.user_name').val();
     $.ajax({
-        url : "/loadUserCourseCart.do?user_name="+user_name,
+        url : "/course/select/cart",
         method : "post",
-        data : {"result" : 3},
+        dataType: "json",
         success : function(result){
-            console.log(result);
-            makeCourseCart(result);
+            if(result.result != null){
+                return;
+            }else{
+                makeCourseCart(result);
+            }
         },
         error : function (e){
             console.log(e);
@@ -54,13 +56,13 @@ function loadCourseCart(){
 function makeCourseCart(result){
     $('.cart_tab_content').html("");
     for(var i = 0; i<result.length; i++){
-        var listItem = result[i];
+        var course = result[i];
         var template = "<div class='cart_content_warp'>"+
-            "<div class='course_img'>"+
-            "<img src='"+listItem.courseInfo.course_img+"' /></div>"+
+            "<div class='header_course_img'>"+
+            "<img src='"+course.courseImg+"' /></div>"+
             "<div class='course_content_data'>"+
-            "<div class='course_title_data'><a class='course_title_a' href='/courseInfo.do?course_id="+listItem.course_Id+"'>"+ listItem.title +"</a></div>"+
-            "<div class='course_price_data'>&#x20a9;" + numberWithCommas(listItem.price) +"</div>"+
+            "<div class='course_title_data'><a class='course_title_a' href='/course/"+course.url+"'>"+ course.name +"</a></div>"+
+            "<div class='course_price_data'><span class='course_price_separator'>&#x20a9;</span><span class='course_price_value'>" + CostSeparatorKRValue(course.price) +"</span></div>"+
             "</div></div>";
         $(template).appendTo($('.cart_tab_content'));
     }

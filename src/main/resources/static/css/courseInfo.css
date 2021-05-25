@@ -31,6 +31,8 @@ body, body *{font-family: "Noto Sans KR";}
 .add_box{border-right : 1px solid #f1f3f5; }
 .learning_box {background-color: #00C471; font-size: 16px; font-weight: bold; color : white; text-align: center; border-radius: 1px; width: 270px;height: 48px; line-height: 48px; margin-bottom: 10px; cursor: pointer; border-radius: 5px;}
 .learning_box:hover{background-color: #00a65f;}
+.learning_box_purchase {background-color: #00C471; font-size: 16px; font-weight: bold; color : white; text-align: center; border-radius: 1px; width: 270px;height: 48px; line-height: 48px; margin-bottom: 10px; cursor: pointer; border-radius: 5px;}
+.learning_box_purchase:hover{background-color: #00a65f;}
 .course_subtext{width: 100%; height: 100%; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; color: #868e96; font-size: 12px; text-align: left; padding: 16px 24px; background-color: #f8f9fa;}
 .course_subtext div, .course_subtext div *{font-size: 12px;}
 .course_box{display: flex; flex-direction: column; height: 360px; z-index: 10; background-color: white; border: #E9ECEF 1px solid; border-radius: 20px;  width: 320px;}
@@ -72,6 +74,7 @@ body, body *{font-family: "Noto Sans KR";}
 .data_text, .icon{font-size: 16px;}
 .instructor_introduce{display: flex; justify-content: space-between; align-items: center;}
 .instructor_title{display: flex; flex-direction: column; font-size: 22px;}
+.instructor_title * {font-size: 22px;}
 .hello_title{font-weight: 400;}
 .instructor_name_wrap{font-weight: 600;}
 .underline_course{text-decoration: underline; margin-right: 6px; cursor: pointer;}
@@ -111,6 +114,7 @@ body, body *{font-family: "Noto Sans KR";}
 .review_list_filter{display: flex; border-bottom: 1px solid #343A40;}
 .review_list_filter_title{ font-weight: 700; }
 .review_list_template{padding: 4px 8px; font-size: 14px; color: #495057; align-items : center; display: flex; justify-content: center; cursor: pointer;}
+.review_list_template * {font-size: 14px;}
 .review_list_filter_divider{margin: 0 10px 0 12px; width: 1px; height: 12px; background-color: #DEE2E6; align-self: center;}
 .highlight_active{color: #1dc078;}
 .review_list_menu_title{align-self: center;}

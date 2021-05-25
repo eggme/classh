@@ -9,7 +9,9 @@ import me.eggme.classh.utils.ModelMapperUtils;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -46,7 +48,7 @@ public class CourseNotice extends BaseBoardEntity implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "courseNotice", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("create_at asc")
-    private List<CourseComment> courseComments = new ArrayList<>();
+    private Set<CourseComment> courseComments = new LinkedHashSet<>();
 
     public CourseNoticeDTO of(){
         return ModelMapperUtils.getModelMapper().map(this, CourseNoticeDTO.class);

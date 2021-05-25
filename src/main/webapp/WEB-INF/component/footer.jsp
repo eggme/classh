@@ -51,9 +51,9 @@
                     <div class="logo_img_warp">
                         <img src="/imgs/header/Logo_1.png"  class="logo_img"/>
                     </div>
-                    <div class="separator"></div>
+                    <div class="footer_separator"></div>
                     <div class="information_handling_policy footer_weight_template">개인정보취급방침</div>
-                    <div class="separator"></div>
+                    <div class="footer_separator"></div>
                     <div class="terms_conditions footer_weight_template">이용약관</div>
                 </div>
                 <div class="company_info">

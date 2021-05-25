@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!-- main css -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
@@ -82,8 +83,7 @@
                                         <div class="tab_course_cart cart_tab_active">수강바구니</div>
                                         <div class="tab_wishlist">위시리스트</div>
                                     </div>
-                                    <div class="cart_tab_content">
-                                    </div>
+                                    <div class="cart_tab_content"></div>
                                     <div class="cart_tab_button">
                                         <div class="cart_button">수강 바구니로 이동</div>
                                     </div>

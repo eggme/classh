@@ -9,6 +9,7 @@ import me.eggme.classh.domain.entity.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -23,8 +24,8 @@ public class CourseQuestionDTO implements Serializable {
     private Course course;
     private CourseClass courseClass;
     private Member member;
-    private List<CourseComment> courseComments;
-    private List<CourseTag> courseTags;
+    private Set<CourseComment> courseComments;
+    private Set<CourseTag> courseTags;
     private LocalDateTime create_at = LocalDateTime.now();
     private LocalDateTime modify_at = LocalDateTime.now();
 

@@ -10,7 +10,9 @@ import org.hibernate.annotations.BatchSize;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -44,7 +46,7 @@ public class CourseComment extends BaseBoardEntity implements Serializable {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("create_at asc")
     @BatchSize(size = 10)
-    private List<CourseComment> children = new ArrayList<>();
+    private Set<CourseComment> children = new LinkedHashSet<>();
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)

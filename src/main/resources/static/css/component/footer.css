@@ -12,7 +12,7 @@
 .logo_title{display: flex; align-items: flex-end; margin-bottom: 8px;}
 .logo_img{width: 95px; height: auto; object-fit: cover;}
 .footer_weight_template{font-size: 12px; font-weight: 600; color: #bdbdbd;}
-.separator{width: 1px; height: 16px; border-left: 1px solid #dbdbdb; margin: 0 8px; }
+.footer_separator{width: 1px; height: 16px; border-left: 1px solid #dbdbdb; margin: 0 8px; }
 .company_info{font-size: 10px; color: #bdbdbd; margin-bottom: 8px;}
 .all_right{font-size: 8px; color: #bdbdbd;}
 .right_menu{display: flex; justify-content: flex-end; align-self: center;}

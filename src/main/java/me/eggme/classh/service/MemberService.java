@@ -2,14 +2,10 @@ package me.eggme.classh.service;
 
 import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.MemberDTO;
-import me.eggme.classh.domain.entity.Instructor;
-import me.eggme.classh.domain.entity.Member;
-import me.eggme.classh.domain.entity.MemberRoles;
-import me.eggme.classh.repository.InstructorRepository;
-import me.eggme.classh.repository.MemberRepository;
-import me.eggme.classh.repository.MemberRolesRepository;
-import me.eggme.classh.repository.RoleRepository;
-import me.eggme.classh.domain.entity.Role;
+import me.eggme.classh.domain.entity.*;
+import me.eggme.classh.exception.NoSearchCourseClassException;
+import me.eggme.classh.exception.NoSearchCourseException;
+import me.eggme.classh.repository.*;
 import me.eggme.classh.utils.NameGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -35,6 +32,10 @@ public class MemberService {
     private RoleRepository roleRepository;
     @Autowired
     private InstructorRepository instructorRepository;
+    @Autowired
+    private CartRepository cartRepository;
+    @Autowired
+    private CourseRepository courseRepository;
 
     @Transactional
     public Long save(MemberDTO memberDTO) {
@@ -98,5 +99,40 @@ public class MemberService {
             Authentication afterAuthentication = new UsernamePasswordAuthenticationToken(authenticationObject, null, beforeAuthentication.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(afterAuthentication);
         }
+    }
+
+    /***
+     * 해당 유저가 강의를 장바구니에 담음
+     * @param member 유저 정보
+     * @param id 강의 pk
+     */
+    @Transactional
+    public void addCourseCart(Member member, Long id) {
+        Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
+                new UsernameNotFoundException("해당 유저를 찾을 수 없습니다"));
+        Course savedCourse = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
+        if(savedMember.getCart() == null) { // 기존 장바구니 객체가 없을 때
+            Cart cart = new Cart();
+            Cart savedCart = cartRepository.save(cart);
+            savedCart.setMember(savedMember);
+            savedCart.addCourse(savedCourse);
+            savedMember.setCart(savedCart);
+        }else{
+            Cart savedCart = cartRepository.findById(savedMember.getCart().getId()).orElse(null);
+            if(savedCart != null){
+                savedCart.addCourse(savedCourse);
+            }
+        }
+    }
+
+    @Transactional
+    public Set<Course> selectCart(Member member){
+        Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
+                new UsernameNotFoundException("해당 유저를 찾을 수 없습니다"));
+        if(savedMember.getCart() != null) {
+            Cart savedCart = cartRepository.findById(savedMember.getCart().getId()).orElse(null);
+            if (savedCart != null) return savedCart.getCourses();
+        }
+        return null;
     }
 }

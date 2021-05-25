@@ -49,7 +49,12 @@
             <div class="course_nav">
                 <div class="ul_wrap">
                     <ul class="course_ul">
-                        <li class="dashboard"><a class="no_underline" href="/course/${course.url}/dashboard">대시보드</a></li>
+                        <sec:authorize access="isAuthenticated()">
+                            <sec:authentication var="userobject" property="principal"></sec:authentication>
+                            <c:if test="${course.isCourseRegistration(userobject)}">
+                                <li class="dashboard"><a class="no_underline" href="/course/${course.url}/dashboard">대시보드</a></li>
+                            </c:if>
+                        </sec:authorize>
                         <li class="info"><a class="no_underline" href="/course/${course.url}">강의소개</a></li>
                         <li class="question"><a class="no_underline" href="/question/select/${course.id}">질문 & 답변</a></li>
                         <li class="newly"><a class="no_underline" href="/notice/${course.url}">새소식</a></li>

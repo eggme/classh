@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,18 +43,18 @@ public class CourseQuestionService {
 
         savedCourseQuestion.setMember(savedMember);
         savedCourseQuestion.setCourse(savedCourse);
-        List<CourseTag> savedCourseTags = savedCourseQuestion.getCourseTags().stream().map(ct -> {
+        Set<CourseTag> savedCourseTags = savedCourseQuestion.getCourseTags().stream().map(ct -> {
             CourseTag savedCourseTag = courseTagRepository.save(ct);
             savedCourseTag.setCourse(savedCourse);
             savedCourseTag.setCourseQuestion(savedCourseQuestion);
             return savedCourseTag;
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toSet());
         savedCourseQuestion.setCourseTags(savedCourseTags);
         return savedCourseQuestion;
     }
 
     @Transactional
-    public List<CourseQuestion> selectCourseQuestions(Long course_id) {
+    public Set<CourseQuestion> selectCourseQuestions(Long course_id) {
         Course savedCourse = courseRepository.findById(course_id).orElseThrow(() -> new NoSearchCourseException());
         return savedCourse.getCourseQuestions();
     }
@@ -90,9 +91,9 @@ public class CourseQuestionService {
      * @return
      */
     @Transactional
-    public List<CourseCommentDTO> selectCourseComment(CourseQuestion savedCourseQuestion) {
-        List<CourseComment> commentList = courseCommentRepository.findByCourseQuestion(savedCourseQuestion);
-        List<CourseCommentDTO> commentDTOList = commentList.stream().map(cc -> cc.of()).collect(Collectors.toList());
+    public Set<CourseCommentDTO> selectCourseComment(CourseQuestion savedCourseQuestion) {
+        Set<CourseComment> commentSet = courseCommentRepository.findByCourseQuestion(savedCourseQuestion);
+        Set<CourseCommentDTO> commentDTOList = commentSet.stream().map(cc -> cc.of()).collect(Collectors.toSet());
         return commentDTOList;
     }
 
@@ -110,12 +111,12 @@ public class CourseQuestionService {
 
         savedCourseQuestion.getCourseTags().clear();
 
-        List<CourseTag> savedCourseTagList = courseQuestion.getCourseTags().stream().map(ct -> {
+        Set<CourseTag> savedCourseTagList = courseQuestion.getCourseTags().stream().map(ct -> {
             CourseTag savedCourseTag = courseTagRepository.save(ct);
             savedCourseTag.setCourse(savedCourse);
             savedCourseTag.setCourseQuestion(savedCourseQuestion);
             return savedCourseTag;
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toSet());
 
         savedCourseQuestion.getCourseTags().addAll(savedCourseTagList);
 

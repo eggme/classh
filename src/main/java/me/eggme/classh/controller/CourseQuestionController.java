@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -43,7 +44,7 @@ public class CourseQuestionController {
     @GetMapping(value = "/{id}")
     public String getCourseQuestion(@PathVariable Long id, Model model){
         CourseQuestion savedCourseQuestion = courseQuestionService.getCourseQuestion(id);
-        List<CourseCommentDTO> courseCommentDTOList = courseQuestionService.selectCourseComment(savedCourseQuestion);
+        Set<CourseCommentDTO> courseCommentDTOList = courseQuestionService.selectCourseComment(savedCourseQuestion);
         CourseQuestionDTO courseQuestionDTO = savedCourseQuestion.of();
         CourseDTO courseDTO = courseQuestionDTO.getCourse().of();
         MemberDTO memberDTO = courseQuestionDTO.getMember().of();
@@ -69,7 +70,7 @@ public class CourseQuestionController {
     @GetMapping(value = "/select/{id}")
     public String selectCourseQuestion(Model model, @PathVariable(value = "id") Long course_id){
 
-        List<CourseQuestion> savedCourseQuestions = courseQuestionService.selectCourseQuestions(course_id);
+        Set<CourseQuestion> savedCourseQuestions = courseQuestionService.selectCourseQuestions(course_id);
         List<CourseQuestionDTO> list = savedCourseQuestions.stream().map(cq -> cq.ofWithOutTag()).collect(Collectors.toList());
         Course savedCourse = courseService.getCourse(course_id);
         CourseDTO courseDTO = savedCourse.of();

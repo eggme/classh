@@ -10,7 +10,9 @@ import org.hibernate.annotations.BatchSize;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -48,7 +50,7 @@ public class CourseClass implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "courseClass", cascade = CascadeType.ALL, orphanRemoval = true)
     @BatchSize(size = 10)
-    private List<CourseQuestion> courseQuestions = new ArrayList<>();
+    private Set<CourseQuestion> courseQuestions = new HashSet<>();
 
     public CourseClassDTO of(){
         return ModelMapperUtils.getModelMapper().map(this, CourseClassDTO.class);

@@ -426,4 +426,15 @@ public class CourseService {
         List<CourseDTO> courseDTOList = list.stream().map(c -> c.of()).collect(Collectors.toList());
         return courseDTOList;
     }
+
+    /***
+     * 강의 pk로 url을 찾음
+     * @param id pk
+     * @return
+     */
+    @Transactional
+    public String findById(Long id){
+        Course savedCourse = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
+        return savedCourse.getUrl();
+    }
 }

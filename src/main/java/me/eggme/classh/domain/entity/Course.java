@@ -12,15 +12,14 @@ import org.hibernate.annotations.Fetch;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Blob;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseSections", "tags", "recommendations", "courseReviews"})
-@ToString(exclude = {"signUpCourses", "instructor", "courseSections", "tags", "recommendations", "courseReviews"})
+@EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseSections", "skillTags", "recommendations", "courseReviews", "courseNotices", "courseTags", "courseQuestions"})
+@ToString(exclude = {"signUpCourses", "instructor", "courseSections", "skillTags", "recommendations", "courseReviews", "courseNotices", "courseTags", "courseQuestions"})
 public class Course extends BaseTimeEntity implements Serializable {
 
     @Id @GeneratedValue
@@ -44,7 +43,7 @@ public class Course extends BaseTimeEntity implements Serializable {
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @BatchSize(size = 10)
-    private List<SignUpCourse> signUpCourses = new ArrayList<>();
+    private Set<SignUpCourse> signUpCourses = new HashSet<>();
 
     // 이 강의의 강사
     @JsonBackReference
@@ -55,19 +54,19 @@ public class Course extends BaseTimeEntity implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true,  fetch = FetchType.EAGER)
     @OrderBy("id asc")
-    private List<CourseSection> courseSections = new ArrayList<>();
+    private Set<CourseSection> courseSections = new LinkedHashSet<>();
 
     // 강의의 태그를 동적으로 늘릴 수 있음
     @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @BatchSize(size = 10)
-    private List<SkillTag> skillTags = new ArrayList<>();
+    private Set<SkillTag> skillTags = new LinkedHashSet<>();
 
     // 강의의 추천하는 사람의 정보
     @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @BatchSize(size = 10)
-    private List<Recommendation> recommendations = new ArrayList<>();
+    private Set<Recommendation> recommendations = new LinkedHashSet<>();
 
     // 강의의 레벨
     @Enumerated(value = EnumType.STRING)
@@ -92,25 +91,25 @@ public class Course extends BaseTimeEntity implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @BatchSize(size = 10)
-    private List<CourseReview> courseReviews = new ArrayList<>();
+    private Set<CourseReview> courseReviews = new HashSet<>();
 
     // 강의 공지사항
     @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @BatchSize(size = 10)
-    private List<CourseNotice> courseNotices = new ArrayList<>();
+    private Set<CourseNotice> courseNotices = new HashSet<>();
 
     // 강의 자체 관련 태그 1:N 단방향
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="COURSE_TAG_ID")
-    private List<CourseTag> courseTags = new ArrayList<>();
+    private Set<CourseTag> courseTags = new HashSet<>();
 
     @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("modify_at desc")
     @BatchSize(size = 10)
-    private List<CourseQuestion> courseQuestions = new ArrayList<>();
+    private Set<CourseQuestion> courseQuestions = new HashSet<>();
 
     // 강의 검증관련 컬럼에 매핑되지 않음
     @Transient
@@ -129,6 +128,11 @@ public class Course extends BaseTimeEntity implements Serializable {
         courseDTO.setNickName(myCourseInstructorNickName);
         courseDTO.setCourseValidation(new CourseValidation(courseDTO));
         return courseDTO;
+    }
+
+    public CourseMappingDTO mapping(){
+        CourseMappingDTO courseMappingDTO = ModelMapperUtils.getModelMapper().map(this, CourseMappingDTO.class);
+        return courseMappingDTO;
     }
 
     public void deleteCourse(){

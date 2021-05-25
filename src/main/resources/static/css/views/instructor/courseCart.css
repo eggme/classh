@@ -1,0 +1,48 @@
+.main_wrap{width: 100%; height: 100%; margin: 0 auto;}
+.content{background-color: #f5f5f5 !important;}
+.main_container{width: 1000px; padding-top: 30px; margin: 0 auto;}
+.cart_menu_title{width: 100%; display: flex; justify-content: space-between; margin-bottom: 10px;}
+.fix_title{font-size: 20px; font-weight: 700;}
+.process_ul{list-style: none; display: flex; padding: 0; margin: 0;}
+.process_ul li{display: flex; flex-grow: 1; margin: 0 5px; color: #929292;}
+.active{color: black;}
+.cart_coupon{font-size: 16px; color: #454545; display: flex; margin-bottom: 20px;}
+.my_coupon{margin-right: 10px;}
+.flex_wrap_course, .flex_wrap_total{background-color: white; border: 1px solid #bababa; box-shadow: 0 2px 3px rgba(0,10,18,.1), 0 0 0 1px rgba(0,10,18,.1); border-radius: 8px;}
+.flex_wrap{display: flex; align-items: flex-start;}
+.course_box{display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #bdbdbd;}
+.img_box{max-width: 146px; max-height: 96px; display: inline-flex;}
+.img_box img{width: 146px; height: 96px;}
+.price_box{font-size: 19px; font-weight: 700; text-align: center;}
+.total_box{padding: 8px;}
+.total_price{display: flex; justify-content: space-between;  font-size: 24px; font-weight: 700; color: #454545; margin-bottom: 5px;}
+.text_box{min-width: 350px; flex-direction: column;  display: inline-flex;}
+.course_tile{font-size: 16px; color: #454545; margin-left: 8px; cursor: pointer;}
+.price_buttons{display: flex; flex-direction: column;}
+.buttons{display: flex; flex-direction: column;}
+.buttons div{font-size: 12px; padding: 3px 8px; border: 1px solid #dbdbdb; margin-top: 4px;}
+.user_name_box, .user_tel_box, .user_email_box, .privacy_policy_box{display: flex; flex-direction: column; margin-bottom: 12px;}
+.user_name_box div{display: inline-flex; flex-grow: 1;}
+.user_tel_box div{display: inline-flex; flex-grow: 1;}
+.user_email_box div{display: inline-flex; flex-grow: 1;}
+.name_menu, .tel_menu, .email_menu{font-size: 14px; color: #454545; align-self: flex-start;}
+.user_name, .user_tel , .user_email{width: 100%; height: 36px; border: 1px solid #dbdbdb; outline: none; padding-left: 8px; background-color: #f6f6f6; border-radius: 3px;}
+.pp_text{font-size: 10px; text-align: left;}
+.hidden_text{color: #FB6351; font-size: 10px;}
+.privacy_policy{margin: 0; padding: 0;}
+.privacy_policy_box div{display: inline-flex; align-items: center;}
+.charge_box{width: 100%; padding: 12px 0; text-align: center; background-color: #1dc078; color: white; font-size: 24px; cursor: pointer;}
+.course_price{font-size: 20px;}
+.total_price *{font-size: 24px;}
+.wishlist_box, .deleteCourse{cursor: pointer; text-align: center; border-radius: 2px;}
+.deleteCourse:hover, .wishlist_box:hover{border: 1px solid #363636;}
+
+
+.empty_cart{height: 512px; text-align: center; display: flex; justify-content: center; align-items: center;}
+.empty_cart_button_area{display: flex; justify-content: center;}
+.empty_cart_icon{margin-bottom: 24px;}
+.empty_cart_icon * {font-size: 128px; color: #e0e0e0;}
+.empty_cart_title{margin-bottom: 16px; font-size: 18px;}
+.empty_cart_button_template{border-radius: 4px; color: white; padding: 8px 14px; margin: 0 4px; cursor: pointer;}
+.show_courseList{background-color: #1dc078;}
+.show_my_wishList{background-color: #3298dc;}

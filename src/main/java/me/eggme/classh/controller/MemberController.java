@@ -96,5 +96,4 @@ public class MemberController {
         memberService.createInstructor(member, additionalMemberData);
         return "redirect:/";
     }
-
 }

@@ -12,6 +12,8 @@ import me.eggme.classh.service.MemberService;
 import me.eggme.classh.utils.CourseValidation;
 import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -387,11 +391,65 @@ public class CourseController {
         return "success";
     }
 
+    /***
+     * 메인페이지에서 사용자가 강의를 검색함
+     * @param value
+     * @return
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/search")
     @ResponseBody
     public String searchCourse(@RequestParam(value = "search_value") String value) throws JsonProcessingException {
         List<CourseDTO> list = courseService.getCourseList(value);
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(list);
+    }
+
+    /***
+     * 사용자가 강의를 장바구니에 넣음
+     * @param member 사용자
+     * @param id 강의 pk
+     * @return
+     */
+    @PostMapping(value = "/add/cart")
+    @PreAuthorize("isAuthenticated()")
+    public String addCart(@AuthenticationPrincipal Member member,
+                          @RequestParam(value = "course_id") Long id){
+        memberService.addCourseCart(member, id);
+        String url = courseService.findById(id);
+        return "redirect:/course/"+url;
+    }
+
+    /***
+     * ajax 요청, header에 있는 장바구니에 마우스 hover시 유저의 장바구니 목록을 조회
+     * @param member 유저
+     * @return 장바구니에 담긴 강의들
+     * @throws JsonProcessingException
+     */
+    @PostMapping(value = "/select/cart")
+    @PreAuthorize("isAuthenticated()")
+    @ResponseBody
+    public String selectCart(@AuthenticationPrincipal Member member) throws JsonProcessingException {
+        Set<Course> courses = memberService.selectCart(member);
+        ObjectMapper mapper = new ObjectMapper();
+        if(courses != null){
+            Set<CourseMappingDTO> dtoSet = courses.stream().map(c-> c.mapping()).collect(Collectors.toSet());
+
+            return mapper.writeValueAsString(dtoSet);
+        }
+        HashMap map = new HashMap();
+        map.put("result", "error");
+        return mapper.writeValueAsString(map);
+    }
+
+    @GetMapping(value = "/carts")
+    @PreAuthorize("isAuthenticated()")
+    public String carts(@AuthenticationPrincipal Member member, Model model){
+        Set<Course> courses = memberService.selectCart(member);
+        if(courses != null){
+            Set<CourseMappingDTO> dtoSet = courses.stream().map(c-> c.mapping()).collect(Collectors.toSet());
+            model.addAttribute("list", dtoSet);
+        }
+        return "inst/courseCart";
     }
 }

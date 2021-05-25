@@ -506,14 +506,72 @@
     <div class="box_wrap">
         <div class="course_box">
             <div class="course_box_warp">
-                <div class="course_price">
-                </div>
-                <div class="course_status">
-                    학습중
-                </div>
-                <div class="learning_box">
-                    이어 학습하기
-                </div>
+                <form action="/course/add/cart" method="post" class="course_cart_form">
+                    <input type="hidden" name="course_id" value="${course.id}">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <sec:authorize access="isAuthenticated()">
+                        <sec:authentication var="userobject" property="principal"></sec:authentication>
+                        <c:choose>
+                            <c:when test="${course.isCourseRegistration(userobject)}">
+                                <%-- 로그인이 된 상태에서 해당 유저가 해당 강의에 수강신청이 된 상태 --%>
+                                <div class="course_price"></div>
+                                <div class="course_status">학습중</div>
+                                <div class="learning_box">이어 학습하기</div>
+                            </c:when>
+                            <c:when test="${userobject.isPutInTheCart(course.id)}">
+                                <%-- 로그인이 된 상태에서 해당 유저가 해당 강의에 수강신청이 안돼있고 장바구니에 담긴 상태 --%>
+                                <c:choose>
+                                    <c:when test="${course.price eq 0}">
+                                        <div class="course_price">무료</div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="course_price">
+                                            <script>
+                                                CostSeparatorKR('${course.price}', '.course_price');
+                                            </script>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+                                <div class="course_status"></div>
+                                <div class="learning_box_purchase" data-status="authentication">결제하기</div>
+                            </c:when>
+                            <c:otherwise>
+                                <%-- 로그인은 됐는데 해당 유저가 해당 강의에 수강신청이 안된 상태 --%>
+                                <c:choose>
+                                    <c:when test="${course.price eq 0}">
+                                        <div class="course_price">무료</div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="course_price">
+                                            <script>
+                                                CostSeparatorKR('${course.price}', '.course_price');
+                                            </script>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+                                <div class="course_status"></div>
+                                <div class="learning_box" data-status="authentication">수강신청</div>
+                            </c:otherwise>
+                        </c:choose>
+                    </sec:authorize>
+                    <sec:authorize access="isAnonymous()">
+                        <%-- 비로그인 시 익명 사용자 접근 시 --%>
+                        <c:choose>
+                            <c:when test="${course.price eq 0}">
+                                <div class="course_price">무료</div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="course_price">
+                                    <script>
+                                        CostSeparatorKR('${course.price}', '.course_price');
+                                    </script>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                        <div class="course_status"></div>
+                        <div class="learning_box" data-status="anonymous">수강신청</div>
+                    </sec:authorize>
+                </form>
                 <div class="mini_box">
                     <div class="add_box mini_box_content"><i class="far fa-plus-square line_height"></i> 내 목록 추가</div>
                     <div class="share mini_box_content"><i class="fas fa-share-alt line_height"></i> 공유하기</div>

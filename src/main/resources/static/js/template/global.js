@@ -50,6 +50,14 @@ function CostSeparator(cost, obj){
     $(obj).html(Number(cost).toLocaleString());
 }
 
+function CostSeparatorKR(cost, obj){
+    $(obj).html(Number(cost).toLocaleString()+"원");
+}
+
+function CostSeparatorKRValue(cost){
+    return Number(cost).toLocaleString();
+}
+
 function timeFormatKor(second, obj) {
     var hours = Math.floor(second / 3600);
     var minutes = Math.floor((second - (hours * 3600)) / 60);

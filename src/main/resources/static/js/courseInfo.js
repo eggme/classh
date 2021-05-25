@@ -121,31 +121,13 @@ $(function () {
        location.href="/userCart.do";
     });
     $(document).on('click', '.learning_box', function () {
-        var data_added = $('.course_id').attr('data-add');
-        var data_state = $('.course_id').attr('data-state');
-        let isRegistered = $('.course_id').attr('data-registered');
-        console.log("data_state - > " +data_state + " : ["+data_added+"]");
-        console.log("data_added - > " + data_added);
-        if(isRegistered =='true'){
-            location.href="/learningRoom.do?course_id="+$('.course_id').val();
-            return;
-        }
-        if(data_added != 0 && data_state != null){
-            if(data_added){
-                console.log("course_cart_form - > " + data_added);
-                location.href = "/userCart.do";
-                return;
-            }
-        }
-        if(data_added == 0 && data_state != undefined && data_state != 'null'){
-            applyCourse();
-            console.log("course_cart_form - > " + data_added);
-            $('.course_cart_form').css('display', 'block');
-            return;
-        }
-        alert("로그인이 필요한 서비스입니다.");
-
+        $('.course_cart_form').submit();
     });
+
+    $(document).on('click', ".learning_box_purchase", function(){
+        location.href="/course/carts";
+    });
+
     $('.cart_cancle').click(function () {
         $('.course_cart_form').css('display', 'none');
     });
