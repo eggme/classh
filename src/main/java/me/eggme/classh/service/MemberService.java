@@ -111,17 +111,25 @@ public class MemberService {
         Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("해당 유저를 찾을 수 없습니다"));
         Course savedCourse = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
+        Cart cart = null;
         if(savedMember.getCart() == null) { // 기존 장바구니 객체가 없을 때
-            Cart cart = new Cart();
-            Cart savedCart = cartRepository.save(cart);
-            savedCart.setMember(savedMember);
-            savedCart.addCourse(savedCourse);
-            savedMember.setCart(savedCart);
+            Cart tempCart = new Cart();
+            cart = cartRepository.save(tempCart);
+            cart.setMember(savedMember);
+            cart.addCourse(savedCourse);
+            savedMember.setCart(cart);
         }else{
-            Cart savedCart = cartRepository.findById(savedMember.getCart().getId()).orElse(null);
-            if(savedCart != null){
-                savedCart.addCourse(savedCourse);
+            cart = cartRepository.findById(savedMember.getCart().getId()).orElse(null);
+            if(cart != null){
+                cart.addCourse(savedCourse);
             }
+        }
+        if( cart != null){
+            Authentication beforeAuthentication = SecurityContextHolder.getContext().getAuthentication();
+            Member authenticationObject = ((Member)beforeAuthentication.getPrincipal());
+            authenticationObject.setCart(cart);
+            Authentication afterAuthentication = new UsernamePasswordAuthenticationToken(authenticationObject, null, beforeAuthentication.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(afterAuthentication);
         }
     }
 

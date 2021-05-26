@@ -2,9 +2,12 @@ package me.eggme.classh.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.MemberDTO;
+import me.eggme.classh.domain.entity.Course;
 import me.eggme.classh.domain.entity.Member;
+import me.eggme.classh.domain.entity.SignUpCourse;
 import me.eggme.classh.service.MemberBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,9 +24,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.security.Principal;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/member")
+@PreAuthorize("isAuthenticated()")
 @Slf4j
 public class MemberBoardController {
 
@@ -44,6 +49,15 @@ public class MemberBoardController {
         MemberDTO memberDTO = loadMember.of();
         model.addAttribute("member", memberDTO);
         return "board/profile";
+    }
+
+    @GetMapping(value = "/list")
+    public String getMyCourseList(@AuthenticationPrincipal Member member, Model model){
+        Set<Course> courseSet = memberBoardService.getCourseSet(member);
+
+        model.addAttribute("list", courseSet);
+
+        return "board/courseList";
     }
 
     @PostMapping(value = "/modify/password")

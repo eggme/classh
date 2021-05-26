@@ -35,4 +35,10 @@ public class Cart extends BaseTimeEntity implements Serializable {
     public void addCourse(Course course){
         this.courses.add(course);
     }
+
+    public void deleteCart(){
+        this.getMember().setCart(null);
+        this.setMember(null);
+        this.setCourses(null);
+    }
 }

@@ -11,10 +11,10 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <link rel="stylesheet" href="/css/views/instructor/courseCart.css">
+<script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js" type="text/javascript"></script>
 <script src="/js/views/instructor/courseCart.js"></script>
 
 <div class="main_warp">
-    <input type="hidden" class="total_title">
     <div class="main_container">
         <div class="cart_menu_title">
             <span class="fix_title">수강 바구니</span>
@@ -37,12 +37,30 @@
         <div class="row">
             <c:choose>
                 <c:when test="${!(list eq null)}">
+                    <c:choose>
+                        <c:when test="${fn:length(list) eq 1}">
+                            <c:forEach var="course" items="${list}" varStatus="courseStatus">
+                                <input type="hidden" clas="total_title" value='${course.name}'/>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="length" value="${fn:length(list)}"/>
+                            <c:set var="courseName" value="a" />
+                            <c:forEach var="course" items="${list}" varStatus="index">
+                                <c:if test="${index.first}">
+                                    <c:set var="courseName" value="${course.name}" />
+                                </c:if>
+                            </c:forEach>
+
+                            <input type="hidden" class="total_title" value='${courseName} ${"외"} ${(length-1)} ${"건"}'/>
+                        </c:otherwise>
+                    </c:choose>
                     <c:set var="total_price" value="0" />
                     <div class="col-md-8">
                         <div class="flex_wrap_course">
                             <c:forEach var="course" items="${list}" varStatus="course_status">
                                 <c:set var="total_price" value="${total_price + course.price}"/>
-                                <div class="course_box">
+                                <div class="course_box" data-value="${course.id}">
                                     <div class="flex_wrap">
                                         <div class="img_box">
                                             <img src="${course.courseImg}">
@@ -55,9 +73,9 @@
                                     </div>
                                     <div class="price_buttons">
                                         <div class="price_box">
-                                            &#x20a9; <span class="course_price"></span>
+                                            &#x20a9; <span class="course_price course_${course.id}"></span>
                                             <script>
-                                                CostSeparatorKR('${course.price}', '.course_price')
+                                                CostSeparatorKR('${course.price}', '.course_${course.id}')
                                             </script>
                                         </div>
                                         <div class="buttons">

@@ -1,7 +1,11 @@
 package me.eggme.classh.service;
 
+import me.eggme.classh.domain.entity.Course;
 import me.eggme.classh.domain.entity.Member;
+import me.eggme.classh.domain.entity.SignUpCourse;
 import me.eggme.classh.exception.EmailExistedException;
+import me.eggme.classh.exception.NoSearchCourseException;
+import me.eggme.classh.repository.CourseRepository;
 import me.eggme.classh.repository.MemberRepository;
 import me.eggme.classh.utils.FileUploadFactory;
 import me.eggme.classh.utils.FileUploader;
@@ -10,12 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.File;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberBoardService {
@@ -23,6 +30,8 @@ public class MemberBoardService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private CourseRepository courseRepository;
     @Autowired
     private MemberRepository memberRepository;
 
@@ -90,5 +99,18 @@ public class MemberBoardService {
     public void changeSelfIntroduce(String self, String username) {
         Member member = memberRepository.findByUsername(username).orElseThrow(() -> new EmailExistedException(username));
         member.setSelfIntroduce(self);
+    }
+
+    @Transactional
+    public Set<Course> getCourseSet(Member member) {
+        Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
+                new UsernameNotFoundException("해당되는 유저를 찾을 수 없습니다"));
+
+        Set<SignUpCourse> signUpCourses = savedMember.getSignUpCourses();
+        Set<Course> courseSet = signUpCourses.stream().map(suc -> {
+            return courseRepository.findById(suc.getCourse().getId()).orElseThrow(() ->
+                    new NoSearchCourseException());
+        }).collect(Collectors.toSet());
+        return courseSet;
     }
 }

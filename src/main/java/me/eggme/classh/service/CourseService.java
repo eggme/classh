@@ -12,9 +12,8 @@ import me.eggme.classh.utils.FileUploadFactory;
 import me.eggme.classh.utils.FileUploader;
 import me.eggme.classh.utils.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -33,6 +32,8 @@ public class CourseService {
     @Autowired private SignUpCourseRepository signUpCourseRepository;
     @Autowired private RecommendationRepository recommendationRepository;
     @Autowired private SkillTagRepository skillTagRepository;
+    @Autowired private PaymentRepository paymentRepository;
+    @Autowired private CartRepository cartRepository;
 
     private FileUploader fileUploader;
 
@@ -436,5 +437,57 @@ public class CourseService {
     public String findById(Long id){
         Course savedCourse = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
         return savedCourse.getUrl();
+    }
+
+    /***
+     * 사용자가 장바구니에 담은 강의들을 구매했음
+     * @param member 사용자
+     * @param oldPayment 구매정보
+     * @param list 구매한 강의 pk List
+     */
+    @Transactional
+    public void purchaseCourse(Member member, Payment oldPayment, List<Long> list) {
+        Payment payment = new Payment();
+        Payment savedPayment = paymentRepository.save(payment);
+
+        savedPayment.setMethod(oldPayment.getMethod());
+        savedPayment.setCardName(oldPayment.getCardName());
+        savedPayment.setImp_uid(oldPayment.getImp_uid());
+        savedPayment.setMerchantId(oldPayment.getMerchantId());
+        savedPayment.setCardNumber(oldPayment.getCardNumber());
+        savedPayment.setCourseName(oldPayment.getCourseName());
+        savedPayment.setCoursePrice(oldPayment.getCoursePrice());
+        savedPayment.setPurchaseStatus(oldPayment.getPurchaseStatus());
+        savedPayment.setPurchaseResult(oldPayment.isPurchaseResult());
+
+        Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
+                new UsernameNotFoundException("해당하는 유저가 존재하지 않습니다."));
+        savedMember.addPayment(savedPayment);
+        savedPayment.setMember(savedMember);
+
+        for(int i=0;i<list.size();i++){
+            Course savedCourse = courseRepository.findById(list.get(i)).orElseThrow(() ->
+                    new NoSearchCourseException());
+
+            savedCourse.addPayment(savedPayment);
+            savedPayment.setCourse(savedCourse);
+
+            /* 수강신청 */
+            SignUpCourse signUpCourse = new SignUpCourse();
+            SignUpCourse savedSignUpCourse = signUpCourseRepository.save(signUpCourse);
+
+            savedSignUpCourse.setMember(savedMember);
+            savedSignUpCourse.setCourse(savedCourse);
+        }
+
+        Long cart_id = savedMember.getCart().getId();
+
+        /* 장바구니 초기화 */
+        Cart savedCart = cartRepository.findById(cart_id).orElseThrow(() ->
+                new RuntimeException());
+
+
+        savedCart.deleteCart();
+        cartRepository.deleteById(savedCart.getId());
     }
 }

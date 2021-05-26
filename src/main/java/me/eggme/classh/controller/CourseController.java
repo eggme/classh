@@ -1,6 +1,7 @@
 package me.eggme.classh.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.lang.reflect.Type;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -442,6 +441,12 @@ public class CourseController {
         return mapper.writeValueAsString(map);
     }
 
+    /***
+     * 장바구니 페이지 요청, 사용자의 장바구니를 조회
+     * @param member 사용자
+     * @param model
+     * @return
+     */
     @GetMapping(value = "/carts")
     @PreAuthorize("isAuthenticated()")
     public String carts(@AuthenticationPrincipal Member member, Model model){
@@ -451,5 +456,24 @@ public class CourseController {
             model.addAttribute("list", dtoSet);
         }
         return "inst/courseCart";
+    }
+
+    @PostMapping(value = "/payment")
+    @PreAuthorize("isAuthenticated()")
+    public String payments(@AuthenticationPrincipal Member member,
+                           @ModelAttribute Payment payment,
+                           @RequestParam(value = "course_list") String course_ids) throws JsonProcessingException {
+        log.info(member.toString());
+        log.info(payment.toString());
+        log.info(course_ids);
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Long>[] courseMap = mapper.readValue(course_ids, new TypeReference<Map<String, Long>[]>() {});
+        List<Long> courseIdList = Arrays.stream(courseMap).map(cm -> cm.get("course_id")).collect(Collectors.toList());
+
+        String result = courseIdList.stream().map(String::valueOf).collect(Collectors.joining(", "));
+        log.info(result);
+        courseService.purchaseCourse(member, payment, courseIdList);
+
+        return "redirect:/member/list";
     }
 }

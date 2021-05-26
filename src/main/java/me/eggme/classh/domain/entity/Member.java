@@ -9,10 +9,7 @@ import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -85,10 +82,16 @@ public class Member extends BaseTimeEntity implements Serializable {
     private Set<CourseQuestion> courseQuestions = new HashSet<>();
 
     @JsonBackReference
-    @OneToOne(mappedBy = "member", orphanRemoval = true)
+    @OneToOne(mappedBy = "member", orphanRemoval = true, cascade = CascadeType.ALL)
     @OrderBy("create_at asc")
     @BatchSize(size = 10)
     private Cart cart;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OrderBy("create_at asc")
+    @BatchSize(size = 10)
+    private Set<Payment> payments = new LinkedHashSet<>();
 
     @Builder
     public Member(String username, String password, String nickName){
@@ -99,6 +102,10 @@ public class Member extends BaseTimeEntity implements Serializable {
 
     public MemberDTO of(){
         return ModelMapperUtils.getModelMapper().map(this, MemberDTO.class);
+    }
+
+    public void addPayment(Payment payment){
+        this.getPayments().add(payment);
     }
 
     public boolean isPutInTheCart(Long course_id){
