@@ -24,7 +24,7 @@
         <div class="study_management tag">
             <div class="ul_title">학습 관리</div>
             <ul class="tag_ul">
-                <li>내 강의</li>
+                <li data-url="/member/list" data-menu="courseList">내 강의</li>
                 <li>학습 노트</li>
                 <li>내 강의 목록</li>
                 <li>내 질문</li>

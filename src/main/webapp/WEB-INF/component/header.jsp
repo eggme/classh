@@ -29,13 +29,17 @@
                     <a class="navbar-link class" href="/search.do?s=">강의들&nbsp;<i class="fas fa-angle-down"
                                                                                   style="color:#1dc078;"></i></a>
                     <div class="dropdown-content">
-                        <a href="/search.do?category=Java">Java</a>
-                        <a href="/search.do?category=Spring">Spring</a>
-                        <a href="/search.do?category=SpringBoot">SpringBoot</a>
-                        <a href="/search.do?category=Hibernate">Hibernate</a>
-                        <a href="/search.do?category=Spring JPA">Spring JPA</a>
-                        <a href="/search.do?category=Spring Security">Spring Security</a>
-                        <a href="/search.do?category=Bootstrap">Bootstrap</a>
+                        <c:if test="${!(categories eq null)}">
+                            <c:forEach var="category" items="${categories}" varStatus="index">
+                                <a href="/course/search/s="+${category}>${category.value}</a>
+                            </c:forEach>
+                        </c:if>
+<%--                        <a href="/search.do?category=Spring">Spring</a>--%>
+<%--                        <a href="/search.do?category=SpringBoot">SpringBoot</a>--%>
+<%--                        <a href="/search.do?category=Hibernate">Hibernate</a>--%>
+<%--                        <a href="/search.do?category=Spring JPA">Spring JPA</a>--%>
+<%--                        <a href="/search.do?category=Spring Security">Spring Security</a>--%>
+<%--                        <a href="/search.do?category=Bootstrap">Bootstrap</a>--%>
                     </div>
                 </li>
                 <li><a class="navbar-item">로드맵</a></li>

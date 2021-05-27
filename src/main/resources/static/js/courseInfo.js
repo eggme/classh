@@ -117,9 +117,7 @@ $(function () {
             class_box.style.maxHeight = class_box.scrollHeight + "px";
         }
     });
-    $('.cart_submit').click(function(){
-       location.href="/userCart.do";
-    });
+
     $(document).on('click', '.learning_box', function () {
         $('.course_cart_form').submit();
     });
@@ -149,6 +147,14 @@ $(function () {
 
     $('.review_submit').click(function(){
         $('.review_real_form').submit();
+    });
+
+    $('.add_cart_cancel').click(function(){
+        $('.add_cart_form_wrap').css('display', "none");
+    });
+
+    $('.add_cart_submit').click(function(){
+        location.href="/course/carts";
     });
 });
 
@@ -374,4 +380,8 @@ function setRatePercent(data){
     $('.rate_3').find('.rate_value').css('width', result.rateThree+"%");
     $('.rate_2').find('.rate_value').css('width', result.rateTwo+"%");
     $('.rate_1').find('.rate_value').css('width', result.rateOne+"%");
+}
+
+function openModal(obj){
+    $(obj).css("display", "block");
 }

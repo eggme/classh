@@ -13,6 +13,9 @@ import me.eggme.classh.utils.FileUploader;
 import me.eggme.classh.utils.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -117,7 +120,7 @@ public class CourseService {
      * @param course - 섹션과 강의가 만들어질 강의
      */
     @Transactional
-    protected void createDefaultSessionAndClass(Course course){
+    public void createDefaultSessionAndClass(Course course){
         CourseClass courseClass = new CourseClass();
         courseClass.setName("첫번째 수업을 만들어주세요");
         courseClass.setPreview(true);
@@ -469,8 +472,7 @@ public class CourseService {
             Course savedCourse = courseRepository.findById(list.get(i)).orElseThrow(() ->
                     new NoSearchCourseException());
 
-            savedCourse.addPayment(savedPayment);
-            savedPayment.setCourse(savedCourse);
+            savedPayment.addCourse(savedCourse);
 
             /* 수강신청 */
             SignUpCourse signUpCourse = new SignUpCourse();
@@ -478,6 +480,9 @@ public class CourseService {
 
             savedSignUpCourse.setMember(savedMember);
             savedSignUpCourse.setCourse(savedCourse);
+
+            savedMember.addSignUpCourse(savedSignUpCourse);
+            savedCourse.addSignUpCourse(savedSignUpCourse);
         }
 
         Long cart_id = savedMember.getCart().getId();
@@ -485,9 +490,17 @@ public class CourseService {
         /* 장바구니 초기화 */
         Cart savedCart = cartRepository.findById(cart_id).orElseThrow(() ->
                 new RuntimeException());
-
+        log.info(savedCart.getCourses().stream().map(c-> c.getName()).collect(Collectors.joining(", ")));
 
         savedCart.deleteCart();
         cartRepository.deleteById(savedCart.getId());
+
+        /* AuthenticationToken 수정 */
+
+        Authentication beforeAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        Member authenticationObject = ((Member)beforeAuthentication.getPrincipal());
+        authenticationObject.setCart(null);
+        Authentication afterAuthentication = new UsernamePasswordAuthenticationToken(authenticationObject, null, beforeAuthentication.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(afterAuthentication);
     }
 }

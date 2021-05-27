@@ -1,12 +1,12 @@
 package me.eggme.classh.config;
 
 import me.eggme.classh.converter.*;
+import me.eggme.classh.interceptor.CategoriesAndLevelInterceptor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestAttributeMethodArgumentResolver;
 
@@ -30,5 +30,10 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addConverter(new StringToCourseStatusConverter());
         registry.addFormatter(new RecommendationFormatter());
         registry.addFormatter(new SkillTagFormatter());
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new CategoriesAndLevelInterceptor()).excludePathPatterns("/css/**","/imgs/**", "/js/**", "/video/**");
     }
 }

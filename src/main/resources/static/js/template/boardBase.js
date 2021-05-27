@@ -5,7 +5,7 @@ function selectMenu(data){
 var map = {};
 map['dashboard'] = "학습 대시보드";
 map[''] = "알림";
-map['myLecture'] = "내 강의";
+map['courseList'] = "내 강의";
 map[''] = "학습노트";
 map[''] = "내 강의목록";
 map[''] = "내 질문";

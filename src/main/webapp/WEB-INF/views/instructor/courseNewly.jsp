@@ -19,11 +19,16 @@
 <script src="/js/courseNewly.js"></script>
 <div class="main_section">
     <div class="real_course_content">
-        <div class="search_wrap">
-            <div class="button_area">
-                <div class="title">새소식 작성하기</div>
-            </div>
-        </div>
+        <sec:authorize access="isAuthenticated()">
+            <sec:authentication var="userobject" property="principal"></sec:authentication>
+                <c:if test="${course.isCourseRegistration(userobject)}">
+                    <div class="search_wrap">
+                        <div class="button_area">
+                            <div class="title">새소식 작성하기</div>
+                        </div>
+                    </div>
+                </c:if>
+        </sec:authorize>
         <div class="news_wrap">
             <c:choose>
                 <c:when test="${fn:length(list) > 0}">

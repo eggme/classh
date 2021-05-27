@@ -29,10 +29,8 @@ body, body *{font-family: "Noto Sans KR";}
 .mini_box{display: flex; justify-content: center;}
 .mini_box_content{padding: 10px 18px; font-size: 14px; color: #495057; font-weight: 500; cursor: pointer;}
 .add_box{border-right : 1px solid #f1f3f5; }
-.learning_box {background-color: #00C471; font-size: 16px; font-weight: bold; color : white; text-align: center; border-radius: 1px; width: 270px;height: 48px; line-height: 48px; margin-bottom: 10px; cursor: pointer; border-radius: 5px;}
-.learning_box:hover{background-color: #00a65f;}
-.learning_box_purchase {background-color: #00C471; font-size: 16px; font-weight: bold; color : white; text-align: center; border-radius: 1px; width: 270px;height: 48px; line-height: 48px; margin-bottom: 10px; cursor: pointer; border-radius: 5px;}
-.learning_box_purchase:hover{background-color: #00a65f;}
+.learning_box_template{background-color: #00C471; font-size: 16px; font-weight: bold; color : white; text-align: center; border-radius: 1px; width: 270px;height: 48px; line-height: 48px; margin-bottom: 10px; cursor: pointer; border-radius: 5px;}
+.learning_box_template:hover{background-color: #00a65f;}
 .course_subtext{width: 100%; height: 100%; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; color: #868e96; font-size: 12px; text-align: left; padding: 16px 24px; background-color: #f8f9fa;}
 .course_subtext div, .course_subtext div *{font-size: 12px;}
 .course_box{display: flex; flex-direction: column; height: 360px; z-index: 10; background-color: white; border: #E9ECEF 1px solid; border-radius: 20px;  width: 320px;}
@@ -158,10 +156,11 @@ body, body *{font-family: "Noto Sans KR";}
 .rate_value{width: 20%; height: 100%; background-color: #ffc807; border-radius: 4px; position: absolute; overflow: hidden;}
 
 
-.edit_review_form_wrap{ z-index: 99; display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4);  padding-top: 250px;}
-.edit_review_content{display: flex; width: 520px; height: 440px; background-color: #fefefe;margin: 5px auto; border: 1px solid #888; border-radius: 5px;}
-.edit_review_container{width: 100%; margin : 0 auto; display: flex; flex-direction: column; }
-.add_class_description_buttons{display: flex; justify-content: center;  padding: 18px 24px;}
+.modal_form_wrap{ z-index: 99; display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4);  padding-top: 250px;}
+.modal_content{display: flex; width: 520px; height: 440px; background-color: #fefefe;margin: 5px auto; border: 1px solid #888; border-radius: 5px;}
+.add_cart_content{width: 400px !important; height: 320px !important;}
+.modal_container{width: 100%; margin : 0 auto; display: flex; flex-direction: column; }
+.modal_buttons_flex_template{display: flex; justify-content: center;  padding: 18px 24px;}
 .edit_review_submit{margin-right: 12px;}
 .edit_review_exit{display: flex; justify-content: flex-end; margin-right: 24px; margin-top: 24px; }
 .exit{cursor: pointer; font-size: 18px;}
@@ -169,8 +168,12 @@ body, body *{font-family: "Noto Sans KR";}
 .sizeUp li{font-size: 40px !important;}
 .edit_review_reviewContent{padding: 12px 36px;}
 .reviewContent{padding: 12px; font-size: 16px; width: 100%; height: 128px; background-color: #f8f9fa; outline: none; border: 1px solid #dee2e6; border-radius: 4px; resize: none;}
-.edit_review_cancel{padding: 12px 24px; font-size: 16px; color: #343A40; cursor: pointer; background-color: #f1f3f5; margin-right: 4px; border-radius: 4px;}
-.edit_review_submit{padding: 12px 24px; font-size: 16px; color: white; cursor: pointer; background-color: #1dc078; margin-left: 4px; border-radius: 4px;}
+.modal_cancel_button_template{padding: 12px 24px; font-size: 16px; color: #343A40; cursor: pointer; background-color: #f1f3f5; margin-right: 4px; border-radius: 4px;}
+.modal_submit_button_template{padding: 12px 24px; font-size: 16px; color: white; cursor: pointer; background-color: #1dc078; margin-left: 4px; border-radius: 4px;}
+.add_cart_exit{padding-bottom: 20px; display: flex; justify-content: center; align-items: center; margin-top: 48px;}
+.add_cart_exit *{font-size: 48px; color: #1dc078;}
+.add_cart_title{display: flex; justify-content: center; text-align: center; font-size: 22px; font-weight: 500; padding-bottom: 6px;}
+.add_cart_desc{display: flex; justify-content: center; text-align: center; margin-bottom: 24px;}
 
 .animate{-webkit-animation: animatezoom 0.6s; animation: animatezoom 0.6s;}
 @-webkit-keyframes animatezoom { from {-webkit-transform: scale(0)} to {-webkit-transform: scale(1)} }

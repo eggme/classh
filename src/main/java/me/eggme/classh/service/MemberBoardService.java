@@ -1,5 +1,6 @@
 package me.eggme.classh.service;
 
+import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.entity.Course;
 import me.eggme.classh.domain.entity.Member;
 import me.eggme.classh.domain.entity.SignUpCourse;
@@ -25,6 +26,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class MemberBoardService {
 
     @Autowired
@@ -105,12 +107,13 @@ public class MemberBoardService {
     public Set<Course> getCourseSet(Member member) {
         Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("해당되는 유저를 찾을 수 없습니다"));
-
+        log.info("MemberBoardService");
         Set<SignUpCourse> signUpCourses = savedMember.getSignUpCourses();
-        Set<Course> courseSet = signUpCourses.stream().map(suc -> {
-            return courseRepository.findById(suc.getCourse().getId()).orElseThrow(() ->
-                    new NoSearchCourseException());
-        }).collect(Collectors.toSet());
+        Set<Course> courseSet = signUpCourses.stream().map(suc ->
+             courseRepository.findById(suc.getCourse().getId()).orElseThrow(() ->
+                    new NoSearchCourseException())
+        ).collect(Collectors.toSet());
+        log.info(courseSet.stream().map(c-> c.getName()).collect(Collectors.joining(", ")));
         return courseSet;
     }
 }

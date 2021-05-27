@@ -52,7 +52,6 @@ $(function () {
             if (!$(e.target).hasClass('search_input')) {
                 if (!$(e.target).hasClass('search_area')) {
                     if (!$(e.target).hasClass('course_search_wrap')) {
-                        console.log("범위 벗어남");
                         $('.search_area').hide();
                         $('.search_result').hide();
                         $('.search_iuput_border').removeClass('search_input_radius');

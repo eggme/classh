@@ -82,13 +82,13 @@ public class Member extends BaseTimeEntity implements Serializable {
     private Set<CourseQuestion> courseQuestions = new HashSet<>();
 
     @JsonBackReference
-    @OneToOne(mappedBy = "member", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "member")
     @OrderBy("create_at asc")
     @BatchSize(size = 10)
     private Cart cart;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     @OrderBy("create_at asc")
     @BatchSize(size = 10)
     private Set<Payment> payments = new LinkedHashSet<>();
@@ -120,16 +120,22 @@ public class Member extends BaseTimeEntity implements Serializable {
 
     // 연관관계 편의 메소드 - 수강 신청
     public void connectCourse(Course course, SignUpCourse signUpCourse){
-        this.signUpCourses.add(signUpCourse);
         signUpCourse.setMember(this);
-        course.getSignUpCourses().add(signUpCourse);
         signUpCourse.setCourse(course);
+        this.signUpCourses.add(signUpCourse);
+        course.getSignUpCourses().add(signUpCourse);
+
     }
 
     // 편의 메서드 해당 강의에 수강평을 등록했는지 여부
     public boolean isRegisteredReview(Course course){
         boolean isRegistered = courseReviews.stream().anyMatch(c -> c.getCourse().getId() == course.getId());
         return isRegistered;
+    }
+
+    public void addSignUpCourse(SignUpCourse signUpCourse){
+        this.getSignUpCourses().add(signUpCourse);
+        signUpCourse.setMember(this);
     }
 
     public void addCourseReview(CourseReview courseReview){

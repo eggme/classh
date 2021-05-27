@@ -1,0 +1,13 @@
+.menu{list-style: none; padding: 0; margin: 0; border: 1px solid #e4e4e4; min-width: 200px;}
+.menu li{padding: 12px 20px; background-color: #fafafa; color: #595959; font-weight: 500; font-size: 16px; border-bottom: 1px solid #e4e4e4;}
+.menu_div{display: flex; justify-content: space-between; align-items: center; cursor: pointer;}
+.menu_bottom{min-width: 200px; padding: 0px 20px;}
+.border_template{border-top: 1px solid #e4e4e4; border-bottom: 1px solid #e4e4e4; padding: 12px 10px; margin-bottom: 10px; min-width: 160px; margin-top: 20px;}
+.text_template{font-size: 16px; color: #595959; font-weight: 600; }
+.ul_template{list-style: none; padding: 0; margin: 0;}
+.box_template{display: flex; align-items: center; padding: 5px 12px;}
+.value_template{margin-left: 10px; font-size: 16px; color: #787878;}
+.cb_template{display: none;}
+.cb_template + label{display: inline-block; margin: 0; width: 16px; height: 16px; border: 1px solid #D2D2D2; cursor: pointer;}
+.cb_template:checked + label {background-color: #595959;}
+.aside_menu{display: flex; flex-direction: column;}

@@ -40,7 +40,7 @@
                     <c:choose>
                         <c:when test="${fn:length(list) eq 1}">
                             <c:forEach var="course" items="${list}" varStatus="courseStatus">
-                                <input type="hidden" clas="total_title" value='${course.name}'/>
+                                <input type="hidden" class="total_title" value='${course.name}'/>
                             </c:forEach>
                         </c:when>
                         <c:otherwise>

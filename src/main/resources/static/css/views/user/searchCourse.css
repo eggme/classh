@@ -1,0 +1,23 @@
+.main_wrap{width: 100%; margin: 0 auto;}
+.flex_container{display: flex; flex-direction: column; width: 100%;}
+/*  course_item  */
+.course_item_wrap{display: flex; flex-direction: column; cursor: pointer;}
+.course_img_box{width: 100%; height: 100%;}
+.course_img_value{width: 100%; height: auto;}
+.course_content_wrap{display: flex; flex-direction: column;padding: 8px 0;}
+.course_title{min-height: 48px; font-size: 16px; font-weight: 700; color: #454545;}
+.instructor_name{font-size: 14px; color: #7d7d7d;}
+.course_price{font-size: 16px; color: #175cbe; font-weight: 700;}
+.header_input{min-width: 300px; height: 36px;}
+.header_menu{display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid #e4e4e4; margin-bottom: 12px;}
+.header_input_wrap{display: flex; justify-content: flex-end;}
+.header_text{font-size: 18px; color: #454545; font-weight: 700;}
+.search_btn{height: 36px; background-color: #1dc078; color: white; font-size: 16px; font-weight: 800; padding: 6px 12px; outline: none; border: none;}
+.header_input{outline: none; border: 1px solid #dedede;}
+
+/* new */
+.no_search_data{height: 350px; display: flex; justify-content: center; flex-direction: column; align-items: center;}
+.no_search_title{ font-size: 48px; color: #787878; font-weight: 700;}
+.no_search_desc{font-size: 24px; font-weight: 400; color: #5f5f5f;}
+.c_tag{display: flex;}
+.c_tag_value{display: flex;  font-size: 12px; background-color: #ff7867; border-radius: 4px; padding: 4px 8px; color: white;}

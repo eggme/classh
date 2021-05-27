@@ -10,10 +10,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
+<link rel="stylesheet" href="/css/views/user/courseList.css" />
+<script src="/js/views/user/courseList.js"></script>
+
 <div class="main_wrap">
-    <div class="head">
-        <div class="head_wrap">내 강의</div>
-    </div>
     <div class="container_wrap">
         <div class="content_wrap">
             <div class="flex_content_wrap">
@@ -23,7 +23,7 @@
                 </div>
                 <div class="row">
                     <c:choose>
-                        <c:when test="${list gt 0}">
+                        <c:when test="${fn:length(list) gt 0}">
                             <c:forEach var="course" items="${list}" varStatus="index">
                                 <div class="col-md-4">
                                     <div class="course_wrap" data-id="${course.id}">
@@ -31,7 +31,7 @@
                                             <img class="my_course_img" src="${course.courseImg}"/>
                                         </div>
                                         <div class="course_title_wrap">
-                                            <span class="course_title">
+                                            <span class="course_title" data-url="${course.url}">
                                                 <c:out value="${course.name}"/>
                                             </span>
                                             <div class="course_play"><i class="far fa-play-circle"></i></div>

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.utils.CourseValidation;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
+@Slf4j
 public class CourseDTO implements Serializable {
     private Long id;
     private String name;
@@ -44,9 +46,13 @@ public class CourseDTO implements Serializable {
 
     // 수강신청 상태인지 체크
     public boolean isCourseRegistration(Member member){
+
         if(signUpCourses != null){
-            SignUpCourse findCourseRegistration = signUpCourses.stream().filter(suc ->
-                    suc.getMember().getId() == member.getId()).findFirst().orElse(null);
+            log.info(signUpCourses.stream().map(suc-> suc.getMember().getUsername()).collect(Collectors.joining(", ")));
+            SignUpCourse findCourseRegistration = signUpCourses.stream().filter(suc ->{
+                log.info(suc.getMember().getUsername());
+                return suc.getMember().getId() == member.getId();
+                    }).findFirst().orElse(null);
             if(findCourseRegistration != null) return true;
         }
         return false;

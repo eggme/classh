@@ -114,7 +114,7 @@
     <section class="search">
         <div class="search_content">
             <h3 class="search-text">배우고, 나누고, 성장하세요</h3>
-            <form method="get" action="/search.do">
+            <form method="get" action="/course/search">
                 <div class="focus_wrap">
                     <div class="search_iuput_border">
                         <input class="search_input" name="s" type="text" placeholder="배우고 싶은 지식을 입력해보세요."/>

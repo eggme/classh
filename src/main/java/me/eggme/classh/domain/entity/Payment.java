@@ -1,10 +1,14 @@
 package me.eggme.classh.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -48,7 +52,13 @@ public class Payment extends BaseTimeEntity implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private Member member;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Course course;
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER)
+    @OrderBy("create_at asc")
+    @BatchSize(size = 10)
+    private Set<Course> courseSet = new HashSet<>();
+
+    public void addCourse(Course course){
+        this.getCourseSet().add(course);
+    }
 }

@@ -1,6 +1,7 @@
 package me.eggme.classh.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import me.eggme.classh.domain.dto.CourseDTO;
 import me.eggme.classh.domain.dto.MemberDTO;
 import me.eggme.classh.domain.entity.Course;
 import me.eggme.classh.domain.entity.Member;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.security.Principal;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/member")
@@ -54,8 +56,8 @@ public class MemberBoardController {
     @GetMapping(value = "/list")
     public String getMyCourseList(@AuthenticationPrincipal Member member, Model model){
         Set<Course> courseSet = memberBoardService.getCourseSet(member);
-
-        model.addAttribute("list", courseSet);
+        Set<CourseDTO> courseDTOSet = courseSet.stream().map(c -> c.of()).collect(Collectors.toSet());
+        model.addAttribute("list", courseDTOSet);
 
         return "board/courseList";
     }

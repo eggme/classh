@@ -16,12 +16,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -66,19 +70,23 @@ public class CourseController {
 
     // 내 강의 보기 강사만 입장 가능 (강의소개)
     @GetMapping(value = "/{url}")
-    public String updateCourse(@PathVariable String url, Model model, @AuthenticationPrincipal Member member){
+    public String updateCourse(@PathVariable String url, Model model,
+                               @AuthenticationPrincipal Member member){
+
         Course course = courseService.getCourse(url);
         Member loadMember = null;
         try{
             loadMember = memberService.loadUser(member.getUsername());
-        }catch (NullPointerException n){
-            log.info("guest 가 강의를 보는 중");
-        }
-        if(loadMember != null){
-            model.addAttribute("member", member.of());
-        }
+        }catch (NullPointerException n){}
+        if(loadMember != null) model.addAttribute("member", member.of());
+
         CourseDTO courseDTO = course.of();
         model.addAttribute("course", courseDTO);
+
+        /* 모달 관련 */
+        String modal = model.asMap().get("modal") == null ? null : model.asMap().get("modal").toString();
+        if(modal != null) model.addAttribute("modal", modal);
+
         return "information/courseInfo/info";
     }
 
@@ -391,7 +399,7 @@ public class CourseController {
     }
 
     /***
-     * 메인페이지에서 사용자가 강의를 검색함
+     * ajax로 메인페이지에서 사용자가 강의를 검색함
      * @param value
      * @return
      * @throws JsonProcessingException
@@ -405,6 +413,20 @@ public class CourseController {
     }
 
     /***
+     * 메인페이지에서 강의를 검색함
+     * @param value
+     * @param model
+     * @return
+     */
+    @GetMapping(value = "/search")
+    public String searchCourse(@RequestParam(value = "s") String value, Model model){
+        List<CourseDTO> list = courseService.getCourseList(value);
+        model.addAttribute("list", list);
+        return "search/searchCourse/"+value;
+    }
+
+
+    /***
      * 사용자가 강의를 장바구니에 넣음
      * @param member 사용자
      * @param id 강의 pk
@@ -412,10 +434,13 @@ public class CourseController {
      */
     @PostMapping(value = "/add/cart")
     @PreAuthorize("isAuthenticated()")
+    @Transactional
     public String addCart(@AuthenticationPrincipal Member member,
-                          @RequestParam(value = "course_id") Long id){
+                          @RequestParam(value = "course_id") Long id,
+                          RedirectAttributes redirectAttributes){
         memberService.addCourseCart(member, id);
         String url = courseService.findById(id);
+        redirectAttributes.addFlashAttribute("modal", "success");
         return "redirect:/course/"+url;
     }
 

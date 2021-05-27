@@ -20,23 +20,24 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"member", "courses"})
 public class Cart extends BaseTimeEntity implements Serializable {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     @JsonBackReference
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY)
     private Member member;
 
     @JsonManagedReference
-    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "COURSE_ID")
     private Set<Course> courses = new LinkedHashSet<>();
 
-    public void addCourse(Course course){
+    public void addCourse(Course course) {
         this.courses.add(course);
     }
 
-    public void deleteCart(){
+    public void deleteCart() {
         this.getMember().setCart(null);
         this.setMember(null);
         this.setCourses(null);

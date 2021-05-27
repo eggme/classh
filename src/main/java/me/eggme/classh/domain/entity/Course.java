@@ -111,13 +111,6 @@ public class Course extends BaseTimeEntity implements Serializable {
     @BatchSize(size = 10)
     private Set<CourseQuestion> courseQuestions = new HashSet<>();
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("create_at asc")
-    @BatchSize(size = 10)
-    private Set<Payment> payments = new LinkedHashSet<>();
-
-
     // 강의 검증관련 컬럼에 매핑되지 않음
     @Transient
     private CourseValidation courseValidation;
@@ -140,10 +133,6 @@ public class Course extends BaseTimeEntity implements Serializable {
     public CourseMappingDTO mapping(){
         CourseMappingDTO courseMappingDTO = ModelMapperUtils.getModelMapper().map(this, CourseMappingDTO.class);
         return courseMappingDTO;
-    }
-
-    public void addPayment(Payment payment){
-        this.getPayments().add(payment);
     }
 
     public void deleteCourse(){
@@ -183,6 +172,11 @@ public class Course extends BaseTimeEntity implements Serializable {
     public int getTotalClassCount(){
         int totalClassCount = courseSections.stream().mapToInt(s -> s.getCourseClasses().size()).sum();
         return totalClassCount;
+    }
+
+    public void addSignUpCourse(SignUpCourse signUpCourse){
+        this.signUpCourses.add(signUpCourse);
+        signUpCourse.setCourse(this);
     }
 
     // 편의 메서드

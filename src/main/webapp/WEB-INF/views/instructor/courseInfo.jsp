@@ -516,7 +516,7 @@
                                 <%-- 로그인이 된 상태에서 해당 유저가 해당 강의에 수강신청이 된 상태 --%>
                                 <div class="course_price"></div>
                                 <div class="course_status">학습중</div>
-                                <div class="learning_box">이어 학습하기</div>
+                                <div class="learning_box_study learning_box_template">이어 학습하기</div>
                             </c:when>
                             <c:when test="${userobject.isPutInTheCart(course.id)}">
                                 <%-- 로그인이 된 상태에서 해당 유저가 해당 강의에 수강신청이 안돼있고 장바구니에 담긴 상태 --%>
@@ -533,7 +533,7 @@
                                     </c:otherwise>
                                 </c:choose>
                                 <div class="course_status"></div>
-                                <div class="learning_box_purchase" data-status="authentication">결제하기</div>
+                                <div class="learning_box_purchase learning_box_template" data-status="authentication">결제하기</div>
                             </c:when>
                             <c:otherwise>
                                 <%-- 로그인은 됐는데 해당 유저가 해당 강의에 수강신청이 안된 상태 --%>
@@ -550,7 +550,7 @@
                                     </c:otherwise>
                                 </c:choose>
                                 <div class="course_status"></div>
-                                <div class="learning_box" data-status="authentication">수강신청</div>
+                                <div class="learning_box learning_box_template" data-status="authentication">수강신청</div>
                             </c:otherwise>
                         </c:choose>
                     </sec:authorize>
@@ -569,7 +569,7 @@
                             </c:otherwise>
                         </c:choose>
                         <div class="course_status"></div>
-                        <div class="learning_box" data-status="anonymous">수강신청</div>
+                        <div class="learning_box learning_box_template" data-status="anonymous">수강신청</div>
                     </sec:authorize>
                 </form>
                 <div class="mini_box">
@@ -602,13 +602,13 @@
 </div>
 
 <%-- 댓글 수정 모달 --%>
-<div class="edit_review_form_wrap" data-id="">
+<div class="edit_review_form_wrap modal_form_wrap" data-id="">
     <form class="edit_review_form" method="post" action="/course/edit/review">
         <input type="hidden" name="id" value="" class="id">
         <input type="hidden" name="course_id" value="${course.id}">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        <div class="edit_review_content animate">
-            <div class="edit_review_container">
+        <div class="edit_review_content animate modal_content">
+            <div class="edit_review_container modal_container">
                 <div class="edit_review_exit"><i class="fas fa-times exit"></i></div>
                 <div class="edit_review_title">힘이 되는 수강평을 남겨주세요!</div>
                 <div class="rate_area">
@@ -623,11 +623,34 @@
                 <div class="edit_review_reviewContent">
                     <textarea name="reviewContent" class="reviewContent"></textarea>
                 </div>
-                <div class="add_class_description_buttons">
-                    <div class="edit_review_cancel">취소</div>
-                    <div class="edit_review_submit">저장하기</div>
+                <div class="add_class_description_buttons modal_buttons_flex_template">
+                    <div class="edit_review_cancel modal_cancel_button_template">취소</div>
+                    <div class="edit_review_submit modal_submit_button_template">저장하기</div>
                 </div>
             </div>
         </div>
     </form>
 </div>
+
+<%-- 장바구니 담기 완료 모달 <i class="fas fa-cart-plus"></i>--%>
+<div class="add_cart_form_wrap modal_form_wrap">
+    <form class="add_cart_form" method="post" action="/course/carts">
+        <div class="add_cart_content animate modal_content">
+            <div class="add_cart_container modal_container">
+                <div class="add_cart_exit"><i class="fas fa-cart-plus"></i></div>
+                <div class="add_cart_title">강의가 수강바구니에<br/>담겼습니다</div>
+                <div class="add_cart_desc">바로 확인 하시겠습니까?</div>
+                <div class="add_cart_buttons modal_buttons_flex_template">
+                    <div class="add_cart_cancel modal_cancel_button_template">취소</div>
+                    <div class="add_cart_submit modal_submit_button_template">확인</div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<c:if test="${!(modal eq null)}">
+    <script>
+        openModal(".add_cart_form_wrap");
+    </script>
+</c:if>
