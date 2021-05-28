@@ -61,8 +61,9 @@ function payment() {
                     purchaseResult: rsp.success,
                     course_list: JSON.stringify(list)
                 },
-                success: function () {
+                success: function (result) {
                     alert("결제에 성공하였습니다. 내 강의보기로 이동합니다");
+                    location.href="/member/list";
                 }
             });
         } else {

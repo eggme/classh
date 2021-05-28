@@ -24,8 +24,8 @@ public class CourseQuestionDTO implements Serializable {
     private Course course;
     private CourseClass courseClass;
     private Member member;
-    private Set<CourseComment> courseComments;
-    private Set<CourseTag> courseTags;
+    private List<CourseComment> courseComments;
+    private List<CourseTag> courseTags;
     private LocalDateTime create_at = LocalDateTime.now();
     private LocalDateTime modify_at = LocalDateTime.now();
 

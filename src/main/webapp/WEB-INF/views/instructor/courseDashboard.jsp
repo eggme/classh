@@ -24,7 +24,7 @@
                 <div class="current_study_status">
                     <div class="menu">
                         <div class="study_count_warp">
-                            <span class="current_course_count">1</span>
+                            <span class="current_course_count"><c:out value="${courseHistory.completionCourseCount()}"/></span>
                             <span>/</span>
                             <span class="total_course_count"><c:out value="${course.getTotalClassCount()}"/></span>
                         </div>

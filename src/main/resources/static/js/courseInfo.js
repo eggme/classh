@@ -122,6 +122,11 @@ $(function () {
         $('.course_cart_form').submit();
     });
 
+    $(document).on('click', '.learning_box_study', function (){
+        let id = $(this).attr('data-id');
+        location.href='/study/'+id+'/lecture/';
+    });
+
     $(document).on('click', ".learning_box_purchase", function(){
         location.href="/course/carts";
     });

@@ -516,7 +516,7 @@
                                 <%-- 로그인이 된 상태에서 해당 유저가 해당 강의에 수강신청이 된 상태 --%>
                                 <div class="course_price"></div>
                                 <div class="course_status">학습중</div>
-                                <div class="learning_box_study learning_box_template">이어 학습하기</div>
+                                <div class="learning_box_study learning_box_template" data-id="${course.id}">이어 학습하기</div>
                             </c:when>
                             <c:when test="${userobject.isPutInTheCart(course.id)}">
                                 <%-- 로그인이 된 상태에서 해당 유저가 해당 강의에 수강신청이 안돼있고 장바구니에 담긴 상태 --%>

@@ -124,11 +124,24 @@ public class CourseService {
         CourseClass courseClass = new CourseClass();
         courseClass.setName("첫번째 수업을 만들어주세요");
         courseClass.setPreview(true);
+        /* 테스트용 반드시 제거할 것  시작 */
+        courseClass.setMediaPath("https://res.cloudinary.com/dg8tebwjm/video/upload/v1622075948/78030bfba74f5bfd625ecb75755f3b8073f351ab4a6bce15438f7d157e93e891.mp4");
+        /* 테스트용 반드시 제거할 것 끝 */
         CourseClass savedCourseClass = courseClassRepository.save(courseClass);
+
+        /* 테스트용 반드시 제거할 것 시작 */
+        CourseClass courseClass2 = new CourseClass();
+        courseClass2.setName("두번째 수업을 만들어주세요");
+        courseClass2.setMediaPath("https://res.cloudinary.com/dg8tebwjm/video/upload/v1622075948/78030bfba74f5bfd625ecb75755f3b8073f351ab4a6bce15438f7d157e93e891.mp4");
+        CourseClass savedCourseClass2 = courseClassRepository.save(courseClass2);
+        /* 테스트용 반드시 제거할 것  끝 */
 
         CourseSection courseSection = new CourseSection();
         courseSection.setName("첫번째 섹션의 제목을 입력해주세요.");
         courseSection.addCourseClass(savedCourseClass);
+        /* 테스트용 반드시 제거할 것 시작 */
+        courseSection.addCourseClass(savedCourseClass2);
+        /* 테스트용 반드시 제거할 것  끝 */
         CourseSection savedCourseSession = courseSessionRepository.save(courseSection);
 
         course.addCourseSession(savedCourseSession);

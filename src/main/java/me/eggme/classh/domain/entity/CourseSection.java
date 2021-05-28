@@ -9,10 +9,7 @@ import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -36,7 +33,7 @@ public class CourseSection implements Serializable {
     @OneToMany(mappedBy = "courseSection", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @OrderBy("id asc")
     @BatchSize(size = 10)
-    private Set<CourseClass> courseClasses = new HashSet<>();
+    private Set<CourseClass> courseClasses = new LinkedHashSet<>();
 
     // 어느 강의에 포함되는지 정함
     @JsonBackReference

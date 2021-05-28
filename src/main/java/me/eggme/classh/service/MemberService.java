@@ -2,6 +2,7 @@ package me.eggme.classh.service;
 
 import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.MemberDTO;
+import me.eggme.classh.domain.dto.MemberHistoryDTO;
 import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.exception.NoSearchCourseClassException;
 import me.eggme.classh.exception.NoSearchCourseException;
@@ -143,5 +144,12 @@ public class MemberService {
             if (savedCart != null) return savedCart.getCourses();
         }
         return null;
+    }
+
+    @Transactional
+    public MemberHistoryDTO getMemberHistory(Long memberId) {
+        Member savedMember = memberRepository.findById(memberId).orElseThrow(() ->
+                new UsernameNotFoundException("해당되는 유저가 존재하지 않습니다"));
+        return savedMember.ofHistory();
     }
 }

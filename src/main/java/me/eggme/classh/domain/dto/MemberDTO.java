@@ -8,6 +8,7 @@ import me.eggme.classh.domain.entity.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -26,6 +27,7 @@ public class MemberDTO implements Serializable {
     private List<SignUpCourse> signUpCourses;
     private Instructor instructor;
     private List<CourseReview> courseReviews;
+
     private LocalDateTime create_at = LocalDateTime.now();
     private LocalDateTime modify_at = LocalDateTime.now();
 

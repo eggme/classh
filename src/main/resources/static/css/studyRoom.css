@@ -54,7 +54,9 @@ body, html {width: 100%; height: 100%; margin: 0 auto; overflow-y: hidden;}
 .replay{background-color: #343a40; color: white;}
 .next{background-color: white; color: #343A40;}
 /* 수업 커리큘럼 시작 */
-.active{background-color: #e5f5f7; border-left: 6px solid #459aa1;}
+.active{background-color: #e5f5f7 !important; border-left: 6px solid #459aa1 !important;}
+.active .class_content .class_title{font-weight: 600 !important;}
+.active .class_content .class_time *{color: #459AA1 !important;}
 .section_title{background-color: #f1f3f5; color: #212529; font-weight: 500; padding: 12px 20px; border-top: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6;}
 .class_content{color: #212529; margin-bottom: 4px; font-size: 16px;}
 .class_icon{font-size: 28px; color : #CED4DA;}
@@ -80,3 +82,14 @@ body, html {width: 100%; height: 100%; margin: 0 auto; overflow-y: hidden;}
 .payment_area div{display: flex; padding: 9px 0; justify-content: center; border-radius: 4px; width: 100%; margin: 4px 6px; cursor: pointer; font-weight: 500; font-size: 16px;}
 .do_payment_button{color: #fff; background-color: #1dc078;}
 .add_course_button, .go_course_info_button{color: #343A40; background-color: #fff;}
+/*  완강 모달  */
+.modal_form_wrap{ z-index: 99; display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4);  padding-top: 250px;}
+.modal_content{display: flex; width: 460px; height: 400px; background-color: #fefefe;margin: 5px auto; border: 1px solid #888; border-radius: 5px;}
+.clear_course_container{padding: 32px 48px;}
+.add_cart_content{width: 400px !important; height: 320px !important;}
+.modal_container{width: 100%; margin : 0 auto; display: flex; flex-direction: column; }
+.modal_buttons_flex_template{display: flex; justify-content: center;  padding: 18px 24px;}
+.clear_course_icon{display: flex; justify-content: center; color: #1dc078; font-size: 56px; margin-right: 24px; margin-top: 24px; }
+.clear_course_title{font-size: 24px; font-weight: 500; word-break: keep-all; margin-bottom: 24px; text-align: center; margin-top: 24px;}
+.clear_course_desc{width: 288px; font-size: 16px; margin: 0 auto; display: flex; justify-content: center; text-align: center; margin-bottom: 24px; word-break: keep-all;}
+.modal_submit_button_template{padding: 12px 24px; font-size: 16px; color: white; cursor: pointer; background-color: #1dc078; margin-left: 4px; border-radius: 4px;}

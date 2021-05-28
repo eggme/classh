@@ -1,6 +1,8 @@
 package me.eggme.classh.security.listener;
 
 import lombok.extern.slf4j.Slf4j;
+import me.eggme.classh.domain.dto.CourseCategory;
+import me.eggme.classh.domain.dto.CourseLevel;
 import me.eggme.classh.domain.dto.CourseState;
 import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.repository.*;
@@ -56,7 +58,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
         alreadySetup = true;
         /* 테스트용 */
-        PaymentAndCartTest();
+        //PaymentAndCartTest();
     }
 
     @Transactional
@@ -67,6 +69,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
         Course course = new Course("asdasd"); // 강의 엔티티를 만듬
         course.setCourseState(CourseState.RELEASE); // 엔티티 속성을 변경함
+        course.setCourseCategory(CourseCategory.PROGRAMMING);
+        course.setCourseLevel(CourseLevel.BEGINNING);
         Course savedCourse = courseRepository.save(course); // 엔티티를 영속상태로 만듬
         savedCourse.setUrl("temp_" + savedCourse.getId()); // 영속상태의 엔티티를 변경함 (변경감지)
         savedCourse.setPrice(56000);

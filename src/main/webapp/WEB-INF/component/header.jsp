@@ -155,7 +155,7 @@
                                                 <div class="student_list">
                                                     <ul>
                                                         <li><a><i class="far fa-play-circle"></i> 이어서 학습하기</a></li>
-                                                        <li><a><i class="fas fa-book"></i> 내 강의</a></li>
+                                                        <li><a href="/member/list"><i class="fas fa-book"></i> 내 강의</a></li>
                                                         <li><a><i class="fas fa-list-ul"></i> 내 목록</a></li>
                                                         <li><a><i class="fas fa-road"></i> 참여중인 로드맵</a></li>
                                                         <li><a><i class="far fa-edit"></i> 내 질문 답변</a></li>
@@ -178,7 +178,7 @@
                                                 <div class="student_list">
                                                     <ul>
                                                         <li><a><i class="far fa-play-circle"></i> 이어서 학습하기</a></li>
-                                                        <li><a><i class="fas fa-book"></i> 내 강의</a></li>
+                                                        <li><a href="/member/list"><i class="fas fa-book"></i> 내 강의</a></li>
                                                         <li><a><i class="fas fa-list-ul"></i> 내 목록</a></li>
                                                         <li><a><i class="fas fa-road"></i> 참여중인 로드맵</a></li>
                                                         <li><a><i class="far fa-edit"></i> 내 질문 답변</a></li>

@@ -23,7 +23,7 @@ public class CourseNoticeDTO implements Serializable {
     private String notice;
     private Member member;
     private Course course;
-    private Set<CourseComment> courseComments = new LinkedHashSet<>();
+    private List<CourseComment> courseComments;
     private LocalDateTime create_at = LocalDateTime.now();
     private LocalDateTime modify_at = LocalDateTime.now();
 

@@ -8,12 +8,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet"/>
 <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
 <script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
 <link rel="stylesheet" href="/css/studyRoom.css">
 <script src="/js/studyRoom.js"></script>
+
+<c:set var="total_section_class_count" value="0"/>
+<c:forEach var="section" items="${course.courseSections}" varStatus="status">
+    <c:forEach var="class_o" items="${section.courseClasses}" varStatus="status">
+        <c:set var="total_section_class_count" value="${total_section_class_count + 1}"/>
+    </c:forEach>
+</c:forEach>
+
 <div class="flex_container">
     <div class="study_wrap">
         <div class="curriculum_wrap actived">
@@ -43,18 +52,54 @@
                         </c:forEach>
                         <c:set var="totalClass" value="${totalClass+temp}"></c:set>
                     </c:forEach>
+
                     <div class="course_progress_rate">
-                        <span class="">진도율 : </span>
-                        <span class="current_class_count">${currentClass}</span>
-                        <span>강/</span>
-                        <span class="total_class_count">${totalClass}</span>
-                        <span>강 (</span>
-                        <span class="course_rate">${Math.round((currentClass / totalClass) * 100)}</span>
-                        <span>%) | 시간 : </span>
-                        <span class="current_study_time"></span>
-                        <span>분 / </span>
-                        <span class="total_study_time"></span>
-                        <span>분</span>
+                        <sec:authorize access="isAuthenticated()">
+                            <sec:authentication var="userobject" property="principal" />
+                                <c:choose>
+                                <c:when test="${course.isCourseRegistration(userobject)}">
+                                    <c:if test="${!(courseHistory eq null)}">
+                                        <span class="">진도율 : </span>
+                                        <span class="current_class_count">
+                                            <c:out value="${courseHistory.completionCourseCount()}"/>
+                                        </span>
+                                        <span>강/</span>
+                                        <span class="total_class_count">
+                                            <c:out
+                                                    value="${total_section_class_count}"/>
+                                        </span>
+                                        <span>강 (</span>
+                                        <span class="course_rate">
+                                            <script>
+                                                getPercent('${courseHistory.completionCourseCount()}', '${total_section_class_count}', '.course_rate');
+                                            </script>
+                                        </span>
+                                        <span>%) | 시간 : </span>  <%-- 총 완료된 시간 구해야합니다 --%>
+                                        <span class="current_study_time"></span>
+                                        <span>분 / </span>
+                                        <span class="total_study_time"></span>
+                                        <span>분</span>
+                                    </c:if>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="">진도율 : </span>
+                                    <span class="current_class_count">0</span>
+                                    <span>강/</span>
+                                    <span class="total_class_count">${totalClass}</span>
+                                    <span>강 (</span>
+                                    <span class="course_rate">${Math.round((currentClass / totalClass) * 100)}</span>
+                                    <span>%) | 시간 : </span>
+                                    <span class="current_study_time"></span>
+                                    <span>분 / </span>
+                                    <span class="total_study_time"></span>
+                                    <span>분</span>
+                                </c:otherwise>
+                            </c:choose>
+                        </sec:authorize>
+                        <sec:authorize access="isAnonymous()">
+
+                        </sec:authorize>
+
                     </div>
                     <script>
                         timeFormatWrapper('${currentTime}', '.current_study_time');
@@ -65,7 +110,7 @@
                     <progress class="course_progress" value="${Math.round((currentClass / totalClass) * 100)}" max="100"/>
                 </div>
             </div>
-            <div class="course_content_wrap">
+            <div class="course_content_wrap" data-cId="${courseClass.id}">
                 <div class="course_content">
                     <c:forEach var="section" items="${course.courseSections}" varStatus="status">
                         <script>// course_id, section_id, sectionCode
@@ -73,10 +118,18 @@
                         </script>
                         <c:forEach var="course_class" items="${section.courseClasses}" varStatus="classStatus">
                             <script> // name, class_id, sectionCode, classCode, study_time
-                                createClassContent('${course_class.name}', '${course_class.id}', '${status.index}', '${classStatus.index}', '${course_class.seconds}');
+                                createClassContent('${course_class.name}', '${course.id}', '${course_class.id}', '${status.index}', '${classStatus.index}', '${course_class.seconds}');
                             </script>
                         </c:forEach>
                     </c:forEach>
+                    <c:if test="${!(courseHistories eq null)}">
+                        <c:forEach var="history" items="${courseHistories}" varStatus="index">
+                            <script>
+                                changeCourseStatus('${history.courseClass.id}', '${history.startTime}', '${history.endTime}');
+                                changeActiveCourse('${history.courseClass.id}');
+                            </script>
+                        </c:forEach>
+                    </c:if>
                     <%--                        <div class="section_box">--%>
                     <%--                            <div class="section_title">--%>
                     <%--                                소개--%>
@@ -130,14 +183,14 @@
         </div>
         <div class="video_bg">
             <div class="min_height">
-                <video id="myPlayer" class="video-js vjs-default-skin vjs-fill"></video>
+                <video id="myPlayer" class="video-js vjs-default-skin vjs-fill" data-id="${course.id}" data-cId="${courseClass.id}"></video>
                 <div class="hidden video_ended">
                     <div class="course_ended_alert">
                         <div class="course_next_title">[다음 수업]</div>
                         <div class="course_next_name">adsasdsad</div>
                         <div class="replay_and_next">
-                            <div class="replay next_button_template">수업 다시보기 <i class="fas fa-redo"></i></div>
-                            <div class="next next_button_template">다음 수업보기 <i class="fas fa-play"></i></div>
+                            <div class="replay next_button_template" data-id="${course.id}" data-cId="${courseClass.id}">수업 다시보기 <i class="fas fa-redo"></i></div>
+                            <div class="next next_button_template" data-id="${course.id}">다음 수업보기 <i class="fas fa-play"></i></div>
                         </div>
                     </div>
                 </div>
@@ -145,11 +198,23 @@
             <c:choose>
                 <c:when test="${!error}">
                     <c:if test="${!empty courseClass.mediaPath}">
-                        <script>
-                            Authorized();
-                            loadVideoUrl('${courseClass.mediaPath}');
-                            loadVideoJS();
-                        </script>
+                        <c:choose>
+                            <c:when test="${currentHistory eq null}">
+                                <script>
+                                    Authorized();
+                                    loadVideoUrl('${courseClass.mediaPath}');
+                                    loadVideoJS(0, '${currentHistory.endTime}');
+                                </script>
+                            </c:when>
+                            <c:otherwise>
+                                <script>
+                                    Authorized();
+                                    loadVideoUrl('${courseClass.mediaPath}');
+                                    loadVideoJS('${currentHistory.startTime}', '${currentHistory.endTime}');
+                                </script>
+                            </c:otherwise>
+                        </c:choose>
+
                     </c:if>
                 </c:when>
                 <c:otherwise>
@@ -197,4 +262,23 @@
             </div>
         </div>
     </div>
+</div>
+
+
+<%-- 완강 축하 모달 <i class="fas fa-cart-plus"></i>--%>
+<div class="clear_course_form_wrap modal_form_wrap">
+    <form class="clear_course_form" method="post" action="/course/carts">
+        <div class="clear_course_content animate modal_content">
+            <div class="clear_course_container modal_container">
+                <div class="clear_course_icon"><i class="far fa-check-circle"></i></div>
+                <div class="clear_course_title">완강! 축하합니다 🎉</div>
+                <div class="clear_course_desc">수고하셨습니다. 💌
+                    강의는 어떠셨나요? 학습하면서 느꼈던 솔직한 감상을 수강평에 남겨주세요!
+                    여러분의 수강평은 지식공유자에게 큰 힘이 됩니다. :)</div>
+                <div class="clear_course_buttons modal_buttons_flex_template">
+                    <div class="add_cart_submit modal_submit_button_template">확인</div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>

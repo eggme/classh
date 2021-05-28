@@ -78,7 +78,11 @@ public class CourseController {
         try{
             loadMember = memberService.loadUser(member.getUsername());
         }catch (NullPointerException n){}
-        if(loadMember != null) model.addAttribute("member", member.of());
+        if(loadMember != null) {
+            MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(loadMember.getId());
+            model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
+            model.addAttribute("member", member.of());
+        }
 
         CourseDTO courseDTO = course.of();
         model.addAttribute("course", courseDTO);
@@ -92,23 +96,29 @@ public class CourseController {
 
     // 내 강의 보기 (대시보드)  dashboard
     @GetMapping(value = "/{url}/dashboard")
-    public String courseDashBoard(@PathVariable String url, Model model){
+    @PreAuthorize("isAuthenticated()")
+    public String courseDashBoard(@PathVariable String url, @AuthenticationPrincipal Member member, Model model){
+        MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
         Course course = courseService.getCourse(url);
         CourseDTO courseDTO = course.of();
+        model.addAttribute("courseHistory", memberHistoryDTO);
         model.addAttribute("course", courseDTO);
         return "information/courseDashboard/dashboard";
     }
 
     // 내 강의 보기 (수강생 관리)  management
     @GetMapping(value = "/{url}/management")
-    public String courseManagement(@PathVariable String url, Model model){
+    @PreAuthorize("isAuthenticated()")
+    public String courseManagement(@PathVariable String url, @AuthenticationPrincipal Member member, Model model){
+        MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
+        model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
         Course course = courseService.getCourse(url);
         CourseDTO courseDTO = course.of();
         model.addAttribute("course", courseDTO);
         return "information/courseManagement/management";
     }
 
-    // 강의 만들기에서 다이렉트로 상세소개 클릭 시
+    // 내 강의 만들기에서 다이렉트로 상세소개 클릭 시
     @GetMapping(value="/{id}/description")
     public String courseDescriptionView(@PathVariable Long id, Model model){
         Course course = courseService.getCourse(id);
@@ -485,20 +495,19 @@ public class CourseController {
 
     @PostMapping(value = "/payment")
     @PreAuthorize("isAuthenticated()")
+    @ResponseBody
     public String payments(@AuthenticationPrincipal Member member,
                            @ModelAttribute Payment payment,
                            @RequestParam(value = "course_list") String course_ids) throws JsonProcessingException {
-        log.info(member.toString());
-        log.info(payment.toString());
-        log.info(course_ids);
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Long>[] courseMap = mapper.readValue(course_ids, new TypeReference<Map<String, Long>[]>() {});
         List<Long> courseIdList = Arrays.stream(courseMap).map(cm -> cm.get("course_id")).collect(Collectors.toList());
 
-        String result = courseIdList.stream().map(String::valueOf).collect(Collectors.joining(", "));
-        log.info(result);
         courseService.purchaseCourse(member, payment, courseIdList);
 
-        return "redirect:/member/list";
+        Map<String, String> map = new HashMap<>();
+        map.put("result", "success");
+
+        return mapper.writeValueAsString(map);
     }
 }

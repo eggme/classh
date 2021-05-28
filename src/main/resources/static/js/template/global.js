@@ -71,3 +71,15 @@ function timeFormatKor(second, obj) {
     console.log(result);
     $(obj).html(result);
 }
+
+function getPercent(current, total, obj){
+    let percent = ((current / total) * 100).toFixed(2);
+    console.log(percent);
+    $(obj).html(percent +"%");
+}
+
+function getPercentProgress(current, total, obj){
+    let percent = ((current / total) * 100).toFixed(0);
+    console.log(percent);
+    $(obj).val(percent);
+}

@@ -65,7 +65,7 @@
     font-weight: 600;
     text-align: center;
 }
-.play_text_percent{
+.play_text_percent, .play_text_percent *{
     font-size: 14px;
     color: white;
     text-align: center;

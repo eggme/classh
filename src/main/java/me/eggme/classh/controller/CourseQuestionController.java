@@ -10,6 +10,7 @@ import me.eggme.classh.domain.entity.CourseQuestion;
 import me.eggme.classh.domain.entity.Member;
 import me.eggme.classh.service.CourseQuestionService;
 import me.eggme.classh.service.CourseService;
+import me.eggme.classh.service.MemberService;
 import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -30,6 +31,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CourseQuestionController {
 
+    @Autowired
+    private MemberService memberService;
     @Autowired
     private CourseQuestionService courseQuestionService;
     @Autowired
@@ -68,7 +71,13 @@ public class CourseQuestionController {
      * @return
      */
     @GetMapping(value = "/select/{id}")
-    public String selectCourseQuestion(Model model, @PathVariable(value = "id") Long course_id){
+    public String selectCourseQuestion(Model model, @PathVariable(value = "id") Long course_id,
+                                       @AuthenticationPrincipal Member member){
+
+        if(member != null){
+            MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
+            model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
+        }
 
         Set<CourseQuestion> savedCourseQuestions = courseQuestionService.selectCourseQuestions(course_id);
         List<CourseQuestionDTO> list = savedCourseQuestions.stream().map(cq -> cq.ofWithOutTag()).collect(Collectors.toList());

@@ -1,9 +1,11 @@
 package me.eggme.classh.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import me.eggme.classh.domain.dto.MemberDTO;
+import me.eggme.classh.domain.dto.MemberHistoryDTO;
 import me.eggme.classh.utils.ModelMapperUtils;
 import org.hibernate.annotations.BatchSize;
 
@@ -15,8 +17,8 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions"})
-@ToString(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions"})
+@EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories"})
+@ToString(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories"})
 public class Member extends BaseTimeEntity implements Serializable {
     // 멤버 PK
     @Id @GeneratedValue
@@ -93,6 +95,11 @@ public class Member extends BaseTimeEntity implements Serializable {
     @BatchSize(size = 10)
     private Set<Payment> payments = new LinkedHashSet<>();
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @BatchSize(size = 10)
+    private List<CourseHistory> courseHistories = new ArrayList<>();
+
     @Builder
     public Member(String username, String password, String nickName){
         this.username = username;
@@ -104,9 +111,16 @@ public class Member extends BaseTimeEntity implements Serializable {
         return ModelMapperUtils.getModelMapper().map(this, MemberDTO.class);
     }
 
+    public MemberHistoryDTO ofHistory(){
+        MemberHistoryDTO memberHistoryDTO = new MemberHistoryDTO();
+        memberHistoryDTO.setCourseHistories(this.getCourseHistories());
+        return memberHistoryDTO;
+    }
+
     public void addPayment(Payment payment){
         this.getPayments().add(payment);
     }
+    public void addCourseHistory(CourseHistory courseHistory) {this.getCourseHistories().add(courseHistory);}
 
     public boolean isPutInTheCart(Long course_id){
         if(this.getCart() != null){

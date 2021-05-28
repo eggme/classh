@@ -41,7 +41,7 @@ public class Course extends BaseTimeEntity implements Serializable {
 
     // 이 강의를 수강하는 학생
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @BatchSize(size = 10)
     private Set<SignUpCourse> signUpCourses = new HashSet<>();
 

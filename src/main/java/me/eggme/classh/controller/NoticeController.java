@@ -6,12 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.CourseCommentDTO;
 import me.eggme.classh.domain.dto.CourseDTO;
 import me.eggme.classh.domain.dto.CourseNoticeDTO;
+import me.eggme.classh.domain.dto.MemberHistoryDTO;
 import me.eggme.classh.domain.entity.Course;
 import me.eggme.classh.domain.entity.CourseComment;
 import me.eggme.classh.domain.entity.CourseNotice;
 import me.eggme.classh.domain.entity.Member;
 import me.eggme.classh.service.CourseService;
 import me.eggme.classh.service.CourseNoticeService;
+import me.eggme.classh.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,6 +31,8 @@ import java.util.Map;
 public class NoticeController {
 
     @Autowired
+    private MemberService memberService;
+    @Autowired
     private CourseService courseService;
     @Autowired
     private CourseNoticeService courseNoticeService;
@@ -42,7 +46,13 @@ public class NoticeController {
      * @return
      */
     @GetMapping(value = "/{url}")
-    public String courseNewly(@PathVariable String url, Model model){
+    public String courseNewly(@PathVariable String url, Model model, @AuthenticationPrincipal Member member){
+
+        if(member != null){
+            MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
+            model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
+        }
+
         Course course = courseService.getCourse(url);
         CourseDTO courseDTO = course.of();
         List<CourseNoticeDTO> list = courseNoticeService.getCourseNoticeList(course.getId());

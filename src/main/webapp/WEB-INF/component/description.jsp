@@ -7,9 +7,10 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<link rel="stylesheet" href="/css/component/description.css" >
+<link rel="stylesheet" href="/css/component/description.css">
 
 <c:set var="total_section_class_count" value="0"/>
 <c:forEach var="section" items="${course.courseSections}" varStatus="status">
@@ -26,15 +27,30 @@
                 <div class="play_button">
                     <div class="play_icon"></div>
                 </div>
-                <div class="play_text">
-                    <div class="play_text_title">이어 학습하기</div>
-                    <div class="play_text_percent">진도율 : 0강 / <c:out value="${total_section_class_count}"/>강 (0.00%)</div>
-                </div>
-                <div class="video_progress">
-                    <div class="progress_wrap">
-                        <progress class="course_progress_data" value="80" max="100"/>
-                    </div>
-                </div>
+                <sec:authorize access="isAuthenticated()">
+                    <sec:authentication var="userobject" property="principal" />
+                    <c:if test="${course.isCourseRegistration(userobject)}">
+                        <c:if test="${!(courseHistory eq null)}">
+                            <div class="play_text">
+                                <div class="play_text_title">이어 학습하기</div>
+                                <div class="play_text_percent">진도율 :
+                                    <c:out value="${courseHistory.completionCourseCount()}"/>강 / <c:out
+                                            value="${total_section_class_count}"/>강 (<span
+                                            class="course_current_percent_value_area">
+                                            <script>getPercent('${courseHistory.completionCourseCount()}', '${total_section_class_count}', '.course_current_percent_value_area')</script></span>)
+                                </div>
+                            </div>
+                            <div class="video_progress">
+                                <div class="progress_wrap">
+                                    <progress class="course_progress_data" value="80" max="100"/>
+                                    <script>
+                                        getPercentProgress('${courseHistory.completionCourseCount()}', '${total_section_class_count}', '.course_progress_data');
+                                    </script>
+                                </div>
+                            </div>
+                        </c:if>
+                    </c:if>
+                </sec:authorize>
             </div>
         </div>
         <div class="flex_column_wrap">
@@ -48,7 +64,8 @@
                     </div>
                     <div class="instructor_information">
                         <span class="icon"><i class="fas fa-chalkboard-teacher"></i></span>
-                        <span class="instructor_name"><c:out value="${course.instructor.member.nickName}"></c:out></span>
+                        <span class="instructor_name"><c:out
+                                value="${course.instructor.member.nickName}"></c:out></span>
                         <span class="after_icon size12"><i class="fas fa-crown"></i></span>
                     </div>
                     <div class="skill_tag">
