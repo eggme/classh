@@ -26,6 +26,28 @@ $(function () {
             $(target).addClass('closed');
         }
     });
+    /* 수강권한 모달에서 강의 상세보기 클릭 */
+    $('.go_course_info_button').click(function(){
+        let url = $(this).attr('data-url');
+        location.href="/course/"+ url;
+    });
+    /* 수강권한 모달에서 바로 결제하기 클릭 */
+    $('.do_payment_button').click(function(){
+        let id = $(this).attr('data-id');
+        location.href="/course/carts/"+id;
+    })
+    /* 수강권한 모달에서 수강 바구니 담기 클릭 */
+    $('.add_course_button').click(function(){
+        $('.course_cart_form').submit();
+    });
+
+    $('.add_cart_cancel').click(function(){
+        $('.add_cart_form_wrap').css('display', "none");
+    });
+
+    $('.add_cart_submit').click(function(){
+        location.href="/course/carts";
+    });
 
     $('.add_cart_submit').click(function(){
         $('.clear_course_form_wrap').css('display', 'none');
@@ -45,16 +67,30 @@ $(function () {
     $(document).on('click', '.class_box', function (){
         let id = $(this).attr('data-id');
         let cId = $(this).attr('data-cid');
-        location.href="/study/"+id+"/lecture/"+cId;
+        let preview = $(this).attr('data-p');
+        if(preview == 'true'){
+            location.href="/study/"+id+"/preview/"+cId;
+        }else{
+            if($(this).hasClass('lock')){ // 익명 사용자의 미리보기 강의에서 미리보기 설정이 되어있지 않는 강의를 눌렀을 때
+                location.href="/study/"+id+"/preview/"+cId;
+            }else{
+                location.href="/study/"+id+"/lecture/"+cId;
+            }
+        }
     });
 });
 
-function createClassContent(name, course_id , class_id, sectionCode, classCode, study_time, played) {
+function createClassContent(name, course_id , class_id, sectionCode, classCode, study_time, preview) {
     let tag = "class_box_"+class_id;
-    let courseStatusTag = "";
+    var customTag = "<i class='fas fa-check-circle'></i>";
+    var additionalClassLock = "";
+    if(preview == 'false'){
+        customTag = "<i class='fas fa-lock'></i>";
+        additionalClassLock = "lock";
+    }
     let parentObj = $('.class_wrap[data-sid=' + sectionCode + ']');
-    let template = "<div class='class_box " + tag + "' data-id="+course_id+" data-cid=" + class_id + " data-sid=" + sectionCode + " data-ccode=" + classCode + ">" +
-        "<div class='class_icon class_icon_"+class_id+"'><span class='play_icon'><i class='fas fa-check-circle'></i></span></div>" +
+    let template = "<div class='class_box " + tag + " "+additionalClassLock+"' data-id="+course_id+" data-cid=" + class_id + " data-sid=" + sectionCode + " data-ccode=" + classCode + " data-p="+ preview +">" +
+        "<div class='class_icon class_icon_"+class_id+"'><span class='play_icon'>" + customTag + "</span></div>" +
         "<div class='class_content'>" +
         "<div class='class_title'>" + name + "</div>" +
         "<div class='class_time'>" +
@@ -155,9 +191,7 @@ function saveCourseStudyData(){
         data: {'currentTime' : currentTime},
         success: function(r){
             console.log(r);
-        },error: function (e){
-           console.log(e);
-        }
+        },error: function (e){}
     });
 }
 
@@ -173,6 +207,10 @@ function changeActiveCourse(class_id){
     let cId = $('.course_content_wrap').attr('data-cId');
     console.log(cId + " : " + class_id);
     if(cId == class_id){
-        $('.class_box_'+class_id).addClass("active");
+        if($('.class_box_'+class_id).hasClass('lock')){
+            $('.class_box_'+class_id).addClass("active_lock");
+        }else{
+            $('.class_box_'+class_id).addClass("active");
+        }
     }
 }

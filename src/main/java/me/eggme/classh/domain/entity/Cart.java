@@ -37,7 +37,12 @@ public class Cart extends BaseTimeEntity implements Serializable {
         this.courses.add(course);
     }
 
-    public void deleteCart() {
+    public void deleteCart(Member member, Course course){
+        this.getCourses().remove(course);
+        member.setCart(this);
+    }
+
+    public void deleteCarts() {
         this.getMember().setCart(null);
         this.setMember(null);
         this.setCourses(null);

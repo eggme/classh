@@ -13,8 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 public class MemberHistoryDTO {
     private List<CourseHistory> courseHistories;
-
-
     public Long completionCourseCount(){
         return this.getCourseHistories().stream().filter(ch -> ch.getStartTime() >= (ch.getEndTime()-10)).count();
     }

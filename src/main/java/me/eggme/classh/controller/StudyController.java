@@ -21,8 +21,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import retrofit2.http.Path;
 
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,10 +86,10 @@ public class StudyController {
 
                 CourseClass savedCourseClass = studyService.getLastCourseClass(member.getId(), id);
                 courseClassId = savedCourseClass.getId();
-                // 해당 강의의 기록
+                // 해당 강의의 기록 (비디오 재생에 쓰임, 어느 강의를 언제까지 봤나)
                 CourseHistoryDTO courseHistory = studyService.getCourseHistory(member.getId(), savedCourseClass.getId());
                 model.addAttribute("currentHistory", courseHistory);
-                // 모든 강의의 기록
+                // 모든 강의의 기록 (목차에 쓰임, 어떤 강의를 어디까지 들었는지 확인하기 위해)
                 List<CourseHistoryDTO> courseHistories = studyService.getCourseHistories(member.getId(), savedCourse.getId());
                 model.addAttribute("courseHistories", courseHistories);
 
@@ -100,7 +102,7 @@ public class StudyController {
 
             CourseDTO courseDTO = savedCourse.of();
             CourseClassDTO courseClassDTO = savedCourseClass.of();
-
+            // 해당 유저의 강의 기록 (목차 수강률에 쓰임, 누가 어떤 강의를 어디까지 들었나)
             MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
             model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
 
@@ -140,6 +142,9 @@ public class StudyController {
                 List<CourseHistoryDTO> courseHistories = studyService.getCourseHistories(member.getId(), savedCourse.getId());
                 model.addAttribute("courseHistories", courseHistories);
             }
+
+            MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
+            model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
 
             model.addAttribute("course", courseDTO);
             model.addAttribute("courseClass", courseClassDTO);
@@ -193,5 +198,23 @@ public class StudyController {
             resultValue = mapper.writeValueAsString(map);
         }
         return resultValue;
+    }
+
+    /***
+     * 사용자가 강의를 장바구니에 넣음
+     * @param member 사용자
+     * @param id 강의 pk
+     * @return
+     */
+    @PostMapping(value = "/add/cart")
+    @PreAuthorize("isAuthenticated()")
+    @Transactional
+    public String addCart(@AuthenticationPrincipal Member member,
+                          @RequestParam(value = "course_id") Long id,
+                          @RequestParam(value = "courseClass_id") Long classId,
+                          RedirectAttributes redirectAttributes){
+        memberService.addCourseCart(member, id);
+        redirectAttributes.addFlashAttribute("modal", "success");
+        return "redirect:/study/"+id+"/preview/"+classId;
     }
 }

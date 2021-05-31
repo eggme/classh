@@ -18,6 +18,12 @@ $(function () {
     $('.charge_box').click(function () {
         if (isChecked) payment();
     })
+    $(document).on('click', '.deleteCourse', function(){
+        let confirmBox = confirm("정말 수강 바구니에서 삭제할까요?");
+        if(confirmBox == true){
+            $(this).parent().submit();
+        }
+    });
 });
 
 function payment() {

@@ -455,6 +455,26 @@ public class CourseService {
         return savedCourse.getUrl();
     }
 
+    @Transactional
+    public void deleteCart(Member member, Long id){
+        Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
+                new UsernameNotFoundException("해당하는 유저가 존재하지 않습니다."));
+
+        Course savedCourse = courseRepository.findById(id).orElseThrow(() ->
+                new NoSearchCourseException());
+
+        Cart savedCart = cartRepository.findById(savedMember.getCart().getId()).orElse(null);
+
+        savedCart.deleteCart(savedMember, savedCourse);
+        /* AuthenticationToken 수정 */
+
+        Authentication beforeAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        Member authenticationObject = ((Member)beforeAuthentication.getPrincipal());
+        authenticationObject.setCart(savedCart);
+        Authentication afterAuthentication = new UsernamePasswordAuthenticationToken(authenticationObject, null, beforeAuthentication.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(afterAuthentication);
+    }
+
     /***
      * 사용자가 장바구니에 담은 강의들을 구매했음
      * @param member 사용자
@@ -505,7 +525,7 @@ public class CourseService {
                 new RuntimeException());
         log.info(savedCart.getCourses().stream().map(c-> c.getName()).collect(Collectors.joining(", ")));
 
-        savedCart.deleteCart();
+        savedCart.deleteCarts();
         cartRepository.deleteById(savedCart.getId());
 
         /* AuthenticationToken 수정 */

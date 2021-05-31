@@ -476,15 +476,29 @@ public class CourseController {
         return mapper.writeValueAsString(map);
     }
 
+    @PostMapping(value = "/delete/cart")
+    @PreAuthorize("isAuthenticated()")
+    public String deleteCart(@AuthenticationPrincipal Member member, @RequestParam(value = "course_id") Long id){
+        log.info("id = " + id);
+        courseService.deleteCart(member, id);
+        return "redirect:/course/carts";
+    }
+
     /***
      * 장바구니 페이지 요청, 사용자의 장바구니를 조회
      * @param member 사용자
      * @param model
      * @return
      */
-    @GetMapping(value = "/carts")
+    @GetMapping(value = {"/carts", "/carts/{id}"})
     @PreAuthorize("isAuthenticated()")
-    public String carts(@AuthenticationPrincipal Member member, Model model){
+    public String carts(@AuthenticationPrincipal Member member,
+                        @PathVariable(value = "id", required = false) Long id,
+                        Model model){
+        if(id != null){
+            log.info("id = "+id);
+            memberService.addCourseCart(member, id);
+        }
         Set<Course> courses = memberService.selectCart(member);
         if(courses != null){
             Set<CourseMappingDTO> dtoSet = courses.stream().map(c-> c.mapping()).collect(Collectors.toSet());
@@ -493,6 +507,14 @@ public class CourseController {
         return "inst/courseCart";
     }
 
+    /***
+     * 사용자가 결제를 완료했을 때 호출
+     * @param member 결제한 사용자
+     * @param payment 결제 정보
+     * @param course_ids 결제한 강의들
+     * @return
+     * @throws JsonProcessingException
+     */
     @PostMapping(value = "/payment")
     @PreAuthorize("isAuthenticated()")
     @ResponseBody
