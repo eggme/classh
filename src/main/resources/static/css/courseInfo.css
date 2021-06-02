@@ -119,6 +119,7 @@ body, body *{font-family: "Noto Sans KR";}
 .separator{font-weight: 700; font-size: 24px; margin-right: 8px;}
 .review_list_form{display: flex; flex-direction: column; justify-content: center;}
 .review_list_content{padding: 24px 0; display: flex; flex-direction: column; justify-content: center;}
+.noReview{display: flex; flex-grow: 1; justify-content:  center; text-align: center; padding: 18px 0;}
 .reviewer_content{display: flex; margin-bottom: 8px;}
 .image_wrapper{width: 40px; height: 40px; overflow: hidden; border-radius: 70%; display: flex; justify-content: center;}
 .reviewer_profile_img{width: 100%; height: 100%; object-fit: cover; align-self: center;}

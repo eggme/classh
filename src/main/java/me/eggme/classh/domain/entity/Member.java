@@ -1,11 +1,11 @@
 package me.eggme.classh.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import me.eggme.classh.domain.dto.MemberDTO;
 import me.eggme.classh.domain.dto.MemberHistoryDTO;
+import me.eggme.classh.listener.MemberNotificationListener;
 import me.eggme.classh.utils.ModelMapperUtils;
 import org.hibernate.annotations.BatchSize;
 
@@ -17,6 +17,7 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@EntityListeners(MemberNotificationListener.class)
 @EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories"})
 @ToString(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories"})
 public class Member extends BaseTimeEntity implements Serializable {
@@ -100,6 +101,11 @@ public class Member extends BaseTimeEntity implements Serializable {
     @BatchSize(size = 10)
     private List<CourseHistory> courseHistories = new ArrayList<>();
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member", orphanRemoval = true, fetch = FetchType.EAGER)
+    @BatchSize(size = 10)
+    private Set<Notification> notifications = new HashSet<>();
+
     @Builder
     public Member(String username, String password, String nickName){
         this.username = username;
@@ -117,6 +123,9 @@ public class Member extends BaseTimeEntity implements Serializable {
         return memberHistoryDTO;
     }
 
+    public void addNotification(Notification notification) {
+        this.getNotifications().add(notification);
+    }
     public void addPayment(Payment payment){
         this.getPayments().add(payment);
     }

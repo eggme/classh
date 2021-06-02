@@ -9,9 +9,7 @@ import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -62,6 +60,11 @@ public class CourseComment extends BaseBoardEntity implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "COURSE_REVIEW_ID")
     private CourseReview courseReview;
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "COURSE_ALARM_ID")
+    private Notification notification;
 
     public CourseCommentDTO of() {
         return ModelMapperUtils.getModelMapper().map(this, CourseCommentDTO.class);

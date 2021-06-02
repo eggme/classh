@@ -3,10 +3,12 @@ package me.eggme.classh.controller;
 import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.CourseDTO;
 import me.eggme.classh.domain.dto.MemberDTO;
+import me.eggme.classh.domain.dto.MemberHistoryDTO;
 import me.eggme.classh.domain.entity.Course;
 import me.eggme.classh.domain.entity.Member;
 import me.eggme.classh.domain.entity.SignUpCourse;
 import me.eggme.classh.service.MemberBoardService;
+import me.eggme.classh.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,6 +37,8 @@ import java.util.stream.Collectors;
 public class MemberBoardController {
 
     @Autowired
+    private MemberService memberService;
+    @Autowired
     private MemberBoardService memberBoardService;
 
     @GetMapping(value = "/dashboard")
@@ -55,6 +59,10 @@ public class MemberBoardController {
 
     @GetMapping(value = "/list")
     public String getMyCourseList(@AuthenticationPrincipal Member member, Model model){
+
+        MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
+        model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
+
         Set<Course> courseSet = memberBoardService.getCourseSet(member);
         Set<CourseDTO> courseDTOSet = courseSet.stream().map(c -> c.of()).collect(Collectors.toSet());
         model.addAttribute("list", courseDTOSet);

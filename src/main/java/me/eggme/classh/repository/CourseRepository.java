@@ -17,4 +17,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     Optional<Course> findByUrl(String url);
 
     List<Course> findTop12ByCourseState(CourseState courseState);
+    
+    List<Course> findTop4ByCourseState(CourseState courseState);
 }

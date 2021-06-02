@@ -8,6 +8,8 @@ board_title.main_wrap{padding: 16px;}
 .min_height{min-height: 300px;}
 .board_title{font-size: 16px; font-weight: 500; color: #343A40; padding: 8px; margin-bottom: 12px; cursor: pointer;}
 .board_base{display: flex; flex-direction: column; justify-content: center; padding-bottom: 4px; cursor: pointer;}
+.board_content{display: flex; flex-grow: 1; flex-direction: column;}
+.no_submitted_courses{display: flex; flex-grow: 1; justify-content: center; align-items: center;}
 .md_row_wrap{display: flex; justify-content: center;}
 .md_column_wrap{display: flex; flex-direction: column; justify-content: center;width: 100%;}
 .md_row_based{display: flex; flex-direction: row;  padding-right: 8px;}

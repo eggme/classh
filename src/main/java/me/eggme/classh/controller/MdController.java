@@ -33,6 +33,11 @@ public class MdController {
 
     @GetMapping(value = "/dashboard")
     public String mdDashboard(@AuthenticationPrincipal Member member, Model model){
+
+        List<CourseDTO> submitList = courseService.getSubmitCourses();
+        model.addAttribute("submitList", submitList);
+
+
         model.addAttribute("member", member);
         return "md/dashboard";
     }

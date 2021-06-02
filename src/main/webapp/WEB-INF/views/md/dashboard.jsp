@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.2.20171210/classList.min.js"></script>
@@ -24,114 +26,57 @@
             <div class="board_5_layout board">
                 <div class="board_title">제출완료 강의</div>
                 <div class="board_content">
-                    <div class="nonpublic_course_box board_base">
-                        <div class="md_row_wrap">
-                            <div class="md_column_wrap">
-                                <div class="content_wrapper">
-                                    <div class="image_wrap">
-                                        <div class="img_border">
-                                            <img src="/imgs/default_course_image.png"  class="img_value"/>
-                                        </div>
-                                    </div>
-                                    <div class="course_content_wrap">
-                                        <div class="course_title_wrap">
-                                            <div class="title">테스트용 강의</div>
-                                            <div class="md_row_based">
-                                                <div class="instructor board_sub_text_based">이승준</div>
-                                                <div class="separator board_sub_text_based">|</div>
-                                                <div class="timestamp board_sub_text_based">2021-05-06 18:02</div>
+                    <c:choose>
+                        <c:when test="${fn:length(submitList) gt 0}">
+                            <c:forEach var="course" items="${submitList}" varStatus="index">
+                                <div class="nonpublic_course_box board_base" data-id="${course.id}">
+                                    <div class="md_row_wrap">
+                                        <div class="md_column_wrap">
+                                            <div class="content_wrapper">
+                                                <div class="image_wrap">
+                                                    <div class="img_border">
+                                                        <img src="${course.courseImg}"  class="img_value"/>
+                                                    </div>
+                                                </div>
+                                                <div class="course_content_wrap">
+                                                    <div class="course_title_wrap">
+                                                        <div class="title">
+                                                            <c:out value="${course.name}"/>
+                                                        </div>
+                                                        <div class="md_row_based">
+                                                            <div class="instructor board_sub_text_based">
+                                                                <c:out value="${course.instructor.member.nickName}"/>
+                                                            </div>
+                                                            <div class="separator board_sub_text_based">|</div>
+                                                            <div class="timestamp board_sub_text_based">
+                                                                <fmt:parseDate var="dateString" value="${course.modify_at}"
+                                                                               pattern="yyyy-MM-dd'T'HH:mm" type="both"/>
+                                                                <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd HH:mm"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="status_box">
+                                                        <div class="category">
+                                                            <c:out value="${course.courseCategory.value}"/>
+                                                        </div>
+                                                        <div class="status published">
+                                                            <c:out value="${course.courseState.value}"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="status_box">
-                                            <div class="category">개발·프로그래밍</div>
-                                            <div class="status published">제출완료</div>
                                         </div>
                                     </div>
                                 </div>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="no_submitted_courses">
+                                제출완료된 강의가 없습니다.
                             </div>
-                        </div>
-                    </div>
-                    <div class="nonpublic_course_box board_base">
-                        <div class="md_row_wrap">
-                            <div class="md_column_wrap">
-                                <div class="content_wrapper">
-                                    <div class="image_wrap">
-                                        <div class="img_border">
-                                            <img src="/imgs/default_course_image.png"  class="img_value"/>
-                                        </div>
-                                    </div>
-                                    <div class="course_content_wrap">
-                                        <div class="course_title_wrap">
-                                            <div class="title">테스트용 강의</div>
-                                            <div class="md_row_based">
-                                                <div class="instructor board_sub_text_based">이승준</div>
-                                                <div class="separator board_sub_text_based">|</div>
-                                                <div class="timestamp board_sub_text_based">2021-05-06 18:02</div>
-                                            </div>
-                                        </div>
-                                        <div class="status_box">
-                                            <div class="category">개발·프로그래밍</div>
-                                            <div class="status published">제출완료</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="nonpublic_course_box board_base">
-                        <div class="md_row_wrap">
-                            <div class="md_column_wrap">
-                                <div class="content_wrapper">
-                                    <div class="image_wrap">
-                                        <div class="img_border">
-                                            <img src="/imgs/default_course_image.png"  class="img_value"/>
-                                        </div>
-                                    </div>
-                                    <div class="course_content_wrap">
-                                        <div class="course_title_wrap">
-                                            <div class="title">테스트용 강의</div>
-                                            <div class="md_row_based">
-                                                <div class="instructor board_sub_text_based">이승준</div>
-                                                <div class="separator board_sub_text_based">|</div>
-                                                <div class="timestamp board_sub_text_based">2021-05-06 18:02</div>
-                                            </div>
-                                        </div>
-                                        <div class="status_box">
-                                            <div class="category">개발·프로그래밍</div>
-                                            <div class="status published">제출완료</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="nonpublic_course_box board_base">
-                        <div class="md_row_wrap">
-                            <div class="md_column_wrap">
-                                <div class="content_wrapper">
-                                    <div class="image_wrap">
-                                        <div class="img_border">
-                                            <img src="/imgs/default_course_image.png"  class="img_value"/>
-                                        </div>
-                                    </div>
-                                    <div class="course_content_wrap">
-                                        <div class="course_title_wrap">
-                                            <div class="title">테스트용 강의</div>
-                                            <div class="md_row_based">
-                                                <div class="instructor board_sub_text_based">이승준</div>
-                                                <div class="separator board_sub_text_based">|</div>
-                                                <div class="timestamp board_sub_text_based">2021-05-06 18:02</div>
-                                            </div>
-                                        </div>
-                                        <div class="status_box">
-                                            <div class="category">개발·프로그래밍</div>
-                                            <div class="status published">제출완료</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        </c:otherwise>
+                    </c:choose>
+
                 </div>
             </div>
             <div class="board_5_layout board">

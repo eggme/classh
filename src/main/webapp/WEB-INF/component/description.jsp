@@ -34,17 +34,17 @@
                             <div class="play_text">
                                 <div class="play_text_title">이어 학습하기</div>
                                 <div class="play_text_percent">진도율 :
-                                    <c:out value="${courseHistory.completionCourseCount()}"/>강 / <c:out
+                                    <c:out value="${courseHistory.findHistoriesCompletionCourseCount(course)}"/>강 / <c:out
                                             value="${total_section_class_count}"/>강 (<span
                                             class="course_current_percent_value_area">
-                                            <script>getPercent('${courseHistory.completionCourseCount()}', '${total_section_class_count}', '.course_current_percent_value_area')</script></span>)
+                                            <script>getPercent('${courseHistory.findHistoriesCompletionCourseCount(course)}', '${total_section_class_count}', '.course_current_percent_value_area')</script></span>)
                                 </div>
                             </div>
                             <div class="video_progress">
                                 <div class="progress_wrap">
                                     <progress class="course_progress_data" value="80" max="100"/>
                                     <script>
-                                        getPercentProgress('${courseHistory.completionCourseCount()}', '${total_section_class_count}', '.course_progress_data');
+                                        getPercentProgress('${courseHistory.findHistoriesCompletionCourseCount(course)}', '${total_section_class_count}', '.course_progress_data');
                                     </script>
                                 </div>
                             </div>

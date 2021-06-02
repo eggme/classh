@@ -78,18 +78,33 @@
                     </sec:authorize>
                     <sec:authorize access="isAuthenticated()">
                         <li>
-                            <div class="cart">
+                            <div class="alarm icon_template">
                                 <i class="far fa-bell bell_over"></i>
+                                <div class="course_alarm hidden_box_template">
+                                    <div class="alarm_rotate_box hidden_rotate_box_template"></div>
+                                    <div class="alarm_tab hidden_tab_flex_template">
+                                        <div class="alarm_title">읽지 않은 알람
+                                            <span class="no_read_alarm_count">0</span> 개</div>
+                                    </div>
+                                    <div class="alarm_tab_content"></div>
+                                    <div class="alarm_tab_button hidden_button_tab_template">
+                                        <div class="cart_button hidden_button_template">더 많은 알람 보기</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="cart icon_template">
                                 <i class="fas fa-shopping-cart cart_over"></i>
-                                <div class="course_cart">
-                                    <div class="cart_rotate_box"></div>
-                                    <div class="cart_tab">
+                                <div class="course_cart hidden_box_template">
+                                    <div class="cart_rotate_box hidden_rotate_box_template"></div>
+                                    <div class="cart_tab hidden_tab_flex_template">
                                         <div class="tab_course_cart cart_tab_active">수강바구니</div>
                                         <div class="tab_wishlist">위시리스트</div>
                                     </div>
                                     <div class="cart_tab_content"></div>
-                                    <div class="cart_tab_button">
-                                        <div class="cart_button">수강 바구니로 이동</div>
+                                    <div class="cart_tab_button hidden_button_tab_template">
+                                        <div class="cart_button hidden_button_template">수강 바구니로 이동</div>
                                     </div>
                                 </div>
                             </div>

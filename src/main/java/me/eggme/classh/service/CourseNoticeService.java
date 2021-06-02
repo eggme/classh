@@ -2,16 +2,13 @@ package me.eggme.classh.service;
 
 import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.CourseNoticeDTO;
-import me.eggme.classh.domain.entity.Course;
-import me.eggme.classh.domain.entity.CourseComment;
-import me.eggme.classh.domain.entity.CourseNotice;
-import me.eggme.classh.domain.entity.Member;
+import me.eggme.classh.domain.dto.NotificationEvent;
+import me.eggme.classh.domain.dto.NotificationType;
+import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.exception.NoSearchCourseException;
-import me.eggme.classh.repository.CourseCommentRepository;
-import me.eggme.classh.repository.CourseNoticeRepository;
-import me.eggme.classh.repository.CourseRepository;
-import me.eggme.classh.repository.MemberRepository;
+import me.eggme.classh.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +29,9 @@ public class CourseNoticeService {
     @Autowired
     private CourseCommentRepository courseCommentRepository;
 
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
+
     /***
      * 강사가 새소식을 등록함
      * @param courseNotice 새소식 정보
@@ -49,6 +49,12 @@ public class CourseNoticeService {
 
         savedCourseNotice.setMember(savedMember);
         savedCourseNotice.setCourse(savedCourse);
+
+        /* 추가사항 새소식 등록 시 알림 발송 */
+        List<Member> memberList = savedCourse.getSignUpCourses().stream().map(suc ->
+                suc.getMember()).collect(Collectors.toList());
+
+        applicationEventPublisher.publishEvent(new NotificationEvent(memberList, savedMember, savedCourseNotice.getNotice()));
 
         return savedCourse.getUrl();
     }
@@ -109,7 +115,7 @@ public class CourseNoticeService {
                 new RuntimeException("해당되는 공지사항이 없습니다"));
         String url = savedCourseNotice.getCourse().getUrl();
         savedCourseNotice.getCourse().getCourseNotices().remove(savedCourseNotice);
-        savedCourseNotice.getCourseComments().stream().forEach(cc-> cc.setCourseNotice(null));
+        savedCourseNotice.getCourseComments().stream().forEach(cc -> cc.setCourseNotice(null));
         courseNoticeRepository.delete(savedCourseNotice);
         return url;
     }

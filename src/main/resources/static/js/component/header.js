@@ -26,12 +26,24 @@ $(function(){
     });
     $('.cart').hover(function(){
         loadCourseCart();
-        $('.course_cart').css('display', 'block');
+        $('.course_cart').css('display', 'flex');
         $('.cart_over').css('color', '#1dc078');
     }, function(){
         $('.course_cart').css('display', 'none');
         $('.cart_over').css('color', '#959B9D');
     });
+
+    $('.alarm').hover(function(){
+        loadCourseCart();
+        $('.course_alarm').css('display', 'flex');
+        $('.bell_over').removeClass('far');
+        $('.bell_over').addClass('fas');
+    }, function(){
+        $('.course_cart').css('display', 'none');
+        $('.bell_over').removeClass('fas');
+        $('.bell_over').addClass('far');
+    });
+
     $('.cart_button').click(function(){
         location.href="/course/carts";
     })

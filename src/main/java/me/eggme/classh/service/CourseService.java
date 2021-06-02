@@ -12,6 +12,7 @@ import me.eggme.classh.utils.FileUploadFactory;
 import me.eggme.classh.utils.FileUploader;
 import me.eggme.classh.utils.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,15 +30,24 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CourseService {
 
-    @Autowired private CourseRepository courseRepository;
-    @Autowired private MemberRepository memberRepository;
-    @Autowired private CourseSessionRepository courseSessionRepository;
-    @Autowired private CourseClassRepository courseClassRepository;
-    @Autowired private SignUpCourseRepository signUpCourseRepository;
-    @Autowired private RecommendationRepository recommendationRepository;
-    @Autowired private SkillTagRepository skillTagRepository;
-    @Autowired private PaymentRepository paymentRepository;
-    @Autowired private CartRepository cartRepository;
+    @Autowired
+    private CourseRepository courseRepository;
+    @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
+    private CourseSessionRepository courseSessionRepository;
+    @Autowired
+    private CourseClassRepository courseClassRepository;
+    @Autowired
+    private SignUpCourseRepository signUpCourseRepository;
+    @Autowired
+    private RecommendationRepository recommendationRepository;
+    @Autowired
+    private SkillTagRepository skillTagRepository;
+    @Autowired
+    private PaymentRepository paymentRepository;
+    @Autowired
+    private CartRepository cartRepository;
 
     private FileUploader fileUploader;
 
@@ -70,7 +80,7 @@ public class CourseService {
      */
     public List<Course> getCourses(String username) {
         Member member = memberRepository.findByUsername(username).orElseThrow(() -> new EmailExistedException(username));
-        if(member.getInstructor() == null) return null;
+        if (member.getInstructor() == null) return null;
         List<Course> courses = member.getInstructor().getCourses();
         return courses;
     }
@@ -80,7 +90,7 @@ public class CourseService {
      * @param url - 해당 강의의 URL
      * @return
      */
-    public Course getCourse(String url){
+    public Course getCourse(String url) {
         Course course = courseRepository.findByUrl(url).orElseThrow(() -> new NoSearchCourseException());
         return course;
     }
@@ -90,7 +100,7 @@ public class CourseService {
      * @param id - 강의의 PK
      * @return
      */
-    public Course getCourse(Long id){
+    public Course getCourse(Long id) {
         Course course = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
         return course;
     }
@@ -100,18 +110,20 @@ public class CourseService {
      * @param id
      * @return
      */
-    public CourseClass getCourseClass(Long id){
+    public CourseClass getCourseClass(Long id) {
         CourseClass courseClass = courseClassRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
         return courseClass;
     }
+
     /***
      * 유저가 수강신청을 할 때 호출되는 메소드
      * @param course - 수강신청 할 강의
      * @param member - 유저
      */
     @Transactional
-    protected void connectCourseUserRelation(Course course, Member member){
-        SignUpCourse signUpCourse = new SignUpCourse();;
+    protected void connectCourseUserRelation(Course course, Member member) {
+        SignUpCourse signUpCourse = new SignUpCourse();
+        ;
         SignUpCourse savedSignUpCourse = signUpCourseRepository.save(signUpCourse);
         member.connectCourse(course, savedSignUpCourse);
     }
@@ -121,28 +133,15 @@ public class CourseService {
      * @param course - 섹션과 강의가 만들어질 강의
      */
     @Transactional
-    public void createDefaultSessionAndClass(Course course){
+    public void createDefaultSessionAndClass(Course course) {
         CourseClass courseClass = new CourseClass();
         courseClass.setName("첫번째 수업을 만들어주세요");
         courseClass.setPreview(true);
-        /* 테스트용 반드시 제거할 것  시작 */
-        courseClass.setMediaPath("https://res.cloudinary.com/dg8tebwjm/video/upload/v1622075948/78030bfba74f5bfd625ecb75755f3b8073f351ab4a6bce15438f7d157e93e891.mp4");
-        /* 테스트용 반드시 제거할 것 끝 */
         CourseClass savedCourseClass = courseClassRepository.save(courseClass);
-
-        /* 테스트용 반드시 제거할 것 시작 */
-        CourseClass courseClass2 = new CourseClass();
-        courseClass2.setName("두번째 수업을 만들어주세요");
-        courseClass2.setMediaPath("https://res.cloudinary.com/dg8tebwjm/video/upload/v1622075948/78030bfba74f5bfd625ecb75755f3b8073f351ab4a6bce15438f7d157e93e891.mp4");
-        CourseClass savedCourseClass2 = courseClassRepository.save(courseClass2);
-        /* 테스트용 반드시 제거할 것  끝 */
 
         CourseSection courseSection = new CourseSection();
         courseSection.setName("첫번째 섹션의 제목을 입력해주세요.");
         courseSection.addCourseClass(savedCourseClass);
-        /* 테스트용 반드시 제거할 것 시작 */
-        courseSection.addCourseClass(savedCourseClass2);
-        /* 테스트용 반드시 제거할 것  끝 */
         CourseSection savedCourseSession = courseSessionRepository.save(courseSection);
 
         course.addCourseSession(savedCourseSession);
@@ -159,18 +158,20 @@ public class CourseService {
      */
     @Transactional
     public Course editCourse(Course course, CourseCategory courseCategory, CourseLevel courseLevel,
-                             List<Recommendation> recommendations, List<SkillTag> skillTags){
+                             List<Recommendation> recommendations, List<SkillTag> skillTags) {
         Course findCourse = courseRepository.findById(course.getId()).orElseThrow(() -> new NoSearchCourseException());
         findCourse.setName(course.getName());
         findCourse.setPrice(course.getPrice());
         findCourse.setCourseCategory(courseCategory);
         findCourse.setCourseLevel(courseLevel);
-        if(recommendations != null){
-            if(!hasRecommendations(findCourse)) recommendations.stream().forEach(r-> findCourse.addCourseRecommendation(recommendationRepository.save(r)));
+        if (recommendations != null) {
+            if (!hasRecommendations(findCourse))
+                recommendations.stream().forEach(r -> findCourse.addCourseRecommendation(recommendationRepository.save(r)));
             else changeRecommendations(findCourse, recommendations);
         }
-        if(skillTags != null){
-            if(!hasSkillTag(findCourse)) skillTags.stream().forEach(st -> findCourse.addSkillTag(skillTagRepository.save(st)));
+        if (skillTags != null) {
+            if (!hasSkillTag(findCourse))
+                skillTags.stream().forEach(st -> findCourse.addSkillTag(skillTagRepository.save(st)));
             else changeSkillTags(findCourse, skillTags);
         }
         return findCourse;
@@ -182,7 +183,7 @@ public class CourseService {
      * @return
      */
     @Transactional
-    public Course editCourse(Course course){
+    public Course editCourse(Course course) {
         Course findCourse = courseRepository.findById(course.getId()).orElseThrow(() -> new NoSearchCourseException());
         findCourse.setShortDesc(course.getShortDesc());
         findCourse.setLongDesc(course.getLongDesc());
@@ -195,7 +196,7 @@ public class CourseService {
      * @return
      */
     @Transactional
-    public String uploadCourseDescriptionImage(File file){
+    public String uploadCourseDescriptionImage(File file) {
         fileUploader = FileUploadFactory.getFileUploader(ResourceType.IMAGE);
         return fileUploader.saveFile(file, ResourceType.IMAGE);
     }
@@ -217,7 +218,7 @@ public class CourseService {
      * 강사가 섹션을 수정했을 때
      */
     @Transactional
-    public CourseSection editSection(CourseSection courseSection){
+    public CourseSection editSection(CourseSection courseSection) {
         CourseSection savedCourseSection =
                 courseSessionRepository.findById(courseSection.getId()).orElseThrow(
                         () -> new NoSearchCourseSectionException());
@@ -253,7 +254,7 @@ public class CourseService {
         fileUploader = FileUploadFactory.getFileUploader(ResourceType.VIDEO);
         String videoUrl = fileUploader.saveFile(file, ResourceType.VIDEO);
         findClass.setMediaPath(videoUrl);
-        findClass.setSeconds((int)duration);
+        findClass.setSeconds((int) duration);
         return findClass.of();
     }
 
@@ -321,17 +322,17 @@ public class CourseService {
         return findCourse;
     }
 
-    private boolean hasRecommendations(Course course){
+    private boolean hasRecommendations(Course course) {
         return course.getRecommendations().size() == 0 ? false : true;
     }
 
-    private boolean hasSkillTag(Course course){
+    private boolean hasSkillTag(Course course) {
         return course.getSkillTags().size() == 0 ? false : true;
     }
 
     @Transactional
-    protected void changeSkillTags(Course course, List<SkillTag> skillTags){
-        skillTags.stream().forEach(st-> {
+    protected void changeSkillTags(Course course, List<SkillTag> skillTags) {
+        skillTags.stream().forEach(st -> {
             st.setCourse(course);
             skillTagRepository.save(st);
         });
@@ -340,8 +341,8 @@ public class CourseService {
     }
 
     @Transactional
-    protected void changeRecommendations(Course course, List<Recommendation> recommendations){
-        recommendations.stream().forEach(r-> {
+    protected void changeRecommendations(Course course, List<Recommendation> recommendations) {
+        recommendations.stream().forEach(r -> {
             r.setCourse(course);
             recommendationRepository.save(r);
         });
@@ -416,7 +417,7 @@ public class CourseService {
      * @param courseState 변경할 상태 객체
      */
     @Transactional
-    public void changeCourseState(Long id, CourseState courseState){
+    public void changeCourseState(Long id, CourseState courseState) {
         Course savedCourse = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
         savedCourse.setCourseState(courseState);
     }
@@ -426,11 +427,23 @@ public class CourseService {
      * @return
      */
     @Transactional
-    public List<CourseDTO> getCourseList(){
+    public List<CourseDTO> getCourseList() {
         CourseState courseState = CourseState.RELEASE;
         List<Course> list = courseRepository.findTop12ByCourseState(courseState);
         List<CourseDTO> courseDTOList = list.stream().map(c -> c.of()).collect(Collectors.toList());
 
+        return courseDTOList;
+    }
+
+    /***
+     * md의 dashboard에서 SUBMIT 상태의 강의를 4개 조회
+     * @return
+     */
+    @Transactional
+    public List<CourseDTO> getSubmitCourses() {
+        CourseState courseState = CourseState.SUBMIT;
+        List<Course> list = courseRepository.findTop4ByCourseState(courseState);
+        List<CourseDTO> courseDTOList = list.stream().map(c -> c.of()).collect(Collectors.toList());
         return courseDTOList;
     }
 
@@ -451,13 +464,13 @@ public class CourseService {
      * @return
      */
     @Transactional
-    public String findById(Long id){
+    public String findById(Long id) {
         Course savedCourse = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
         return savedCourse.getUrl();
     }
 
     @Transactional
-    public void deleteCart(Member member, Long id){
+    public void deleteCart(Member member, Long id) {
         Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("해당하는 유저가 존재하지 않습니다."));
 
@@ -467,9 +480,9 @@ public class CourseService {
         Cart savedCart = cartRepository.findById(savedMember.getCart().getId()).orElse(null);
 
         Iterator<Course> iterator = savedCart.getCourses().iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             Course savedCourseObject = iterator.next();
-            if(savedCourse.getId() == savedCourseObject.getId()){
+            if (savedCourse.getId() == savedCourseObject.getId()) {
                 System.out.println(savedCourse.hashCode() + " : " + savedCourseObject.hashCode());
                 System.out.println(savedCourse.equals(savedCourseObject));
                 iterator.remove();
@@ -480,7 +493,7 @@ public class CourseService {
         /* AuthenticationToken 수정 */
 
         Authentication beforeAuthentication = SecurityContextHolder.getContext().getAuthentication();
-        Member authenticationObject = ((Member)beforeAuthentication.getPrincipal());
+        Member authenticationObject = ((Member) beforeAuthentication.getPrincipal());
         authenticationObject.setCart(savedCart);
         Authentication afterAuthentication = new UsernamePasswordAuthenticationToken(authenticationObject, null, beforeAuthentication.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(afterAuthentication);
@@ -512,7 +525,7 @@ public class CourseService {
         savedMember.addPayment(savedPayment);
         savedPayment.setMember(savedMember);
 
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             Course savedCourse = courseRepository.findById(list.get(i)).orElseThrow(() ->
                     new NoSearchCourseException());
 
@@ -534,7 +547,7 @@ public class CourseService {
         /* 장바구니 초기화 */
         Cart savedCart = cartRepository.findById(cart_id).orElseThrow(() ->
                 new RuntimeException());
-        log.info(savedCart.getCourses().stream().map(c-> c.getName()).collect(Collectors.joining(", ")));
+        log.info(savedCart.getCourses().stream().map(c -> c.getName()).collect(Collectors.joining(", ")));
 
         savedCart.deleteCarts();
         cartRepository.deleteById(savedCart.getId());
@@ -542,7 +555,7 @@ public class CourseService {
         /* AuthenticationToken 수정 */
 
         Authentication beforeAuthentication = SecurityContextHolder.getContext().getAuthentication();
-        Member authenticationObject = ((Member)beforeAuthentication.getPrincipal());
+        Member authenticationObject = ((Member) beforeAuthentication.getPrincipal());
         authenticationObject.setCart(null);
         Authentication afterAuthentication = new UsernamePasswordAuthenticationToken(authenticationObject, null, beforeAuthentication.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(afterAuthentication);

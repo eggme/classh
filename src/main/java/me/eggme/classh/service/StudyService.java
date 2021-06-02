@@ -132,12 +132,12 @@ public class StudyService {
     public boolean hasCourseHistory(Long memberId, Long courseId) {
         Member savedMember = memberRepository.findById(memberId).orElseThrow(() ->
                 new UsernameNotFoundException("해당되는 유저를 찾을 수 없습니다."));
-
+        log.info(savedMember.toString());
         List<CourseHistory> courseHistories = savedMember.getCourseHistories().stream().filter(ch ->
                 ch.getCourse().getId() == courseId).collect(Collectors.toList());
 
-        if(courseHistories != null) return true;
-        return false;
+        if(courseHistories != null && courseHistories.size() > 0) return true;
+        return false ;
     }
 
     /**
