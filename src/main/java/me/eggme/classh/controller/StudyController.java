@@ -48,6 +48,7 @@ public class StudyController {
     @GetMapping(value="/{id}/preview/{class_id}*")
     public String coursePreview(@PathVariable Long id,
                                 @PathVariable Long class_id,
+
                                 Model model){
         Course course = courseService.getCourse(id);
         CourseClass courseClass = courseService.getCourseClass(class_id);
@@ -62,6 +63,11 @@ public class StudyController {
         }
         model.addAttribute("course", courseDTO);
         model.addAttribute("courseClass", courseClassDTO);
+
+        /* 모달 관련 */
+        String modal = model.asMap().get("modal") == null ? null : model.asMap().get("modal").toString();
+        if(modal != null) model.addAttribute("modal", modal);
+
         return "study/studyRoom/"+courseClassDTO.getName();
     }
 
@@ -208,7 +214,6 @@ public class StudyController {
      */
     @PostMapping(value = "/add/cart")
     @PreAuthorize("isAuthenticated()")
-    @Transactional
     public String addCart(@AuthenticationPrincipal Member member,
                           @RequestParam(value = "course_id") Long id,
                           @RequestParam(value = "courseClass_id") Long classId,

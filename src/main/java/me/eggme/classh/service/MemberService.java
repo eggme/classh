@@ -109,7 +109,6 @@ public class MemberService {
      */
     @Transactional
     public void addCourseCart(Member member, Long id) {
-        log.info("asdasdasdsaadsaadas");
         Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("해당 유저를 찾을 수 없습니다"));
         Course savedCourse = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
@@ -124,6 +123,8 @@ public class MemberService {
             cart = cartRepository.findById(savedMember.getCart().getId()).orElse(null);
             if(cart != null){
                 cart.addCourse(savedCourse);
+                savedMember.setCart(null);
+                savedMember.setCart(cart);
             }
         }
         if( cart != null){

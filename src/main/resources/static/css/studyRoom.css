@@ -95,3 +95,14 @@ body, html {width: 100%; height: 100%; margin: 0 auto; overflow-y: hidden;}
 .clear_course_title{font-size: 24px; font-weight: 500; word-break: keep-all; margin-bottom: 24px; text-align: center; margin-top: 24px;}
 .clear_course_desc{width: 288px; font-size: 16px; margin: 0 auto; display: flex; justify-content: center; text-align: center; margin-bottom: 24px; word-break: keep-all;}
 .modal_submit_button_template{padding: 12px 24px; font-size: 16px; color: white; cursor: pointer; background-color: #1dc078; margin-left: 4px; border-radius: 4px;}
+.modal_cancel_button_template{padding: 12px 24px; font-size: 16px; color: #343A40; cursor: pointer; background-color: #f1f3f5; margin-right: 4px; border-radius: 4px;}
+.modal_submit_button_template{padding: 12px 24px; font-size: 16px; color: white; cursor: pointer; background-color: #1dc078; margin-left: 4px; border-radius: 4px;}
+.add_cart_exit{padding-bottom: 20px; display: flex; justify-content: center; align-items: center; margin-top: 48px;}
+.add_cart_exit *{font-size: 48px; color: #1dc078;}
+.add_cart_title{display: flex; justify-content: center; text-align: center; font-size: 22px; font-weight: 500; padding-bottom: 6px;}
+.add_cart_desc{display: flex; justify-content: center; text-align: center; margin-bottom: 24px;}
+
+
+.animate{-webkit-animation: animatezoom 0.6s; animation: animatezoom 0.6s;}
+@-webkit-keyframes animatezoom { from {-webkit-transform: scale(0)} to {-webkit-transform: scale(1)} }
+@keyframes animatezoom { from {transform: scale(0)} to {transform: scale(1)} }

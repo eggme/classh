@@ -120,6 +120,16 @@ public class Course extends BaseTimeEntity implements Serializable {
         this.courseState = CourseState.TEMPORARY;
     }
 
+    @Override
+    public boolean equals(Object o){
+        Course courseObject = (Course)o;
+        if(this.getId() == courseObject.getId()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public CourseDTO of(){
         CourseDTO courseDTO = ModelMapperUtils.getModelMapper().map(this, CourseDTO.class);
         String myCourseInstructorNickName = this.getInstructor().getCourses().stream().filter(c ->

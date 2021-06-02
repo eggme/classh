@@ -46,16 +46,17 @@ public class CourseDTO implements Serializable {
 
     // 수강신청 상태인지 체크
     public boolean isCourseRegistration(Member member){
-
-        if(signUpCourses != null){
-            log.info(signUpCourses.stream().map(suc-> suc.getMember().getUsername()).collect(Collectors.joining(", ")));
-            SignUpCourse findCourseRegistration = signUpCourses.stream().filter(suc ->{
-                log.info(suc.getMember().getUsername());
-                return suc.getMember().getId() == member.getId();
-                    }).findFirst().orElse(null);
-            if(findCourseRegistration != null) return true;
+        try{
+            if(signUpCourses != null){
+                SignUpCourse findCourseRegistration = signUpCourses.stream().filter(suc ->{
+                    return suc.getMember().getId() == member.getId();
+                }).findFirst().orElse(null);
+                if(findCourseRegistration != null) return true;
+            }
+            return false;
+        }catch(NullPointerException npe){
+            return false;
         }
-        return false;
     }
 
     // 총 강의 시간

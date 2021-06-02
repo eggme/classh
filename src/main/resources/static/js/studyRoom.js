@@ -68,25 +68,32 @@ $(function () {
         let id = $(this).attr('data-id');
         let cId = $(this).attr('data-cid');
         let preview = $(this).attr('data-p');
-        if(preview == 'true'){
-            location.href="/study/"+id+"/preview/"+cId;
+        let authentication =  $(this).hasClass('authentication');
+        if(authentication == true){ /* 수강신청이 됐을 때 */
+            location.href="/study/"+id+"/lecture/"+cId;
         }else{
-            if($(this).hasClass('lock')){ // 익명 사용자의 미리보기 강의에서 미리보기 설정이 되어있지 않는 강의를 눌렀을 때
+            if(preview == 'true'){ /* 수강신청이 안됐을 떄, 미리보기 강의라면 */
                 location.href="/study/"+id+"/preview/"+cId;
-            }else{
-                location.href="/study/"+id+"/lecture/"+cId;
+            }else{ /* 수강신청이 안됐을 때, 미리보기 강의가 아니라면 */
+                if($(this).hasClass('lock')){ // 익명 사용자의 미리보기 강의에서 미리보기 설정이 되어있지 않는 강의를 눌렀을 때
+                    location.href="/study/"+id+"/preview/"+cId;
+                }
             }
         }
     });
 });
 
-function createClassContent(name, course_id , class_id, sectionCode, classCode, study_time, preview) {
+function createClassContent(name, course_id , class_id, sectionCode, classCode, study_time, preview, signup) {
     let tag = "class_box_"+class_id;
     var customTag = "<i class='fas fa-check-circle'></i>";
     var additionalClassLock = "";
-    if(preview == 'false'){
-        customTag = "<i class='fas fa-lock'></i>";
-        additionalClassLock = "lock";
+    if(signup == true){
+        additionalClassLock = "authentication";
+    }else{
+        if(preview == 'false'){
+            customTag = "<i class='fas fa-lock'></i>";
+            additionalClassLock = "lock";
+        }
     }
     let parentObj = $('.class_wrap[data-sid=' + sectionCode + ']');
     let template = "<div class='class_box " + tag + " "+additionalClassLock+"' data-id="+course_id+" data-cid=" + class_id + " data-sid=" + sectionCode + " data-ccode=" + classCode + " data-p="+ preview +">" +
@@ -213,4 +220,8 @@ function changeActiveCourse(class_id){
             $('.class_box_'+class_id).addClass("active");
         }
     }
+}
+
+function openModal(obj){
+    $(obj).css("display", "block");
 }

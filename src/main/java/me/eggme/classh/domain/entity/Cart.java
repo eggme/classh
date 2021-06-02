@@ -6,10 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
@@ -29,17 +26,12 @@ public class Cart extends BaseTimeEntity implements Serializable {
     private Member member;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "COURSE_ID")
     private Set<Course> courses = new LinkedHashSet<>();
 
     public void addCourse(Course course) {
         this.courses.add(course);
-    }
-
-    public void deleteCart(Member member, Course course){
-        this.getCourses().remove(course);
-        member.setCart(this);
     }
 
     public void deleteCarts() {

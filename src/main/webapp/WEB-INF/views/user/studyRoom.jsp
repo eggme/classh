@@ -130,20 +130,40 @@
             </div>
             <div class="course_content_wrap" data-cId="${courseClass.id}">
                 <div class="course_content">
-                    <c:forEach var="section" items="${course.courseSections}" varStatus="status">
-                        <script>// course_id, section_id, sectionCode
-                        createSectionContent('${section.name}', '${course.id}',
-                            '${section.id}', '${status.index}');
-                        </script>
-                        <c:forEach var="course_class" items="${section.courseClasses}" varStatus="classStatus">
-                            <script> // name, class_id, sectionCode, classCode, study_time
-                            createClassContent('${course_class.name}', '${course.id}',
-                                '${course_class.id}', '${status.index}',
-                                '${classStatus.index}', '${course_class.seconds}',
-                                '${course_class.preview}');
-                            </script>
-                        </c:forEach>
-                    </c:forEach>
+                    <c:choose>
+                        <c:when test="${course.isCourseRegistration(userobject)}"> <%-- 수강신청이 됐을 때 --%>
+                            <c:forEach var="section" items="${course.courseSections}" varStatus="status">
+                                <script>// course_id, section_id, sectionCode
+                                createSectionContent('${section.name}', '${course.id}',
+                                    '${section.id}', '${status.index}');
+                                </script>
+                                <c:forEach var="course_class" items="${section.courseClasses}" varStatus="classStatus">
+                                    <script> // name, class_id, sectionCode, classCode, study_time
+                                    createClassContent('${course_class.name}', '${course.id}',
+                                        '${course_class.id}', '${status.index}',
+                                        '${classStatus.index}', '${course_class.seconds}',
+                                        '${course_class.preview}', true);
+                                    </script>
+                                </c:forEach>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise> <%-- 수강신청이 안됐거나 익명의 사용자일 때 --%>
+                            <c:forEach var="section" items="${course.courseSections}" varStatus="status">
+                                <script>// course_id, section_id, sectionCode
+                                createSectionContent('${section.name}', '${course.id}',
+                                    '${section.id}', '${status.index}');
+                                </script>
+                                <c:forEach var="course_class" items="${section.courseClasses}" varStatus="classStatus">
+                                    <script> // name, class_id, sectionCode, classCode, study_time
+                                    createClassContent('${course_class.name}', '${course.id}',
+                                        '${course_class.id}', '${status.index}',
+                                        '${classStatus.index}', '${course_class.seconds}',
+                                        '${course_class.preview}', false);
+                                    </script>
+                                </c:forEach>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
                     <c:choose>
                         <c:when test="${!(courseHistories eq null)}">
                             <c:forEach var="history" items="${courseHistories}" varStatus="index">
@@ -253,7 +273,15 @@
                                 <div class="button_area">
                                     <div class="payment_area">
                                         <div class="do_payment_button error_button" data-id="${course.id}">바로 결제하기</div>
-                                        <div class="add_course_button error_button" data-id="${course.id}">수강바구니 담기</div>
+                                        <sec:authorize access="isAuthenticated()">
+                                            <sec:authentication var="mem" property="principal"/>
+                                            <c:if test="${!(mem.isPutInTheCart(course.id))}">
+                                                <div class="add_course_button error_button" data-id="${course.id}">수강바구니 담기</div>
+                                            </c:if>
+                                        </sec:authorize>
+                                        <sec:authorize access="isAnonymous()">
+                                            <div class="add_course_button error_button" data-id="${course.id}">수강바구니 담기</div>
+                                        </sec:authorize>
                                         <div class="go_course_info_button error_button" data-url="${course.url}">강의소개로 이동</div>
                                     </div>
                                 </div>

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.File;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -465,7 +466,17 @@ public class CourseService {
 
         Cart savedCart = cartRepository.findById(savedMember.getCart().getId()).orElse(null);
 
-        savedCart.deleteCart(savedMember, savedCourse);
+        Iterator<Course> iterator = savedCart.getCourses().iterator();
+        while(iterator.hasNext()){
+            Course savedCourseObject = iterator.next();
+            if(savedCourse.getId() == savedCourseObject.getId()){
+                System.out.println(savedCourse.hashCode() + " : " + savedCourseObject.hashCode());
+                System.out.println(savedCourse.equals(savedCourseObject));
+                iterator.remove();
+            }
+        }
+        savedCart.getCourses().remove(savedCourse);
+        savedMember.setCart(savedCart);
         /* AuthenticationToken 수정 */
 
         Authentication beforeAuthentication = SecurityContextHolder.getContext().getAuthentication();
