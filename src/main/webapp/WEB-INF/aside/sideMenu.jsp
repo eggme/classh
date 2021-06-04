@@ -18,7 +18,7 @@
             <div class="ul_title">HOME</div>
             <ul class="tag_ul">
                 <li data-url="/member/dashboard" data-menu="dashboard">학습 대시보드</li>
-                <li>알림</li>
+                <li data-url="/member/notifications" data-menu="notification">알림</li>
             </ul>
         </div>
         <div class="study_management tag">

@@ -641,6 +641,8 @@
                                 <c:choose>
                                     <c:when test="${course.price eq 0}">
                                         <div class="course_price">무료</div>
+                                        <div class="course_status"></div>
+                                        <div class="learning_box_purchase learning_box_template" data-status="authentication">바로 학습하기</div>
                                     </c:when>
                                     <c:otherwise>
                                         <div class="course_price">
@@ -648,10 +650,10 @@
                                                 CostSeparatorKR('${course.price}', '.course_price');
                                             </script>
                                         </div>
+                                        <div class="course_status"></div>
+                                        <div class="learning_box_purchase learning_box_template" data-status="authentication">결제하기</div>
                                     </c:otherwise>
                                 </c:choose>
-                                <div class="course_status"></div>
-                                <div class="learning_box_purchase learning_box_template" data-status="authentication">결제하기</div>
                             </c:when>
                             <c:otherwise>
                                 <%-- 로그인은 됐는데 해당 유저가 해당 강의에 수강신청이 안된 상태 --%>

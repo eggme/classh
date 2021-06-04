@@ -13,6 +13,7 @@ import me.eggme.classh.utils.FileUploader;
 import me.eggme.classh.utils.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,6 +50,8 @@ public class CourseService {
     private PaymentRepository paymentRepository;
     @Autowired
     private CartRepository cartRepository;
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
 
     private FileUploader fileUploader;
 
@@ -360,10 +364,15 @@ public class CourseService {
      */
     @Transactional
     public void deleteCourseSection(Long id) {
-        CourseSection savedCourseSection
-                = courseSessionRepository.findById(id).orElseThrow(
-                () -> new NoSearchCourseSectionException());
-        courseSessionRepository.delete(savedCourseSection);
+        CourseSection savedCourseSection = courseSessionRepository.findById(id).orElseThrow(() ->
+                new NoSearchCourseSectionException());
+
+        Course savedCourse = courseRepository.findById(savedCourseSection.getCourse().getId()).orElseThrow(() ->
+                new NoSearchCourseException());
+
+        savedCourse.getCourseSections().remove(savedCourseSection);
+        savedCourseSection.setCourse(null);
+        courseSessionRepository.deleteById(id);
     }
 
     /***
@@ -372,10 +381,6 @@ public class CourseService {
      */
     @Transactional
     public void deleteCourseClass(Long id) {
-        CourseClass savedCourseClass
-                = courseClassRepository.findById(id).orElseThrow(
-                () -> new NoSearchCourseClassException()
-        );
         courseClassRepository.deleteById(id);
     }
 
@@ -405,10 +410,9 @@ public class CourseService {
      * @return
      */
     @Transactional
-    public List<CourseDTO> getCourses(Pageable pageable) {
-        List<CourseDTO> courseDTOList = courseRepository.findAll(pageable).stream().map(c ->
-                c.of()).collect(Collectors.toList());
-        return courseDTOList;
+    public Page<Course> getCourses(Pageable pageable) {
+        Page<Course> courseList = courseRepository.findAll(pageable);
+        return courseList;
     }
 
     /***
@@ -417,9 +421,27 @@ public class CourseService {
      * @param courseState 변경할 상태 객체
      */
     @Transactional
-    public void changeCourseState(Long id, CourseState courseState) {
+    public void changeCourseState(Member md, Long id, CourseState courseState) {
+        Member savedMD = memberRepository.findById(md.getId()).orElseThrow(() ->
+                new UsernameNotFoundException("해당되는 유저가 없습니다."));
+
         Course savedCourse = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
         savedCourse.setCourseState(courseState);
+
+        /* 추가 강의 상태 변경 시 강사에게 알림 */
+        Member savedInstructor = memberRepository.findById(savedCourse.getInstructor().getMember().getId()).orElseThrow(() ->
+                new UsernameNotFoundException("해당되는 유저를 찾을 수 없습니다"));
+
+        String eventTitle = "["+savedInstructor.getNickName()+"] 님의 강의 ["+ savedCourse.getName() +"] 가 최종적으로 승인 되었습니다.";
+        String eventMsg = "<p>["+savedInstructor.getNickName()+"] 님의 강의 ["+ savedCourse.getName() +"] 가 최종적으로 승인 되었습니다.</p>" +
+                    "<p>이제 다른 사람들이 강의를 보고, 수강신청 할 수 있어요!</p>" +
+                    "<p>강의 URL을 통해 사람들에게 홍보하여 수익을 올려보세요!</p>";
+
+        applicationEventPublisher.publishEvent(new NotificationEvent(Arrays.asList(savedInstructor),
+                eventTitle,
+                savedMD,
+                eventMsg,
+                NotificationType.INSTRUCTOR_NOTICE));
     }
 
     /***

@@ -15,6 +15,7 @@ html, body {width: 100%; height: 100%; margin: 0 auto; font-size: 16px;}
 .main_icon_template{display: flex;}
 
 .main_icon_template{padding: 0 50px; border-left: 2px solid #d8d8d8;}
+.icon_template i{font-size: 48px !important;}
 .first_item{border: none !important;}
 .icon_template{margin-right: 24px; font-size: 48px; color: #343A40;}
 .description_title{font-size: 14px; color: #1dc078; font-weight: 500; margin-bottom: 8px;}
@@ -59,6 +60,7 @@ html, body {width: 100%; height: 100%; margin: 0 auto; font-size: 16px;}
 .table_column_wrap{display: flex; flex-direction: column; justify-content: center; padding: 24px; max-width: 340px;}
 
 .table_column_title_image{ font-size: 4rem; margin-bottom: 2.5rem; color: #372670; display: flex; justify-content: center;}
+.table_column_title_image i{font-size: 4rem !important;}
 .table_column_title{font-weight: 600; color: #343A40; font-size: 18px; text-align: center; margin-bottom: 1.5rem;}
 .table_column_subText{color: #404040;}
 

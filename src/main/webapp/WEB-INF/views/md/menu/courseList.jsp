@@ -9,6 +9,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <link rel="stylesheet" href="/css/views/md/menu/courseList.css">
 <script src="/js/views/md/menu/courseList.js"></script>
@@ -76,6 +77,78 @@
                                 </div>
                             </div>
                         </c:forEach>
+                        <c:if test="${total ne 0}">
+                            <nav class="pagination_wrap">
+                                <ul class="pagination">
+
+                                    <c:set var="viewForCount" value="5"/>
+                                    <c:set var="currentPage" value="${current}" />
+                                    <c:set var="startPage" value="0" />
+                                    <c:if test="${currentPage ge viewForCount}">
+                                        <fmt:parseNumber var="temp"  integerOnly="true" value="${(currentPage / viewForCount)}"/>
+                                        <c:set var="startPage" value="${(temp * viewForCount)}" />
+                                    </c:if>
+                                    <fmt:parseNumber var="pages"  integerOnly="true" value="${startPage + viewForCount}"/>
+                                    <c:if test="${pages ge total}">
+                                        <c:set var="pages" value="${total}"/>
+                                    </c:if>
+                                    <%-- 이전 버튼 --%>
+                                    <c:choose>
+                                        <c:when test="${startPage eq 0}">
+                                            <li  class="disabled">
+                                                <a aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <li>
+                                                <a href="/md/course/list?page=${currentPage-5}&size=8&sort=id,asc" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <%-- 페이징 --%>
+                                    <c:forEach var="p" begin="${startPage}" step="1" end="${pages-1}">
+                                        <c:choose>
+                                            <c:when test="${p eq current}">
+                                                <li class="active">
+                                                    <a href="/md/course/list?page=${p}&size=8&sort=id,asc">
+                                                        <c:out value="${p+1}" />
+                                                    </a>
+                                                </li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                        <li>
+                                                            <a href="/md/course/list?page=${p}&size=8&sort=id,asc">
+                                                                <c:out value="${p+1}" />
+                                                            </a>
+                                                        </li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                    <%-- 다음 버튼 --%>
+                                    <c:choose>
+                                        <c:when test="${pages eq total}">
+                                            <li class="disabled">
+                                                <a aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <li>
+                                                <a href="/md/course/list?page=${pages}&size=8&sort=id,asc" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </ul>
+                            </nav>
+                        </c:if>
+
                     </c:when>
                     <c:otherwise>
                         <div class="noSearch_Course">

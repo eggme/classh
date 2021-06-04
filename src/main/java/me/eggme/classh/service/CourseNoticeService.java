@@ -54,7 +54,11 @@ public class CourseNoticeService {
         List<Member> memberList = savedCourse.getSignUpCourses().stream().map(suc ->
                 suc.getMember()).collect(Collectors.toList());
 
-        applicationEventPublisher.publishEvent(new NotificationEvent(memberList, savedMember, savedCourseNotice.getNotice()));
+        applicationEventPublisher.publishEvent(new NotificationEvent(memberList,
+                savedMember.getNickName() + " 지식공유자님이 새소식을 등록했습니다.",
+                    savedMember,
+                    savedCourseNotice.getNotice(),
+                    NotificationType.NEW_COURSE));
 
         return savedCourse.getUrl();
     }

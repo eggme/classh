@@ -26,6 +26,9 @@
             selectMenu('<tiles:insertAttribute name="menu"></tiles:insertAttribute>');
             var menu = mappingMenu('<tiles:insertAttribute name="menu"></tiles:insertAttribute>');
             console.log(menu);
+            if(menu == '학습 대시보드'){
+                $('.content_wrap_color').css('background-color', '#f7f7f7');
+            }
             $('.menu_template_title').text(menu);
         });
     </script>

@@ -1,10 +1,13 @@
 package me.eggme.classh.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.CourseDTO;
 import me.eggme.classh.domain.dto.MemberDTO;
+import me.eggme.classh.domain.dto.NotificationDTO;
 import me.eggme.classh.domain.entity.Member;
+import me.eggme.classh.domain.entity.Notification;
 import me.eggme.classh.service.CourseService;
 import me.eggme.classh.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;

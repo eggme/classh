@@ -12,7 +12,9 @@ import java.util.List;
 public class NotificationEvent {
 
     private List<Member> memberList = new ArrayList<>();
-    private Member writter;
+    private String title;
+    private Member writer;
     private String content;
+    private NotificationType notificationType;
 
 }

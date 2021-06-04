@@ -28,20 +28,20 @@ public class NotificationHandler {
     @Transactional
     @Async
     public void publishedNotification(NotificationEvent event) {
-        Member savedMember = memberRepository.findById(event.getWritter().getId()).orElseThrow(() ->
+        Member savedMember = memberRepository.findById(event.getWriter().getId()).orElseThrow(() ->
                 new UsernameNotFoundException("해당되는 유저를 찾을 수 없습니다."));
 
         event.getMemberList().stream().forEach(m -> {
             Notification notification = Notification.builder()
-                    .title(event.getWritter().getNickName() + " 지식공유자님이 새소식을 등록했습니다.")
+                    .title(event.getTitle())
                     .content(event.getContent())
-                    .notificationType(NotificationType.NEW_COURSE)
-                    .writter(event.getWritter())
+                    .notificationType(event.getNotificationType())
+                    .writer(event.getWriter())
                     .build();
             Notification savedNotification = notificationRepository.save(notification);
             savedNotification.setMember(m);
             savedMember.addNotification(savedNotification);
-            log.info(event.getWritter().getNickName() + "님이 " + m.getNickName() + "님에게 "+ event.getContent() +" 메시지를 전송하였습니다");
+            log.info(event.getWriter().getNickName() + "님이 " + m.getNickName() + "님에게 "+ event.getContent() +" 메시지를 전송하였습니다");
         });
     }
 }

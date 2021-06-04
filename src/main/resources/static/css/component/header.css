@@ -79,8 +79,9 @@ body, body *{font-family: "Noto Sans KR"; font-size: 16px;}
 .point_wrap{display: flex; flex-grow: 2; color: #495057; background-color: #f1f3f5; justify-content: space-between; align-items: center; padding: 6px;}
 .items{font-weight: 800; color: #00c471;}
 /* 쇼핑카트 시작 */
-.icon_template{height: 100% !important; display: inline-flex; justify-content: center; align-content: center; margin-right: 12px; padding: 15px 0;}
-.alarm{margin: 0 !important;}
+.icon_template_header{height: 100% !important; display: inline-flex; justify-content: center; align-content: center; margin-right: 12px; padding: 15px 0;}
+.alarm{margin: 0 !important; position: relative;}
+.newly_alarm{display: flex; width: 4px; height: 4px; background-color: #ff7867; border-radius: 4px; position: absolute; top: 12px; right: 12px;}
 .bell_over{font-size: 20px; align-self: center; color: #959B9D; margin-right: 12px;}
 .bell_over:hover{color: #1dc078 !important;}
 .cart_over{font-size: 20px; align-self: center; color : #959B9D;}
@@ -107,12 +108,20 @@ body, body *{font-family: "Noto Sans KR"; font-size: 16px;}
 
 /* 알람 박스 */
 .no_read_alarm_count{color: #1dc078;}
+.course_alarm{ height: auto !important;}
 .alarm_title{display: flex; justify-content: center; flex-grow: 1; text-align: center; font-size: 18px; font-weight: 500; padding: 16px 0; border-bottom: 2px solid #f1f3f5; flex-shrink: 1;}
 .alarm_title *{font-size: 18px; font-weight: 500;}
-.alarm_tab_content{background-color: #343A40; display: flex; flex-direction: column; justify-content: center; flex-grow: 1;}
+.alarm_tab_content{display: flex; flex-direction: column; justify-content: center; flex-grow: 1;}
+.alarm_content_template{display: flex; justify-content: center; align-items: center; padding: 12px 18px; border-bottom: 1px solid #f7f8f9; cursor: pointer; flex-grow: 1;}
+
+.alarm_icon_value{display: flex;align-self: center; width: 6px; height: 6px; border-radius: 100% !important; background-color: #f7f8f9; margin-right: 12px; flex-shrink: 1;}
+.noRead{background-color: #ff7867 !important;}
+.alarm_title_value{display: flex; font-size: 15px; font-weight: 400; flex-grow: 1; margin-right: 8px;}
+.alarm_timestamp_value{font-size: 12px; flex-basis: 40px; flex-shrink: 1; flex-grow: 1; word-break: keep-all;}
 .alarm_tab_button{display: flex; justify-content: center; flex-shrink: 1;}
 /* 알람 박스 끝 */
-
+.label-success{padding-top: 4px;}
+.label-success *{font-size: 13.5px;}
 /* login fade animation */
 .animate {-webkit-animation: animatezoom 0.6s; animation: animatezoom 0.6s}
 @-webkit-keyframes animatezoom { from {-webkit-transform: scale(0)} to {-webkit-transform: scale(1)} }

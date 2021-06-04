@@ -34,20 +34,70 @@ $(function(){
     });
 
     $('.alarm').hover(function(){
-        loadCourseCart();
+        loadNotification();
         $('.course_alarm').css('display', 'flex');
         $('.bell_over').removeClass('far');
         $('.bell_over').addClass('fas');
     }, function(){
-        $('.course_cart').css('display', 'none');
+        $('.course_alarm').css('display', 'none');
         $('.bell_over').removeClass('fas');
         $('.bell_over').addClass('far');
     });
 
-    $('.cart_button').click(function(){
+    $(document).on('click', '.alarm_content_template', function(){
+        let id = $(this).attr('id');
+        location.href="/notification/get/"+id;
+    });
+
+    $('.getNotifications').click(function(){
+        location.href="/member/notifications";
+    });
+
+    $('.getCarts').click(function(){
         location.href="/course/carts";
     })
 });
+
+function loadNotification(){
+    $.ajax({
+       url : "/member/get/notification",
+       method : 'post',
+       dataType: "json",
+       success: function (result){
+           $('.alarm_tab_content').empty();
+           var cnt = 0;
+           for(var i = 0 ; i < result.length; i++){
+               let notification = result[i];
+               var customTag = "";
+               if(notification.read == false){
+                   customTag = "noRead";
+                   cnt++;
+               }
+               let year = notification.create_at.year;
+               let month = notification.create_at.monthValue;
+               let day = notification.create_at.dayOfMonth;
+
+               var date = new Date(Date.UTC(year, month, day));
+
+               var title = notification.title;
+               if(title.length > 72){
+                   title = title.substr(0, 72) + "...";
+               }
+               let formatDate = timeForToday(date);
+               var template = '<div class="alarm_content_template" data-id="'+notification.id+'">'+
+                   '<div class="alarm_icon_value ' + customTag + '"></div>'+
+                   '<div class="alarm_title_value">' + notification.notificationType + title + '</div>'+
+                   '<div class="alarm_timestamp_value">'+ formatDate +'</div>'+
+                   '</div>';
+               $(template).appendTo(".alarm_tab_content");
+           }
+           $('.no_read_alarm_count').text(cnt);
+       },error : function (e){
+           console.log(e);
+        }
+    });
+}
+
 function loadCourseCart(){
     $.ajax({
         url : "/course/select/cart",

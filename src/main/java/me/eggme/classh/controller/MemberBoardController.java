@@ -1,11 +1,15 @@
 package me.eggme.classh.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.CourseDTO;
 import me.eggme.classh.domain.dto.MemberDTO;
 import me.eggme.classh.domain.dto.MemberHistoryDTO;
+import me.eggme.classh.domain.dto.NotificationDTO;
 import me.eggme.classh.domain.entity.Course;
 import me.eggme.classh.domain.entity.Member;
+import me.eggme.classh.domain.entity.Notification;
 import me.eggme.classh.domain.entity.SignUpCourse;
 import me.eggme.classh.service.MemberBoardService;
 import me.eggme.classh.service.MemberService;
@@ -17,16 +21,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.security.Principal;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -100,4 +102,39 @@ public class MemberBoardController {
         memberBoardService.changeSelfIntroduce(self,  member.getUsername());
         return "redirect:/member/profile";
     }
+
+    /***
+     *  ajax로 헤더 알림 아이콘에 마우스 hover 시 ajax 요청, 사용자의 모든 알림을 불러옴
+     * @param member
+     * @return
+     * @throws JsonProcessingException
+     */
+    @PostMapping(value = "/get/notification")
+    @PreAuthorize("isAuthenticated()")
+    @ResponseBody
+    public String getNotifications(@AuthenticationPrincipal Member member) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        List<NotificationDTO> list = memberService.getNotifications(member);
+        return mapper.writeValueAsString(list);
+    }
+
+    @GetMapping(value = "/notification/get/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String getNotification(@PathVariable Long id, Model model){
+        Notification notification = memberService.getNotification(id);
+        NotificationDTO notificationDTO = notification.of();
+        model.addAttribute("notification", notificationDTO);
+
+        return "";
+    }
+
+    @GetMapping(value = "/notifications")
+    @PreAuthorize("isAuthenticated()")
+    public String getNotificationList(@AuthenticationPrincipal Member member, Model model){
+        List<NotificationDTO> list = memberService.getNotifications(member);
+        model.addAttribute("list", list);
+        return "board/notification";
+    }
+
+
 }

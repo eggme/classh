@@ -9,8 +9,10 @@ import me.eggme.classh.domain.entity.Course;
 import me.eggme.classh.domain.entity.Member;
 import me.eggme.classh.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -43,9 +45,12 @@ public class MdController {
     }
 
     @GetMapping(value = "/course/list")
-    public String mdCourseList(Pageable pageable, Model model){
-        List<CourseDTO> list = courseService.getCourses(pageable);
-        model.addAttribute("list", list);
+    public String mdCourseList(@PageableDefault(size = 8, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
+                               Model model){
+        Page<Course> list = courseService.getCourses(pageable);
+        model.addAttribute("list", list.getContent());
+        model.addAttribute("current", list.getNumber());
+        model.addAttribute("total", list.getTotalPages());
         return "md/menu/courseList";
     }
 
@@ -59,10 +64,11 @@ public class MdController {
 
     @PostMapping(value = "/course/change")
     @ResponseBody
-    public String changeCourseState(@RequestParam Long id,
+    public String changeCourseState(@AuthenticationPrincipal Member md,
+                                    @RequestParam Long id,
                                     @RequestParam CourseState courseState) throws JsonProcessingException {
         log.info(courseState.getValue());
-        courseService.changeCourseState(id, courseState);
+        courseService.changeCourseState(md, id, courseState);
 
         Map<String, String> map = new HashMap<>();
         map.put("result", "success");

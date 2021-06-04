@@ -19,3 +19,4 @@
 .course_list_template:hover{background-color: #F8F9FA;}
 .image_template{border-radius: 4px; overflow: hidden;}
 .course_image{width: 100%; height: 100%; object-fit: cover;}
+.pagination_wrap{display: flex; justify-content: center; align-items: center;}
