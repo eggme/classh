@@ -107,13 +107,21 @@ function timeForToday(value) {
     return `${Math.floor(betweenTimeDay / 365)}년전`;
 }
 
-function timeForTodayObject(obj, value){
+function timeForTodayObject(value, obj){
     $(obj).text(timeForToday(value));
+}
+
+function timeForTodayObjectWithJSTL(value, obj){
+    timeForTodayObject(new Date(value), obj);
 }
 
 function removeHtmlTag(text, target){
     let replacedText = text.replace(/(<([^>]+)>)/ig, "");
     $(target).text(replacedText);
+}
+
+function setTextToObj(value, target){
+    $(target).text(value);
 }
 
 function openModal(obj){

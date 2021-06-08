@@ -46,7 +46,7 @@ $(function(){
 
     $(document).on('click', '.alarm_content_template', function(){
         let id = $(this).attr('data-id');
-        location.href="/notification/get/"+id;
+        location.href="/member/notification/"+id;
     });
 
     $('.getNotifications').click(function(){

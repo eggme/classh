@@ -167,13 +167,27 @@ public class MemberService {
      * @return
      */
     @Transactional
-    public List<NotificationDTO> getNotifications(Member member) {
+    public List<NotificationDTO> getNotificationTop6(Member member) {
         Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("해당되는 유저를 찾을 수 없습니다"));
 
         List<Notification> list = notificationRepository.findTop6ByMember(savedMember);
         List<NotificationDTO> dtoList = list.stream().map(n -> n.of()).collect(Collectors.toList());
         return dtoList;
+    }
+
+    /***
+     * 사용자의 알림들을 조회
+     * @param member 사용자
+     * @return
+     */
+    @Transactional
+    public Page<Notification> getNotifications(Member member, Pageable pageable) {
+        Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
+                new UsernameNotFoundException("해당되는 유저를 찾을 수 없습니다"));
+
+        Page<Notification> list = notificationRepository.findAllByMember(savedMember, pageable);
+        return list;
     }
 
     /***

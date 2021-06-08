@@ -14,6 +14,10 @@ import me.eggme.classh.domain.entity.SignUpCourse;
 import me.eggme.classh.service.MemberBoardService;
 import me.eggme.classh.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -114,25 +118,27 @@ public class MemberBoardController {
     @ResponseBody
     public String getNotifications(@AuthenticationPrincipal Member member) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        List<NotificationDTO> list = memberService.getNotifications(member);
+        List<NotificationDTO> list = memberService.getNotificationTop6(member);
         return mapper.writeValueAsString(list);
     }
 
-    @GetMapping(value = "/notification/get/{id}")
+    @GetMapping(value = "/notification/{id}")
     @PreAuthorize("isAuthenticated()")
     public String getNotification(@PathVariable Long id, Model model){
         Notification notification = memberService.getNotification(id);
         NotificationDTO notificationDTO = notification.of();
         model.addAttribute("notification", notificationDTO);
-
-        return "";
+        return "community/communityBoard";
     }
 
     @GetMapping(value = "/notifications")
     @PreAuthorize("isAuthenticated()")
-    public String getNotificationList(@AuthenticationPrincipal Member member, Model model){
-        List<NotificationDTO> list = memberService.getNotifications(member);
-        model.addAttribute("list", list);
+    public String getNotificationList(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+            @AuthenticationPrincipal Member member, Model model){
+        Page<Notification> list = memberService.getNotifications(member, pageable);
+        List<NotificationDTO> notificationDTOList = list.getContent().stream().map(n ->
+                n.of()).collect(Collectors.toList());
+        model.addAttribute("list", notificationDTOList);
         return "board/notification";
     }
 

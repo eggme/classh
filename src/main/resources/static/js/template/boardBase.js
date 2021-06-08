@@ -15,6 +15,7 @@ map[''] = "쿠폰함";
 map[''] = "내 포인트";
 map['profile'] = "프로필 설정";
 map[''] = "알림 설정";
+map['communityBoard'] = "새소식";
 
 function mappingMenu(data){
     return map[data];

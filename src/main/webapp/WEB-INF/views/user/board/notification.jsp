@@ -10,6 +10,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <link rel="stylesheet" href="/css/views/user/notification.css">
+<script src="/js/views/user/notification.js"></script>
 
 <section class="main_section">
     <div class="main_flex_wrap">
@@ -34,11 +35,12 @@
                                         <div class="notification_circle_icon read_icon"></div>
                                     </div>
                                     <div class="notification_content_wrap read_content">
+                                        <c:out value="${noti.notificationType}"/>
                                         <c:out value="${noti.title}" />
                                     </div>
-                                    <div class="notification_timestamp_wrap timestamp_${noti.id}">
+                                    <div class="notification_timestamp_wrap timestamp_${noti.id}" data-id="${noti.id}">
                                         <script>
-                                            timeForTodayObject('.timestamp_${noti.id}', new Date('${noti.create_at}'));
+                                            timeForTodayObject(new Date('${noti.create_at}'), '.timestamp_${noti.id}');
                                         </script>
                                     </div>
                                 </c:when>
@@ -47,11 +49,12 @@
                                         <div class="notification_circle_icon"></div>
                                     </div>
                                     <div class="notification_content_wrap">
+                                        <c:out value="${noti.notificationType}"/>
                                         <c:out value="${noti.title}" />
                                     </div>
                                     <div class="notification_timestamp_wrap timestamp_${noti.id}">
                                         <script>
-                                            timeForTodayObject('.timestamp_${noti.id}', new Date('${noti.create_at}'));
+                                            timeForTodayObject(new Date('${noti.create_at}'), '.timestamp_${noti.id}');
                                         </script>
                                     </div>
                                 </c:otherwise>

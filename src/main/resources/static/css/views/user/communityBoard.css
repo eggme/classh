@@ -1,0 +1,22 @@
+.main_wrap{width: 100%; height: 100%; margin: 0 auto;}
+.main_flex_wrap{display: flex; flex-direction: column;}
+
+.community_content_wrap{padding: 12px 0;}
+.community_title_value{font-size: 28px; font-weight: 500;}
+.community_board_flex_wrap{padding: 12px 24px; border-bottom: 1px solid #f1f3f5; margin-bottom: 12px;}
+
+.writer_description_wrap{display: flex; justify-content: space-between;}
+.writer_profile_wrap{display: flex; justify-content: center; align-items: flex-start; flex-shrink: 1;}
+.writer_profile_image_wrap{width: 32px; height: 32px; border-radius: 70%; overflow: hidden;}
+.writer_profile_image_value{width: 100%; height: 100%; object-fit: cover;}
+
+.writer_profile_content_wrap{display: flex; flex-direction: column; padding: 12px; flex-grow: 1;}
+.writer_profile_content_header{display: flex; align-items: flex-end; margin-bottom: 12px;}
+.writer_profile_nickName{font-weight: 700; margin-right: 12px;}
+.writer_profile_createAt{font-size: 14px;}
+
+.writer_profile_content_like_wrap{display: flex; justify-content: flex-end;}
+.writer_profile_left{flex-grow: 1; margin-right: 24px; display: flex;}
+.writer_profile_right{flex-shrink: 1;}
+.writer_profile_content_footer{padding-bottom: 12px; border-bottom: 1px solid #f1f3f5;}
+.fa-heart{margin: 0 8px; color: #ff7867;}
