@@ -74,9 +74,9 @@
         <div class="course_content_wrap">
             <div class="course_content_left_wrap course_card_template">
                 <div class="course_curriculum course_form_margin">
-                    <div class="curriculum_area">
+                    <div class="curriculum_area card_area">
                         <div class="row_wrap">
-                            <div class="curriculum_text">커리큘럼</div>
+                            <div class="curriculum_text card_title_text">커리큘럼</div>
                         </div>
                     </div>
                     <div class="curriculum_wrap">
@@ -105,8 +105,20 @@
                 </div>
             </div>
             <div class="course_content_right_wrap">
-                <div class="course_content_question_warp course_card_template"></div>
-                <div class="course_content_newly_warp course_card_template"></div>
+                <div class="course_content_question_warp course_card_template">
+                    <div class="question_area card_area">
+                        <div class="row_wrap">
+                            <div class="question_text card_title_text">질문 & 답변</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="course_content_newly_warp course_card_template">
+                    <div class="newly_area card_area">
+                        <div class="row_wrap">
+                            <div class="newly_text card_title_text">새소식</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -386,7 +386,3 @@ function setRatePercent(data){
     $('.rate_2').find('.rate_value').css('width', result.rateTwo+"%");
     $('.rate_1').find('.rate_value').css('width', result.rateOne+"%");
 }
-
-function openModal(obj){
-    $(obj).css("display", "block");
-}

@@ -39,7 +39,7 @@
                         <div class="aside_menu_value">강의 관리</div>
                         <div class="aside_menu_icon"><i class="fas fa-chevron-down"></i></div>
                     </li>
-                    <li class="flex_row_space_between_wrap">
+                    <li class="flex_row_space_between_wrap aside_instructor_list">
                         <div class="aside_menu_value">강사 관리</div>
                         <div class="aside_menu_icon"><i class="fas fa-chevron-down"></i></div>
                     </li>

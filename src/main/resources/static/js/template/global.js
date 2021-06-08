@@ -110,3 +110,12 @@ function timeForToday(value) {
 function timeForTodayObject(obj, value){
     $(obj).text(timeForToday(value));
 }
+
+function removeHtmlTag(text, target){
+    let replacedText = text.replace(/(<([^>]+)>)/ig, "");
+    $(target).text(replacedText);
+}
+
+function openModal(obj){
+    $(obj).css("display", "block");
+}

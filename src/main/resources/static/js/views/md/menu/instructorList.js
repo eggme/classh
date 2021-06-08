@@ -6,9 +6,9 @@ $(function(){
     $('.select_box').click(function(){
         $('.select_click_box').removeClass("hidden");
     });
-    $('.course_list_template').on('click', function(){
+    $('.instructor_list_template').on('click', function(){
         let id = $(this).attr('data-id');
-        location.href="/md/course/info/"+id;
+        location.href="/md/instructor/info/"+id;
     });
 
     $('html').click(function(e){

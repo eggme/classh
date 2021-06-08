@@ -21,6 +21,7 @@
     <script src="/js/template/global.js"></script>
     <script src="/js/global/customChart.js"></script>
     <link rel="stylesheet" href="/css/template/admin_layout.css"/>
+    <link rel="stylesheet" href="/css/template/global.css">
 </head>
 <body>
 <div class="wrap">

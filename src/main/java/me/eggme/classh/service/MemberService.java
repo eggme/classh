@@ -10,6 +10,8 @@ import me.eggme.classh.exception.NoSearchCourseException;
 import me.eggme.classh.repository.*;
 import me.eggme.classh.utils.NameGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -184,5 +186,47 @@ public class MemberService {
         Notification savedNotification = notificationRepository.findById(id).orElseThrow(() ->
                 new RuntimeException());
         return savedNotification;
+    }
+
+    /**
+     * 강사들의 정보를 조회
+     * @param pageable
+     * @return
+     */
+    @Transactional
+    public Page<Instructor> getInstructors(Pageable pageable) {
+        Page<Instructor> instructorPage = instructorRepository.findAll(pageable);
+        return instructorPage;
+    }
+
+    /**
+     * 유저 pk를 통해 유저 조회
+     * @param id 유저 pk
+     * @return
+     */
+    @Transactional
+    public Member getMember(Long id) {
+        Member member = memberRepository.findById(id).orElseThrow(() ->
+                new UsernameNotFoundException("해당되는 유저가 존재하지 않습니다."));
+        return member;
+    }
+
+    /**
+     *  md(관리자)가 유저에게 알림을 보냄
+     * @param md md(관리자)
+     * @param id 유저 pk
+     * @param notification 알림
+     */
+    @Transactional
+    public void writeNotification(Member md, Long id, Notification notification) {
+        Member savedMd = memberRepository.findById(md.getId()).orElseThrow(() ->
+                new UsernameNotFoundException("해당되는 유저가 없습니다"));
+
+        Member savedMember = memberRepository.findById(id).orElseThrow(() ->
+                new UsernameNotFoundException("해당되는 유저가 없습니다"));
+
+        Notification savedNotification = notificationRepository.save(notification);
+        savedNotification.setWriter(savedMd);
+        savedNotification.setMember(savedMember);
     }
 }

@@ -14,6 +14,7 @@
 <head>
     <meta charset="utf-8">
     <title><tiles:getAsString name="title" /></title>
+    <link rel="stylesheet" href="/css/template/global.css">
 </head>
 <body>
     <div style="background-color: gray; height : 50px;">

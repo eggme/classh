@@ -19,6 +19,7 @@
     <link href="/imgs/favicon/favicon.ico" rel="icon"/>
     <script src="/webjars/jquery/3.5.1/dist/jquery.min.js"></script>
     <script src="/js/template/global.js"></script>
+    <link rel="stylesheet" href="/css/template/global.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>

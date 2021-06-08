@@ -35,4 +35,8 @@ public class Instructor implements Serializable {
         this.courses.add(course);
         course.setInstructor(this);
     }
+
+    public int totalCourseCount(){
+        return this.courses.size();
+    }
 }

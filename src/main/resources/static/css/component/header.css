@@ -117,7 +117,7 @@ body, body *{font-family: "Noto Sans KR"; font-size: 16px;}
 .alarm_icon_value{display: flex;align-self: center; width: 6px; height: 6px; border-radius: 100% !important; background-color: #f7f8f9; margin-right: 12px; flex-shrink: 1;}
 .noRead{background-color: #ff7867 !important;}
 .alarm_title_value{display: flex; font-size: 15px; font-weight: 400; flex-grow: 1; margin-right: 8px;}
-.alarm_timestamp_value{font-size: 12px; flex-basis: 40px; flex-shrink: 1; flex-grow: 1; word-break: keep-all;}
+.alarm_timestamp_value{font-size: 12px; flex-basis: 40px; flex-shrink: 1; word-break: keep-all;}
 .alarm_tab_button{display: flex; justify-content: center; flex-shrink: 1;}
 /* 알람 박스 끝 */
 .label-success{padding-top: 4px;}

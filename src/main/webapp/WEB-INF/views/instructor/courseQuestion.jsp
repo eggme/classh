@@ -135,20 +135,20 @@
         </div>
     </div>
 </div>
-<div class="question_write_form_wrapper" data-id="${course.id}">
-    <div class="question_write_form animate">
+<div class="question_write_form_wrapper hoflearn_modal_wrapper" data-id="${course.id}">
+    <div class="question_write_form hoflearn_modal_form animate">
         <form class="question_form" action="/question/add" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="hidden" name="course_id" class="course_id" />
-            <div class="question_relative_wrap">
-                <div class="question_name_wrap question_wrap_template">
+            <div class="question_relative_wrap hoflearn_modal_relative_wrap">
+                <div class="question_name_wrap hoflearn_modal_content_template">
                     <div class="question_name_menu question_menu_template">제목</div>
-                    <div class="question_name_input question_input_template">
+                    <div class="question_name_input question_input_template hoflearn_modal_input_template">
                         <input type="text" class="question_name" name="title" placeholder="제목을 입력해주세요.">
                     </div>
                 </div>
-                <div class="question_tag_wrap question_wrap_template">
-                    <div class="question_tag_menu question_menu_template">태그</div>
+                <div class="question_tag_wrap hoflearn_modal_content_template">
+                    <div class="question_tag_menu hoflearn_modal_menu_template">태그</div>
                     <div class="question_tag_input">
                         <div class="tag_wrap_template">
                             <div class="hashtag"><i class="fas fa-hashtag"></i></div>
@@ -160,8 +160,8 @@
                         <div class="tag_description">최대 10개의 태그를 달 수 있어요!</div>
                     </div>
                 </div>
-                <div class="question_content_wrap question_wrap_template">
-                    <div class="question_content_menu question_menu_template">질문 내용</div>
+                <div class="question_content_wrap hoflearn_modal_content_template">
+                    <div class="question_content_menu hoflearn_modal_menu_template">질문 내용</div>
                     <div class="question_content_input">
                 <textarea id="myQuestion" name="content">
                     <p><b>강의와 관련있는 질문을 남겨주세요.</b></p>
@@ -187,9 +187,9 @@
                     </div>
                 </div>
             </div>
-            <div class="question_button_wrap">
-                <div class="question_button_template question_cancel">취소</div>
-                <div class="question_button_template question_submit">저장</div>
+            <div class="hoflearn_modal_button_wrap">
+                <div class="hoflearn_modal_button_template question_cancel">취소</div>
+                <div class="hoflearn_modal_button_template question_submit">저장</div>
             </div>
         </form>
     </div>

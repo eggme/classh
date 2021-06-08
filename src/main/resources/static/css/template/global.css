@@ -1,0 +1,20 @@
+.hoflearn_modal_result_wrapper{display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4);  padding-top: 15%; padding-bottom: 15%; z-index: 55;}
+.hoflearn_modal_result_form{display: flex; flex-direction: column; width: 440px; height: 320px; background-color: #fefefe; margin: 5px auto; border: 1px solid #888; border-radius: 5px; z-index: 99; padding: 32px; position: relative;}
+
+.hoflearn_modal_wrapper{display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4);  padding-top: 2%; padding-bottom: 2%; z-index: 98;}
+.hoflearn_modal_form{display: flex; flex-direction: column; width: 920px; height: 100%; background-color: #fefefe; margin: 5px auto; border: 1px solid #888; border-radius: 5px; z-index: 99; padding: 32px; position: relative;}
+.hoflearn_modal_relative_wrap{display: flex; flex-direction: column; overflow-y: scroll; padding-bottom: 24px;}
+
+.hoflearn_modal_input_template{width: 100%;}
+.hoflearn_modal_input_template input[type=text] {width: 100%; border: 1px solid #DEE2E6; border-radius: 3px; padding: 8px; height: 50px; font-size: 16px;}
+.hoflearn_modal_menu_template{margin-bottom: 8px; font-size: 15px; font-weight: 500; color: #3e4042;}
+.hoflearn_modal_menu_title_template{text-align: center; font-size: 22px; font-weight: 500;}
+.hoflearn_modal_content_template{display: flex; flex-direction: column; width: 100%; margin-bottom: 24px;}
+.hoflearn_modal_button_wrap{display: flex; position: absolute; bottom: 16px; right: 16px; margin-bottom: 12px;}
+.hoflearn_modal_button_template{ padding: 12px 60px; margin-left: 8px; border: 1px solid #DEE2E6; border-radius: 4px; cursor: pointer;}
+.hoflearn_modal_icon_template{display: flex; justify-content: center; align-items: center; margin-bottom: 24px;}
+.hoflearn_modal_icon_template i{color: #1dc078; font-size: 80px; text-align: center;}
+
+.animate{-webkit-animation: animatezoom 0.6s; animation: animatezoom 0.6s;}
+@-webkit-keyframes animatezoom { from {-webkit-transform: scale(0)} to {-webkit-transform: scale(1)} }
+@keyframes animatezoom { from {transform: scale(0)} to {transform: scale(1)} }

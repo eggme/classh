@@ -28,6 +28,7 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addConverter(new StringToCourseCategoryConverter());
         registry.addConverter(new StringToCourseLevelConverter());
         registry.addConverter(new StringToCourseStatusConverter());
+        registry.addConverter(new StringToNotificationTypeConverter());
         registry.addFormatter(new RecommendationFormatter());
         registry.addFormatter(new SkillTagFormatter());
     }

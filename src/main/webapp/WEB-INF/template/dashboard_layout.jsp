@@ -21,6 +21,7 @@
     <script src="/js/template/global.js"></script>
     <script src="/js/template/boardBase.js"></script>
     <link rel="stylesheet" href="/css/template/dashboard_layout.css">
+    <link rel="stylesheet" href="/css/template/global.css">
     <script type="text/javascript">
         $(function () {
             selectMenu('<tiles:insertAttribute name="menu"></tiles:insertAttribute>');

@@ -27,7 +27,7 @@
             <c:choose>
                 <c:when test="${fn:length(list) gt 0}">
                     <c:forEach var="noti" items="${list}" varStatus="index">
-                        <div class="notification_template notification_${noti.id}">
+                        <div class="notification_template notification_${noti.id}" data-status="${noti.notificationType}">
                             <c:choose>
                                 <c:when test="${noti.isRead()}">
                                     <div class="notification_status_wrap">

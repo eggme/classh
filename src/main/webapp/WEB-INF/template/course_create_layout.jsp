@@ -19,6 +19,7 @@
     <link href="/imgs/favicon/favicon.ico" rel="icon"/>
     <script src="/webjars/jquery/3.5.1/dist/jquery.min.js"></script>
     <script src="/js/template/global.js"></script>
+    <link rel="stylesheet" href="/css/template/global.css">
     <script src="/js/template/courseCreateBoardBase.js"></script>
     <link rel="stylesheet" href="/css/template/dashboard_layout.css">
     <link rel="stylesheet" href="/css/template/course_create_layout.css">
