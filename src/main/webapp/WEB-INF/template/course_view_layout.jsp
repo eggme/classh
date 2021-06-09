@@ -53,16 +53,16 @@
                         <sec:authentication var="userObj" property="principal"></sec:authentication>
                         <sec:authorize access="isAuthenticated()">
                             <c:if test="${course.isCourseRegistration(userObj)}">
-                                <li class="dashboard"><a class="no_underline" href="/course/${course.url}/dashboard">대시보드</a></li>
+                                <li class="dashboard"><a class="no_underline" href="/course/${course.id}/dashboard">대시보드</a></li>
                             </c:if>
                         </sec:authorize>
-                        <li class="info"><a class="no_underline" href="/course/${course.url}">강의소개</a></li>
+                        <li class="info"><a class="no_underline" href="/course/${course.id}">강의소개</a></li>
                         <li class="question"><a class="no_underline" href="/question/select/${course.id}">질문 & 답변</a></li>
-                        <li class="newly"><a class="no_underline" href="/notice/${course.url}">새소식</a></li>
+                        <li class="newly"><a class="no_underline" href="/notice/${course.id}">새소식</a></li>
                         <sec:authorize access="isAuthenticated()">
                             <sec:authentication property="principal.username" var="user"></sec:authentication>
                             <c:if test="${course.instructor.member.username eq user}">
-                                <li class="management"><a class="no_underline" href="/course/${course.url}/management">수강생 관리</a></li>
+                                <li class="management"><a class="no_underline" href="/course/${course.id}/management">수강생 관리</a></li>
                                 <li><a class="no_underline" href="/course/${course.id}/edit/course_info">강의 수정</a></li>
                             </c:if>
                         </sec:authorize>

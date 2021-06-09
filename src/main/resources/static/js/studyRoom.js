@@ -10,8 +10,8 @@ var studySave = setInterval(function (){
 
 $(function () {
     $('.dashboard').click(function () {
-        let redirectUrl = $(this).attr('data-url');
-        location.href = "/course/" + redirectUrl;
+        let id = $(this).attr('data-id');
+        location.href = "/course/" + id;
     });
     $('.close_button').click(function () {
         $('.curriculum_wrap').addClass('closed');

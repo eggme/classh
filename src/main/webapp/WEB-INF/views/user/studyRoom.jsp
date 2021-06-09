@@ -197,7 +197,7 @@
                     <div class="clip_board">
                         <i class="fas fa-clipboard-list"></i>
                     </div>
-                    <div class="dashboard" data-url="${course.url}">
+                    <div class="dashboard" data-id="${course.id}">
                         강의 대시보드
                     </div>
 

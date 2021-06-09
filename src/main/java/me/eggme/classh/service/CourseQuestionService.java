@@ -2,16 +2,20 @@ package me.eggme.classh.service;
 
 import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.CourseCommentDTO;
+import me.eggme.classh.domain.dto.NotificationEvent;
+import me.eggme.classh.domain.dto.NotificationType;
 import me.eggme.classh.domain.dto.QuestionStatus;
 import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.exception.NoSearchCourseException;
 import me.eggme.classh.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,6 +29,7 @@ public class CourseQuestionService {
     @Autowired private CourseTagRepository courseTagRepository;
     @Autowired private MemberRepository memberRepository;
     @Autowired private CourseCommentRepository courseCommentRepository;
+    @Autowired private ApplicationEventPublisher applicationEventPublisher;
 
     /***
      * 사용자가 질문게시판에 질문을 올림
@@ -83,6 +88,16 @@ public class CourseQuestionService {
 
         savedCourseComment.setMember(savedMember);
         savedCourseComment.setCourseQuestion(savedCourseQuestion);
+
+        /* 답변 등록 시 알림 발송 */
+        Long target = savedCourseQuestion.getId();
+
+        applicationEventPublisher.publishEvent(new NotificationEvent(Arrays.asList(savedMember),
+                savedCourseQuestion.getMember().getNickName() + "의 질문 ["+ savedCourseQuestion.getTitle() +"]에 답변이 달렸습니다.",
+                savedMember,
+                commentContent,
+                target,
+                NotificationType.NEW_COURSE));
     }
 
     /***
@@ -141,13 +156,10 @@ public class CourseQuestionService {
      * @return
      */
     @Transactional
-    public String deleteCourseQuestion(Long id) {
-        String resultUrl = "";
+    public void deleteCourseQuestion(Long id) {
         CourseQuestion savedCourseQuestion = courseQuestionRepository.findById(id).orElseThrow(() -> new RuntimeException());
-        resultUrl = savedCourseQuestion.getCourse().getUrl();
         savedCourseQuestion.deleteCourseQuestion();
         courseQuestionRepository.delete(savedCourseQuestion);
-        return resultUrl;
     }
 
     /***

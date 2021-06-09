@@ -32,9 +32,6 @@ public class Course extends BaseTimeEntity implements Serializable {
     // 강의 가격
     private int price;
 
-    @Column(unique = true)
-    private String url;
-
     // 강의의 상태
     @Enumerated(value = EnumType.STRING)
     private CourseState courseState;

@@ -111,16 +111,23 @@
     color: white;
 }
 .content_info{
+    display: flex;
     color: white;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 .icon{margin-right: 8px;}
-.instructor_information{display : flex; align-self: center; margin-bottom: 10px;}
+.instructor_information{display : flex; align-items: center; margin-bottom: 10px;}
 .margin_bottom_10{margin-bottom: 10px;}
-.size12{font-size: 12px; align-content: center; align-self: center; align-items: center;}
-.tag{padding: 6px 12px; border-radius: 12px; background-color: #26556a; color: white; margin: 0 8px; font-size: 12px;}
-.skill_tag{height: 40px; display: flex;}
-.icon_div{display: flex; align-self: center;}
-.tag_wrap{display: flex; align-self: center;}
+.size12{font-size: 12px; align-content: center; align-items: center; align-items: center;}
+.tag{padding: 6px 12px; border-radius: 12px; background-color: #26556a; color: white; margin: 4px 8px; font-size: 12px;}
+.skill_tag{height: 40px; display: flex; flex-grow: 1; flex-shrink: 1;align-items: center; flex-direction: row;}
+.icon_div{display: flex; align-items: center;}
+.tag_wrap{display: flex; align-items: center; flex-wrap: wrap;}
 .button_group{margin-top: 24px; display: flex;width: 100%;}
 .while_line_box{margin: 0 10px; width: calc(96% / 2); border: 1px solid white; color: white; background-color: transparent; border-radius: 4px; padding: 12px 0; display: flex; align-content: center; justify-content: center; cursor: pointer;}
 .line_height{align-self: center; margin-right: 8px; margin-top: 2px;}
+
+@media (max-width: 1350px) {
+    .skill_tag{margin: 20px 0;}
+}

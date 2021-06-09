@@ -110,7 +110,7 @@
                         <div class="hello_title">안녕하세요</div>
                         <div class="instructor_name_wrap">
                             <span class="underline_course">
-                                <c:out value="${course.instructor.member.nickName}" />
+                                <c:out value="${course.instructor.member.nickName}"/>
                                 <i class="fas fa-external-link-alt"></i></span>입니다.
                         </div>
                     </div>
@@ -120,7 +120,9 @@
                 </div>
                 <div class="instructor_selfIntroduce">
                     <div class="introduce_value">
-                        <c:out value="${course.instructor.member.selfIntroduce}"/>
+                        <script>
+                            removeHtmlTag('${course.instructor.member.selfIntroduce}', '.introduce_value')
+                        </script>
                     </div>
                 </div>
             </div>
@@ -211,7 +213,7 @@
                     <div class="rate_score_flex_wrap">
                         <div class="rate_value_wrap">
                             <div class="avg_rate_value">
-                                <c:out value="${course.getReviewAvg()}" />
+                                <c:out value="${course.getReviewAvg()}"/>
                             </div>
                             <div class="star_value_wrap">
                                 <div class="star_rate">
@@ -223,12 +225,12 @@
                                         <i class="fas fa-star star_big_size"></i>
                                     </div>
                                     <div class="star_value">
-                                    <i class="fas fa-star star_big_size"></i>
-                                    <i class="fas fa-star star_big_size"></i>
-                                    <i class="fas fa-star star_big_size"></i>
-                                    <i class="fas fa-star star_big_size"></i>
-                                    <i class="fas fa-star star_big_size"></i>
-                                </div>
+                                        <i class="fas fa-star star_big_size"></i>
+                                        <i class="fas fa-star star_big_size"></i>
+                                        <i class="fas fa-star star_big_size"></i>
+                                        <i class="fas fa-star star_big_size"></i>
+                                        <i class="fas fa-star star_big_size"></i>
+                                    </div>
                                 </div>
                                 <script>
                                     setStarRate('${course.getReviewAvg()}');
@@ -236,7 +238,7 @@
                             </div>
                             <div class="review_count">
                                 <span class="review_count_value">
-                                    <c:out value="${course.getReviewCount()}" />
+                                    <c:out value="${course.getReviewCount()}"/>
                                 </span>개의 수강평
                             </div>
                         </div>
@@ -312,7 +314,8 @@
                                                     class="separator highlight_active">· </span><span
                                                     class="review_list_menu_title">좋아요 순</span></div>
                                             <div class="review_list_filter_recently review_list_template"><span
-                                                    class="separator">· </span><span class="review_list_menu_title">최신 순</span>
+                                                    class="separator">· </span><span
+                                                    class="review_list_menu_title">최신 순</span>
                                             </div>
                                             <div class="review_list_filter_high_rate review_list_template"><span
                                                     class="separator">· </span><span
@@ -322,7 +325,8 @@
                                                     class="review_list_menu_title">낮은 평점 순</span></div>
                                         </div>
                                         <div class="review_list_content">
-                                            <c:forEach var="review" items="${course.courseReviews}" varStatus="review_status">
+                                            <c:forEach var="review" items="${course.courseReviews}"
+                                                       varStatus="review_status">
                                                 <c:set var="mem" value="${review.member}"/>
                                                 <div class="reviewer_form" data-id="${review.id}">
                                                     <div class="reviewer_content">
@@ -336,17 +340,21 @@
                                                                 <div class="review_rate_wrap">
                                                                     <div class="review_rate_value">
                                                                         <ul class="reviewer_star_rate_ul">
-                                                                            <c:forEach var="fillStarDraw" begin="1" end="5"
+                                                                            <c:forEach var="fillStarDraw" begin="1"
+                                                                                       end="5"
                                                                                        step="1">
                                                                                 <c:choose>
                                                                                     <c:when test="${fillStarDraw le review.rate}">
-                                                                                        <li class="rate_${fillStarDraw}"><i
-                                                                                                class="fas fa-star star_fill"></i>
+                                                                                        <li class="rate_${fillStarDraw}">
+                                                                                            <i
+                                                                                                    class="fas fa-star star_fill"></i>
                                                                                         </li>
                                                                                     </c:when>
                                                                                     <c:otherwise>
-                                                                                        <li class="rate_${fillStarDraw}"><i
-                                                                                                class="fas fa-star"></i></li>
+                                                                                        <li class="rate_${fillStarDraw}">
+                                                                                            <i
+                                                                                                    class="fas fa-star"></i>
+                                                                                        </li>
                                                                                     </c:otherwise>
                                                                                 </c:choose>
                                                                             </c:forEach>
@@ -366,7 +374,8 @@
                                                                     </div>
                                                                     <div class="toolbox hidden">
                                                                         <div class="edit_button_wrap">
-                                                                            <div class="edit_icon"><i class="far fa-edit"></i>
+                                                                            <div class="edit_icon"><i
+                                                                                    class="far fa-edit"></i>
                                                                             </div>
                                                                             <div class="edit_text">수정</div>
                                                                         </div>
@@ -386,9 +395,12 @@
                                                     <div class="reviewer_created_date">
                                                         <div class="created_date_wrap">
                                                             <div class="review_date">
-                                                                <fmt:parseDate var="dateString" value="${review.modify_at}"
-                                                                               pattern="yyyy-MM-dd'T'HH:mm" type="both"/>
-                                                                <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
+                                                                <fmt:parseDate var="dateString"
+                                                                               value="${review.modify_at}"
+                                                                               pattern="yyyy-MM-dd'T'HH:mm"
+                                                                               type="both"/>
+                                                                <fmt:formatDate value="${dateString}"
+                                                                                pattern="yyyy-MM-dd"/>
                                                             </div>
                                                             <div class="review_recommendation">
                                                                 &nbsp;· 답글 작성
@@ -407,7 +419,8 @@
                                 <%-- 리뷰를 작성하지 않았을 때 --%>
                                 <c:otherwise>   <%-- 리뷰를 작성하지 않았을 때 --%>
                                     <div class="review_form">
-                                        <form action="/course/${course.id}/add/review" method="post" class="review_real_form">
+                                        <form action="/course/${course.id}/add/review" method="post"
+                                              class="review_real_form">
                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                             <div class="review_rate">
                                                 <div class="rate_area">
@@ -454,7 +467,8 @@
                                 <div class="review_list_content">
                                     <c:choose>
                                         <c:when test="${(fn:length(course.courseReviews)) gt 0}">
-                                            <c:forEach var="review" items="${course.courseReviews}" varStatus="review_status">
+                                            <c:forEach var="review" items="${course.courseReviews}"
+                                                       varStatus="review_status">
                                                 <c:set var="mem" value="${review.member}"/>
                                                 <div class="reviewer_form" data-id="${review.id}">
                                                     <div class="reviewer_content">
@@ -468,17 +482,21 @@
                                                                 <div class="review_rate_wrap">
                                                                     <div class="review_rate_value">
                                                                         <ul class="reviewer_star_rate_ul">
-                                                                            <c:forEach var="fillStarDraw" begin="1" end="5"
+                                                                            <c:forEach var="fillStarDraw" begin="1"
+                                                                                       end="5"
                                                                                        step="1">
                                                                                 <c:choose>
                                                                                     <c:when test="${fillStarDraw le review.rate}">
-                                                                                        <li class="rate_${fillStarDraw}"><i
-                                                                                                class="fas fa-star star_fill"></i>
+                                                                                        <li class="rate_${fillStarDraw}">
+                                                                                            <i
+                                                                                                    class="fas fa-star star_fill"></i>
                                                                                         </li>
                                                                                     </c:when>
                                                                                     <c:otherwise>
-                                                                                        <li class="rate_${fillStarDraw}"><i
-                                                                                                class="fas fa-star"></i></li>
+                                                                                        <li class="rate_${fillStarDraw}">
+                                                                                            <i
+                                                                                                    class="fas fa-star"></i>
+                                                                                        </li>
                                                                                     </c:otherwise>
                                                                                 </c:choose>
                                                                             </c:forEach>
@@ -498,7 +516,8 @@
                                                                     </div>
                                                                     <div class="toolbox hidden">
                                                                         <div class="edit_button_wrap">
-                                                                            <div class="edit_icon"><i class="far fa-edit"></i>
+                                                                            <div class="edit_icon"><i
+                                                                                    class="far fa-edit"></i>
                                                                             </div>
                                                                             <div class="edit_text">수정</div>
                                                                         </div>
@@ -518,9 +537,12 @@
                                                     <div class="reviewer_created_date">
                                                         <div class="created_date_wrap">
                                                             <div class="review_date">
-                                                                <fmt:parseDate var="dateString" value="${review.modify_at}"
-                                                                               pattern="yyyy-MM-dd'T'HH:mm" type="both"/>
-                                                                <fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd"/>
+                                                                <fmt:parseDate var="dateString"
+                                                                               value="${review.modify_at}"
+                                                                               pattern="yyyy-MM-dd'T'HH:mm"
+                                                                               type="both"/>
+                                                                <fmt:formatDate value="${dateString}"
+                                                                                pattern="yyyy-MM-dd"/>
                                                             </div>
                                                             <div class="review_recommendation">
                                                                 &nbsp;· 답글 작성
@@ -634,7 +656,8 @@
                                 <%-- 로그인이 된 상태에서 해당 유저가 해당 강의에 수강신청이 된 상태 --%>
                                 <div class="course_price"></div>
                                 <div class="course_status">학습중</div>
-                                <div class="learning_box_study learning_box_template" data-id="${course.id}">이어 학습하기</div>
+                                <div class="learning_box_study learning_box_template" data-id="${course.id}">이어 학습하기
+                                </div>
                             </c:when>
                             <c:when test="${userobject.isPutInTheCart(course.id)}">
                                 <%-- 로그인이 된 상태에서 해당 유저가 해당 강의에 수강신청이 안돼있고 장바구니에 담긴 상태 --%>
@@ -642,7 +665,9 @@
                                     <c:when test="${course.price eq 0}">
                                         <div class="course_price">무료</div>
                                         <div class="course_status"></div>
-                                        <div class="learning_box_purchase learning_box_template" data-status="authentication">바로 학습하기</div>
+                                        <div class="learning_box_purchase learning_box_template"
+                                             data-status="authentication">바로 학습하기
+                                        </div>
                                     </c:when>
                                     <c:otherwise>
                                         <div class="course_price">
@@ -651,7 +676,9 @@
                                             </script>
                                         </div>
                                         <div class="course_status"></div>
-                                        <div class="learning_box_purchase learning_box_template" data-status="authentication">결제하기</div>
+                                        <div class="learning_box_purchase learning_box_template"
+                                             data-status="authentication">결제하기
+                                        </div>
                                     </c:otherwise>
                                 </c:choose>
                             </c:when>
@@ -769,8 +796,64 @@
     </form>
 </div>
 
+<%-- 장바구니 담기 완료 모달 <i class="fas fa-cart-plus"></i>--%>
+<div class="hashTag_success_form_wrap hoflearn_modal_wrapper">
+        <div class="hashTag_success_form_div animate hoflearn_modal_form">
+            <div class="hashTag_success_container modal_container">
+                <div class="hashTag_success_icon"><i class="fas fa-hashtag"></i></div>
+                <div class="hashTag_success_title">해시태그가 등록되었습니다</div>
+                <div class="hashTag_success_buttons modal_buttons_flex_template">
+                    <div class="hashTag_success_submit modal_submit_button_template">확인</div>
+                </div>
+            </div>
+        </div>
+</div>
+
+<div class="add_hashTag_form_wrap hoflearn_modal_wrapper">
+    <div class="add_hashTag_form_div animate hoflearn_modal_form">
+        <form class="add_hashTag_form" method="post" action="/course/addHashTag">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <input type="hidden" name="id" value="${course.id}">
+            <div class="add_hashTag_container hoflearn_modal_relative_wrap">
+                <div class="add_hashTag_wrap hoflearn_modal_content_template">
+                    <div class="add_hashTag_menu">강의에 설정될 태그를 입력해주세요</div>
+                    <div class="add_hashTag_content">설정된 태그는 변경할 수 없어요😂<br>신중하게 입력해주세요!</div>
+                    <div class="add_hashTag_input">
+                        <div class="tag_wrap_template hoflearn_modal_input_template">
+                            <div class="hashtag"><i class="fas fa-hashtag"></i></div>
+                            <div class="hashtag_value"></div>
+                            <input type="text" class="add_hashTag_tag" name="title" placeholder="태그를 설정해주세요.">
+                        </div>
+                        <div class="tag_description">최대 4개의 태그를 달 수 있어요!</div>
+                    </div>
+                </div>
+                <div class="add_hashTag_buttons modal_buttons_flex_template">
+                    <div class="add_hashTag_cancel modal_cancel_button_template">취소</div>
+                    <div class="add_hashTag_submit modal_submit_button_template">확인</div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
 <c:if test="${!(modal eq null)}">
-    <script>
-        openModal(".add_cart_form_wrap");
-    </script>
+    <c:choose>
+        <c:when test="${modal eq 'success'}">
+            <script>
+                openModal(".add_cart_form_wrap");
+            </script>
+        </c:when>
+        <c:when test="${modal eq 'addHashTag'}">
+            <script>
+                openModal(".add_hashTag_form_wrap");
+            </script>
+        </c:when>
+        <c:when test="${modal eq 'successTag'}">
+            <script>
+                openModal(".hashTag_success_form_wrap");
+            </script>
+        </c:when>
+    </c:choose>
+
 </c:if>

@@ -46,7 +46,8 @@ $(function(){
 
     $(document).on('click', '.alarm_content_template', function(){
         let id = $(this).attr('data-id');
-        location.href="/member/notification/"+id;
+        let type = $(this).attr('data-type');
+        location.href="/member/notification/"+id+"/"+type;
     });
 
     $('.getNotifications').click(function(){
@@ -58,6 +59,15 @@ $(function(){
     })
 });
 
+var notificationMap = {
+    NOTICE : "[시스템 공지사항]",
+    NEW_COURSE : "[신규강의]",
+    COURSE_NOTICE : "[강의새소식]",
+    INSTRUCTOR_NOTICE : "[강사알림]",
+    QUESTION_ANSWER : "[질문답변]",
+    MD_NOTICE : "[공지사항]"
+}
+
 function loadNotification(){
     $.ajax({
        url : "/member/get/notification",
@@ -68,25 +78,31 @@ function loadNotification(){
            var cnt = 0;
            for(var i = 0 ; i < result.length; i++){
                let notification = result[i];
+               //console.log(notification.create_at);
                var customTag = "";
                if(notification.read == false){
                    customTag = "noRead";
                    cnt++;
                }
                let year = notification.create_at.year;
-               let month = notification.create_at.monthValue;
+               let month = notification.create_at.monthValue-1;
                let day = notification.create_at.dayOfMonth;
 
-               var date = new Date(Date.UTC(year, month, day));
-
+               let hour = notification.create_at.hour-9;
+               let minute = notification.create_at.minute;
+               let second = notification.create_at.second;
+               console.log(hour + " : " + minute + " : " + second);
                var title = notification.title;
                if(title.length > 72){
                    title = title.substr(0, 72) + "...";
                }
+               let value =  notification.notificationType;
+               var date = new Date(Date.UTC(year, month, day, hour, minute, second));
                let formatDate = timeForToday(date);
-               var template = '<div class="alarm_content_template" data-id="'+notification.id+'">'+
-                   '<div class="alarm_icon_value ' + customTag + '"></div>'+
-                   '<div class="alarm_title_value">' + notification.notificationType + title + '</div>'+
+               console.log(formatDate);
+               var template = '<div class="alarm_content_template ' + customTag + '" data-id="'+notification.id+'" data-type="'+notification.notificationType+'">'+
+                   '<div class="alarm_icon_value"></div>'+
+                   '<div class="alarm_title_value">' + notificationMap[value] + title + '</div>'+
                    '<div class="alarm_timestamp_value">'+ formatDate +'</div>'+
                    '</div>';
                $(template).appendTo(".alarm_tab_content");
@@ -123,7 +139,7 @@ function makeCourseCart(result){
             "<div class='header_course_img'>"+
             "<img src='"+course.courseImg+"' /></div>"+
             "<div class='course_content_data'>"+
-            "<div class='course_title_data'><a class='course_title_a' href='/course/"+course.url+"'>"+ course.name +"</a></div>"+
+            "<div class='course_title_data'><a class='course_title_a' href='/course/"+course.id+"'>"+ course.name +"</a></div>"+
             "<div class='course_price_data'><span class='course_price_separator'>&#x20a9;</span><span class='course_price_value'>" + CostSeparatorKRValue(course.price) +"</span></div>"+
             "</div></div>";
         $(template).appendTo($('.cart_tab_content'));

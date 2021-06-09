@@ -1,9 +1,6 @@
 package me.eggme.classh.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import me.eggme.classh.domain.dto.CourseHistoryDTO;
 import me.eggme.classh.utils.ModelMapperUtils;
 
@@ -15,6 +12,8 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"member", "course", "courseClass"})
+@ToString(exclude = {"member", "course", "courseClass"})
 public class CourseHistory extends BaseTimeEntity implements Serializable {
 
     @Id @GeneratedValue

@@ -113,9 +113,11 @@ body, body *{font-family: "Noto Sans KR"; font-size: 16px;}
 .alarm_title *{font-size: 18px; font-weight: 500;}
 .alarm_tab_content{display: flex; flex-direction: column; justify-content: center; flex-grow: 1;}
 .alarm_content_template{display: flex; justify-content: center; align-items: center; padding: 12px 18px; border-bottom: 1px solid #f7f8f9; cursor: pointer; flex-grow: 1;}
+.alarm_content_template div{font-weight: 400 !important; color: #343A40 !important;}
 
-.alarm_icon_value{display: flex;align-self: center; width: 6px; height: 6px; border-radius: 100% !important; background-color: #f7f8f9; margin-right: 12px; flex-shrink: 1;}
-.noRead{background-color: #ff7867 !important;}
+.alarm_icon_value{display: flex;align-self: center; width: 6px; height: 6px; border-radius: 100% !important; background-color: #959B9D; margin-right: 12px; flex-shrink: 1;}
+.noRead div:nth-child(1){background-color: #ff7867 !important;}
+.noRead div{font-weight: 500 !important; color: #000A12 !important;}
 .alarm_title_value{display: flex; font-size: 15px; font-weight: 400; flex-grow: 1; margin-right: 8px;}
 .alarm_timestamp_value{font-size: 12px; flex-basis: 40px; flex-shrink: 1; word-break: keep-all;}
 .alarm_tab_button{display: flex; justify-content: center; flex-shrink: 1;}

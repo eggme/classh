@@ -25,7 +25,6 @@ public class CourseDTO implements Serializable {
     private Long id;
     private String name;
     private int price;
-    private String url;
     private CourseState courseState;
     private List<SignUpCourse> signUpCourses;
     private Instructor instructor;
@@ -38,6 +37,7 @@ public class CourseDTO implements Serializable {
     private String longDesc;
     private String courseImg;
     private List<CourseReview> courseReviews;
+    private List<CourseTag> courseTags;
     private LocalDateTime create_at = LocalDateTime.now();
     private LocalDateTime modify_at = LocalDateTime.now();
     private String nickName;

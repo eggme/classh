@@ -41,22 +41,22 @@ public class NoticeController {
 
     /***
      * 강의와, 새소식 조회
-     * @param url 조회할 강의의 url
+     * @param id 조회할 강의의 id
      * @param model
      * @return
      */
-    @GetMapping(value = "/{url}")
-    public String courseNewly(@PathVariable String url, Model model, @AuthenticationPrincipal Member member){
+    @GetMapping(value = "/{id}")
+    public String courseNewly(@PathVariable Long id, Model model, @AuthenticationPrincipal Member member){
 
         if(member != null){
             MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
             model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
         }
 
-        Course course = courseService.getCourse(url);
+        Course course = courseService.getCourse(id);
         CourseDTO courseDTO = course.of();
         List<CourseNoticeDTO> list = courseNoticeService.getCourseNoticeList(course.getId());
-        log.info("새소식 " +list.size()+" 개");
+
         model.addAttribute("course", courseDTO);
         model.addAttribute("list", list);
         return "information/courseNewly/newly";
@@ -78,10 +78,10 @@ public class NoticeController {
                             @AuthenticationPrincipal Member member,
                             @RequestParam(value = "course_id") Long course_id) throws JsonProcessingException {
         courseNotice.setPublic(isPublic);
-        String url = courseNoticeService.addNotice(courseNotice, member, course_id);
+        Long id = courseNoticeService.addNotice(courseNotice, member, course_id);
 
-        Map<String, String> map = new HashMap<>();
-        map.put("url", url);
+        Map<String, Long> map = new HashMap<>();
+        map.put("url", id);
         return mapper.writeValueAsString(map);
     }
 
@@ -112,11 +112,11 @@ public class NoticeController {
     public String editNotice(@ModelAttribute CourseNotice courseNotice,
                              @RequestParam("isPublic") boolean isPublic) throws JsonProcessingException {
         courseNotice.setPublic(isPublic);
-        log.info(courseNotice.toString() + " : " +isPublic);
-        String url = courseNoticeService.editNotice(courseNotice);
+        Long course_id = courseNoticeService.editNotice(courseNotice);
 
-        Map<String, String> map = new HashMap<>();
-        map.put("url", url);
+        Map<String, Long> map = new HashMap<>();
+        map.put("url", course_id);
+
 
         return mapper.writeValueAsString(map);
     }
@@ -131,9 +131,9 @@ public class NoticeController {
     @PreAuthorize("isAuthenticated()")
     @ResponseBody
     public String deleteNotice(@RequestParam(value = "notice_id") Long id) throws JsonProcessingException {
-        String url = courseNoticeService.deleteNotice(id);
-        Map<String, String> map = new HashMap<>();
-        map.put("url", url);
+        Long course_id = courseNoticeService.deleteNotice(id);
+        Map<String, Long> map = new HashMap<>();
+        map.put("url", course_id);
         return mapper.writeValueAsString(map);
     }
 
@@ -148,8 +148,8 @@ public class NoticeController {
     public String addCommentForNotice(@RequestParam(value = "notice_id") Long id,
                                       @AuthenticationPrincipal Member member,
                                       @RequestParam(value = "commentContent") String content){
-        String url = courseNoticeService.addCommentForNotice(id, member, content);
-        return "redirect:/notice/"+url;
+        Long course_id = courseNoticeService.addCommentForNotice(id, member, content);
+        return "redirect:/notice/"+course_id;
     }
 
     /***

@@ -32,7 +32,6 @@ public class CourseTag implements Serializable {
     @ManyToOne // 강의 질문에 대한 태그
     private CourseQuestion courseQuestion;
 
-
     /* 연관관계 편의 메서드 */
     public void deleteCourseTag() {
         this.setCourseQuestion(null);

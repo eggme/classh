@@ -15,6 +15,7 @@ public class NotificationEvent {
     private String title;
     private Member writer;
     private String content;
+    private Long target;
     private NotificationType notificationType;
 
 }

@@ -157,9 +157,9 @@ public class CourseQuestionController {
     @PostMapping(value = "/delete")
     @ResponseBody
     public String deleteCourseQuestion(@RequestParam(value = "id") Long id) throws JsonProcessingException {
-        String url = courseQuestionService.deleteCourseQuestion(id);
-        Map<String, String> map = new HashMap<>();
-        map.put("url", url);
+        courseQuestionService.deleteCourseQuestion(id);
+        Map<String, Long> map = new HashMap<>();
+        map.put("id", id);
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(map);
     }

@@ -27,29 +27,31 @@
         <div clas="notification_body_wrap">
             <c:choose>
                 <c:when test="${fn:length(list) gt 0}">
+                    <c:set var="nonReadCnt" value="0" />
                     <c:forEach var="noti" items="${list}" varStatus="index">
-                        <div class="notification_template notification_${noti.id}" data-status="${noti.notificationType}">
+                        <div class="notification_template notification_${noti.id}" data-id="${noti.id}" data-type="${noti.notificationType}">
                             <c:choose>
                                 <c:when test="${noti.isRead()}">
                                     <div class="notification_status_wrap">
                                         <div class="notification_circle_icon read_icon"></div>
                                     </div>
                                     <div class="notification_content_wrap read_content">
-                                        <c:out value="${noti.notificationType}"/>
+                                        <c:out value="${noti.notificationType.value}"/>
                                         <c:out value="${noti.title}" />
                                     </div>
-                                    <div class="notification_timestamp_wrap timestamp_${noti.id}" data-id="${noti.id}">
+                                    <div class="notification_timestamp_wrap timestamp_${noti.id}">
                                         <script>
                                             timeForTodayObject(new Date('${noti.create_at}'), '.timestamp_${noti.id}');
                                         </script>
                                     </div>
                                 </c:when>
                                 <c:otherwise>
+                                    <c:set var="nonReadCnt" value="${nonReadCnt + 1}" />
                                     <div class="notification_status_wrap">
                                         <div class="notification_circle_icon"></div>
                                     </div>
                                     <div class="notification_content_wrap">
-                                        <c:out value="${noti.notificationType}"/>
+                                        <c:out value="${noti.notificationType.value}"/>
                                         <c:out value="${noti.title}" />
                                     </div>
                                     <div class="notification_timestamp_wrap timestamp_${noti.id}">
@@ -59,9 +61,11 @@
                                     </div>
                                 </c:otherwise>
                             </c:choose>
-
                         </div>
                     </c:forEach>
+                    <script>
+                        setCount('${nonReadCnt}', '.notification_title_count_value')
+                    </script>
                 </c:when>
                 <c:otherwise>
                     <div class="not_have_notification">받은 알림이 존재하지 않습니다.</div>

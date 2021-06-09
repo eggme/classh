@@ -13,9 +13,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     List<Course> findByNameContainingIgnoreCase(String value);
 
-    @Query("select c from Course c where c.url = :url")
-    Optional<Course> findByUrl(String url);
-
     List<Course> findTop12ByCourseState(CourseState courseState);
     
     List<Course> findTop4ByCourseState(CourseState courseState);

@@ -19,13 +19,13 @@ import java.util.Set;
 @NoArgsConstructor
 public class NotificationDTO {
     private Long id;
-    private Member writer;
-    private Member member;
+    private MemberDTO writer;
+    private MemberDTO member;
     private boolean isRead = false;
     private String title;
     private String content;
     private Set<CourseComment> courseComments = new HashSet<>();
-    private String notificationType;
+    private NotificationType notificationType;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime create_at;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")

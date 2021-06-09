@@ -24,7 +24,7 @@ $(function () {
                 'notice': notice,
                 'course_id': course_id
             }, success: function (result) {
-                location.href = "/notice/" + result.url;
+                location.href = "/notice/" + result.id;
             }, error: function (e) {
                 console.log(e);
             }
@@ -81,8 +81,7 @@ $(function () {
                 "notice": notice
             },
             success: function (result) {
-                console.log(result);
-                location.href = "/notice/" + result.url;
+                location.href = "/notice/" + result.id;
             }, error: function (e) {
                 console.log(e);
             }
@@ -99,7 +98,7 @@ $(function () {
             dataType: "json",
             data: {"notice_id": id},
             success: function (result) {
-                location.href = "/notice/" + result.url;
+                location.href = "/notice/" + result.id;
             }, error: function (e) {
                 console.log(e);
             }
@@ -173,9 +172,6 @@ $(function () {
                 "comment_id": id,
                 "commentContent": content
             }, success: function (result) {
-                console.log(result);
-                console.log($(parent).html());
-                console.log($(child).html());
                 $(child).removeClass("hidden");
                 $(child).find(".notice_content").text(result.commentContent);
                 $(parent).children(".notice_like_wrap").remove("hidden");

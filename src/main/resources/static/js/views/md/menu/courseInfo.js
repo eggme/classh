@@ -1,8 +1,8 @@
 $(function () {
     /* 강의 미리보기 클릭 */
     $('.course_preview_box').click(function () {
-        let url = $(this).attr("data-url");
-        window.open("/course/" + url);
+        let id = $(this).attr("data-id");
+        window.open("/course/" + id);
     });
     /* 뒤로가기 클릭 */
     $('.course_tool_back_button').click(function () {

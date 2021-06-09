@@ -36,6 +36,7 @@ public class NotificationHandler {
                     .title(event.getTitle())
                     .content(event.getContent())
                     .notificationType(event.getNotificationType())
+                    .target(event.getTarget())
                     .writer(event.getWriter())
                     .build();
             Notification savedNotification = notificationRepository.save(notification);

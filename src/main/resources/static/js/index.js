@@ -34,7 +34,6 @@ $(function () {
         $(wrap).addClass("search_input_radius");
         timeout = setTimeout(function () {
             let text = $('.search_input').val();
-            console.log("text -> " + text.length);
             if (text.length > 0) {
                 $(loading).hide();
                 $(result).show();
@@ -64,7 +63,6 @@ $(function () {
     $('.search_input').click(function () {
         let text = $('.search_input').val();
         let size = $('.course_search_content_wrap').children().length;
-        console.log("click - " + size);
         if (text.length > 0) {
             if (size > 0) {
                 console.log("show");
@@ -93,9 +91,8 @@ $(function () {
 });
 
 function setSearchDataForm(course) {
-    console.log('call');
     var template = "<div class='course_parent'>" +
-        "<a href='/course/" + course.url + "' class='course_click'>" +
+        "<a href='/course/" + course.id + "' class='course_click'>" +
         "<div class='course_search_content'>" +
         "<div class='search_image_wrap'>" +
         "<img class='search_img' src='" + course.courseImg + "'>" +
@@ -117,13 +114,9 @@ function setSearchDataForm(course) {
 
 function searchDatabase(text) {
     promise_ajax(text).then(function (result) {
-        console.log("searchDataBase!!");
-        console.log(result);
         let size = result.length;
-        console.log(size);
         $('.search_area').css('height', (size * 40) + (size * 16) + 60);
         $('.course_search_content_wrap').html('');
-        console.log("->" + $('.course_search_content_wrap').html());
         if (size > 0) {
             for (var i = 0; i < size; i++) {
                 setSearchDataForm(result[i]);
@@ -132,12 +125,12 @@ function searchDatabase(text) {
             $('.search_area').hide();
             $('.search_loading').hide();
             $('.search_result').hide();
-            $('.search_iuput_border').removeClass('search_input_radius');
+            $('.search_input_border').removeClass('search_input_radius');
         }
     }, function (err) {
         $('.search_area').hide();
         $('.search_loading').hide();
         $('.search_result').hide();
-        $('.search_iuput_border').removeClass('search_input_radius');
+        $('.search_input_border').removeClass('search_input_radius');
     });
 }

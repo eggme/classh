@@ -8,13 +8,15 @@ import java.util.Arrays;
 @Getter
 @AllArgsConstructor
 public enum NotificationType {
-    NOTICE("[공지사항]"),
-    NEW_COURSE("[신규강의]"),
-    COURSE_NOTICE("[강의새소식]"),
-    INSTRUCTOR_NOTICE("[강사알림]"),
-    QUESTION_ANSWER("[질문답변]");
+    NOTICE("[시스템 공지사항]" , "/community/notification"),
+    NEW_COURSE("[신규강의]" , "/notice"),
+    COURSE_NOTICE("[강의새소식]", "/course"),
+    INSTRUCTOR_NOTICE("[강사알림]", "/course"),
+    QUESTION_ANSWER("[질문답변]", "/question"),
+    MD_NOTICE("[공지사항]", "/community/notification");
 
     private String value;
+    private String url;
 
     public static NotificationType getValue(String value){
         NotificationType findNotificationType = Arrays.stream(NotificationType.values()).filter(notificationType ->

@@ -39,6 +39,8 @@ public class Notification extends BaseTimeEntity implements Serializable {
     /* 읽었는지 확인하는 변수 */
     private boolean isRead = false;
 
+    /* 어떤 게시글을 링크할 것인가 */
+    private Long target = 0L;
 
     @Column(length = 500)
     private String title;
@@ -57,7 +59,9 @@ public class Notification extends BaseTimeEntity implements Serializable {
 
     public NotificationDTO of(){
         NotificationDTO notificationDTO = ModelMapperUtils.getModelMapper().map(this, NotificationDTO.class);
-        notificationDTO.setNotificationType(this.getNotificationType().getValue());
+        notificationDTO.setWriter(this.getWriter().of());
+        notificationDTO.setMember(this.getMember().of());
+        notificationDTO.setNotificationType(this.getNotificationType());
         return notificationDTO;
     }
 }

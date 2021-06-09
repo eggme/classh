@@ -171,7 +171,7 @@ public class MemberService {
         Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("해당되는 유저를 찾을 수 없습니다"));
 
-        List<Notification> list = notificationRepository.findTop6ByMember(savedMember);
+        List<Notification> list = notificationRepository.findTop6ByMemberOrderByIdDesc(savedMember);
         List<NotificationDTO> dtoList = list.stream().map(n -> n.of()).collect(Collectors.toList());
         return dtoList;
     }
@@ -242,5 +242,10 @@ public class MemberService {
         Notification savedNotification = notificationRepository.save(notification);
         savedNotification.setWriter(savedMd);
         savedNotification.setMember(savedMember);
+    }
+
+    @Transactional
+    public void readNotification(Notification savedNotification) {
+        savedNotification.setRead(true);
     }
 }

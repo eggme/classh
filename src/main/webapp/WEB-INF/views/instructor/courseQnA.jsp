@@ -66,7 +66,7 @@
                         <div class="course_data_value">
                             <c:choose>
                                 <c:when test="${!(course eq null)}">
-                                    <div class="course_link link_template" data-id="${course.url}">
+                                    <div class="course_link link_template" data-id="${course.id}">
                                         <c:out value="${course.name}"></c:out>
                                     </div>
                                 </c:when>

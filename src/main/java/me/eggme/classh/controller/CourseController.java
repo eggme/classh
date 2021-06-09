@@ -69,11 +69,11 @@ public class CourseController {
     }
 
     // 내 강의 보기 강사만 입장 가능 (강의소개)
-    @GetMapping(value = "/{url}")
-    public String updateCourse(@PathVariable String url, Model model,
+    @GetMapping(value = "/{id}")
+    public String updateCourse(@PathVariable Long id, Model model,
                                @AuthenticationPrincipal Member member){
 
-        Course course = courseService.getCourse(url);
+        Course course = courseService.getCourse(id);
         Member loadMember = null;
         try{
             loadMember = memberService.getMember(member.getId());
@@ -96,11 +96,11 @@ public class CourseController {
     }
 
     // 내 강의 보기 (대시보드)  dashboard
-    @GetMapping(value = "/{url}/dashboard")
+    @GetMapping(value = "/{id}/dashboard")
     @PreAuthorize("isAuthenticated()")
-    public String courseDashBoard(@PathVariable String url, @AuthenticationPrincipal Member member, Model model){
+    public String courseDashBoard(@PathVariable Long id, @AuthenticationPrincipal Member member, Model model){
         MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
-        Course course = courseService.getCourse(url);
+        Course course = courseService.getCourse(id);
         CourseDTO courseDTO = course.of();
         model.addAttribute("courseHistory", memberHistoryDTO);
         model.addAttribute("course", courseDTO);
@@ -108,12 +108,12 @@ public class CourseController {
     }
 
     // 내 강의 보기 (수강생 관리)  management
-    @GetMapping(value = "/{url}/management")
+    @GetMapping(value = "/{id}/management")
     @PreAuthorize("isAuthenticated()")
-    public String courseManagement(@PathVariable String url, @AuthenticationPrincipal Member member, Model model){
+    public String courseManagement(@PathVariable Long id, @AuthenticationPrincipal Member member, Model model){
         MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
         model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
-        Course course = courseService.getCourse(url);
+        Course course = courseService.getCourse(id);
         CourseDTO courseDTO = course.of();
         model.addAttribute("course", courseDTO);
         return "information/courseManagement/management";
@@ -246,8 +246,8 @@ public class CourseController {
                                   Model model, @AuthenticationPrincipal Member member){
         Course course = courseService.saveCourseReview(id, member.getUsername(), rate, reviewContent);
         Member loadMember = memberService.loadUser(member.getUsername());
-        String url = course.getUrl();
-        return "redirect:/course/"+url;
+        Long course_id = course.getId();
+        return "redirect:/course/"+course_id;
     }
 
     // 강사가 강의를 편집하고 저장할 때 콜
@@ -394,9 +394,7 @@ public class CourseController {
                              @RequestParam(value = "course_id") Long course_id,
                              Model model){
         courseReviewService.editReview(courseReview);
-        Course savedCourse = courseService.getCourse(course_id);
-        String url = savedCourse.getUrl();
-        return "redirect:/course/"+url;
+        return "redirect:/course/"+course_id;
     }
 
     /***
@@ -450,9 +448,8 @@ public class CourseController {
                           @RequestParam(value = "course_id") Long id,
                           RedirectAttributes redirectAttributes){
         memberService.addCourseCart(member, id);
-        String url = courseService.findById(id);
         redirectAttributes.addFlashAttribute("modal", "success");
-        return "redirect:/course/"+url;
+        return "redirect:/course/"+id;
     }
 
     /***
@@ -532,5 +529,26 @@ public class CourseController {
         map.put("result", "success");
 
         return mapper.writeValueAsString(map);
+    }
+
+    /**
+     * 최종적으로 강의상태가 제출된 상태에서 강사가 알림을 눌렀을 때, 강의의 검색용 해시태그를 추가하는 이벤트
+     * @param member 강사
+     * @param list 해시태그 list
+     * @param id 강의 pk
+     * @return
+     */
+    @PostMapping(value = "/addHashTag")
+    @PreAuthorize("isAuthenticated()")
+    public String addHashTag(@AuthenticationPrincipal Member member,
+                             @RequestParam(value = "tag") String[] list,
+                             @RequestParam(value = "id") Long id,
+                             RedirectAttributes redirectAttributes){
+        Course savedCourse = courseService.getCourse(id);
+        if(savedCourse.getInstructor().getMember().getId().equals(member.getId())){
+            courseService.setCourseHashTag(savedCourse, list);
+            redirectAttributes.addFlashAttribute("modal", "successTag");
+        }
+        return "redirect:/course/"+id;
     }
 }

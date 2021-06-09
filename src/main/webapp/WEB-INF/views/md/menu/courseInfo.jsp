@@ -65,7 +65,7 @@
                     <div class="course_status">
                         강의 상태 : <c:out value="${course.courseState.getValue()}"/>
                     </div>
-                    <div class="course_preview_box" data-url="${course.url}">
+                    <div class="course_preview_box" data-id="${course.id}">
                         강의 미리보기
                     </div>
                 </div>

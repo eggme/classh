@@ -40,7 +40,7 @@ public class CourseNoticeService {
      * @return
      */
     @Transactional
-    public String addNotice(CourseNotice courseNotice, Member member, Long courseId) {
+    public Long addNotice(CourseNotice courseNotice, Member member, Long courseId) {
         CourseNotice savedCourseNotice = courseNoticeRepository.save(courseNotice);
         Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("해당 유저를 찾을 수 없습니다"));
@@ -53,14 +53,16 @@ public class CourseNoticeService {
         /* 추가사항 새소식 등록 시 알림 발송 */
         List<Member> memberList = savedCourse.getSignUpCourses().stream().map(suc ->
                 suc.getMember()).collect(Collectors.toList());
+        Long target = savedCourse.getId();
 
         applicationEventPublisher.publishEvent(new NotificationEvent(memberList,
                 savedMember.getNickName() + " 지식공유자님이 새소식을 등록했습니다.",
                     savedMember,
                     savedCourseNotice.getNotice(),
+                    target,
                     NotificationType.NEW_COURSE));
 
-        return savedCourse.getUrl();
+        return savedCourse.getId();
     }
 
     /***
@@ -96,16 +98,16 @@ public class CourseNoticeService {
      * @return
      */
     @Transactional
-    public String editNotice(CourseNotice courseNotice) {
+    public Long editNotice(CourseNotice courseNotice) {
         CourseNotice savedCourseNotice = courseNoticeRepository.findById(courseNotice.getId()).orElseThrow(() ->
                 new RuntimeException("해당되는 공지사항이 없습니다"));
         savedCourseNotice.setTitle(courseNotice.getTitle());
         savedCourseNotice.setNotice(courseNotice.getNotice());
         savedCourseNotice.setPublic(courseNotice.isPublic());
 
-        String url = savedCourseNotice.getCourse().getUrl();
+        Long id = savedCourseNotice.getCourse().getId();
 
-        return url;
+        return id;
     }
 
     /***
@@ -114,14 +116,14 @@ public class CourseNoticeService {
      * @return
      */
     @Transactional
-    public String deleteNotice(Long id) {
+    public Long deleteNotice(Long id) {
         CourseNotice savedCourseNotice = courseNoticeRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("해당되는 공지사항이 없습니다"));
-        String url = savedCourseNotice.getCourse().getUrl();
+        Long course_id = savedCourseNotice.getCourse().getId();
         savedCourseNotice.getCourse().getCourseNotices().remove(savedCourseNotice);
         savedCourseNotice.getCourseComments().stream().forEach(cc -> cc.setCourseNotice(null));
         courseNoticeRepository.delete(savedCourseNotice);
-        return url;
+        return course_id;
     }
 
     /***
@@ -132,7 +134,7 @@ public class CourseNoticeService {
      * return 강의 url
      */
     @Transactional
-    public String addCommentForNotice(Long id, Member member, String content) {
+    public Long addCommentForNotice(Long id, Member member, String content) {
         CourseNotice savedCourseNotice = courseNoticeRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("해당되는 공지사항이 없습니다"));
         Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
@@ -146,8 +148,8 @@ public class CourseNoticeService {
         savedCourseComment.setMember(savedMember);
         savedCourseComment.setCourseNotice(savedCourseNotice);
 
-        String url = savedCourseNotice.getCourse().getUrl();
-        return url;
+        Long course_id = savedCourseNotice.getCourse().getId();
+        return course_id;
     }
 
     /***

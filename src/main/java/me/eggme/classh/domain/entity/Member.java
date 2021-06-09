@@ -18,8 +18,8 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 @EntityListeners(MemberNotificationListener.class)
-@EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories"})
-@ToString(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories"})
+@EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories" , "notifications"})
+@ToString(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories", "notifications"})
 public class Member extends BaseTimeEntity implements Serializable {
     // 멤버 PK
     @Id @GeneratedValue

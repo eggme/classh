@@ -40,7 +40,7 @@
                                             <img class="my_course_img" src="${course.courseImg}"/>
                                         </div>
                                         <div class="course_title_wrap">
-                                            <span class="course_title" data-url="${course.url}">
+                                            <span class="course_title" data-id="${course.id}">
                                                 <c:out value="${course.name}"/>
                                             </span>
                                             <div class="course_play"><i class="far fa-play-circle"></i></div>
@@ -73,7 +73,10 @@
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
-
+                            <div class="nosearch">
+                                <p class="highlight">🙈 아직 강의가 없습니다! 🙊</p>
+                                <p>필터를 다시 적용해보시거나 새로운 강의를 학습해 보세요!</p>
+                            </div>
                         </c:otherwise>
                     </c:choose>
                 </div>

@@ -17,8 +17,8 @@ $(function () {
     });
     /* 연관 검색에 강의 링크 클릭 시 해당 강의 대시보드로 감 */
     $('.course_link').on('click', function () {
-        let url = $(this).attr('data-id');
-        location.href = "/course/" + url;
+        let id = $(this).attr('data-id');
+        location.href = "/course/" + id;
     });
     /* 강의 수정 누를 시 데이터 가져오는 콜백 */
     $('.question_edit_box').click(function () {
@@ -33,7 +33,6 @@ $(function () {
                 tinymce.get('myQuestion').setContent(result.content);
                 $('.hashtag_value').html('');
                 for (var i = 0; i < result.courseTags.length; i++) {
-                    console.log("hihi" + i);
                     var template = "<div class='hash_tag_template'>" +
                         "<input type='hidden' name='courseTags[" + i + "].tag' value=" + result.courseTags[i].tag + " />" +
                         "<span class='tag_value'>" + result.courseTags[i].tag + "</span>" +
@@ -68,8 +67,7 @@ $(function () {
             data : {"id" : id},
             dataType: "json",
             success: function(result){
-                console.log(result);
-                location.href="/course/"+result.url;
+                location.href="/course/"+result.id;
             },error: function (e){
                 console.log(e);
             }

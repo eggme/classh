@@ -7,8 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <link rel="stylesheet" href="/css/component/description.css">
 
@@ -71,10 +71,13 @@
                     <div class="skill_tag">
                         <div class="icon_div icon"><i class="fas fa-hashtag"></i></div>
                         <div class="tag_wrap">
-                            <div class="tag">Java</div>
-                            <div class="tag">Spring</div>
-                            <div class="tag">Web</div>
-                            <div class="tag">Design</div>
+                            <c:if test="${course.courseTags ne null}">
+                                <c:if test="${fn:length(course.courseTags) gt 0}">
+                                    <c:forEach var="tag" items="${course.courseTags}" varStatus="idx">
+                                        <div class="tag"><c:out value="${tag.tag}"/></div>
+                                    </c:forEach>
+                                </c:if>
+                            </c:if>
                         </div>
                     </div>
                     <div class="button_group">

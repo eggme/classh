@@ -154,7 +154,7 @@
                         <c:forEach var="course" items="${list}" varStatus="courseStatus">
                             <div class="swiper-slide">
                                 <div class="course">
-                                    <a class="noATagCss" href="/course/${course.url}">
+                                    <a class="noATagCss" href="/course/${course.id}">
                                         <div class="course_image">
                                             <img src="${course.courseImg}">
                                         </div>
@@ -205,7 +205,7 @@
                         <c:forEach var="course" items="${list}" varStatus="courseStatus">
                             <div class="swiper-slide">
                                 <div class="course">
-                                    <a class="noATagCss" href="/course/${course.url}">
+                                    <a class="noATagCss" href="/course/${course.id}">
                                         <div class="course_image">
                                             <img src="${course.courseImg}">
                                         </div>

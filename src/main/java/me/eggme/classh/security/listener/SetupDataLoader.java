@@ -44,7 +44,6 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     @Autowired CourseRepository courseRepository;
     @Autowired SignUpCourseRepository signUpCourseRepository;
     @Autowired CourseService courseService;
-    @PersistenceContext EntityManager em;
 
     private static AtomicInteger count = new AtomicInteger(0);
 
@@ -72,7 +71,6 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         course.setCourseCategory(CourseCategory.PROGRAMMING);
         course.setCourseLevel(CourseLevel.BEGINNING);
         Course savedCourse = courseRepository.save(course); // 엔티티를 영속상태로 만듬
-        savedCourse.setUrl("temp_" + savedCourse.getId()); // 영속상태의 엔티티를 변경함 (변경감지)
         savedCourse.setPrice(56000);
         // 작동안됨 -> 해결 해당 메서드를 호출하는 상위 컴포넌트에서 @Transactional 어노테이션을
         // 붙이니까 됐는데 왜 그런지는 모르겠군

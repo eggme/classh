@@ -32,26 +32,17 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CourseService {
 
-    @Autowired
-    private CourseRepository courseRepository;
-    @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
-    private CourseSessionRepository courseSessionRepository;
-    @Autowired
-    private CourseClassRepository courseClassRepository;
-    @Autowired
-    private SignUpCourseRepository signUpCourseRepository;
-    @Autowired
-    private RecommendationRepository recommendationRepository;
-    @Autowired
-    private SkillTagRepository skillTagRepository;
-    @Autowired
-    private PaymentRepository paymentRepository;
-    @Autowired
-    private CartRepository cartRepository;
-    @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
+    @Autowired private CourseRepository courseRepository;
+    @Autowired private CourseTagRepository courseTagRepository;
+    @Autowired private MemberRepository memberRepository;
+    @Autowired private CourseSessionRepository courseSessionRepository;
+    @Autowired private CourseClassRepository courseClassRepository;
+    @Autowired private SignUpCourseRepository signUpCourseRepository;
+    @Autowired private RecommendationRepository recommendationRepository;
+    @Autowired private SkillTagRepository skillTagRepository;
+    @Autowired private PaymentRepository paymentRepository;
+    @Autowired private CartRepository cartRepository;
+    @Autowired private ApplicationEventPublisher applicationEventPublisher;
 
     private FileUploader fileUploader;
 
@@ -68,7 +59,6 @@ public class CourseService {
         Member member = memberRepository.findByUsername(email).orElseThrow(() -> new EmailExistedException(email));
         Course course = new Course(courseName);
         Course newCourse = courseRepository.save(course);
-        newCourse.setUrl("temp_" + newCourse.getId());
 
         createDefaultSessionAndClass(newCourse);
         connectCourseUserRelation(newCourse, member);
@@ -87,16 +77,6 @@ public class CourseService {
         if (member.getInstructor() == null) return null;
         List<Course> courses = member.getInstructor().getCourses();
         return courses;
-    }
-
-    /***
-     * 일반 유저가 강의 URL을 클릭하여 강의를 조회하려할 때 호출
-     * @param url - 해당 강의의 URL
-     * @return
-     */
-    public Course getCourse(String url) {
-        Course course = courseRepository.findByUrl(url).orElseThrow(() -> new NoSearchCourseException());
-        return course;
     }
 
     /***
@@ -436,11 +416,13 @@ public class CourseService {
         String eventMsg = "<p>["+savedInstructor.getNickName()+"] 님의 강의 ["+ savedCourse.getName() +"] 가 최종적으로 승인 되었습니다.</p>" +
                     "<p>이제 다른 사람들이 강의를 보고, 수강신청 할 수 있어요!</p>" +
                     "<p>강의 URL을 통해 사람들에게 홍보하여 수익을 올려보세요!</p>";
+        Long target = savedCourse.getId();
 
         applicationEventPublisher.publishEvent(new NotificationEvent(Arrays.asList(savedInstructor),
                 eventTitle,
                 savedMD,
                 eventMsg,
+                target,
                 NotificationType.INSTRUCTOR_NOTICE));
     }
 
@@ -478,17 +460,6 @@ public class CourseService {
         List<Course> list = courseRepository.findByNameContainingIgnoreCase(value);
         List<CourseDTO> courseDTOList = list.stream().map(c -> c.of()).collect(Collectors.toList());
         return courseDTOList;
-    }
-
-    /***
-     * 강의 pk로 url을 찾음
-     * @param id pk
-     * @return
-     */
-    @Transactional
-    public String findById(Long id) {
-        Course savedCourse = courseRepository.findById(id).orElseThrow(() -> new NoSearchCourseException());
-        return savedCourse.getUrl();
     }
 
     @Transactional
@@ -581,5 +552,20 @@ public class CourseService {
         authenticationObject.setCart(null);
         Authentication afterAuthentication = new UsernamePasswordAuthenticationToken(authenticationObject, null, beforeAuthentication.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(afterAuthentication);
+    }
+
+    @Transactional
+    public void setCourseHashTag(Course course, String[] list) {
+        Course savedCourse = getCourse(course.getId());
+
+        for(String tag : list){
+            CourseTag courseTag = new CourseTag();
+            courseTag.setTag(tag);
+            CourseTag savedCourseTag = courseTagRepository.save(courseTag);
+            savedCourseTag.setCourse(savedCourse);
+            savedCourse.getCourseTags().add(savedCourseTag);
+
+            log.info(savedCourseTag.toString());
+        }
     }
 }

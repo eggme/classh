@@ -161,8 +161,50 @@ $(function () {
     $('.add_cart_submit').click(function(){
         location.href="/course/carts";
     });
-});
 
+    $('.hashTag_success_submit').click(function(){
+       $('.hashTag_success_form_wrap').css('display', 'none');
+    });
+
+    $('.add_hashTag_cancel').click(function(){
+       $('.add_hashTag_form_wrap').css('display', 'none');
+    });
+    $('.add_hashTag_submit').click(function (){
+       $('.add_hashTag_form').submit();
+    });
+    /* 강의 해시태그 추가 */
+    $('.add_hashTag_tag').keydown(function (key) {
+        let value = trim($(this).val().trim());
+        if (key.keyCode == 13) {
+            if (!pattern.test(value) && value != "") {
+                let length = $('.hashtag_value').children().length;
+                if(length < 4){
+                    var template = "<div class='hash_tag_template'>"+
+                        "<input type='hidden' name='tag' value="+ value +" />"+
+                        "<span class='tag_value'>"+ value +"</span>" +
+                        "<span><i class='fas fa-times'></i></span>" +
+                        "</div>";
+                    $(template).appendTo($('.hashtag_value'));
+                    $(this).val('');
+                }
+            }
+            return false;
+        }else if(key.keyCode == 8 && value == ""){
+            $('.hashtag_value').children().last().remove();
+        }
+    });
+    $(document).on('click', '.hash_tag_template', function(){
+        $(this).remove();
+    });
+    /* 해시태그 끝 */
+});
+/* 해시태그 시작 */
+var pattern = /([^가-힣a-zA-Z0-9\x20])/i;
+
+function trim(str){
+    return str.replace(/(^\s+)|(\s+)|(^ㄱ-ㅎㅏ-ㅣ\x20)$/, "");
+}
+/* 해시태그 끝 */
 function addQuestion(){
     let course_id = $('.question_course_id').val();
     let question_title = $('.question_title_value').val();

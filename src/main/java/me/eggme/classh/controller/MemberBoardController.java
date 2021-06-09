@@ -3,10 +3,7 @@ package me.eggme.classh.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import me.eggme.classh.domain.dto.CourseDTO;
-import me.eggme.classh.domain.dto.MemberDTO;
-import me.eggme.classh.domain.dto.MemberHistoryDTO;
-import me.eggme.classh.domain.dto.NotificationDTO;
+import me.eggme.classh.domain.dto.*;
 import me.eggme.classh.domain.entity.Course;
 import me.eggme.classh.domain.entity.Member;
 import me.eggme.classh.domain.entity.Notification;
@@ -27,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -119,7 +117,8 @@ public class MemberBoardController {
     public String getNotifications(@AuthenticationPrincipal Member member) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         List<NotificationDTO> list = memberService.getNotificationTop6(member);
-        return mapper.writeValueAsString(list);
+        String value = mapper.writeValueAsString(list);
+        return value;
     }
 
     @GetMapping(value = "/notification/{id}")
@@ -140,6 +139,32 @@ public class MemberBoardController {
                 n.of()).collect(Collectors.toList());
         model.addAttribute("list", notificationDTOList);
         return "board/notification";
+    }
+
+    @GetMapping(value = "/notification/{id}/{type}")
+    @PreAuthorize("isAuthenticated()")
+    public String temp(@PathVariable(value = "id") Long id,
+                       @PathVariable(value = "type")NotificationType notificationType,
+                       RedirectAttributes redirectAttributes){
+        Notification savedNotification = memberService.getNotification(id);
+        String redirectURL = notificationType.getUrl();
+        Long targetID = savedNotification.getTarget();
+
+        /* 클릭한 알림이 읽지 않은 상태이면서 (임시로 타겟이 0이 아니면서로 바꿈), 강의가 승인될 때 나오는 강사알림 일 때 */
+        if((targetID != null) && (notificationType == NotificationType.INSTRUCTOR_NOTICE)){
+            redirectAttributes.addFlashAttribute("modal", "addHashTag");
+        }
+        /* 클릭한 알림이 읽지 않은 상태일 때 읽음 처리로 변경 */
+        if(!savedNotification.isRead()){
+            memberService.readNotification(savedNotification);
+        }
+        /* 만약 타겟이 없다면 시스템 공지사항으로 보냄 */
+        if(targetID == null){
+            redirectURL = "/member/notification";
+            targetID = savedNotification.getId();
+        }
+
+        return "redirect:"+redirectURL+"/"+targetID;
     }
 
 
