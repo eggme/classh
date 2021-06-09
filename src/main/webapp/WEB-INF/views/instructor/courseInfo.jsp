@@ -296,8 +296,8 @@
                 </div>
                 <c:set var="isWroteReview" value="false"/>
                 <sec:authorize access="isAuthenticated()">
-                    <sec:authentication property="principal" var="member"/>
-                    <c:set var="isWroteReview" value="${course.isWroteReview(member)}"/>
+                    <sec:authentication property="principal" var="userobject"/>
+                    <c:set var="isWroteReview" value="${course.isWroteReview(userobject)}"/>
                     <%-- 수강신청에 따른 뷰 --%>
                     <c:choose>
                         <c:when test="${course.isCourseRegistration(userobject)}"> <%-- 수강신청이 되었을 떄 --%>
@@ -359,7 +359,7 @@
                                                             </div>
                                                             <div class="reviewer_toolbox">
                                                                 <c:set var="isWroteMe"
-                                                                       value="${review.isWroteReview(member)}"></c:set>
+                                                                       value="${review.isWroteReview(userobject)}"></c:set>
                                                                 <c:if test="${isWroteMe}">
                                                                     <div class="toolbox_icon">
                                                                         <i class="fas fa-ellipsis-v"></i>
@@ -709,7 +709,7 @@
                 </c:forEach>
                 <div class="top_margin ">총 <span class="total_class">
                     <c:out value="${total_section_class_count}"></c:out></span>개 수업 · 총 <span class="course_total_time">
-                    <script>timeFormatKorWrapper('${course.getTotalTime()}', '.course_total_time');</script>
+                    <script>timeFormatKorWrapper('${course.getTotalTime() }', '.course_total_time');</script>
                 </span>
                 </div>
                 <div class="top_margin">기간 : 평생 무제한 시청</div>

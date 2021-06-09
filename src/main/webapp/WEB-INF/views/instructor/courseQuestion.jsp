@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
@@ -100,22 +101,82 @@
     <div class="box_wrap">
         <div class="course_box">
             <div class="course_box_warp">
-                <div class="course_price">
-                </div>
-                <div class="course_status">
-                    학습중
-                </div>
-                <div class="learning_box">
-                    이어 학습하기
-                </div>
+                <form action="/course/add/cart" method="post" class="course_cart_form">
+                    <input type="hidden" name="course_id" value="${course.id}">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <sec:authorize access="isAuthenticated()">
+                        <sec:authentication var="userobject" property="principal"></sec:authentication>
+                        <c:choose>
+                            <c:when test="${course.isCourseRegistration(userobject)}">
+                                <%-- 로그인이 된 상태에서 해당 유저가 해당 강의에 수강신청이 된 상태 --%>
+                                <div class="course_price"></div>
+                                <div class="course_status">학습중</div>
+                                <div class="learning_box_study learning_box_template" data-id="${course.id}">이어 학습하기</div>
+                            </c:when>
+                            <c:when test="${userobject.isPutInTheCart(course.id)}">
+                                <%-- 로그인이 된 상태에서 해당 유저가 해당 강의에 수강신청이 안돼있고 장바구니에 담긴 상태 --%>
+                                <c:choose>
+                                    <c:when test="${course.price eq 0}">
+                                        <div class="course_price">무료</div>
+                                        <div class="course_status"></div>
+                                        <div class="learning_box_purchase learning_box_template" data-status="authentication">바로 학습하기</div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="course_price">
+                                            <script>
+                                                CostSeparatorKR('${course.price}', '.course_price');
+                                            </script>
+                                        </div>
+                                        <div class="course_status"></div>
+                                        <div class="learning_box_purchase learning_box_template" data-status="authentication">결제하기</div>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:when>
+                            <c:otherwise>
+                                <%-- 로그인은 됐는데 해당 유저가 해당 강의에 수강신청이 안된 상태 --%>
+                                <c:choose>
+                                    <c:when test="${course.price eq 0}">
+                                        <div class="course_price">무료</div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="course_price">
+                                            <script>
+                                                CostSeparatorKR('${course.price}', '.course_price');
+                                            </script>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+                                <div class="course_status"></div>
+                                <div class="learning_box learning_box_template" data-status="authentication">수강신청</div>
+                            </c:otherwise>
+                        </c:choose>
+                    </sec:authorize>
+                    <sec:authorize access="isAnonymous()">
+                        <%-- 비로그인 시 익명 사용자 접근 시 --%>
+                        <c:choose>
+                            <c:when test="${course.price eq 0}">
+                                <div class="course_price">무료</div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="course_price">
+                                    <script>
+                                        CostSeparatorKR('${course.price}', '.course_price');
+                                    </script>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                        <div class="course_status"></div>
+                        <div class="learning_box learning_box_template" data-status="anonymous">수강신청</div>
+                    </sec:authorize>
+                </form>
                 <div class="mini_box">
                     <div class="add_box mini_box_content"><i class="far fa-plus-square line_height"></i> 내 목록 추가</div>
                     <div class="share mini_box_content"><i class="fas fa-share-alt line_height"></i> 공유하기</div>
                 </div>
             </div>
             <div class="course_subtext">
-                <div class="top_margin">지식공유자 : <span class="instructor_name_tab"><c:out
-                        value="${course.instructor.member.nickName}"></c:out></span></div>
+                <div class="top_margin">지식공유자 : <span class="instructor_name_tab">
+                    <c:out value="${course.instructor.member.nickName}"></c:out></span></div>
                 <%--  총 수업 수 구하는 로직 --%>
                 <c:set var="total_section_class_count" value="0"/>
                 <c:forEach var="section" items="${course.courseSections}" varStatus="status">
@@ -123,14 +184,15 @@
                         <c:set var="total_section_class_count" value="${total_section_class_count + 1}"/>
                     </c:forEach>
                 </c:forEach>
-                <div class="top_margin ">총 <span class="total_class"><c:out
-                        value="${total_section_class_count}"></c:out></span>개 수업 · 총 <span class="course_total_time">
+                <div class="top_margin ">총 <span class="total_class">
+                    <c:out value="${total_section_class_count}"></c:out></span>개 수업 · 총 <span class="course_total_time">
                     <script>timeFormatKorWrapper('${course.getTotalTime()}', '.course_total_time');</script>
                 </span>
                 </div>
                 <div class="top_margin">기간 : 평생 무제한 시청</div>
                 <div class="top_margin">수료증 : 발급 강의</div>
-                <div class="top_margin">수강 난이도 : <span class="course_level">${course.courseLevel.value}</span></div>
+                <div class="top_margin">수강 난이도 : <span class="course_level"><c:out
+                        value="${course.courseLevel.value}"/></span></div>
             </div>
         </div>
     </div>

@@ -76,7 +76,7 @@ public class CourseController {
         Course course = courseService.getCourse(url);
         Member loadMember = null;
         try{
-            loadMember = memberService.loadUser(member.getUsername());
+            loadMember = memberService.getMember(member.getId());
         }catch (NullPointerException n){}
         if(loadMember != null) {
             MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(loadMember.getId());
@@ -85,6 +85,7 @@ public class CourseController {
         }
 
         CourseDTO courseDTO = course.of();
+        log.info("dd : "+courseDTO.isCourseRegistration(loadMember));
         model.addAttribute("course", courseDTO);
 
         /* 모달 관련 */

@@ -45,12 +45,12 @@ public class CourseDTO implements Serializable {
     private CourseValidation courseValidation;
 
     // 수강신청 상태인지 체크
-    public boolean isCourseRegistration(Member member){
+    public boolean isCourseRegistration(Member memberObject){
         try{
             if(signUpCourses != null){
-                SignUpCourse findCourseRegistration = signUpCourses.stream().filter(suc ->{
-                    return suc.getMember().getId() == member.getId();
-                }).findFirst().orElse(null);
+                SignUpCourse findCourseRegistration = signUpCourses.stream().filter(suc ->
+                        suc.getMember().getId().equals(memberObject.getId())
+                ).findFirst().orElse(null);
                 if(findCourseRegistration != null) return true;
             }
             return false;

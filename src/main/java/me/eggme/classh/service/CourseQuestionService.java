@@ -43,12 +43,12 @@ public class CourseQuestionService {
 
         savedCourseQuestion.setMember(savedMember);
         savedCourseQuestion.setCourse(savedCourse);
-        Set<CourseTag> savedCourseTags = savedCourseQuestion.getCourseTags().stream().map(ct -> {
+        List<CourseTag> savedCourseTags = savedCourseQuestion.getCourseTags().stream().map(ct -> {
             CourseTag savedCourseTag = courseTagRepository.save(ct);
             savedCourseTag.setCourse(savedCourse);
             savedCourseTag.setCourseQuestion(savedCourseQuestion);
             return savedCourseTag;
-        }).collect(Collectors.toSet());
+        }).collect(Collectors.toList());
         savedCourseQuestion.setCourseTags(savedCourseTags);
         return savedCourseQuestion;
     }

@@ -66,7 +66,7 @@ public class CourseQuestion extends BaseBoardEntity implements Serializable {
     // 달릴 해시태그들 1:N 단방향
     @JsonManagedReference
     @OneToMany(mappedBy = "courseQuestion",cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CourseTag> courseTags = new HashSet<>();
+    private List<CourseTag> courseTags = new ArrayList<>();
 
     public CourseQuestionDTO of(){
         CourseQuestionDTO courseQuestionDTO = ModelMapperUtils.getModelMapper().map(this, CourseQuestionDTO.class);
