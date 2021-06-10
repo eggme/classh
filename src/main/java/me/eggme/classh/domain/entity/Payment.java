@@ -49,11 +49,11 @@ public class Payment extends BaseTimeEntity implements Serializable {
     public boolean purchaseResult;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Member member;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany
     @OrderBy("create_at asc")
     @BatchSize(size = 10)
     private Set<Course> courseSet = new HashSet<>();

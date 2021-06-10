@@ -64,6 +64,11 @@ $(function () {
        location.href="/study/"+id+"/lecture/"+cId;
     });
 
+    $('.clear_course_submit').click(function(){
+        /* 완강 확인버튼 */
+        $('.clear_course_form_wrap').css('display', 'none');
+    });
+
     $(document).on('click', '.class_box', function (){
         let id = $(this).attr('data-id');
         let cId = $(this).attr('data-cid');

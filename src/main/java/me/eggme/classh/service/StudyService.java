@@ -53,6 +53,7 @@ public class StudyService {
      */
     @Transactional
     public CourseHistoryDTO getCourseHistory(Long memberId, Long classId) {
+        CourseHistoryDTO courseHistoryDTO = null;
         Member savedMember = memberRepository.findById(memberId).orElseThrow(() ->
                 new UsernameNotFoundException("해당되는 유저를 찾을 수 없습니다."));
 
@@ -60,8 +61,9 @@ public class StudyService {
                 new NoSearchCourseClassException());
 
         CourseHistory courseHistory = courseHistoryRepository.findByMemberAndCourseClass(savedMember, savedCourseClass);
-        CourseHistoryDTO courseHistoryDTO = courseHistory.of();
-
+        if(courseHistory != null){ // 만약 수업기록이 있다면
+            courseHistoryDTO = courseHistory.of();
+        }
         return courseHistoryDTO;
     }
 
@@ -158,7 +160,7 @@ public class StudyService {
             Iterator<CourseClass> courseClasses = courseSection.getCourseClasses().iterator();
             while(courseClasses.hasNext()){
                 CourseClass courseClass = courseClasses.next();
-                if(courseClass.getId() == classId){  // 해당 강의를 찾았을 때,
+                if(courseClass.getId().equals(classId)){  // 해당 강의를 찾았을 때,
                     if(courseClasses.hasNext()){  // 해당 섹션에 다음 강의가 있다면
                         return courseClasses.next();
                     }else{

@@ -2,7 +2,9 @@
     display: flex !important;
     justify-content: space-between;
 }
-
+.content_wrap_color{
+    background-color: #f5f5f5 !important;
+}
 .course_menu_name{
     align-self: center;
     color: white;

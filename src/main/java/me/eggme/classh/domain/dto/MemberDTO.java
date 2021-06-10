@@ -30,9 +30,18 @@ public class MemberDTO implements Serializable {
     private List<SignUpCourse> signUpCourses;
     private Instructor instructor;
     private List<CourseReview> courseReviews;
+    private List<CourseQuestion> courseQuestions;
+    private List<CourseHistoryDTO> courseHistories;
 
     private LocalDateTime create_at = LocalDateTime.now();
     private LocalDateTime modify_at = LocalDateTime.now();
+
+    // 편의 메서드 마지막 수강 기록을 조회
+    public CourseHistoryDTO getLastHistory(){
+        CourseHistoryDTO courseHistoryDTO = courseHistories.stream().skip(courseHistories.size() - 1).findFirst().orElse(null);
+        return courseHistoryDTO;
+    }
+
 
     // 편의 메서드 해당 강의에 수강평을 등록했는지 여부
     public boolean isRegisteredReview(Course course){

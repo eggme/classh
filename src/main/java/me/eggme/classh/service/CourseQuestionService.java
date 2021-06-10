@@ -10,6 +10,8 @@ import me.eggme.classh.exception.NoSearchCourseException;
 import me.eggme.classh.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -235,6 +237,18 @@ public class CourseQuestionService {
             redirect_id = savedCourseComment.getParent().getCourseQuestion().getId();
 
         return redirect_id;
+    }
+
+    /**
+     * MemberBoardController에서 호출, 해당되는 유저가 올린 모든 질문을 조회
+     * @param member 유저
+     * @return
+     */
+    @Transactional
+    public Page<CourseQuestion> getQuestionList(Pageable pageable, Member member){
+        Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
+                new UsernameNotFoundException("해당되는 유저가 존재하지 않습니다."));
+        return courseQuestionRepository.findAllByMember(pageable, savedMember);
     }
 
 }

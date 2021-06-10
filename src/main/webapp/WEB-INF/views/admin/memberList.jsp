@@ -1,32 +1,33 @@
 <%--
   Created by IntelliJ IDEA.
   User: kyyet
-  Date: 2021-06-08
-  Time: 오전 10:18
+  Date: 2021-06-10
+  Time: 오전 11:23
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<link rel="stylesheet" href="/css/views/md/menu/instructorList.css">
-<script src="/js/views/md/menu/instructorList.js"></script>
+<link rel="stylesheet" href="/css/views/admin/memberList.css">
+<script src="/js/views/admin/memberList.js"></script>
+
 
 <div class="main_wrap management_main_wrap_template">
     <div class="board_flex_wrap management_board_flex_wrap">
-        <div class="instructor_list_title management_title_menu_template">강사 관리</div>
-        <div class="instructor_search_area management_title_search_area_template">
+        <div class="member_list_title management_title_menu_template">회원 관리</div>
+        <div class="member_search_area management_title_search_area_template">
             <div class="select_box management_select_box_template">
-                <div class="select_caret_box">
-                    <div class="select">강사번호</div>
-                    <div class="select_caret"><div class="caret"></div></div>
+                <div class="select_caret_box management_select_caret_box_template">
+                    <div class="select management_select_template">회원번호</div>
+                    <div class="select_caret management_select_caret_template"><div class="caret"></div></div>
                 </div>
                 <div class="select_click_box management_select_click_box_template hidden">
-                    <div class="menu_1 management_select_menu_template">강사번호</div>
+                    <div class="menu_1 management_select_menu_template">회원번호</div>
                     <div class="menu_2 management_select_menu_template">아이디</div>
-                    <div class="menu_3 management_select_menu_template">강사이름</div>
+                    <div class="menu_3 management_select_menu_template">닉네임</div>
                     <div class="menu_4 management_select_menu_template">상태</div>
                 </div>
             </div>
@@ -34,45 +35,42 @@
                 <input type="text" placeholder="검색" class="input_component management_input_component_template">
             </div>
         </div>
-        <div class="instructor_table management_object_table_template">
-            <div class="instructor_table_head management_object_table_head_template">
-                <div class="table_menu_template management_table_menu_template">강사번호</div>
+        <div class="member_table management_object_table_template">
+            <div class="member_table_head management_object_table_head_template">
+                <div class="table_menu_template management_table_menu_template">회원번호</div>
                 <div class="table_menu_template management_table_menu_template">프로필 사진</div>
                 <div class="table_menu_template management_table_menu_template">아이디</div>
                 <div class="table_menu_template management_table_menu_template">이름</div>
                 <div class="table_menu_template management_table_menu_template">닉네임</div>
                 <div class="table_menu_template management_table_menu_template">이메일</div>
                 <div class="table_menu_template management_table_menu_template">휴대폰 번호</div>
-                <div class="table_menu_template management_table_menu_template">등록 강의 수</div>
             </div>
-            <div class="instructor_table_body management_object_table_body_template">
+            <div class="member_table_body management_object_table_body_template">
                 <c:choose>
                     <c:when test="${fn:length(list) > 0}">
-                        <c:forEach var="inst" items="${list}" varStatus="instructor_status">
-                            <div class="instructor_list_template management_object_list_template" data-id="${inst.member.id}">
-                                <div class="table_value_template management_table_menu_template instructor_id">
-                                    <c:out value="${inst.id}" />
+                        <c:forEach var="member" items="${list}" varStatus="mstatus">
+                            <div class="member_list_template management_object_list_template" data-id="${member.id}">
+                                <div class="table_value_template management_table_menu_template member_id">
+                                    <c:out value="${member.id}" />
                                 </div>
                                 <div class="table_value_template management_table_menu_template management_image_template">
-                                    <img class="instructor_image management_object_image" src="${inst.member.profile}">
+                                    <img class="member_image management_object_image" src="${member.profile}">
                                 </div>
-                                <div class="table_value_template management_table_menu_template instructor_username">
-                                    <c:out value="${inst.member.username}" />
+                                <div class="table_value_template management_table_menu_template member_username">
+                                    <c:out value="${member.username}" />
                                 </div>
-                                <div class="table_value_template management_table_menu_template instructor_memberName">
-                                    <c:out value="${inst.member.memberName}"/>
+                                <div class="table_value_template management_table_menu_template member_memberName">
+                                    <c:out value="${member.memberName}"/>
                                 </div>
-                                <div class="table_value_template management_table_menu_template instructor_nickName">
-                                    <c:out value="${inst.member.nickName}"/>
+                                <div class="table_value_template management_table_menu_template member_nickName">
+                                    <c:out value="${member.nickName}"/>
                                 </div>
-                                <div class="table_value_template management_table_menu_template instructor_email">
-                                    <c:out value="${inst.member.email}"/>
+                                <div class="table_value_template management_table_menu_template member_email">
+                                    <c:out value="${member.email}"/>
                                 </div>
-                                <div class="table_value_template management_table_menu_template instructor_tel">
-                                   <c:out value="${inst.member.tel}"/>
+                                <div class="table_value_template management_table_menu_template member_tel">
+                                    <c:out value="${member.tel}"/>
                                 </div>
-                                <div class="table_value_template management_table_menu_template instructor_course_count">
-                                    <c:out value="${inst.totalCourseCount()}"/>개의 강의</div>
                             </div>
                         </c:forEach>
                         <c:if test="${total ne 0}">
@@ -101,7 +99,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <li>
-                                                <a href="/md/course/list?page=${currentPage-5}&size=8&sort=id,asc" aria-label="Previous">
+                                                <a href="/admin/members/list?page=${currentPage-5}&size=8&sort=id,asc" aria-label="Previous">
                                                     <span aria-hidden="true">&laquo;</span>
                                                 </a>
                                             </li>
@@ -112,14 +110,14 @@
                                         <c:choose>
                                             <c:when test="${p eq current}">
                                                 <li class="active">
-                                                    <a href="/md/instructor/list?page=${p}&size=8&sort=id,asc">
+                                                    <a href="/admin/members/list?page=${p}&size=8&sort=id,asc">
                                                         <c:out value="${p+1}" />
                                                     </a>
                                                 </li>
                                             </c:when>
                                             <c:otherwise>
                                                 <li>
-                                                    <a href="/md/instructor/list?page=${p}&size=8&sort=id,asc">
+                                                    <a href="/admin/members/list?page=${p}&size=8&sort=id,asc">
                                                         <c:out value="${p+1}" />
                                                     </a>
                                                 </li>
@@ -137,7 +135,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <li>
-                                                <a href="/md/instructor/list?page=${pages}&size=8&sort=id,asc" aria-label="Next">
+                                                <a href="/admin/members/list?page=${pages}&size=8&sort=id,asc" aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>
                                                 </a>
                                             </li>
@@ -150,7 +148,7 @@
                     </c:when>
                     <c:otherwise>
                         <div class="noSearch_Course">
-                            등록된 강사가 없습니다
+                            등록된 회원이 없습니다
                         </div>
                     </c:otherwise>
                 </c:choose>

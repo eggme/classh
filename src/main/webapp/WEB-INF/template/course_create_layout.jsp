@@ -31,7 +31,7 @@
         <div class="menu_template_title">
             <div class="course_menu_name">내 강의 만들기</div>
             <div class="course_configuration_button">
-                <div class="course_preview course_create_base_button" data-url="${course.url}">강의보기</div>
+                <div class="course_preview course_create_base_button" data-id="${course.id}">강의보기</div>
                 <div class="course_save course_create_base_button">저장</div>
             </div>
         </div>

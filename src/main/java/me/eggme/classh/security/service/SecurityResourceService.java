@@ -5,6 +5,7 @@ import me.eggme.classh.repository.ResourcesRepository;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -18,6 +19,7 @@ public class SecurityResourceService {
         this.resourceRepository = resourceRepository;
     }
 
+    @Transactional(readOnly = true)
     public LinkedHashMap<RequestMatcher, List<ConfigAttribute>> getResourceList(){
 
         LinkedHashMap<RequestMatcher, List<ConfigAttribute>> result = new LinkedHashMap<>();

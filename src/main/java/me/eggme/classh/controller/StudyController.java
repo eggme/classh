@@ -94,7 +94,9 @@ public class StudyController {
                 courseClassId = savedCourseClass.getId();
                 // 해당 강의의 기록 (비디오 재생에 쓰임, 어느 강의를 언제까지 봤나)
                 CourseHistoryDTO courseHistory = studyService.getCourseHistory(member.getId(), savedCourseClass.getId());
-                model.addAttribute("currentHistory", courseHistory);
+                if(courseHistory != null){ // 해당 강의가 처음 볼 상황도 있음
+                    model.addAttribute("currentHistory", courseHistory);
+                }
                 // 모든 강의의 기록 (목차에 쓰임, 어떤 강의를 어디까지 들었는지 확인하기 위해)
                 List<CourseHistoryDTO> courseHistories = studyService.getCourseHistories(member.getId(), savedCourse.getId());
                 model.addAttribute("courseHistories", courseHistories);
@@ -143,7 +145,9 @@ public class StudyController {
             if(studyService.hasCourseHistory(member.getId(), id)){ // 만약 다음 강의에 수업 기록이 있을 경우 기록객체 추가
                 // 해당 강의의 기록
                 CourseHistoryDTO courseHistory = studyService.getCourseHistory(member.getId(), savedCourseClass.getId());
-                model.addAttribute("currentHistory", courseHistory);
+                if(courseHistory != null){ // 해당 강의가 처음 볼 상황도 있음
+                    model.addAttribute("currentHistory", courseHistory);
+                }
                 // 모든 강의의 기록
                 List<CourseHistoryDTO> courseHistories = studyService.getCourseHistories(member.getId(), savedCourse.getId());
                 model.addAttribute("courseHistories", courseHistories);
@@ -195,7 +199,7 @@ public class StudyController {
         String resultValue = "";
         ObjectMapper mapper = new ObjectMapper();
         CourseClass courseClass = studyService.nextCourseClass(id, class_id);
-        if(courseClass != null){    // 만약 다음 강의가 있을 떄,
+        if(courseClass != null){    // 만약 다음 강의가 있을 때,
             CourseClassDTO courseClassDTO = courseClass.of();
             resultValue = mapper.writeValueAsString(courseClassDTO);
         }else{

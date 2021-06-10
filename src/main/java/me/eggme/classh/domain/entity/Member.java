@@ -3,6 +3,7 @@ package me.eggme.classh.domain.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import me.eggme.classh.domain.dto.CourseHistoryDTO;
 import me.eggme.classh.domain.dto.MemberDTO;
 import me.eggme.classh.domain.dto.MemberHistoryDTO;
 import me.eggme.classh.listener.MemberNotificationListener;
@@ -12,6 +13,7 @@ import org.hibernate.annotations.BatchSize;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -51,9 +53,9 @@ public class Member extends BaseTimeEntity implements Serializable {
 
     // 스프링 시큐리티 인증관련, 해당 유저의 권한들
     @JsonManagedReference
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @BatchSize(size = 10)
-    private Set<MemberRoles> memberRoles = new HashSet<>();
+    private List<MemberRoles> memberRoles = new ArrayList<>();
 
     // 사용자 프로필 사진
     @Column(nullable = false)
@@ -61,9 +63,9 @@ public class Member extends BaseTimeEntity implements Serializable {
 
     // 내가 듣고 있는 강의들
     @JsonManagedReference
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @BatchSize(size = 10)
-    private Set<SignUpCourse> signUpCourses = new HashSet<>();
+    private List<SignUpCourse> signUpCourses = new ArrayList<>();
 
     // 내가 수업하고 있는 강의들
     @JsonBackReference
@@ -72,17 +74,17 @@ public class Member extends BaseTimeEntity implements Serializable {
 
     // 내가 올린 강의 리뷰
     @JsonManagedReference
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("create_at asc")
     @BatchSize(size = 10)
-    private Set<CourseReview> courseReviews = new HashSet<>();
+    private List<CourseReview> courseReviews = new ArrayList<>();
 
     // 내가 올린 질문
     @JsonManagedReference
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("create_at asc")
     @BatchSize(size = 10)
-    private Set<CourseQuestion> courseQuestions = new HashSet<>();
+    private List<CourseQuestion> courseQuestions = new ArrayList<>();
 
     @JsonBackReference
     @OneToOne(mappedBy = "member")
@@ -91,20 +93,20 @@ public class Member extends BaseTimeEntity implements Serializable {
     private Cart cart;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member")
     @OrderBy("create_at asc")
     @BatchSize(size = 10)
-    private Set<Payment> payments = new LinkedHashSet<>();
+    private List<Payment> payments = new ArrayList<>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @BatchSize(size = 10)
     private List<CourseHistory> courseHistories = new ArrayList<>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "member", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
     @BatchSize(size = 10)
-    private Set<Notification> notifications = new HashSet<>();
+    private List<Notification> notifications = new ArrayList<>();
 
     @Builder
     public Member(String username, String password, String nickName){

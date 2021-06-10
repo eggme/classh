@@ -19,13 +19,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -70,6 +70,7 @@ public class CourseController {
 
     // 내 강의 보기 강사만 입장 가능 (강의소개)
     @GetMapping(value = "/{id}")
+    @Transactional(readOnly = true)
     public String updateCourse(@PathVariable Long id, Model model,
                                @AuthenticationPrincipal Member member){
 
@@ -81,7 +82,7 @@ public class CourseController {
         if(loadMember != null) {
             MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(loadMember.getId());
             model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
-            model.addAttribute("member", member.of());
+            model.addAttribute("member", loadMember.of());
         }
 
         CourseDTO courseDTO = course.of();
@@ -443,7 +444,7 @@ public class CourseController {
      */
     @PostMapping(value = "/add/cart")
     @PreAuthorize("isAuthenticated()")
-    @Transactional
+    @Transactional // OSIV 넣어서 하면 안될것같아요, 막상 건드리는게 없으니까 해도 상관없을듯
     public String addCart(@AuthenticationPrincipal Member member,
                           @RequestParam(value = "course_id") Long id,
                           RedirectAttributes redirectAttributes){

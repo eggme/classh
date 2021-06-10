@@ -58,7 +58,7 @@ public class CourseQuestion extends BaseBoardEntity implements Serializable {
 
     // 질문답변의 답글
     @JsonManagedReference
-    @OneToMany(mappedBy = "courseQuestion", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "courseQuestion", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("create_at desc")
     @BatchSize(size = 10)
     private Set<CourseComment> courseComments = new LinkedHashSet<>();

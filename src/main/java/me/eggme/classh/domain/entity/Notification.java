@@ -27,13 +27,13 @@ public class Notification extends BaseTimeEntity implements Serializable {
 
     // 누가 썼는지?
     @JsonBackReference
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name="WRITER_ID")
     private Member writer;
 
     /* 누구에게 썼는지 */
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Member member;
 
     /* 읽었는지 확인하는 변수 */

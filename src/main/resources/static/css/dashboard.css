@@ -17,14 +17,33 @@ body, body *{font-family: "Noto Sans KR";}
 .section_title{text-align: left;}
 .card_title{text-align: left; font-weight: bold; display: flex; margin-bottom: 12px; font-size: 18px;}
 .card_content{display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;}
-.card_toolbox_button_template{color: #454545; opacity: .4; display: flex; justify-content: flex-end;}
+.card_toolbox_button_template{color: #454545; opacity: .4; display: flex; justify-content: flex-end; cursor: pointer;}
 .card_content_wrap{display: flex;}
+.dashboard_board_template{display: flex; justify-content: space-between; align-items: center; cursor: pointer; margin-bottom: 8px;}
 .card_logo{display: inline-block; float: left; margin-right: 10px; width: 64px; height: 64px; overflow: hidden; border-radius: 70%;}
 .card_logo img{width: 100%; height: 100%; object-fit: cover;}
 .card_description{text-align: left; display: inline-block; float: left;}
 .user_name{font-size: 22px; font-weight: 600;}
 .user_nickname .user_email{font-size: 14px;}
 .nosearch{display: flex; justify-content: center; align-items: center; flex-grow: 1; font-size: 18px;}
+.card_content_template{display: flex; flex-direction: column;}
+
+.last_course_header{display: flex; flex-direction: column;}
+.last_course_footer{display: flex; justify-content: flex-end;}
+.last_course_wrap{display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1;}
+.last_course_name{display: flex; flex-wrap: wrap; font-size: 16px; margin-bottom: 12px;}
+.last_course_name_value{font-weight: 600;}
+.course_complete_text_wrap{display: flex;}
+.last_course_study_time span{font-size: 12px; color: #959B9D;}
+.course_complete_text_wrap div{font-size: 12px; color: #343A40;}
+.last_course_button_template{padding: 8px 12px; border-radius: 4px; margin-right: 8px; color: white; background-color: #1dc078; cursor: pointer;}
+.continuous_last_course{background-color: #ff7867 !important;}
+
+.course_progress{ width: 100%; background-color: #E9ECEF; color : #1dc078; border-radius: 5px; height: 6px;}
+.course_progress::-webkit-progress-bar{ width: 100%; background-color: #E9ECEF; color : #1dc078; border-radius: 5px;}
+.course_progress::-webkit-progress-value{ background-color  : #1dc078; border-bottom-left-radius: 5px; border-top-left-radius: 5px;}
+.course_progress::-moz-progress-bar{ width: 100%; background-color: #dcdcdc; color : #1dc078; border-radius: 5px;}
+
 
 @media (max-width: 1250px) {
     .card_wrap{width: 100%;}

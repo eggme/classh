@@ -27,12 +27,12 @@ public class Role implements Serializable {
     private String roleDesc;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "role")
     @BatchSize(size = 10)
     private Set<MemberRoles> memberRoles = new HashSet<>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "role")
     @BatchSize(size = 10)
     private Set<RoleResources> roleResources = new HashSet<>();
 

@@ -38,7 +38,7 @@ public class Course extends BaseTimeEntity implements Serializable {
 
     // 이 강의를 수강하는 학생
     @JsonManagedReference
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @BatchSize(size = 10)
     private Set<SignUpCourse> signUpCourses = new HashSet<>();
 
@@ -49,7 +49,7 @@ public class Course extends BaseTimeEntity implements Serializable {
 
     // 이 강의가 가지고 있는 섹션
     @JsonManagedReference
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true,  fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id asc")
     private Set<CourseSection> courseSections = new LinkedHashSet<>();
 
@@ -86,13 +86,13 @@ public class Course extends BaseTimeEntity implements Serializable {
 
     // 강의 수강평
     @JsonManagedReference
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @BatchSize(size = 10)
     private Set<CourseReview> courseReviews = new HashSet<>();
 
     // 강의 공지사항
     @JsonManagedReference
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @BatchSize(size = 10)
     private Set<CourseNotice> courseNotices = new HashSet<>();
 
@@ -103,7 +103,7 @@ public class Course extends BaseTimeEntity implements Serializable {
     private Set<CourseTag> courseTags = new HashSet<>();
     // 강의 질문
     @JsonManagedReference
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("modify_at desc")
     @BatchSize(size = 10)
     private Set<CourseQuestion> courseQuestions = new HashSet<>();
@@ -115,6 +115,16 @@ public class Course extends BaseTimeEntity implements Serializable {
     public Course(String name){
         this.name = name;
         this.courseState = CourseState.TEMPORARY;
+    }
+
+    public Course(Long id, String name, Instructor instructor, String courseImg, int price, CourseCategory courseCategory, CourseState courseState){
+        this.id = id;
+        this.name = name;
+        this.courseImg = courseImg;
+        this.instructor = instructor;
+        this.price = price;
+        this.courseCategory = courseCategory;
+        this.courseState = courseState;
     }
 
     @Override

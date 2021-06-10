@@ -19,14 +19,14 @@ public class CourseHistory extends BaseTimeEntity implements Serializable {
     @Id @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Member member;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn
     private Course course;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn
     private CourseClass courseClass;
 

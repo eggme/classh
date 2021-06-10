@@ -22,11 +22,11 @@ public class Cart extends BaseTimeEntity implements Serializable {
     private Long id;
 
     @JsonBackReference
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     private Member member;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "COURSE_ID")
     private Set<Course> courses = new LinkedHashSet<>();
 

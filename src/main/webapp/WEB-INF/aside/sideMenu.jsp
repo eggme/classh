@@ -27,7 +27,7 @@
                 <li data-url="/member/list" data-menu="courseList">내 강의</li>
                 <li>학습 노트</li>
                 <li>내 강의 목록</li>
-                <li>내 질문</li>
+                <li data-url="/member/questions" data-menu="questionList">내 질문</li>
                 <li>문의 내역</li>
             </ul>
         </div>

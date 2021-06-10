@@ -18,11 +18,11 @@ public class SignUpCourse implements Serializable {
     private Long id;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Member member;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Course course;
 
     /* 연관관계 편의 메서드 */

@@ -22,7 +22,7 @@ public class Instructor implements Serializable {
 
     @JsonBackReference
     @Setter
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(orphanRemoval = true)
     private Member member;
 
     @JsonManagedReference

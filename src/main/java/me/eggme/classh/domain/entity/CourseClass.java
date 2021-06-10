@@ -44,7 +44,7 @@ public class CourseClass implements Serializable {
     private String instructorMemo;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private CourseSection courseSection;
 
     @JsonManagedReference

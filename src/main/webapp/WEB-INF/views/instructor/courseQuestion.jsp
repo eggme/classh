@@ -63,14 +63,14 @@
                                     <div class="separator"> · </div>
                                     <div class="question_time question_${question.id}">
                                         <script>
-                                            convertLocalDateTime("${question.modify_at}", '.question_${question.id}');
+                                            timeForTodayObject("${question.modify_at}", '.question_${question.id}');
                                         </script>
                                     </div>
-                                    <div class="separator"> · </div>
+                                    <div class="separator">&nbsp;·&nbsp;</div>
                                     <div class="course_title">
                                         <c:out value="${question.course.name}"/>
                                         <c:if test="${!question.courseClass eq null}">
-                                            <div class="separator"> ·</div>
+                                            <div class="separator">&nbsp;·&nbsp;</div>
                                             <div class="courseClass_title">
                                                 <c:out value="${question.courseClass.name}"/>
                                             </div>

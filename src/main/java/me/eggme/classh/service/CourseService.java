@@ -26,6 +26,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -457,7 +458,13 @@ public class CourseService {
      */
     @Transactional
     public List<CourseDTO> getCourseList(String value) {
-        List<Course> list = courseRepository.findByNameContainingIgnoreCase(value);
+        //List<Course> list = courseRepository.findByNameContainingIgnoreCase(value);
+        /*
+        *   기존 검색은 이름을 기반으로 대소문자 구별 없이 검색
+        *   변경할 검색은 이름, 강사, 해시태그 기반으로 대소문자 없이 승인 완료 상태인 강의만 검색
+        *  */
+        Set<Course> list = courseRepository.findByCourse(value, CourseState.RELEASE);
+//        List<Course> list = courseRepository.findByNameContainingIgnoreCase(value);  // 기존 검색
         List<CourseDTO> courseDTOList = list.stream().map(c -> c.of()).collect(Collectors.toList());
         return courseDTOList;
     }

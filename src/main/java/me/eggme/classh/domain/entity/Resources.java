@@ -33,7 +33,7 @@ public class Resources extends BaseTimeEntity implements Serializable {
     private String resourcesType;
 
     @JsonManagedReference
-    @OneToMany(mappedBy="resources", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="resources")
     @BatchSize(size = 10)
     private Set<RoleResources> roleResourcesSet = new HashSet<>();
 }

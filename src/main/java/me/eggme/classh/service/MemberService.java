@@ -1,15 +1,14 @@
 package me.eggme.classh.service;
 
 import lombok.extern.slf4j.Slf4j;
-import me.eggme.classh.domain.dto.MemberDTO;
-import me.eggme.classh.domain.dto.MemberHistoryDTO;
-import me.eggme.classh.domain.dto.NotificationDTO;
+import me.eggme.classh.domain.dto.*;
 import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.exception.NoSearchCourseClassException;
 import me.eggme.classh.exception.NoSearchCourseException;
 import me.eggme.classh.repository.*;
 import me.eggme.classh.utils.NameGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,6 +43,9 @@ public class MemberService {
     private CourseRepository courseRepository;
     @Autowired
     private NotificationRepository notificationRepository;
+
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @Transactional
     public Long save(MemberDTO memberDTO) {
@@ -244,8 +246,52 @@ public class MemberService {
         savedNotification.setMember(savedMember);
     }
 
+    /**
+     * 운영자가 시스템 공지사항을 입력하면 모든 유저에게 알림이 감
+     * @param admin 운영자
+     * @param notification 알림 객체
+     */
+    @Transactional
+    public void writeSystemNotification(Member admin, Notification notification){
+        Member savedAdmin = memberRepository.findById(admin.getId()).orElseThrow(() ->
+                new UsernameNotFoundException("해당되는 유저가 없습니다"));
+
+        List<Member> memberList = memberRepository.findAll();
+
+        applicationEventPublisher.publishEvent(new NotificationEvent(memberList,
+                notification.getTitle(),
+                savedAdmin,
+                notification.getContent(),
+                null,
+                NotificationType.NOTICE));
+    }
+
+    /**
+     * 사용자가 미확인 알림을 클릭하였을 때, 알림 상태로 바꿈
+     * @param savedNotification
+     */
     @Transactional
     public void readNotification(Notification savedNotification) {
         savedNotification.setRead(true);
+    }
+
+    /**
+     * (ADMIN)관리자페이지에서 모든 유저 조회
+     * @param pageable
+     * @return
+     */
+    @Transactional
+    public Page<Member> getAllUserList(Pageable pageable) {
+        return memberRepository.findAll(pageable);
+    }
+
+    /**
+     * 운영자가 모든 알림을 조회
+     * @param pageable
+     * @return
+     */
+    @Transactional
+    public Page<Notification> getAllNotifications(Pageable pageable) {
+        return notificationRepository.findAll(pageable);
     }
 }

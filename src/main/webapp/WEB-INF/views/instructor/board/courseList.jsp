@@ -36,7 +36,7 @@
                     <c:forEach var="course" items="${list}">
                         <tr class="tr_padding" data-id="${course.id}">
                             <td><img class="course_thumbnail" src="${course.courseImg}"></td>
-                            <td class="course_id"><a href='/course/${course.url}'><c:out value="${course.name}"/></a></td>
+                            <td class="course_id"><a href='/course/${course.id}'><c:out value="${course.name}"/></a></td>
                             <td><span><c:out value="${course.getReviewAvg()}"/></span></td>
                             <td><span>${fn:length(course.signUpCourses)}</span></td>
                             <td><span>0</span></td>

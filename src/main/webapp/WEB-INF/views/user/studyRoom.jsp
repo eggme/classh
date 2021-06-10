@@ -27,6 +27,7 @@
     <c:set var="temp" value="${fn:length(section.courseClasses)}"></c:set>
     <c:set var="totalClass" value="${totalClass + temp}"/>
 </c:forEach>
+<c:set var="total_section_class_count" value="${totalClass}"></c:set>
 <c:choose>
     <c:when test="${!(courseHistories eq null)}">
         <c:forEach var="history" items="${courseHistories}" varStatus="index">
@@ -124,7 +125,7 @@
                 <div class="course_progress_wrap">
                     <progress class="course_progress" value="0" max="100"/>
                     <script>
-                        getPercentProgress('${currentTime}', '${totalTime}', '.course_progress');
+                        getPercentProgress('${courseHistory.completionCourseCount()}', '${total_section_class_count}', '.course_progress');
                     </script>
                 </div>
             </div>
@@ -324,7 +325,7 @@
                     여러분의 수강평은 지식공유자에게 큰 힘이 됩니다. :)
                 </div>
                 <div class="clear_course_buttons modal_buttons_flex_template">
-                    <div class="add_cart_submit modal_submit_button_template">확인</div>
+                    <div class="clear_course_submit modal_submit_button_template">확인</div>
                 </div>
             </div>
         </div>

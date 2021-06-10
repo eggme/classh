@@ -1,6 +1,6 @@
 $(function(){
    $('.course_preview').click(function(){
-      window.open("/course/"+$(this).attr("data-url"), "newWindow");
+      window.open("/course/"+$(this).attr("data-id"), "newWindow");
    });
    $(window).scroll(function(){
       var scrollValue = $(this).scrollTop();

@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.File;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -104,16 +105,15 @@ public class MemberBoardService {
     }
 
     @Transactional
-    public Set<Course> getCourseSet(Member member) {
+    public List<Course> getCourseList(Member member) {
         Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("해당되는 유저를 찾을 수 없습니다"));
         log.info("MemberBoardService");
-        Set<SignUpCourse> signUpCourses = savedMember.getSignUpCourses();
-        Set<Course> courseSet = signUpCourses.stream().map(suc ->
+        List<SignUpCourse> signUpCourses = savedMember.getSignUpCourses();
+        List<Course> courseSet = signUpCourses.stream().map(suc ->
              courseRepository.findById(suc.getCourse().getId()).orElseThrow(() ->
                     new NoSearchCourseException())
-        ).collect(Collectors.toSet());
-        log.info(courseSet.stream().map(c-> c.getName()).collect(Collectors.joining(", ")));
+        ).collect(Collectors.toList());
         return courseSet;
     }
 }

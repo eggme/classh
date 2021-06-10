@@ -35,17 +35,17 @@ public class CourseReview extends BaseBoardEntity implements Serializable {
 
     // 수강평을 남기는 사람
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Member member;
 
     // 수강평이 남겨지는 강의
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Course course;
 
     // 리뷰의 답변
     @JsonManagedReference
-    @OneToMany(mappedBy = "courseReview", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "courseReview", cascade = CascadeType.ALL, orphanRemoval = true)
     @BatchSize(size = 10)
     private Set<CourseComment> courseComments = new LinkedHashSet<>();
 

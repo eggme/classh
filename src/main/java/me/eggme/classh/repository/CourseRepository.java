@@ -13,6 +13,14 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     List<Course> findByNameContainingIgnoreCase(String value);
 
+    @Query("select distinct new Course(c.id, c.name, i, c.courseImg, c.price, c.courseCategory, c.courseState) " +
+            "from Course c join c.courseTags t left join c.instructor i " +
+            "where upper(c.name) like concat('%', upper(:value),'%') " +
+            "or upper(i.member.nickName) like concat('%', upper(:value),'%') " +
+            "or upper(t.tag) like concat('%', upper(:value),'%') " +
+            "and c.courseState = :courseState")
+    Set<Course> findByCourse(String value, CourseState courseState);
+
     List<Course> findTop12ByCourseState(CourseState courseState);
     
     List<Course> findTop4ByCourseState(CourseState courseState);

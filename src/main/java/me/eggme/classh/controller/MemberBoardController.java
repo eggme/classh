@@ -5,9 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.*;
 import me.eggme.classh.domain.entity.Course;
+import me.eggme.classh.domain.entity.CourseQuestion;
 import me.eggme.classh.domain.entity.Member;
 import me.eggme.classh.domain.entity.Notification;
-import me.eggme.classh.domain.entity.SignUpCourse;
+import me.eggme.classh.service.CourseQuestionService;
 import me.eggme.classh.service.MemberBoardService;
 import me.eggme.classh.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,11 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.security.Principal;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -44,12 +39,16 @@ public class MemberBoardController {
     private MemberService memberService;
     @Autowired
     private MemberBoardService memberBoardService;
+    @Autowired
+    private CourseQuestionService courseQuestionService;
 
     @GetMapping(value = "/dashboard")
     public String dashboardView(@AuthenticationPrincipal Member member, Model model){
         Member loadMember = memberBoardService.loadMember(member.getUsername());
         MemberDTO memberDTO = loadMember.of();
+        MemberHistoryDTO memberHistoryDTO = loadMember.ofHistory();
         model.addAttribute("member", memberDTO);
+        model.addAttribute("history", memberHistoryDTO);
         return "board/dashboard";
     }
 
@@ -67,8 +66,8 @@ public class MemberBoardController {
         MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
         model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
 
-        Set<Course> courseSet = memberBoardService.getCourseSet(member);
-        Set<CourseDTO> courseDTOSet = courseSet.stream().map(c -> c.of()).collect(Collectors.toSet());
+        List<Course> courseSet = memberBoardService.getCourseList(member);
+        List<CourseDTO> courseDTOSet = courseSet.stream().map(c -> c.of()).collect(Collectors.toList());
         model.addAttribute("list", courseDTOSet);
 
         return "board/courseList";
@@ -112,7 +111,6 @@ public class MemberBoardController {
      * @throws JsonProcessingException
      */
     @PostMapping(value = "/get/notification")
-    @PreAuthorize("isAuthenticated()")
     @ResponseBody
     public String getNotifications(@AuthenticationPrincipal Member member) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
@@ -121,8 +119,13 @@ public class MemberBoardController {
         return value;
     }
 
+    /**
+     * 내 알림 페이지에서 클릭 시 알림 조회
+     * @param id 알림 pk
+     * @param model
+     * @return
+     */
     @GetMapping(value = "/notification/{id}")
-    @PreAuthorize("isAuthenticated()")
     public String getNotification(@PathVariable Long id, Model model){
         Notification notification = memberService.getNotification(id);
         NotificationDTO notificationDTO = notification.of();
@@ -130,8 +133,14 @@ public class MemberBoardController {
         return "community/communityBoard";
     }
 
+    /**
+     * 내 알림 페이지에서 나에게 발송된 모든 알림 조회
+     * @param pageable 페이지 객체
+     * @param member 유저
+     * @param model
+     * @return
+     */
     @GetMapping(value = "/notifications")
-    @PreAuthorize("isAuthenticated()")
     public String getNotificationList(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
             @AuthenticationPrincipal Member member, Model model){
         Page<Notification> list = memberService.getNotifications(member, pageable);
@@ -141,8 +150,14 @@ public class MemberBoardController {
         return "board/notification";
     }
 
+    /**
+     * 알림 클릭 시 해당 알림의 타입여부에 따라 다른 행동을 한 후 한번도 읽지 않은 알람이라면 읽음 처리를 함
+     * @param id 알림 pk
+     * @param notificationType 알림 타입
+     * @param redirectAttributes 모달 전달을 위한 객체
+     * @return
+     */
     @GetMapping(value = "/notification/{id}/{type}")
-    @PreAuthorize("isAuthenticated()")
     public String temp(@PathVariable(value = "id") Long id,
                        @PathVariable(value = "type")NotificationType notificationType,
                        RedirectAttributes redirectAttributes){
@@ -165,6 +180,28 @@ public class MemberBoardController {
         }
 
         return "redirect:"+redirectURL+"/"+targetID;
+    }
+
+    /**
+     * 내 질문을 눌렀을 때 로그인된 유저의 모든 질문을 조회
+     * @param member 유저
+     * @param model
+     * @return
+     */
+    @GetMapping(value = "/questions")
+    public String getMyQuestions(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
+                                @AuthenticationPrincipal Member member,
+                               Model model){
+        Page<CourseQuestion> pages = courseQuestionService.getQuestionList(pageable,
+                member);
+
+        List<CourseQuestionDTO> list = pages.getContent().stream().map(cq ->
+                cq.of()).collect(Collectors.toList());
+
+        model.addAttribute("current", pages.getNumber());
+        model.addAttribute("list", list);
+        model.addAttribute("total", pages.getTotalPages());
+        return "board/questionList";
     }
 
 

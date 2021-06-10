@@ -30,14 +30,14 @@ public class CourseSection implements Serializable {
 
     // 섹션이 가지고 있는 수업들
     @JsonManagedReference
-    @OneToMany(mappedBy = "courseSection", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "courseSection", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id asc")
     @BatchSize(size = 10)
     private Set<CourseClass> courseClasses = new LinkedHashSet<>();
 
     // 어느 강의에 포함되는지 정함
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Course course;
 
     public int getTotalTime(){
