@@ -99,7 +99,7 @@ public class CourseQuestionService {
                 savedMember,
                 commentContent,
                 target,
-                NotificationType.NEW_COURSE));
+                NotificationType.QUESTION_ANSWER));
     }
 
     /***

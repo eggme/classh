@@ -1,7 +1,9 @@
 package me.eggme.classh.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import me.eggme.classh.domain.dto.*;
 import me.eggme.classh.utils.CourseValidation;
@@ -20,6 +22,7 @@ import java.util.*;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseSections", "skillTags", "recommendations", "courseReviews", "courseNotices", "courseTags", "courseQuestions"})
 @ToString(exclude = {"signUpCourses", "instructor", "courseSections", "skillTags", "recommendations", "courseReviews", "courseNotices", "courseTags", "courseQuestions"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Course extends BaseTimeEntity implements Serializable {
 
     @Id @GeneratedValue

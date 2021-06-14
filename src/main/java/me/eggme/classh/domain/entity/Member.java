@@ -1,7 +1,6 @@
 package me.eggme.classh.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import me.eggme.classh.domain.dto.CourseHistoryDTO;
 import me.eggme.classh.domain.dto.MemberDTO;
@@ -18,10 +17,12 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(MemberNotificationListener.class)
 @EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories" , "notifications"})
 @ToString(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories", "notifications"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Member extends BaseTimeEntity implements Serializable {
     // 멤버 PK
     @Id @GeneratedValue

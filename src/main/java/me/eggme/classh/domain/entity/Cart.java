@@ -1,7 +1,9 @@
 package me.eggme.classh.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,6 +17,7 @@ import java.util.*;
 @NoArgsConstructor
 @ToString(exclude = {"member", "courses"})
 @EqualsAndHashCode(exclude = {"member", "courses"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Cart extends BaseTimeEntity implements Serializable {
 
     @Id

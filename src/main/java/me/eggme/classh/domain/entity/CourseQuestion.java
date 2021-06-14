@@ -1,8 +1,6 @@
 package me.eggme.classh.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import me.eggme.classh.domain.dto.CourseDTO;
 import me.eggme.classh.domain.dto.CourseQuestionDTO;
@@ -25,6 +23,7 @@ import java.util.*;
 @NoArgsConstructor
 @ToString(exclude = {"course", "courseClass", "member", "courseComments", "courseTags"})
 @EqualsAndHashCode(exclude = {"course", "courseClass", "member", "courseComments", "courseTags"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class CourseQuestion extends BaseBoardEntity implements Serializable {
 
     @Id @GeneratedValue

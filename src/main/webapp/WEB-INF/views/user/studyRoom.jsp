@@ -283,7 +283,7 @@
                                         <sec:authorize access="isAnonymous()">
                                             <div class="add_course_button error_button" data-id="${course.id}">수강바구니 담기</div>
                                         </sec:authorize>
-                                        <div class="go_course_info_button error_button" data-url="${course.url}">강의소개로 이동</div>
+                                        <div class="go_course_info_button error_button" data-id="${course.id}">강의소개로 이동</div>
                                     </div>
                                 </div>
                             </div>

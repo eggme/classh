@@ -1,7 +1,9 @@
 package me.eggme.classh.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import me.eggme.classh.domain.dto.NotificationDTO;
 import me.eggme.classh.domain.dto.NotificationType;
@@ -20,6 +22,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString(exclude = {"writer", "member", "courseComments"})
 @EqualsAndHashCode(exclude = {"writer", "member", "courseComments"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Notification extends BaseTimeEntity implements Serializable {
 
     @Id @GeneratedValue

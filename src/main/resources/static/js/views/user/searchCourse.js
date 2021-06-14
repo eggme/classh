@@ -1,6 +1,6 @@
 $(function(){
    $(document).on('click', '.course_item_wrap', function(){
-      let url = $(this).attr("data-url");
-      location.href="/course/"+url;
+      let id = $(this).attr("data-id");
+      location.href="/course/"+id;
    });
 });

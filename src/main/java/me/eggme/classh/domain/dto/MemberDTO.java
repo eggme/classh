@@ -38,7 +38,10 @@ public class MemberDTO implements Serializable {
 
     // 편의 메서드 마지막 수강 기록을 조회
     public CourseHistoryDTO getLastHistory(){
-        CourseHistoryDTO courseHistoryDTO = courseHistories.stream().skip(courseHistories.size() - 1).findFirst().orElse(null);
+        CourseHistoryDTO courseHistoryDTO = null;
+        if(courseHistories.size() > 1){
+             courseHistoryDTO = courseHistories.stream().skip(courseHistories.size() - 1).findFirst().orElse(null);
+        }
         return courseHistoryDTO;
     }
 

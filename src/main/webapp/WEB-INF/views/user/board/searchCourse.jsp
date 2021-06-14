@@ -35,7 +35,7 @@
                 <c:when test="${fn:length(list) gt 0}">
                     <c:forEach var="course" items="${list}" varStatus="index">
                         <div class="col-md-3 course_item">
-                            <div class="course_item_wrap" data-url="${course.url}">
+                            <div class="course_item_wrap" data-id="${course.id}">
                                 <div class="course_img_box">
                                     <img src="${course.courseImg}" class="course_img_value">
                                 </div>

@@ -1,7 +1,9 @@
 package me.eggme.classh.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import me.eggme.classh.domain.dto.CourseSectionDTO;
 import me.eggme.classh.utils.ModelMapperUtils;
@@ -17,6 +19,7 @@ import java.util.*;
 @NoArgsConstructor
 @ToString(exclude = {"courseClasses", "course"})
 @EqualsAndHashCode(exclude = {"courseClasses", "course"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class CourseSection implements Serializable {
 
     @Id @GeneratedValue

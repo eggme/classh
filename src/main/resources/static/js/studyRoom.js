@@ -28,8 +28,8 @@ $(function () {
     });
     /* 수강권한 모달에서 강의 상세보기 클릭 */
     $('.go_course_info_button').click(function(){
-        let url = $(this).attr('data-url');
-        location.href="/course/"+ url;
+        let id = $(this).attr('data-id');
+        location.href="/course/"+ id
     });
     /* 수강권한 모달에서 바로 결제하기 클릭 */
     $('.do_payment_button').click(function(){
