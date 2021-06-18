@@ -68,7 +68,7 @@
                                     <div class="separator">&nbsp;·&nbsp;</div>
                                     <div class="course_title">
                                         <c:out value="${question.course.name}"/>
-                                        <c:if test="${!question.courseClass eq null}">
+                                        <c:if test="${question.courseClass ne null}">
                                             <div class="separator">&nbsp;·&nbsp;</div>
                                             <div class="courseClass_title">
                                                 <c:out value="${question.courseClass.name}"/>

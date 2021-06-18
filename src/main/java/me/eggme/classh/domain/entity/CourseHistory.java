@@ -23,13 +23,13 @@ public class CourseHistory extends BaseTimeEntity implements Serializable {
     @Id @GeneratedValue
     private Long id;
 
-    @ManyToOne
     @JsonBackReference
+    @ManyToOne
     private Member member;
 
+    @JsonBackReference
     @OneToOne
     @JoinColumn
-    @JsonBackReference
     private Course course;
 
     @OneToOne

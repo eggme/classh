@@ -41,72 +41,78 @@
                     <c:choose>
                         <c:when test="${fn:length(member.courseHistories) gt 0}">
                             <c:set var="courseHistory" value="${member.getLastHistory()}"/>
-                            <c:set var="course" value="${courseHistory.course}"/>
-                            <%-- 총 수업 수 및 현재까지 완료 수업 시간 계산 --%>
-                            <c:set var="totalClass" value="0"/>
-                            <c:set var="currentTime" value="0"/>
-                            <c:set var="total_section_class_count" value="0"/>
-                            <c:forEach var="section" items="${course.courseSections}" varStatus="status">
-                                <c:set var="temp" value="${fn:length(section.courseClasses)}"></c:set>
-                                <c:set var="totalClass" value="${totalClass + temp}"/>
-                            </c:forEach>
-                            <c:set var="total_section_class_count" value="${totalClass}"></c:set>
-                            <c:forEach var="history" items="${courseHistories}" varStatus="index">
-                                <c:if test="${history.startTime ge (history.endTime-10)}">
-                                    <c:set var="currentTime" value="${currentTime + history.endTime}"></c:set>
-                                </c:if>
-                            </c:forEach>
-
-                            <div class="last_course_wrap">
-                                <div class="last_course_header">
-                                    <div class="last_course_name">
-                                        <div class="last_course_name_value">
-                                            <c:out value="${courseHistory.course.name}"/>
-                                        </div>
-                                        <div class="last_course_study_time">
-                                            <span class="seprator">(</span>
-                                            <span class="time_value"></span>
-                                            <script>
-                                                timeForTodayObject('${courseHistory.create_at}', ".time_value");
-                                            </script>
-                                            <span class="seprator">)</span>
-                                        </div>
-                                    </div>
-                                    <div class="course_complete_wrap">
-                                        <div class="course_complete_text_wrap">
-                                            <div class="course_complete_text">진도율 :&nbsp;</div>
-                                            <div class="completed_course_value">
-                                                <c:out value="${history.completionCourseCount()}"/>
+                            <c:choose>
+                                <c:when test="${courseHistory ne null}">
+                                    <c:set var="course" value="${courseHistory.course}"/>
+                                    <%-- 총 수업 수 및 현재까지 완료 수업 시간 계산 --%>
+                                    <c:set var="totalClass" value="0"/>
+                                    <c:set var="currentTime" value="0"/>
+                                    <c:set var="total_section_class_count" value="0"/>
+                                    <c:forEach var="section" items="${course.courseSections}" varStatus="status">
+                                        <c:set var="temp" value="${fn:length(section.courseClasses)}"></c:set>
+                                        <c:set var="totalClass" value="${totalClass + temp}"/>
+                                    </c:forEach>
+                                    <c:set var="total_section_class_count" value="${totalClass}"></c:set>
+                                    <c:forEach var="history" items="${courseHistories}" varStatus="index">
+                                        <c:if test="${history.startTime ge (history.endTime-10)}">
+                                            <c:set var="currentTime" value="${currentTime + history.endTime}"></c:set>
+                                        </c:if>
+                                    </c:forEach>
+                                    <div class="last_course_wrap">
+                                        <div class="last_course_header">
+                                            <div class="last_course_name">
+                                                <div class="last_course_name_value">
+                                                    <c:out value="${courseHistory.course.name}"/>
+                                                </div>
+                                                <div class="last_course_study_time">
+                                                    <span class="seprator">(</span>
+                                                    <span class="time_value"></span>
+                                                    <script>
+                                                        timeForTodayObject('${courseHistory.create_at}', ".time_value");
+                                                    </script>
+                                                    <span class="seprator">)</span>
+                                                </div>
                                             </div>
-                                            <div class="completed_course_subText">강 /</div>
-                                            <div class="nonCompleted_course_value">
-                                                <c:out value="${total_section_class_count}"/>
+                                            <div class="course_complete_wrap">
+                                                <div class="course_complete_text_wrap">
+                                                    <div class="course_complete_text">진도율 :&nbsp;</div>
+                                                    <div class="completed_course_value">
+                                                        <c:out value="${history.completionCourseCount()}"/>
+                                                    </div>
+                                                    <div class="completed_course_subText">강 /</div>
+                                                    <div class="nonCompleted_course_value">
+                                                        <c:out value="${total_section_class_count}"/>
+                                                    </div>
+                                                    <div class="nonCompleted_course_subText">강 (</div>
+                                                    <div class="complete_percent_value"></div>
+                                                    <script>
+                                                        getPercent('${history.completionCourseCount()}', '${total_section_class_count}', '.complete_percent_value');
+                                                    </script>
+                                                    <div class="complete_percent_subText">)</div>
+                                                </div>
                                             </div>
-                                            <div class="nonCompleted_course_subText">강 (</div>
-                                            <div class="complete_percent_value"></div>
-                                            <script>
-                                                getPercent('${history.completionCourseCount()}', '${total_section_class_count}', '.complete_percent_value');
-                                            </script>
-                                            <div class="complete_percent_subText">)</div>
+                                            <div class="course_progress_wrap">
+                                                <progress class="course_progress" value="0" max="100"/>
+                                                <script>
+                                                    getPercentProgress('${history.completionCourseCount()}', '${total_section_class_count}', '.course_progress');
+                                                </script>
+                                            </div>
+                                        </div>
+                                        <div class="last_course_footer">
+                                            <div class="my_course_list last_course_button_template" data-url="/member/list">내 모든
+                                                강의
+                                            </div>
+                                            <div class="continuous_last_course last_course_button_template"
+                                                 data-url="/study/${courseHistory.course.id}/lecture/${courseHistory.courseClass.id}">
+                                                이어 학습하기
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="course_progress_wrap">
-                                        <progress class="course_progress" value="0" max="100"/>
-                                        <script>
-                                            getPercentProgress('${history.completionCourseCount()}', '${total_section_class_count}', '.course_progress');
-                                        </script>
-                                    </div>
-                                </div>
-                                <div class="last_course_footer">
-                                    <div class="my_course_list last_course_button_template" data-url="/member/list">내 모든
-                                        강의
-                                    </div>
-                                    <div class="continuous_last_course last_course_button_template"
-                                         data-url="/study/${courseHistory.course.id}/lecture/${courseHistory.courseClass.id}">
-                                        이어 학습하기
-                                    </div>
-                                </div>
-                            </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="dashboard_flex_center nosearch">최근 학습중인 강의가 없습니다.</div>
+                                </c:otherwise>
+                            </c:choose>
                         </c:when>
                         <c:otherwise>
                             <div class="dashboard_flex_center nosearch">최근 학습중인 강의가 없습니다.</div>

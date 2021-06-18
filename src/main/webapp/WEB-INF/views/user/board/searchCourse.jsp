@@ -30,10 +30,13 @@
                 </form>
             </div>
         </div>
-        <div class="row section_data_wrap">
+        <div class="section_data_wrap">
             <c:choose>
                 <c:when test="${fn:length(list) gt 0}">
                     <c:forEach var="course" items="${list}" varStatus="index">
+                        <c:if test="${(index.count % 4) eq 0}">
+                            <div class="row">
+                        </c:if>
                         <div class="col-md-3 course_item">
                             <div class="course_item_wrap" data-id="${course.id}">
                                 <div class="course_img_box">
@@ -64,6 +67,9 @@
                                 </div>
                             </div>
                         </div>
+                        <c:if test="${(index.count % 4) eq 0}">
+                            </div>
+                        </c:if>
                     </c:forEach>
                 </c:when>
                 <c:otherwise>

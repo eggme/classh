@@ -26,7 +26,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav menus">
                 <li class="dropdown">
-                    <a class="navbar-link class" href="/search.do?s=">강의들&nbsp;<i class="fas fa-angle-down"
+                    <a class="navbar-link class" href="/course/search?s=">강의들&nbsp;<i class="fas fa-angle-down"
                                                                                   style="color:#1dc078;"></i></a>
                     <div class="dropdown-content">
                         <c:if test="${!(categories eq null)}">
@@ -80,7 +80,10 @@
                         <li>
                             <div class="alarm icon_template_header">
                                 <i class="far fa-bell bell_over"></i>
-                                <div class="newly_alarm"></div>
+                                <sec:authentication var="alarm" property="principal"/>
+                                <c:if test="${alarm.isNotification()}">
+                                    <div class="newly_alarm"></div>
+                                </c:if>
                                 <div class="course_alarm hidden_box_template">
                                     <div class="alarm_rotate_box hidden_rotate_box_template"></div>
                                     <div class="alarm_tab hidden_tab_flex_template">
@@ -175,7 +178,7 @@
                                                         <li><a href="/member/list"><i class="fas fa-book"></i> 내 강의</a></li>
                                                         <li><a><i class="fas fa-list-ul"></i> 내 목록</a></li>
                                                         <li><a><i class="fas fa-road"></i> 참여중인 로드맵</a></li>
-                                                        <li><a><i class="far fa-edit"></i> 내 질문 답변</a></li>
+                                                        <li><a href="/member/questions"><i class="far fa-edit"></i> 내 질문 답변</a></li>
                                                         <li><a><i class="fas fa-pencil-alt"></i> 강의 노트</a></li>
                                                     </ul>
                                                 </div>
@@ -224,3 +227,93 @@
         </div>
     </div>
 </nav>
+
+
+<div class="footer_chat_wrap">
+    <div class="footer_chat_flex_wrap">
+        <div class="icon_wrap">
+            <img src="/imgs/chat_icon.png" class="footer_icon">
+        </div>
+        <div class="chat_box_wrap">
+            <div class="chat_box_flex_wrap">
+                <div class="chat_background"></div>
+                <div class="chat_content_wrap">
+                    <div class="chat_content_left">
+                        <div class="chat_content_title">호프런</div>
+                        <div class="chat_time_wrap">
+                            <c:choose>
+                                <c:when test="${true}">
+                                    <div class="chat_time chat_template">
+                                        <div class="chat_time_value chat_title_value">응답시간 보통</div>
+                                        <div class="chat_time_icon chat_title_icon">
+                                            <div class="chat_response_normal"></div>
+                                        </div>
+                                    </div>
+                                    <div class="chat_timeout_value chat_timeout_value_template">
+                                        <div class="start_time_contetn">보통 수십 분 내에 응답합니다.</div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="chat_timeout chat_template">
+                                        <div class="chat_timeout_value chat_title_value">운영시간 아님</div>
+                                        <div class="chat_timeout_icon chat_title_icon">
+                                            <img src="/imgs/moon.png" class="chat_timeout_icon_value">
+                                        </div>
+                                    </div>
+                                    <div class="chat_time_value chat_timeout_value_template">
+                                        <div class="start_time_value">19</div>
+                                        <div class="start_time_contetn">분 뒤 상담이 운영됩니다.</div>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
+                    <div class="chat_content_right">
+                        <div class="chat_icon_wrap">
+                            <div class="setting_icon_wrap">
+                                <img src="/imgs/setting.png" class="setting_icon">
+                            </div>
+                            <div class="close_icon_wrap">
+                                <img src="/imgs/close.png" class="close_icon">
+                            </div>
+                        </div>
+                        <div class="chat_group_icon_wrap">
+                            <div class="chat_group_circle_icon">
+                                <img src="/imgs/moon.png" class="chat_group_icon_value">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat_background_wrap">
+                    <c:choose>
+                        <c:when test="${false}"></c:when>
+                        <c:otherwise>
+                            <div class="chat_no_item chat_talk_template">
+                                <div class="chat_welcome_flex_wrap">
+                                    <div class="chat_welcome_item">
+                                        <div class="chat_welcome_left">
+                                            <img src="/imgs/mini_icon_1.png" class="chat_welcome_icon">
+                                        </div>
+                                        <div class="chat_welcome_right">
+                                            <div class="chat_welcome_title">호프런</div>
+                                            <div class="chat_welcome_content">
+                                                안녕하세요. 호프런입니다.<br/>
+                                                호프런을 이용해주셔서 감사드려요.<br/>
+                                                <br/>
+                                                문의할 서비스 유형을 선택해주시면<br/>
+                                                자세히 안내 드릴게요!<br/>
+                                                <br/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="chat_welcome_start_button">새 대화 시작</div>
+                                </div>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

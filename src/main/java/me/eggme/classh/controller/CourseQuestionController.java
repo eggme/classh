@@ -105,6 +105,31 @@ public class CourseQuestionController {
         return "redirect:/question/select/"+course_id;
     }
 
+    /**
+     * 수업 페이지에서  ajax 방식으로 특정 강의에 질문을 추가
+     * @param id 강의 pk
+     * @param class_id 수업 pk
+     * @param title 질문 제목
+     * @param tags 질문 태그들
+     * @param content 질문 내용
+     * @param member 작성자
+     * @return
+     */
+    @PostMapping(value = "/add/json")
+    @PreAuthorize("isAuthenticated()")
+    @ResponseBody
+    public String addCourseQuestionForStudyRoom(@RequestParam(value = "id") Long id,
+                                                @RequestParam(value = "class_id") Long class_id,
+                                                @RequestParam(value = "title") String title,
+                                                @RequestParam(value = "tags[]") String[] tags,
+                                                @RequestParam(value = "content") String content,
+                                                @AuthenticationPrincipal Member member) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        CourseQuestion savedCourseQuestion = courseQuestionService.saveCourseQuestion(id, class_id, title, tags, content, member);
+        CourseQuestionDTO courseQuestionDTO = savedCourseQuestion.of();
+        return objectMapper.writeValueAsString(courseQuestionDTO);
+    }
+
     /***
      * 질문에 답변을 입력하는 메소드
      * @param question_id 질문 pk

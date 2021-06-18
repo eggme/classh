@@ -1,5 +1,6 @@
 package me.eggme.classh.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class CourseHistoryDTO implements Serializable {
     private Long id;
     private int startTime;
     private int endTime;
+    @JsonBackReference
     private MemberDTO member;
     private CourseDTO course;
     private CourseClassDTO courseClass;

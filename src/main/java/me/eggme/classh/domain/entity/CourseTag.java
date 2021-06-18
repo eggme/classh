@@ -1,10 +1,7 @@
 package me.eggme.classh.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +12,9 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString(exclude = {"course", "courseQuestion"})
 @EqualsAndHashCode(exclude = {"course", "courseQuestion"})
 public class CourseTag implements Serializable {

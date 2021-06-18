@@ -47,7 +47,7 @@ public class AdminController {
     }
 
     @GetMapping(value = "/notices")
-    public String getNotices(@PageableDefault(size = 8, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
+    public String getNotices(@PageableDefault(size = 8, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                              Model model){
         Page<Notification> pages = memberService.getAllNotifications(pageable);
         model.addAttribute("current", pages.getNumber());

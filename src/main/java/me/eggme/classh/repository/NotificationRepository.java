@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
 
-    List<Notification> findTop6ByMemberOrderByIdDesc(Member member);
+    List<Notification> findTop6ByMemberOrderByIdAsc(Member member);
 
     Page<Notification> findAllByMember(Member member, Pageable pageable);
 }

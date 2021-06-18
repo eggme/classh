@@ -34,7 +34,7 @@
         <div class="course_management tag">
             <div class="ul_title">수강신청 관리</div>
             <ul class="tag_ul">
-                <li>수강 바구니</li>
+                <li data-url="/course/carts" data-menu="courseCart">수강 바구니</li>
                 <li>위시리스트</li>
                 <li>쿠폰함</li>
                 <li>내 포인트</li>

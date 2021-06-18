@@ -112,10 +112,13 @@ public class MemberBoardController {
      */
     @PostMapping(value = "/get/notification")
     @ResponseBody
-    public String getNotifications(@AuthenticationPrincipal Member member) throws JsonProcessingException {
+    public String getNotifications(@PageableDefault(size = 100, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                                    @AuthenticationPrincipal Member member) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        List<NotificationDTO> list = memberService.getNotificationTop6(member);
-        String value = mapper.writeValueAsString(list);
+        Page<Notification> list = memberService.getNotifications(member, pageable);
+        List<NotificationDTO> notificationDTOList = list.getContent().stream().map(n ->
+                n.of()).collect(Collectors.toList());
+        String value = mapper.writeValueAsString(notificationDTOList);
         return value;
     }
 
@@ -158,7 +161,8 @@ public class MemberBoardController {
      * @return
      */
     @GetMapping(value = "/notification/{id}/{type}")
-    public String temp(@PathVariable(value = "id") Long id,
+    public String getNotificationAjax(@PathVariable(value = "id") Long id,
+                       @AuthenticationPrincipal Member member,
                        @PathVariable(value = "type")NotificationType notificationType,
                        RedirectAttributes redirectAttributes){
         Notification savedNotification = memberService.getNotification(id);
@@ -171,14 +175,13 @@ public class MemberBoardController {
         }
         /* 클릭한 알림이 읽지 않은 상태일 때 읽음 처리로 변경 */
         if(!savedNotification.isRead()){
-            memberService.readNotification(savedNotification);
+            memberService.readNotification(member, savedNotification);
         }
         /* 만약 타겟이 없다면 시스템 공지사항으로 보냄 */
         if(targetID == null){
             redirectURL = "/member/notification";
             targetID = savedNotification.getId();
         }
-
         return "redirect:"+redirectURL+"/"+targetID;
     }
 

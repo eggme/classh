@@ -87,7 +87,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <li>
-                                                <a href="/admin/notices?page=${currentPage-5}&size=8&sort=id,asc" aria-label="Previous">
+                                                <a href="/admin/notices?page=${currentPage-5}&size=8&sort=id,desc" aria-label="Previous">
                                                     <span aria-hidden="true">&laquo;</span>
                                                 </a>
                                             </li>
@@ -98,14 +98,14 @@
                                         <c:choose>
                                             <c:when test="${p eq current}">
                                                 <li class="active">
-                                                    <a href="/admin/notices?page=${p}&size=8&sort=id,asc">
+                                                    <a href="/admin/notices?page=${p}&size=8&sort=id,desc">
                                                         <c:out value="${p+1}" />
                                                     </a>
                                                 </li>
                                             </c:when>
                                             <c:otherwise>
                                                 <li>
-                                                    <a href="/admin/notices?page=${p}&size=8&sort=id,asc">
+                                                    <a href="/admin/notices?page=${p}&size=8&sort=id,desc">
                                                         <c:out value="${p+1}" />
                                                     </a>
                                                 </li>
@@ -123,7 +123,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <li>
-                                                <a href="/admin/notices?page=${pages}&size=8&sort=id,asc" aria-label="Next">
+                                                <a href="/admin/notices?page=${pages}&size=8&sort=id,desc" aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>
                                                 </a>
                                             </li>

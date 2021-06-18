@@ -44,7 +44,6 @@ body, body *{font-family: "Noto Sans KR";}
 .course_progress::-webkit-progress-value{ background-color  : #1dc078; border-bottom-left-radius: 5px; border-top-left-radius: 5px;}
 .course_progress::-moz-progress-bar{ width: 100%; background-color: #dcdcdc; color : #1dc078; border-radius: 5px;}
 
-
 @media (max-width: 1250px) {
     .card_wrap{width: 100%;}
     .main_section{width: 100%;}

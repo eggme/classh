@@ -7,10 +7,8 @@ import me.eggme.classh.domain.dto.CourseClassDTO;
 import me.eggme.classh.domain.dto.CourseDTO;
 import me.eggme.classh.domain.dto.CourseHistoryDTO;
 import me.eggme.classh.domain.dto.MemberHistoryDTO;
-import me.eggme.classh.domain.entity.Course;
-import me.eggme.classh.domain.entity.CourseClass;
-import me.eggme.classh.domain.entity.CourseHistory;
-import me.eggme.classh.domain.entity.Member;
+import me.eggme.classh.domain.entity.*;
+import me.eggme.classh.service.CourseQuestionService;
 import me.eggme.classh.service.CourseService;
 import me.eggme.classh.service.MemberService;
 import me.eggme.classh.service.StudyService;
@@ -37,6 +35,7 @@ public class StudyController {
     @Autowired private CourseService courseService;
     @Autowired private StudyService studyService;
     @Autowired private MemberService memberService;
+    @Autowired private CourseQuestionService courseQuestionService;
 
     /***
      * 강의 미리보기 클릭 시 미리보기 강의 유무 판별하여 제공
@@ -61,8 +60,13 @@ public class StudyController {
             // 미리보기 강의가 아닐 경우 (URL 조작)
             model.addAttribute("error", true);
         }
+
+        /*  해당 수업의 질문 */
+        List<CourseQuestion> courseQuestions = courseQuestionService.getQuestionList(class_id);
+
         model.addAttribute("course", courseDTO);
         model.addAttribute("courseClass", courseClassDTO);
+        model.addAttribute("courseQuestions", courseQuestions);
 
         /* 모달 관련 */
         String modal = model.asMap().get("modal") == null ? null : model.asMap().get("modal").toString();
@@ -106,6 +110,9 @@ public class StudyController {
                         .getCourseClasses().stream().findFirst().get();
                 courseClassId = courseClass.getId();
             }
+            /*  해당 수업의 질문 */
+            List<CourseQuestion> courseQuestions = courseQuestionService.getQuestionList(courseClassId);
+
             CourseClass savedCourseClass = courseService.getCourseClass(courseClassId);
 
             CourseDTO courseDTO = savedCourse.of();
@@ -113,7 +120,7 @@ public class StudyController {
             // 해당 유저의 강의 기록 (목차 수강률에 쓰임, 누가 어떤 강의를 어디까지 들었나)
             MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
             model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
-
+            model.addAttribute("courseQuestions", courseQuestions);
             model.addAttribute("course", courseDTO);
             model.addAttribute("courseClass", courseClassDTO);
             url = courseClassDTO.getName();
@@ -129,9 +136,10 @@ public class StudyController {
      * @param model
      * @return
      */
-    @GetMapping(value = "/{id}/lecture/{class_id}")
+    @GetMapping(value = {"/{id}/lecture/{class_id}", "/{id}/lecture/{class_id}/{tab}"})
     @PreAuthorize("isAuthenticated()")
     public String courseView(@PathVariable Long id, @PathVariable Long class_id,
+                             @PathVariable(value = "tab", required = false) String tab,
                              @AuthenticationPrincipal Member member, Model model){
         String url = "";
         /* 해당 유저가 수강 관계를 맺고있는지 검사 */
@@ -153,11 +161,19 @@ public class StudyController {
                 model.addAttribute("courseHistories", courseHistories);
             }
 
+            /*  해당 수업의 질문 */
+            List<CourseQuestion> courseQuestions = courseQuestionService.getQuestionList(class_id);
+
             MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
             model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
-
+            model.addAttribute("courseQuestions", courseQuestions);
             model.addAttribute("course", courseDTO);
             model.addAttribute("courseClass", courseClassDTO);
+
+            if(tab != null){
+                model.addAttribute("tab", tab);
+            }
+
             url = courseClassDTO.getName();
         }
         return "study/studyRoom/"+url;

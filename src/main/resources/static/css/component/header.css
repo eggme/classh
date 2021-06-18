@@ -5,7 +5,7 @@
 @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');}
 @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
 body, body *{font-family: "Noto Sans KR"; font-size: 16px;}
-.navbar{margin-bottom: 0 !important;}
+.navbar{margin-bottom: 0 !important; width: 100% !important;}
 .main_wrap i{display: inline-block;}
 #logo{width: 128px;}
 .menus li {font-family: "Noto Sans KR"}
@@ -124,6 +124,48 @@ body, body *{font-family: "Noto Sans KR"; font-size: 16px;}
 /* 알람 박스 끝 */
 .label-success{padding-top: 4px;}
 .label-success *{font-size: 13.5px;}
+
+/* 하단 채팅 */
+.footer_chat_wrap{position: fixed; bottom: 20px; right: 20px; z-index: 99;}
+.footer_icon{width: 100%; height: 100%; object-fit: cover; cursor: pointer;}
+.icon_wrap{width: 157px; height: 74px; overflow: hidden; margin: 0 auto;}
+.chat_box_wrap{display: none; position: relative; width: 360px !important; height: 720px !important; border-radius: 24px !important; overflow: hidden; background: #f6f6fa;}
+.chat_background{position: absolute; top: 0; right: 0; left: 0; width: 100%;  height: 240px; background: linear-gradient(130deg, rgb(2, 136, 79) 0%, rgb(2, 136, 79) 50%, rgb(2, 136, 110)) 100% center;}
+.chat_background:after{content: ""; display:block; position: absolute; bottom: 0; right: 0; left: 0; width: 100%; height: 100px; background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(246, 246, 247) 100%);}
+.chat_box_flex_wrap{display: flex; flex-direction: column; width: 100%; position: relative;}
+.chat_title_box_wrap{background: #02884F; padding: 12px; width: 100%; height: 150px; border-top-left-radius: 24px; border-top-right-radius: 24px;}
+.setting_icon{width: 18px; height: 18px; cursor: pointer; margin: 0 auto;}
+.close_icon{width: 18px; height: 18px; cursor: pointer; margin: 0 auto;}
+.chat_content_wrap{padding: 24px; display: flex; justify-content: space-between; flex-grow: 1; z-index: 100;}
+.chat_content_left{display: flex; flex-direction: column;}
+.chat_icon_wrap{display: flex; justify-content: center;}
+.chat_icon_wrap div{margin-left: 12px;}
+.chat_time_wrap {display: flex; flex-direction: column;}
+.chat_timeout_value_template{display: flex;}
+.chat_timeout_value_template div{font-size: 13px; color: #e2e2e2; font-weight: 200;}
+.chat_content_right{display: flex; flex-direction: column; justify-content: space-between;}
+.chat_template{ display: flex; align-items: flex-end; margin-bottom: 4px;}
+.chat_group_icon_wrap{display: flex; justify-content: center;}
+.start_time_value{margin-right: 4px;}
+.chat_content_title{font-size: 21px; font-weight: 500; color: white; margin-bottom: 10px;}
+.chat_title_value{font-size: 13px; font-weight: 500; color: white; padding-bottom: 2px;}
+.chat_timeout_icon_value{width: 22px; height: 22px; object-fit: cover;}
+.chat_group_circle_icon{display: flex; justify-content: center; align-items: center; background: #f08c00; width: 50px; height: 50px; border-radius: 70%; overflow: hidden;}
+.chat_group_icon_value{width: 50px; height: 50px; object-fit: cover;}
+.chat_response_normal{margin-left: 8px; width: 14px; height: 14px; border-radius: 90%; overflow: hidden; background: #00d63d;}
+.chat_time{align-items: center !important;}
+
+
+.chat_background_wrap{width: 94%; margin: 0 auto; border-radius: 12px; padding: 16px; background: white; z-index: 101;}
+.chat_welcome_item{display: flex; }
+.chat_welcome_left{margin-right: 12px;}
+.chat_welcome_right{display: flex; flex-direction: column;}
+.chat_welcome_right div {font-size: 13px;}
+.chat_welcome_title{font-weight: 600; margin-bottom: 8px;}
+.chat_welcome_icon{width: 34px; height: 34px; object-fit: cover;}
+.chat_welcome_start_button{display: flex; flex-grow: 0; justify-content: center; padding: 8px 12px; background: #02884f; border-radius: 12px; text-align: center; color: white; font-size: 14px; cursor: pointer; }
+.chat_welcome_flex_wrap{display: flex; flex-direction: column; justify-content: center;}
+
 /* login fade animation */
 .animate {-webkit-animation: animatezoom 0.6s; animation: animatezoom 0.6s}
 @-webkit-keyframes animatezoom { from {-webkit-transform: scale(0)} to {-webkit-transform: scale(1)} }

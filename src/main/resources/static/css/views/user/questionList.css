@@ -37,3 +37,4 @@
 .question_toolbox_wrap{display: flex;}
 .question_toolbox_template{display: flex; margin-left: 24px;}
 .question_toolbox_template div{margin-left: 8px; color: #959B9D;}
+.course_title{display: flex;}

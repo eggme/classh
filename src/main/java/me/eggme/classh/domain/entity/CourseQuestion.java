@@ -20,7 +20,9 @@ import java.util.*;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString(exclude = {"course", "courseClass", "member", "courseComments", "courseTags"})
 @EqualsAndHashCode(exclude = {"course", "courseClass", "member", "courseComments", "courseTags"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
@@ -87,6 +89,11 @@ public class CourseQuestion extends BaseBoardEntity implements Serializable {
         this.setCourseClass(null);
         if(this.getCourseTags() != null) this.getCourseTags().stream().forEach(ct -> ct.deleteCourseTag());
         if(this.getCourseComments() != null) this.getCourseComments().stream().forEach(cc -> cc.deleteCourseComment());
+    }
+
+    public void addCourseTag(CourseTag courseTag){
+        System.out.println(courseTag.toString());
+        this.getCourseTags().add(courseTag);
     }
 
     public void setMember(Member member){

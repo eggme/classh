@@ -6,6 +6,7 @@ import me.eggme.classh.domain.dto.NotificationEvent;
 import me.eggme.classh.domain.dto.NotificationType;
 import me.eggme.classh.domain.dto.QuestionStatus;
 import me.eggme.classh.domain.entity.*;
+import me.eggme.classh.exception.NoSearchCourseClassException;
 import me.eggme.classh.exception.NoSearchCourseException;
 import me.eggme.classh.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -27,6 +29,7 @@ import java.util.stream.Collectors;
 public class CourseQuestionService {
 
     @Autowired private CourseQuestionRepository courseQuestionRepository;
+    @Autowired private CourseClassRepository courseClassRepository;
     @Autowired private CourseRepository courseRepository;
     @Autowired private CourseTagRepository courseTagRepository;
     @Autowired private MemberRepository memberRepository;
@@ -57,6 +60,47 @@ public class CourseQuestionService {
             return savedCourseTag;
         }).collect(Collectors.toList());
         savedCourseQuestion.setCourseTags(savedCourseTags);
+        return savedCourseQuestion;
+    }
+
+    /**
+     * 수업페이지의 커뮤니티 게시판에서 ajax로 특정 강의에 질문 입력
+     * @param id 강의 pk
+     * @param class_id 수업 pk
+     * @param title 질문 제목
+     * @param tags 질문 태그들
+     * @param content 질문 내용
+     * @param member 작성자
+     * @return
+     */
+    @Transactional
+    public CourseQuestion saveCourseQuestion(Long id, Long class_id, String title,
+                                             String[] tags, String content, Member member){
+        Course savedCourse = courseRepository.findById(id).orElseThrow(() ->
+                new NoSearchCourseException());
+        CourseClass savedCourseClass = courseClassRepository.findById(class_id).orElseThrow(() ->
+                new NoSearchCourseClassException());
+
+        Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
+                new UsernameNotFoundException("해당되는 유저가 없습니다"));
+
+        CourseQuestion courseQuestion = CourseQuestion.builder()
+                .title(title)
+                .content(content)
+                .build();
+        CourseQuestion savedCourseQuestion = courseQuestionRepository.save(courseQuestion);
+        savedCourseQuestion.setCourse(savedCourse);
+        savedCourseQuestion.setCourseClass(savedCourseClass);
+        savedCourseQuestion.setMember(savedMember);
+        List<CourseTag> courseTagList = new ArrayList<>();
+        for(String tag : tags){
+            CourseTag courseTag = CourseTag.builder().tag(tag).build();
+            CourseTag savedCourseTag = courseTagRepository.save(courseTag);
+            savedCourseTag.setCourse(savedCourse);
+            savedCourseTag.setCourseQuestion(savedCourseQuestion);
+            courseTagList.add(savedCourseTag);
+        }
+        savedCourseQuestion.setCourseTags(courseTagList);
         return savedCourseQuestion;
     }
 
@@ -251,4 +295,16 @@ public class CourseQuestionService {
         return courseQuestionRepository.findAllByMember(pageable, savedMember);
     }
 
+    /**
+     *  수업 페이지에서 해당 수업에 대한 모든 질문들을 조회
+     * @param courseClassId 수업 pk
+     * @return
+     */
+    @Transactional
+    public List<CourseQuestion> getQuestionList(Long courseClassId) {
+        CourseClass savedCourseClass = courseClassRepository.findById(courseClassId).orElseThrow(() ->
+                new NoSearchCourseClassException());
+        List<CourseQuestion> list = courseQuestionRepository.findAllByCourseClass(savedCourseClass);
+        return list;
+    }
 }

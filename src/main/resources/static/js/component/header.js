@@ -1,4 +1,16 @@
 $(function(){
+
+    /* 문의하기 */
+    $('.icon_wrap').click(function(){
+        $(this).css('display', 'none');
+        $('.chat_box_wrap').css('display', 'block');
+    });
+
+    $('.close_icon').click(function(){
+        $('.chat_box_wrap').css('display', 'none');
+        $('.icon_wrap').css('display', 'block');
+    });
+
     $('.user_id').click(function(){
        location.href="/member/profile";
     });
@@ -78,11 +90,16 @@ function loadNotification(){
            var cnt = 0;
            for(var i = 0 ; i < result.length; i++){
                let notification = result[i];
-               //console.log(notification.create_at);
+               if(notification.read == false){
+                   cnt++;
+               }
+           }
+           $('.no_read_alarm_count').text(cnt);
+           for(var i = 0 ; i < (result.length > 6 ? 6 : result.length); i++){
+               let notification = result[i];
                var customTag = "";
                if(notification.read == false){
                    customTag = "noRead";
-                   cnt++;
                }
                let year = notification.create_at.year;
                let month = notification.create_at.monthValue-1;
@@ -91,7 +108,6 @@ function loadNotification(){
                let hour = notification.create_at.hour-9;
                let minute = notification.create_at.minute;
                let second = notification.create_at.second;
-               console.log(hour + " : " + minute + " : " + second);
                var title = notification.title;
                if(title.length > 72){
                    title = title.substr(0, 72) + "...";
@@ -99,7 +115,6 @@ function loadNotification(){
                let value =  notification.notificationType;
                var date = new Date(Date.UTC(year, month, day, hour, minute, second));
                let formatDate = timeForToday(date);
-               console.log(formatDate);
                var template = '<div class="alarm_content_template ' + customTag + '" data-id="'+notification.id+'" data-type="'+notification.notificationType+'">'+
                    '<div class="alarm_icon_value"></div>'+
                    '<div class="alarm_title_value">' + notificationMap[value] + title + '</div>'+
@@ -107,7 +122,6 @@ function loadNotification(){
                    '</div>';
                $(template).appendTo(".alarm_tab_content");
            }
-           $('.no_read_alarm_count').text(cnt);
        },error : function (e){
            console.log(e);
         }

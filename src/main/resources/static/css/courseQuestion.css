@@ -46,6 +46,7 @@
 .question_cancel{color: #343A40; background-color: white;}
 .question_submit{color: white; background-color: #1dc078;}
 .tox-mbtn__select-label{color: #343A40 !important;}
+.course_title{display: flex;}
 
 /* 해시태그 */
 .hashtag_value{display: flex;}

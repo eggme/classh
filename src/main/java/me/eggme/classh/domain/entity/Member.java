@@ -1,31 +1,32 @@
 package me.eggme.classh.domain.entity;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
-import me.eggme.classh.domain.dto.CourseHistoryDTO;
 import me.eggme.classh.domain.dto.MemberDTO;
 import me.eggme.classh.domain.dto.MemberHistoryDTO;
-import me.eggme.classh.listener.MemberNotificationListener;
 import me.eggme.classh.utils.ModelMapperUtils;
 import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(MemberNotificationListener.class)
-@EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories" , "notifications"})
+@EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories", "notifications"})
 @ToString(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories", "notifications"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Member extends BaseTimeEntity implements Serializable {
     // 멤버 PK
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     // 사용자 아이디
@@ -105,22 +106,22 @@ public class Member extends BaseTimeEntity implements Serializable {
     private List<CourseHistory> courseHistories = new ArrayList<>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "member", orphanRemoval = true)
+    @OneToMany(mappedBy = "member", orphanRemoval = true, fetch = FetchType.EAGER)
     @BatchSize(size = 10)
     private List<Notification> notifications = new ArrayList<>();
 
     @Builder
-    public Member(String username, String password, String nickName){
+    public Member(String username, String password, String nickName) {
         this.username = username;
         this.password = password;
         this.nickName = nickName;
     }
 
-    public MemberDTO of(){
+    public MemberDTO of() {
         return ModelMapperUtils.getModelMapper().map(this, MemberDTO.class);
     }
 
-    public MemberHistoryDTO ofHistory(){
+    public MemberHistoryDTO ofHistory() {
         MemberHistoryDTO memberHistoryDTO = new MemberHistoryDTO();
         memberHistoryDTO.setCourseHistories(this.getCourseHistories());
         return memberHistoryDTO;
@@ -129,23 +130,34 @@ public class Member extends BaseTimeEntity implements Serializable {
     public void addNotification(Notification notification) {
         this.getNotifications().add(notification);
     }
-    public void addPayment(Payment payment){
+
+    public void addPayment(Payment payment) {
         this.getPayments().add(payment);
     }
-    public void addCourseHistory(CourseHistory courseHistory) {this.getCourseHistories().add(courseHistory);}
 
-    public boolean isPutInTheCart(Long course_id){
-        if(this.getCart() != null){
+    public void addCourseHistory(CourseHistory courseHistory) {
+        this.getCourseHistories().add(courseHistory);
+    }
+
+    public boolean isPutInTheCart(Long course_id) {
+        if (this.getCart() != null) {
             Course course = this.getCart().getCourses().stream().filter(c ->
                     c.getId() == course_id).findFirst().orElse(null);
-            if(course != null) return true;
+            if (course != null) return true;
+        }
+        return false;
+    }
+
+    public boolean isNotification(){
+        for(Notification notification : notifications){
+            if(!notification.isRead()) return true;
         }
         return false;
     }
 
 
     // 연관관계 편의 메소드 - 수강 신청
-    public void connectCourse(Course course, SignUpCourse signUpCourse){
+    public void connectCourse(Course course, SignUpCourse signUpCourse) {
         signUpCourse.setMember(this);
         signUpCourse.setCourse(course);
         this.signUpCourses.add(signUpCourse);
@@ -154,17 +166,17 @@ public class Member extends BaseTimeEntity implements Serializable {
     }
 
     // 편의 메서드 해당 강의에 수강평을 등록했는지 여부
-    public boolean isRegisteredReview(Course course){
+    public boolean isRegisteredReview(Course course) {
         boolean isRegistered = courseReviews.stream().anyMatch(c -> c.getCourse().getId() == course.getId());
         return isRegistered;
     }
 
-    public void addSignUpCourse(SignUpCourse signUpCourse){
+    public void addSignUpCourse(SignUpCourse signUpCourse) {
         this.getSignUpCourses().add(signUpCourse);
         signUpCourse.setMember(this);
     }
 
-    public void addCourseReview(CourseReview courseReview){
+    public void addCourseReview(CourseReview courseReview) {
         this.courseReviews.add(courseReview);
         courseReview.setMember(this);
     }

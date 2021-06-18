@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -173,8 +175,12 @@ public class MemberService {
         Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("해당되는 유저를 찾을 수 없습니다"));
 
-        List<Notification> list = notificationRepository.findTop6ByMemberOrderByIdDesc(savedMember);
-        List<NotificationDTO> dtoList = list.stream().map(n -> n.of()).collect(Collectors.toList());
+        List<Notification> list = notificationRepository.findTop6ByMemberOrderByIdAsc(savedMember);
+        List<NotificationDTO> dtoList = new ArrayList<>();
+        for(Notification notification : list){
+            NotificationDTO notificationDTO = notification.of();
+            dtoList.add(notificationDTO);
+        }
         return dtoList;
     }
 
@@ -271,8 +277,18 @@ public class MemberService {
      * @param savedNotification
      */
     @Transactional
-    public void readNotification(Notification savedNotification) {
+    public void readNotification(Member member, Notification savedNotification) {
         savedNotification.setRead(true);
+
+        Member savedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
+                new UsernameNotFoundException("해당되는 유저가 없습니다."));
+
+        Authentication beforeAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        Member authenticationObject = ((Member) beforeAuthentication.getPrincipal());
+        authenticationObject.setNotifications(savedMember.getNotifications());
+        Authentication afterAuthentication = new UsernamePasswordAuthenticationToken(authenticationObject, null, beforeAuthentication.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(afterAuthentication);
+
     }
 
     /**

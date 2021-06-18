@@ -5,6 +5,6 @@ $(function(){
 
     $(document).on('click', ".board_base", function (){
         let id = $(this).attr('data-id');
-        location.href="/md/info/"+id;
+        location.href="/md/course/info/"+id;
     });
 });
