@@ -83,10 +83,10 @@ public class CourseController {
             MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(loadMember.getId());
             model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
             model.addAttribute("member", loadMember.of());
+            log.info("asd : " + (loadMember.of()).toString());
         }
 
         CourseDTO courseDTO = course.of();
-        log.info("dd : "+courseDTO.isCourseRegistration(loadMember));
         model.addAttribute("course", courseDTO);
 
         /* 모달 관련 */

@@ -45,7 +45,7 @@ public class CourseDTO implements Serializable {
     private CourseValidation courseValidation;
 
     // 수강신청 상태인지 체크
-    public boolean isCourseRegistration(Member memberObject){
+    public boolean isCourseRegistration(MemberDTO memberObject){
         try{
             if(signUpCourses != null){
                 SignUpCourse findCourseRegistration = signUpCourses.stream().filter(suc ->
@@ -156,7 +156,7 @@ public class CourseDTO implements Serializable {
     }
 
     // 해당강의에 수강평을 썼는지 검증
-    public boolean isWroteReview(Member member){
+    public boolean isWroteReview(MemberDTO member){
         for(CourseReview review : courseReviews){
             if(review.getMember().getId() == member.getId()){
                 return true;

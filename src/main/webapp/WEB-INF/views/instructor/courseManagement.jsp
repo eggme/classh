@@ -93,7 +93,8 @@
                     <input type="hidden" name="course_id" value="${course.id}">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     <sec:authorize access="isAuthenticated()">
-                        <sec:authentication var="userobject" property="principal"></sec:authentication>
+<%--                        <sec:authentication var="userobject" property="principal"></sec:authentication>--%>
+                        <c:set var="userobject" value="${member}"/>
                         <c:choose>
                             <c:when test="${course.isCourseRegistration(userobject)}">
                                 <%-- 로그인이 된 상태에서 해당 유저가 해당 강의에 수강신청이 된 상태 --%>

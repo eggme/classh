@@ -22,7 +22,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString(exclude = {"writer", "member", "courseComments"})
 @EqualsAndHashCode(exclude = {"writer", "member", "courseComments"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Notification extends BaseTimeEntity implements Serializable {
 
     @Id @GeneratedValue

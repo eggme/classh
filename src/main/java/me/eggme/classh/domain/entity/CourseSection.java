@@ -19,7 +19,7 @@ import java.util.*;
 @NoArgsConstructor
 @ToString(exclude = {"courseClasses", "course"})
 @EqualsAndHashCode(exclude = {"courseClasses", "course"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class CourseSection implements Serializable {
 
     @Id @GeneratedValue

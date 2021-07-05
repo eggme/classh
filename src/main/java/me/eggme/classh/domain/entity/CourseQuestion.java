@@ -12,6 +12,7 @@ import org.springframework.core.annotation.Order;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /***
  *  강의 질문&답변 댓글과 답글을 어떻게 구분할 것인가?
@@ -25,7 +26,7 @@ import java.util.*;
 @AllArgsConstructor
 @ToString(exclude = {"course", "courseClass", "member", "courseComments", "courseTags"})
 @EqualsAndHashCode(exclude = {"course", "courseClass", "member", "courseComments", "courseTags"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class CourseQuestion extends BaseBoardEntity implements Serializable {
 
     @Id @GeneratedValue
@@ -62,7 +63,7 @@ public class CourseQuestion extends BaseBoardEntity implements Serializable {
     @OneToMany(mappedBy = "courseQuestion", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("create_at desc")
     @BatchSize(size = 10)
-    private Set<CourseComment> courseComments = new LinkedHashSet<>();
+    private List<CourseComment> courseComments = new ArrayList<>();
 
     // 달릴 해시태그들 1:N 단방향
     @JsonManagedReference
@@ -71,6 +72,11 @@ public class CourseQuestion extends BaseBoardEntity implements Serializable {
 
     public CourseQuestionDTO of(){
         CourseQuestionDTO courseQuestionDTO = ModelMapperUtils.getModelMapper().map(this, CourseQuestionDTO.class);
+        courseQuestionDTO.setMember(this.getMember().of());
+        if(this.getCourseComments() != null) {
+            courseQuestionDTO.setCourseComments(this.getCourseComments().stream().map(cc ->
+                    cc.of()).collect(Collectors.toList()));
+        }
         return courseQuestionDTO;
     }
 

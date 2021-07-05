@@ -189,7 +189,7 @@
                                                         <li><a href="/course/list"><i class="fas fa-chalkboard"></i> 강의 관리</a>
                                                         </li>
                                                         <li><a href="/course/add"><i class="fas fa-magic"></i> 강의 만들기</a></li>
-                                                        <li><a><i class="far fa-edit"></i> 질문 리스트</a></li>
+                                                        <li><a href="/question/my"><i class="far fa-edit"></i> 질문 리스트</a></li>
                                                         <li><a><i class="fas fa-search-dollar"></i> 수익 확인</a></li>
                                                     </ul>
                                                 </div>

@@ -23,8 +23,8 @@ public class CourseQuestionDTO implements Serializable {
     private QuestionStatus questionStatus;
     private Course course;
     private CourseClass courseClass;
-    private Member member;
-    private List<CourseComment> courseComments;
+    private MemberDTO member;
+    private List<CourseCommentDTO> courseComments;
     private List<CourseTag> courseTags;
     private LocalDateTime create_at = LocalDateTime.now();
     private LocalDateTime modify_at = LocalDateTime.now();

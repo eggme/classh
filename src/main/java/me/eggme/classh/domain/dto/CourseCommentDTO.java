@@ -17,7 +17,7 @@ import java.util.List;
 public class CourseCommentDTO implements Serializable {
     private Long id;
     private String commentContent;
-    private Member member;
+    private MemberDTO member;
     private CourseComment parent;
     private List<CourseComment> children;
     private CourseQuestion courseQuestion;

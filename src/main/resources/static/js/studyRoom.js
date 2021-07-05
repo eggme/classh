@@ -34,16 +34,52 @@ $(function () {
     });
 
     $(document).on('click', '.question_content_template', function (){
-        $('.question_list').css('display', 'none');
-        $('.question_obj').css('display', 'flex');
+
+        let question_id = $(this).attr('data-id');
+        openQuestion(question_id);
+    });
+
+    $('.question_comment_write_button').click(function(){
+        if($(this).hasClass('access')){
+            let currentUserId = $(this).attr('data-id');
+            let content = tinymce.get('myComment').getContent();
+            let q_id = $('.question_obj_content').attr('data-id');
+            console.log(currentUserId + " : " + content + " : "+ q_id);
+
+            $.ajax({
+                url : "/question/add/comment/json",
+                method : "post",
+                dataType : "json",
+                data : {
+                    "user_id" : currentUserId,
+                    "content" : content,
+                    "q_id" : q_id
+                },success : function (result){
+                    if(result == "success"){
+                        openQuestion(q_id);
+                        tinymce.get('myComment').setContent("");
+                    }
+                },error : function (e){
+                    console.log(e);
+                }
+            })
+        }
     });
 
     $('.course_community').click(function (){
         toggleTarget('.question_wrap', $(this));
+        var url = location.href;
+        url = url.replace(/\?tab=([a-zA-Z]+)/ig, "");
+        url += "?tab=community";
+        history.pushState(null, null, url);
     });
 
     $('.course_note').click(function(){
         toggleTarget('.note_wrap', $(this));
+        var url = location.href;
+        url = url.replace(/\?tab=([a-zA-Z]+)/ig, "");
+        url += "?tab=note";
+        history.pushState(null, null, url);
     });
 
     /* 수강권한 모달에서 강의 상세보기 클릭 */
@@ -197,6 +233,59 @@ $(function () {
        });
     });
 });
+
+function openQuestion(question_id){
+    $.ajax({
+        url : "/question/"+question_id,
+        dataType : "json",
+        method : "post",
+        data : {"id" : question_id},
+        success : function (result) {
+            console.log(result);
+            $('.question_obj_title_value').text(result.courseQuestion.title);
+            $('.question_obj_user_name').text(result.courseQuestion.member.nickName);
+            formatAMPM(result.courseQuestion.modify_at,'.question_obj_create_at');
+            $('.question_obj_content_value').html(result.courseQuestion.content);
+            let currentUserId = $('.question_obj_toolbox').attr('data-id');
+            $('.question_obj_content').attr('data-id', result.courseQuestion.id);
+            if(currentUserId == result.courseQuestion.member.id){
+                $('.question_obj_toolbox').addClass('question_flex');
+            }
+            $('.question_tag_wrap').html("");
+            for(var i = 0; i<result.courseQuestion.courseTags.length; i++){
+                let tag = "<div class='question_tag_value'>" +
+                    "#"+
+                    result.courseQuestion.courseTags[i].tag +"</div>";
+                $(tag).appendTo($('.question_tag_wrap'));
+            }
+            $('.question_comment_wrap').html('');
+            for(var i = 0; i<result.list.length; i++){
+                var template = "<div class='comment_template_wrap' data-id='"+result.list[i].id+"'>" +
+                            "<div class='comment_profile_image_wrap'>" +
+                                "<div class='comment_profile_image_box'>" +
+                                    "<img class='comment_profile_image_value' src='"+ result.list[i].member.profile +"'>"+
+                                "</div>"+
+                            "</div>" +
+                            "<div class='comment_profile_content_wrap'>" +
+                                "<div class='comment_profile_wrap'>" +
+                                    "<div class='comment_profile_name'>"+ result.list[i].member.nickName +"</div>" +
+                                    "<div class='comment_profile_create_at'>" + formatAMPMData(result.list[i].create_at) + "</div>" +
+                                "</div>"+
+                                "<div class='comment_content_wrap'>" +
+                                    result.list[i].commentContent +
+                                "</div>"
+                            "</div>";
+                $(template).appendTo(".question_comment_wrap");
+            }
+
+        },error: function (e){
+            console.log(e);
+        }
+    });
+
+    $('.question_list').css('display', 'none');
+    $('.question_obj').css('display', 'flex');
+}
 
 function toggleTarget(target, obj){
 
@@ -362,6 +451,8 @@ function openTab(tab){
     console.log(tab);
     if(tab == 'community'){
         toggleTarget('.question_wrap', $('.course_community'));
+    }else if(tab == 'note'){
+        toggleTarget('.note_wrap', $('.course_note'));
     }
 }
 
@@ -369,6 +460,24 @@ tinymce.init({
     mode: 'textareas',
     selector: '#myQuestion',
     height: 500,
+    plugins: 'image code media image',
+    language_url: '/js/ko_KR.js',
+    toolbar: 'undo redo | link image | code | media ',
+    media_live_embeds: true,
+    image_title: true,
+    automatic_uploads: true,
+    file_picker_types: 'image',
+    video_template_callback: function (data) {
+        return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source1 + '"' + (data.source1mime ? ' type="' + data.source1mime + '"' : '') + ' />\n' + (data.source2 ? '<source src="' + data.source2 + '"' + (data.source2mime ? ' type="' + data.source2mime + '"' : '') + ' />\n' : '') + '</video>';
+    },
+    images_upload_handler: image_upload_handler,
+    content_style: '//www.tinymce.com/css/codepen.min.css'
+});
+
+tinymce.init({
+    mode: 'textareas',
+    selector: '#myComment',
+    height: 200,
     plugins: 'image code media image',
     language_url: '/js/ko_KR.js',
     toolbar: 'undo redo | link image | code | media ',

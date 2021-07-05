@@ -127,3 +127,44 @@ function setTextToObj(value, target){
 function openModal(obj){
     $(obj).css("display", "block");
 }
+
+function timeFormatKorWrapper(second, obj){
+    $(obj).text(timeFormatKor(second));
+}
+
+function timeFormatKor(second) {
+    var hours = Math.floor(second / 3600);
+    var minutes = Math.floor((second - (hours * 3600)) / 60);
+    var result = "";
+    console.log(hours + " : " + second);
+    if (hours > 0) {
+        result = hours + " 시간 " + minutes + " 분";
+    } else {
+        result = minutes + " 분";
+    }
+    console.log(result);
+    return result;
+}
+
+function formatAMPMData(localDate){
+    let year = localDate.year;
+    let month = localDate.monthValue < 10 ? '0'+localDate.monthValue : localDate.monthValue;
+    let day = localDate.dayOfMonth < 10 ? '0'+localDate.dayOfMonth : localDate.dayOfMonth;
+    let hour = localDate.hour < 10 ? ('0'+localDate.hour) : (localDate.hour);
+    let minute = localDate.minute < 10 ? '0'+localDate.minute : localDate.minute;
+    let ampm = hour >= 12 ? 'PM' : 'AM';
+    console.log(localDate);
+    return (year+"."+month+"."+day+" "+ampm + " " +hour + ":" + minute);
+}
+
+function formatAMPM(localDate, obj){
+    console.log(localDate);
+    let year = localDate.year;
+    let month = localDate.monthValue < 10 ? '0'+localDate.monthValue : localDate.monthValue;
+    let day = localDate.dayOfMonth < 10 ? '0'+localDate.dayOfMonth : localDate.dayOfMonth;
+    let hour = localDate.hour < 10 ? ('0'+localDate.hour) : (localDate.hour);
+    let minute = localDate.minute < 10 ? '0'+localDate.minute : localDate.minute;
+    let ampm = hour >= 12 ? 'PM' : 'AM';
+    console.log(localDate);
+    $(obj).text((year+"."+month+"."+day+" "+ampm + " " +hour + ":" + minute));
+}

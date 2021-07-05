@@ -47,10 +47,10 @@ public class CourseQuestionController {
     @GetMapping(value = "/{id}")
     public String getCourseQuestion(@PathVariable Long id, Model model){
         CourseQuestion savedCourseQuestion = courseQuestionService.getCourseQuestion(id);
-        Set<CourseCommentDTO> courseCommentDTOList = courseQuestionService.selectCourseComment(savedCourseQuestion);
+        List<CourseCommentDTO> courseCommentDTOList = courseQuestionService.selectCourseComment(savedCourseQuestion);
         CourseQuestionDTO courseQuestionDTO = savedCourseQuestion.of();
         CourseDTO courseDTO = courseQuestionDTO.getCourse().of();
-        MemberDTO memberDTO = courseQuestionDTO.getMember().of();
+        MemberDTO memberDTO = courseQuestionDTO.getMember();
         model.addAttribute("courseQuestion", courseQuestionDTO);
         model.addAttribute("course", courseDTO);
         model.addAttribute("member", memberDTO);
@@ -62,6 +62,37 @@ public class CourseQuestionController {
         }
 
         return "questions/courseQnA";
+    }
+
+    /***
+     * 수강 페이지에서 커뮤니티 게시판의 질문 클릭 시 ajax로 결과 리턴
+     * @param id 질문 pk
+     * @return
+     */
+    @PostMapping(value = "/{id}")
+    @ResponseBody
+    public String getCourseQuestionForAjax(@PathVariable Long id) throws JsonProcessingException {
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        CourseQuestion savedCourseQuestion = courseQuestionService.getCourseQuestion(id);
+        List<CourseCommentDTO> courseCommentDTOList = courseQuestionService.selectCourseComment(savedCourseQuestion);
+        CourseQuestionDTO courseQuestionDTO = savedCourseQuestion.of();
+        CourseDTO courseDTO = courseQuestionDTO.getCourse().of();
+        MemberDTO memberDTO = courseQuestionDTO.getMember();
+
+        Map resultMap = new HashMap();
+        resultMap.put("courseQuestion", courseQuestionDTO);
+        resultMap.put("course", courseDTO);
+        resultMap.put("member", memberDTO);
+        resultMap.put("list", courseCommentDTOList);
+
+        if(courseQuestionDTO.getCourseClass() != null){
+            CourseClassDTO courseClassDTO = courseQuestionDTO.getCourseClass().of();
+            resultMap.put("courseClass", courseClassDTO);
+        }
+
+        return mapper.writeValueAsString(resultMap);
     }
 
     /***
@@ -146,6 +177,25 @@ public class CourseQuestionController {
                                    Model model){
         courseQuestionService.addCourseComment(question_id, member, commentContent);
         return "redirect:/question/"+question_id;
+    }
+
+    /***
+     * 수강페이지에서 커뮤니티 게시판의 질문에 ajax로 답변을 입력하는 메소드
+     * @param question_id 질문 pk
+     * @param member_id 답변을 올리는 유저
+     * @param commentContent 답변 내용
+     * @return
+     */
+    @PostMapping(value = "/add/comment/json")
+    @ResponseBody
+    @PreAuthorize("isAuthenticated()")
+    public String addCourseCommentJson(@RequestParam(value = "q_id") Long question_id,
+                                   @RequestParam(value = "user_id") Long member_id,
+                                   @RequestParam(value = "content") String commentContent) throws JsonProcessingException {
+        Member member = memberService.getMember(member_id);
+        courseQuestionService.addCourseComment(question_id, member, commentContent);
+
+        return new ObjectMapper().writeValueAsString("success");
     }
 
     /***
@@ -265,5 +315,14 @@ public class CourseQuestionController {
         log.info(content);
         Long redirect_id = courseQuestionService.editCourseComment(id, content);
         return "redirect:/question/"+redirect_id;
+    }
+
+    /*  강사 질문 리스트 시작  */
+
+    @GetMapping(value = "/my")
+    @PreAuthorize("isAuthenticated()")
+    public String getCourseQuestions(){
+
+        return "instructor/questionList";
     }
 }

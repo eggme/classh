@@ -50,8 +50,9 @@
             <div class="course_nav">
                 <div class="ul_wrap">
                     <ul class="course_ul">
-                        <sec:authentication var="userObj" property="principal"></sec:authentication>
+<%--                        <sec:authentication var="userObj" property="principal"></sec:authentication>--%>
                         <sec:authorize access="isAuthenticated()">
+                            <c:set var="userObj" value="${member}" />
                             <c:if test="${course.isCourseRegistration(userObj)}">
                                 <li class="dashboard"><a class="no_underline" href="/course/${course.id}/dashboard">대시보드</a></li>
                             </c:if>

@@ -152,9 +152,9 @@ public class CourseQuestionService {
      * @return
      */
     @Transactional
-    public Set<CourseCommentDTO> selectCourseComment(CourseQuestion savedCourseQuestion) {
-        Set<CourseComment> commentSet = courseCommentRepository.findByCourseQuestion(savedCourseQuestion);
-        Set<CourseCommentDTO> commentDTOList = commentSet.stream().map(cc -> cc.of()).collect(Collectors.toSet());
+    public List<CourseCommentDTO> selectCourseComment(CourseQuestion savedCourseQuestion) {
+        List<CourseComment> commentSet = courseCommentRepository.findByCourseQuestion(savedCourseQuestion);
+        List<CourseCommentDTO> commentDTOList = commentSet.stream().map(cc -> cc.of()).collect(Collectors.toList());
         return commentDTOList;
     }
 

@@ -7,7 +7,6 @@ map['dashboard'] = "학습 대시보드";
 map['notification'] = "알림";
 map['courseList'] = "내 강의";
 map[''] = "학습노트";
-map[''] = "내 강의목록";
 map['questionList'] = "내 질문";
 map[''] = "문의 내역";
 map['courseCart'] = "수강 바구니";

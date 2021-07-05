@@ -3,10 +3,7 @@ package me.eggme.classh.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import me.eggme.classh.domain.dto.CourseCommentDTO;
-import me.eggme.classh.domain.dto.CourseDTO;
-import me.eggme.classh.domain.dto.CourseNoticeDTO;
-import me.eggme.classh.domain.dto.MemberHistoryDTO;
+import me.eggme.classh.domain.dto.*;
 import me.eggme.classh.domain.entity.Course;
 import me.eggme.classh.domain.entity.CourseComment;
 import me.eggme.classh.domain.entity.CourseNotice;
@@ -49,8 +46,10 @@ public class NoticeController {
     public String courseNewly(@PathVariable Long id, Model model, @AuthenticationPrincipal Member member){
 
         if(member != null){
+            MemberDTO memberDTO = (memberService.getMember(member.getId())).of();
             MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
             model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
+            model.addAttribute("member" , memberDTO);
         }
 
         Course course = courseService.getCourse(id);

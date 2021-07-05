@@ -17,7 +17,7 @@ import java.util.*;
 @NoArgsConstructor
 @ToString(exclude = {"member", "courses"})
 @EqualsAndHashCode(exclude = {"member", "courses"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Cart extends BaseTimeEntity implements Serializable {
 
     @Id

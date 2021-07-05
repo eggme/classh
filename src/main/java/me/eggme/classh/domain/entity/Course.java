@@ -22,7 +22,7 @@ import java.util.*;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseSections", "skillTags", "recommendations", "courseReviews", "courseNotices", "courseTags", "courseQuestions"})
 @ToString(exclude = {"signUpCourses", "instructor", "courseSections", "skillTags", "recommendations", "courseReviews", "courseNotices", "courseTags", "courseQuestions"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Course extends BaseTimeEntity implements Serializable {
 
     @Id @GeneratedValue

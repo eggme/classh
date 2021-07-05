@@ -21,7 +21,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString(exclude = {"member", "parent", "children", "courseQuestion", "courseNotice", "courseReview"})
 @EqualsAndHashCode(exclude = {"member","parent", "children", "courseQuestion", "courseNotice", "courseReview"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class CourseComment extends BaseBoardEntity implements Serializable {
 
     @Id @GeneratedValue
@@ -31,7 +31,7 @@ public class CourseComment extends BaseBoardEntity implements Serializable {
     private String commentContent;
 
     // 댓글 단 사람 정보
-    @JsonBackReference
+    @JsonManagedReference
     @OneToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
@@ -70,7 +70,9 @@ public class CourseComment extends BaseBoardEntity implements Serializable {
     private Notification notification;
 
     public CourseCommentDTO of() {
-        return ModelMapperUtils.getModelMapper().map(this, CourseCommentDTO.class);
+        CourseCommentDTO dto = ModelMapperUtils.getModelMapper().map(this, CourseCommentDTO.class);
+        dto.setMember(this.getMember().of());
+        return dto;
     }
 
     /* 연관관계 편의 메서드 */

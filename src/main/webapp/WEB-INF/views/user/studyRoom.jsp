@@ -60,6 +60,7 @@
                         <div class="course_progress_rate">
                             <sec:authorize access="isAuthenticated()">
                                 <sec:authentication var="userobject" property="principal"/>
+                                <c:set var="userobject" value="${member}"/>
                                 <c:choose>
                                     <c:when test="${(course.isCourseRegistration(userobject)) && (!(courseHistory eq null))}">
                                         <%-- 수강신청이 되어있는 사람 --%>
@@ -133,14 +134,15 @@
                 </div>
                 <div class="course_content_wrap" data-cId="${courseClass.id}">
                     <div class="course_content">
-                        <c:choose>
-                            <c:when test="${course.isCourseRegistration(userobject)}"> <%-- 수강신청이 됐을 때 --%>
+                        <sec:authorize access="isAuthenticated()">
+                            <c:if test="${course.isCourseRegistration(userobject)}"> <%-- 수강신청이 됐을 때 --%>
                                 <c:forEach var="section" items="${course.courseSections}" varStatus="status">
                                     <script>// course_id, section_id, sectionCode
                                     createSectionContent('${section.name}', '${course.id}',
                                         '${section.id}', '${status.index}');
                                     </script>
-                                    <c:forEach var="course_class" items="${section.courseClasses}" varStatus="classStatus">
+                                    <c:forEach var="course_class" items="${section.courseClasses}"
+                                               varStatus="classStatus">
                                         <script> // name, class_id, sectionCode, classCode, study_time
                                         createClassContent('${course_class.name}', '${course.id}',
                                             '${course_class.id}', '${status.index}',
@@ -149,24 +151,26 @@
                                         </script>
                                     </c:forEach>
                                 </c:forEach>
-                            </c:when>
-                            <c:otherwise> <%-- 수강신청이 안됐거나 익명의 사용자일 때 --%>
-                                <c:forEach var="section" items="${course.courseSections}" varStatus="status">
-                                    <script>// course_id, section_id, sectionCode
-                                    createSectionContent('${section.name}', '${course.id}',
-                                        '${section.id}', '${status.index}');
+                            </c:if>
+                        </sec:authorize>
+                        <sec:authorize access="isAnonymous()">
+                            <%-- 수강신청이 안됐거나 익명의 사용자일 때 --%>
+                            <c:forEach var="section" items="${course.courseSections}" varStatus="status">
+                                <script>// course_id, section_id, sectionCode
+                                createSectionContent('${section.name}', '${course.id}',
+                                    '${section.id}', '${status.index}');
+                                </script>
+                                <c:forEach var="course_class" items="${section.courseClasses}" varStatus="classStatus">
+                                    <script> // name, class_id, sectionCode, classCode, study_time
+                                    createClassContent('${course_class.name}', '${course.id}',
+                                        '${course_class.id}', '${status.index}',
+                                        '${classStatus.index}', '${course_class.seconds}',
+                                        '${course_class.preview}', false);
                                     </script>
-                                    <c:forEach var="course_class" items="${section.courseClasses}" varStatus="classStatus">
-                                        <script> // name, class_id, sectionCode, classCode, study_time
-                                        createClassContent('${course_class.name}', '${course.id}',
-                                            '${course_class.id}', '${status.index}',
-                                            '${classStatus.index}', '${course_class.seconds}',
-                                            '${course_class.preview}', false);
-                                        </script>
-                                    </c:forEach>
                                 </c:forEach>
-                            </c:otherwise>
-                        </c:choose>
+                            </c:forEach>
+
+                        </sec:authorize>
                         <c:choose>
                             <c:when test="${!(courseHistories eq null)}">
                                 <c:forEach var="history" items="${courseHistories}" varStatus="index">
@@ -201,29 +205,30 @@
                                 <c:choose>
                                     <c:when test="${fn:length(courseQuestions) > 0}">
                                         <div class="question_flex_scroll_wrap">
-                                        <c:forEach var="question" items="${courseQuestions}" varStatus="index">
-                                            <div class="question_content_template" data-id="${question.id}">
-                                                <div class="question_content_border_template">
-                                                    <div class="question_content_title_template">질문</div>
-                                                    <div class="question_content_title_value">
-                                                        <c:out value="${question.title}" />
-                                                    </div>
-                                                    <div class="question_content_content_value">${question.content}</div>
-                                                </div>
-                                                <div class="question_content_toolbar_template">
-                                                    <div class="question_content_user_wrap">
-                                                        <div class="question_content_user_profile">
-                                                            <img src="${question.member.profile}" class="question_content_user_profile_value">
+                                            <c:forEach var="question" items="${courseQuestions}" varStatus="index">
+                                                <div class="question_content_template" data-id="${question.id}">
+                                                    <div class="question_content_border_template">
+                                                        <div class="question_content_title_template">질문</div>
+                                                        <div class="question_content_title_value">
+                                                            <c:out value="${question.title}"/>
                                                         </div>
+                                                        <div class="question_content_content_value">${question.content}</div>
+                                                    </div>
+                                                    <div class="question_content_toolbar_template">
+                                                        <div class="question_content_user_wrap">
+                                                            <div class="question_content_user_profile">
+                                                                <img src="${question.member.profile}"
+                                                                     class="question_content_user_profile_value">
+                                                            </div>
 
-                                                        <div class="question_content_user_name">
-                                                            <c:out value="${question.member.nickName}" />
+                                                            <div class="question_content_user_name">
+                                                                <c:out value="${question.member.nickName}"/>
+                                                            </div>
                                                         </div>
+                                                        <div class="question_content_toolbar_wrap"></div>
                                                     </div>
-                                                    <div class="question_content_toolbar_wrap"></div>
                                                 </div>
-                                            </div>
-                                        </c:forEach>
+                                            </c:forEach>
                                         </div>
                                         <div class="write_question_template newQuestion">새 글 작성하기</div>
                                     </c:when>
@@ -248,25 +253,51 @@
                     </div>
                     <div class="question_obj_content">
                         <div class="question_obj_title">질문</div>
-                        <div class="question_obj_title_value">findById와 findByName 구현 차이</div>
+                        <div class="question_obj_title_value">
+                            <%--findById와 findByName 구현 차이--%>
+                        </div>
                         <div class="question_obj_user_wrap">
                             <ul>
-                                <li class="question_obj_user_name">한영키</li>
-                                <li class="question_obj_create_at">2021.06.03 PM 23:44</li>
+                                <li class="question_obj_user_name">
+                                    <%--한영키--%>
+                                </li>
+                                <li class="question_obj_create_at">
+                                    <%--2021.06.03 PM 23:44--%>
+                                </li>
                             </ul>
+                            <sec:authorize access="isAuthenticated()">
+                                <sec:authentication property="principal" var="userobject"/>
+                                <div class="question_obj_toolbox" data-id="${userobject.id}">
+                                    <div class="question_edit_button">수정</div>
+                                    <div class="question_delete_button">삭제</div>
+                                </div>
+                            </sec:authorize>
                         </div>
                         <div class="question_obj_content_value">
-                            안녕하세요! 수업 정말 잘 듣고 있습니다.
+<%--                            안녕하세요! 수업 정말 잘 듣고 있습니다.--%>
+<%--                            MemoryMemberRepository 구현하는 데서, ID로 찾을 때는 단순히 Optional.ofNullable(store.get(id));를 활용해서 찾아서--%>
+<%--                            name을 통해 찾을 때도 마찬가지로, Optional.ofNullable(store.get(name));으로 찾을 줄 알았습니다.--%>
+<%--                            왜 name을 찾을 때는 전체를 돌면서 찾아야 하는 걸까요..!?--%>
+<%--                            부족한 질문이지만 답변 부탁드리겠습니다 !--%>
 
-                            MemoryMemberRepository 구현하는 데서, ID로 찾을 때는 단순히 Optional.ofNullable(store.get(id));를 활용해서 찾아서
+                        </div>
+                        <div class="question_tag_wrap">
 
-                            name을 통해 찾을 때도 마찬가지로, Optional.ofNullable(store.get(name));으로 찾을 줄 알았습니다.
-
-                            왜 name을 찾을 때는 전체를 돌면서 찾아야 하는 걸까요..!?
-
-                            부족한 질문이지만 답변 부탁드리겠습니다 !
-
-
+                        </div>
+                        <%-- 질문30
+                        .에 대한 답변이 달릴 공간 --%>
+                        <div class="question_comment_wrap"></div>
+                        <div class="question_comment_write_form">
+                            <textarea id="myComment" name="content"></textarea>
+                            <div class="question_comment_toolbox_wrap">
+                                <sec:authorize access="isAuthenticated()">
+                                    <sec:authentication property="principal" var="userobject"/>
+                                    <div class="question_comment_write_button access" data-id="${userobject.id}">댓글입력</div>
+                                </sec:authorize>
+                                <sec:authorize access="isAnonymous()">
+                                    <div class="question_comment_write_button">댓글입력</div>
+                                </sec:authorize>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -295,7 +326,7 @@
                     <div class="question_content_wrap">
                         <div class="question_content_menu">내용</div>
                         <div class="question_content_input">
-                        <textarea id="myQuestion" name="content"></textarea>
+                            <textarea id="myQuestion" name="content"></textarea>
                         </div>
                     </div>
                     <div class="question_button_wrap">
@@ -306,8 +337,16 @@
             </div>
             <div class="note_wrap study_tab closed">
                 <div class="text">
-                    <span>노트</span>
+                    <div class="text_wrap">
+                        <span class="note_title">노트</span>
+                        <span class="separator">|</span>
+                        <span class="all_note">내 노트 모두보기</span>
+                    </div>
                     <span class="close_button"><i class="fas fa-times"></i></span>
+                </div>
+                <div class="note_content_wrap"></div>
+                <div class="note_write_form">
+
                 </div>
             </div>
         </div>
@@ -405,13 +444,19 @@
                                         <sec:authorize access="isAuthenticated()">
                                             <sec:authentication var="mem" property="principal"/>
                                             <c:if test="${!(mem.isPutInTheCart(course.id))}">
-                                                <div class="add_course_button error_button" data-id="${course.id}">수강바구니 담기</div>
+                                                <div class="add_course_button error_button" data-id="${course.id}">수강바구니
+                                                    담기
+                                                </div>
                                             </c:if>
                                         </sec:authorize>
                                         <sec:authorize access="isAnonymous()">
-                                            <div class="add_course_button error_button" data-id="${course.id}">수강바구니 담기</div>
+                                            <div class="add_course_button error_button" data-id="${course.id}">수강바구니
+                                                담기
+                                            </div>
                                         </sec:authorize>
-                                        <div class="go_course_info_button error_button" data-id="${course.id}">강의소개로 이동</div>
+                                        <div class="go_course_info_button error_button" data-id="${course.id}">강의소개로
+                                            이동
+                                        </div>
                                     </div>
                                 </div>
                             </div>

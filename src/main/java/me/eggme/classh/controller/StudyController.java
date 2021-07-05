@@ -3,10 +3,7 @@ package me.eggme.classh.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import me.eggme.classh.domain.dto.CourseClassDTO;
-import me.eggme.classh.domain.dto.CourseDTO;
-import me.eggme.classh.domain.dto.CourseHistoryDTO;
-import me.eggme.classh.domain.dto.MemberHistoryDTO;
+import me.eggme.classh.domain.dto.*;
 import me.eggme.classh.domain.entity.*;
 import me.eggme.classh.service.CourseQuestionService;
 import me.eggme.classh.service.CourseService;
@@ -44,10 +41,10 @@ public class StudyController {
      * @param model
      * @return
      */
-    @GetMapping(value="/{id}/preview/{class_id}*")
-    public String coursePreview(@PathVariable Long id,
-                                @PathVariable Long class_id,
-
+    @GetMapping(value="/{id}/preview/{class_id}/**")
+    public String coursePreview(@PathVariable(name = "id") Long id,
+                                @PathVariable(name = "class_id") Long class_id,
+                                @RequestParam(name = "tab", required = false) String tab,
                                 Model model){
         Course course = courseService.getCourse(id);
         CourseClass courseClass = courseService.getCourseClass(class_id);
@@ -72,6 +69,10 @@ public class StudyController {
         String modal = model.asMap().get("modal") == null ? null : model.asMap().get("modal").toString();
         if(modal != null) model.addAttribute("modal", modal);
 
+        if(tab != null){
+            model.addAttribute("tab", tab);
+        }
+
         return "study/studyRoom/"+courseClassDTO.getName();
     }
 
@@ -84,13 +85,21 @@ public class StudyController {
      */
     @GetMapping(value = "/{id}/lecture/")
     @PreAuthorize("isAuthenticated()")
-    public String courseView(@PathVariable Long id, @AuthenticationPrincipal Member member, Model model){
+    public String courseView(@PathVariable(name = "id") Long id,
+                             @AuthenticationPrincipal Member member,
+                             @RequestParam(name = "tab",  required = false) String tab,
+                             Model model){
         String url = "";
         /* 해당 유저가 수강 관계를 맺고있는지 검사 */
         if(studyService.checkSignUpCourseMember(id, member.getId())){
 
             Course savedCourse = courseService.getCourse(id);
             Long courseClassId = 0L;
+
+            if(member != null) { /* OSIV 때문에 직접 조회해서 줘야함 */
+                MemberDTO memberDTO = (memberService.getMember(member.getId())).of();
+                model.addAttribute("member", memberDTO);
+            }
 
             if(studyService.hasCourseHistory(member.getId(), id)){ // 만약 하나라도 기록이 있다면
 
@@ -123,6 +132,11 @@ public class StudyController {
             model.addAttribute("courseQuestions", courseQuestions);
             model.addAttribute("course", courseDTO);
             model.addAttribute("courseClass", courseClassDTO);
+
+            if(tab != null){
+                model.addAttribute("tab", tab);
+            }
+
             url = courseClassDTO.getName();
         }
         return "study/studyRoom/"+url;
@@ -136,10 +150,10 @@ public class StudyController {
      * @param model
      * @return
      */
-    @GetMapping(value = {"/{id}/lecture/{class_id}", "/{id}/lecture/{class_id}/{tab}"})
+    @GetMapping(value = "/{id}/lecture/{class_id}")
     @PreAuthorize("isAuthenticated()")
-    public String courseView(@PathVariable Long id, @PathVariable Long class_id,
-                             @PathVariable(value = "tab", required = false) String tab,
+    public String courseView(@PathVariable(name = "id") Long id, @PathVariable(name = "class_id") Long class_id,
+                             @RequestParam(value = "tab", required = false) String tab,
                              @AuthenticationPrincipal Member member, Model model){
         String url = "";
         /* 해당 유저가 수강 관계를 맺고있는지 검사 */
@@ -149,6 +163,11 @@ public class StudyController {
 
             CourseDTO courseDTO = savedCourse.of();
             CourseClassDTO courseClassDTO = savedCourseClass.of();
+
+            if(member != null) { /* OSIV 때문에 직접 조회해서 줘야함 */
+                MemberDTO memberDTO = (memberService.getMember(member.getId())).of();
+                model.addAttribute("member", memberDTO);
+            }
 
             if(studyService.hasCourseHistory(member.getId(), id)){ // 만약 다음 강의에 수업 기록이 있을 경우 기록객체 추가
                 // 해당 강의의 기록

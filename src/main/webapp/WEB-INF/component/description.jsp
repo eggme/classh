@@ -28,7 +28,11 @@
                     <div class="play_icon"></div>
                 </div>
                 <sec:authorize access="isAuthenticated()">
-                    <sec:authentication var="userobject" property="principal" />
+
+<%--
+    OSIV 때문에 변경
+    <sec:authentication var="userobject" property="principal" />--%>
+                    <c:set var="userobject" value="${member}"/>
                     <c:if test="${course.isCourseRegistration(userobject)}">
                         <c:if test="${!(courseHistory eq null)}">
                             <div class="play_text">

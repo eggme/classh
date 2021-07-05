@@ -17,7 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"member", "course", "courseClass"})
 @ToString(exclude = {"member", "course", "courseClass"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class CourseHistory extends BaseTimeEntity implements Serializable {
 
     @Id @GeneratedValue

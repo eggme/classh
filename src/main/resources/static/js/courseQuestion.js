@@ -43,24 +43,6 @@ $(function () {
     });
 });
 
-function timeFormatKorWrapper(second, obj){
-    $(obj).text(timeFormatKor(second));
-}
-
-function timeFormatKor(second) {
-    var hours = Math.floor(second / 3600);
-    var minutes = Math.floor((second - (hours * 3600)) / 60);
-    var result = "";
-    console.log(hours + " : " + second);
-    if (hours > 0) {
-        result = hours + " 시간 " + minutes + " 분";
-    } else {
-        result = minutes + " 분";
-    }
-    console.log(result);
-    return result;
-}
-
 tinymce.init({
     mode: 'textareas',
     selector: '#myQuestion',

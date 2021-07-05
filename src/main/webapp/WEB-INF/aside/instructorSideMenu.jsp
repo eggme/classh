@@ -25,7 +25,7 @@
             <div class="ul_title">강의 관리</div>
             <ul class="tag_ul">
                 <li data-url="/course/list" data-menu="courseList">강의 관리</li>
-                <li>질문 리스트</li>
+                <li data-url="/question/my" data-menu="questionList">질문 리스트</li>
                 <li>수강평 리스트</li>
                 <li>강의 소식 관리</li>
                 <li>수익 확인</li>
