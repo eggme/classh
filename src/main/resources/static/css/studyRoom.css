@@ -6,7 +6,10 @@
 @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
 body, body *{font-family: "Noto Sans KR";}
 
-body, html {width: 100%; height: 100%; margin: 0 auto; overflow-y: hidden;}
+body, html {width: 100%; height: 100%; margin: 0 auto; overflow-y: hidden; -ms-overflow-style: none; scrollbar-width: none;}
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
 .main_wrap{width: 100%; height: 100%; overflow-y: hidden;}
 .flex_container{display: flex; height: 100%; flex-direction: row-reverse;}
 .study_wrap{display: flex;}
@@ -116,16 +119,22 @@ body, html {width: 100%; height: 100%; margin: 0 auto; overflow-y: hidden;}
 .search_icon i{font-size: 14px; color: #cccccc;}
 .search_input:focus{border: 1px solid #00c471;}
 .question_list{height: 100%;}
-.question_flex_scroll_wrap{overflow-y: scroll; flex-grow: 1; margin-bottom: 16px;}
+.question_flex_scroll_wrap{overflow-y: scroll; flex-grow: 1; margin-bottom: 16px; padding-bottom: 48px; -ms-overflow-style: none; scrollbar-width: none;}
+.question_flex_scroll_wrap::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
 .question_list_flex_wrap{display: flex; flex-direction: column; height: 100%;}
-.question_content_wrap{display: flex; flex-direction: column; justify-content: space-between; padding: 16px; flex-grow: 1; height: 100%;}
+.question_content_wrap{position: relative;  display: flex; flex-direction: column; justify-content: space-between; padding: 16px; flex-grow: 1; height: 100%; overflow-y: scroll; -ms-overflow-style: none; scrollbar-width: none;}
+.question_content_wrap::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
 .question_content_template{border-radius: 4px; border: 1px solid #DEE2E6; display: flex; flex-direction: column; cursor: pointer; margin-bottom: 8px;}
 .question_content_title_template{color: #639cbf; margin-bottom: 8px;}
 .question_content_title_value{font-size: 16px; font-weight: 400; margin-bottom: 6px;}
 .question_content_content_value{font-size: 14px; font-weight: 400; color: #858a8d; white-space: nowrap; overflow: hidden; margin-bottom: 8px;}
 .question_content_border_template{padding: 12px; display: flex; flex-direction: column; border-bottom: 1px solid #dee2e6;}
 .question_obj{display: none; flex-direction: column; overflow-y: scroll;}
-.question_write_form{display: none; flex-direction: column;}
+.question_write_form{display: none; flex-direction: column; overflow-y: scroll;}
 .question_obj_head{display: flex; width: 100%; justify-content: space-between; padding: 16px;}
 .question_obj_head span{cursor: pointer; font-size: 20px;}
 .question_obj_head span i{cursor: pointer;}
@@ -147,7 +156,11 @@ body, html {width: 100%; height: 100%; margin: 0 auto; overflow-y: hidden;}
 .question_comment_write_button{display: flex; padding: 8px 12px; background-color: #343A40; border-radius: 2px; color: white; font-weight: 600; cursor: not-allowed; margin: 0 !important;}
 .access{cursor: pointer;}
 .comment_template_wrap{display: flex; margin: 10px 0 !important;}
-.comment_profile_content_wrap{display: flex; flex-direction: column; margin: 0px 0px 0px 12px !important;}
+.comment_profile{display: flex; justify-content: space-between;}
+.comment_profile_toolbox{display: flex; justify-content: center;}
+.comment_profile_toolbox div{cursor: pointer;}
+.comment_profile_edit{margin-right: 8px !important;}
+.comment_profile_content_wrap{display: flex; flex-direction: column; margin: 0px 0px 0px 12px !important; flex-grow: 1;}
 .comment_profile_content_wrap div{margin: 0px;}
 .comment_profile_name{margin-right: 8px !important;}
 .comment_profile_image_box{width: 24px; height: 24px; border-radius: 70%; overflow: hidden; margin: 0 !important;}
@@ -158,7 +171,7 @@ body, html {width: 100%; height: 100%; margin: 0 auto; overflow-y: hidden;}
 .comment_profile_create_at{color: #abb0b5; font-size: 14px;}
 
 .question_comment_wrap{display: flex; flex-direction: column;}
-.question_tag_wrap{display: flex; padding-bottom: 20px;  margin-bottom: 20px !important; border-bottom: 1px solid #f7f8fa;}
+.question_tag_wrap, .question_obj_tag_wrap{display: flex; padding-bottom: 20px;  margin-bottom: 20px !important; border-bottom: 1px solid #f7f8fa;}
 .question_tag_value{display: flex; align-self: center; padding: 6px; margin: 3px !important; border-radius: 3px; background-color: #f1f3f5; color: #616568; white-space: nowrap; font-size: 13px; }
 
 .question_content_toolbar_template{padding: 12px;}
@@ -183,9 +196,15 @@ body, html {width: 100%; height: 100%; margin: 0 auto; overflow-y: hidden;}
 
 .hashtag_value{display: flex;}
 .hash_tag_template{display: flex; align-self: center; padding: 6px; margin: 3px; border-radius: 3px; background-color: #f1f3f5; color: #616568; white-space: nowrap; font-size: 13px; cursor: pointer;}
-.newQuestion{display: flex; justify-content: center; align-items: center; padding: 12px 0; background: #1dc078; color: white; font-size: 16px; cursor: pointer; font-weight: 400;}
+.newQuestion{position: absolute; bottom: 12px;  width: calc(100% - 32px); text-align: center; padding: 12px 0; background: #1dc078; color: white; font-size: 16px; cursor: pointer; font-weight: 400;}
 .tag_value{margin-right: 4px;}
-
+.delete_question_exit{padding-bottom: 20px; display: flex; justify-content: center; align-items: center; margin-top: 48px;}
+.delete_question_exit *{font-size: 48px; color: #ffa016;}
+.delete_question_content{height: 300px !important;}
+.delete_question_title, .delete_question_desc{display: flex; flex-grow: 1; justify-content: center; text-align: center; align-self: center;}
+.delete_question_title{font-size: 22px; font-weight: 500;}
+.delete_question_desc{font-size: 16px;}
+.delete_question_cancel, .delete_question_submit{cursor: pointer;}
 
 .animate{-webkit-animation: animatezoom 0.6s; animation: animatezoom 0.6s;}
 @-webkit-keyframes animatezoom { from {-webkit-transform: scale(0)} to {-webkit-transform: scale(1)} }

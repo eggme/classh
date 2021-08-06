@@ -104,6 +104,40 @@ public class CourseQuestionService {
         return savedCourseQuestion;
     }
 
+    /**
+     * 수업페이지의 커뮤니티 게시판에서 ajax로 특정 강의에 질문을 수정
+     * @param id 강의 pk
+     * @param title 질문 제목
+     * @param tags 질문 태그들
+     * @param content 질문 내용
+     * @return
+     */
+    @Transactional
+    public CourseQuestion editCourseQuestion(Long id, Long qid, String title,
+                                             String[] tags, String content){
+        Course savedCourse = courseRepository.findById(id).orElseThrow(() ->
+                new NoSearchCourseException());
+
+        CourseQuestion savedCourseQuestion = courseQuestionRepository.findById(qid).orElseThrow(() ->
+                new RuntimeException());
+
+        savedCourseQuestion.setTitle(title);
+        savedCourseQuestion.setContent(content);
+        savedCourseQuestion.setCourse(savedCourse);
+        savedCourseQuestion.getCourseTags().clear();
+
+        List<CourseTag> courseTagList = new ArrayList<>();
+        for(String tag : tags){
+            CourseTag courseTag = CourseTag.builder().tag(tag).build();
+            CourseTag savedCourseTag = courseTagRepository.save(courseTag);
+            savedCourseTag.setCourse(savedCourse);
+            savedCourseTag.setCourseQuestion(savedCourseQuestion);
+            courseTagList.add(savedCourseTag);
+        }
+        savedCourseQuestion.getCourseTags().addAll(courseTagList);
+        return savedCourseQuestion;
+    }
+
     @Transactional
     public Set<CourseQuestion> selectCourseQuestions(Long course_id) {
         Course savedCourse = courseRepository.findById(course_id).orElseThrow(() -> new NoSearchCourseException());

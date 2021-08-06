@@ -154,11 +154,54 @@ public class CourseQuestionController {
                                                 @RequestParam(value = "title") String title,
                                                 @RequestParam(value = "tags[]") String[] tags,
                                                 @RequestParam(value = "content") String content,
+                                                @RequestParam(value = "editable") boolean editable,
+                                                @RequestParam(value = "q_id", required = false) Long qid,
                                                 @AuthenticationPrincipal Member member) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        CourseQuestion savedCourseQuestion = courseQuestionService.saveCourseQuestion(id, class_id, title, tags, content, member);
-        CourseQuestionDTO courseQuestionDTO = savedCourseQuestion.of();
+        CourseQuestion courseQuestion = null;
+        if(!editable){
+            /* 새로 등록을 할 때 */
+            courseQuestion = courseQuestionService.saveCourseQuestion(id, class_id, title, tags, content, member);
+        }else{
+            /* 이미 작성된 질문을 수정을 할 때 */
+            courseQuestion = courseQuestionService.editCourseQuestion(id, qid, title, tags, content);
+        }
+        CourseQuestionDTO courseQuestionDTO = courseQuestion.of();
         return objectMapper.writeValueAsString(courseQuestionDTO);
+    }
+
+    /**
+     * 수업 페이지에서 커뮤니티 게시판의 질문을 삭제하는 함수
+     * @param id 삭제할 질문 pk
+     * @return
+     * @throws JsonProcessingException
+     */
+    @PostMapping(value = "/delete/json")
+    @ResponseBody
+    public String deleteCourseQuestionForStudyRoom(@RequestParam(value = "id") Long id) throws JsonProcessingException {
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        courseQuestionService.deleteCourseQuestion(id);
+        HashMap<String, String> map = new HashMap();
+        map.put("msg", "success");
+
+        return mapper.writeValueAsString(map);
+    }
+
+    /**
+     * 스터디 페이지에서 커뮤니티 게시판의 질문의 수정 클릭 시 질문 정보를 조회하여 리턴
+     * @param id 질문 pk
+     * @return
+     * @throws JsonProcessingException
+     */
+    @PostMapping(value = "/select/json")
+    @ResponseBody
+    public String selectCourseQuestionForStudyRoom(@RequestParam(value = "id") Long id) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        CourseQuestion savedCourseQuestion = courseQuestionService.getCourseQuestion(id);
+        CourseQuestionDTO dto = savedCourseQuestion.of();
+        return mapper.writeValueAsString(dto);
     }
 
     /***

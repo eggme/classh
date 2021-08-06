@@ -34,7 +34,6 @@ $(function () {
     });
 
     $(document).on('click', '.question_content_template', function (){
-
         let question_id = $(this).attr('data-id');
         openQuestion(question_id);
     });
@@ -95,6 +94,81 @@ $(function () {
     /* 수강권한 모달에서 수강 바구니 담기 클릭 */
     $('.add_course_button').click(function(){
         $('.course_cart_form').submit();
+    });
+    /* 커뮤니티 게시판의 질문 상세 페이지에서 수정 버튼을 눌렀을 때 */
+    $('.question_edit_button').click(function (){
+        let question_id = $('.question_obj_content').attr('data-id');
+        console.log(question_id);
+        $.ajax({
+            url : "/question/select/json",
+            method: "post",
+            dataType : "json",
+            data : {"id" : question_id},
+            success : function (result){
+                console.log(result);
+                $('.question_name').val(result.title);
+                tinymce.get('myQuestion').setContent(result.content);
+
+                let length = result.courseTags.length;
+                $('.hashtag_value').html('');
+                for(var i = 0; i < length; i++){
+                    let value = result.courseTags[i].tag;
+                    var template = "<div class='hash_tag_template'>"+
+                        "<input type='hidden' name='courseTags["+length+"].tag' value="+ value +" />"+
+                        "<span class='tag_value'>"+ value +"</span>" +
+                        "<span><i class='fas fa-times'></i></span>" +
+                        "</div>";
+                    $(template).appendTo($('.hashtag_value'));
+                }
+            },error : function (e){
+                console.log(e);
+            }
+        });
+        $('.question_obj').css('display', 'none');
+        $('.question_write_form').css('display', 'flex');
+
+        $('.question_write_form').addClass("editable");
+        $('.question_write_form').attr('data-qid', question_id);
+        $('.question_submit').text("수정하기");
+    });
+    /* 커뮤니티 게시판의 질문 상세 페이지에서 삭제 버튼을 눌렀을 때 */
+    $('.question_delete_button').click(function(){
+        let id = $('.question_write_form').attr('data-id');
+        let cid = $('.question_write_form').attr('data-cid');
+        $('.delete_question_form_wrap').attr("data-id", id);
+        $('.delete_question_form_wrap').attr('data-cid', cid);
+        $('.delete_question_form_wrap').css("display", "block");
+    });
+
+    /* 커뮤니티 게시판의 질문 상세 페이지에서 삭제버튼을 누른 후 모달에서 확인을 눌렀을 때 */
+    $('.delete_question_submit').click(function(){
+
+        let question_id = $('.question_obj_content').attr('data-id');
+        $.ajax({
+            url : "/question/delete/json",
+            method : 'post',
+            data : {"id" : question_id},
+            dataType : "json",
+            success: function (result) {
+                console.log(result);
+                if(result.msg == "success"){
+                    let id = $('.delete_question_form_wrap').attr('data-id');
+                    let cId = $('.delete_question_form_wrap').attr('data-cId');
+                    console.log("result = success");
+                    location.href = "/study/"+id+"/lecture/"+cId+"?tab=community";
+                }
+            },error : function (e){
+               console.log(e);
+            }
+        });
+        $('.question_obj').css('display', 'none');
+        $('.question_list').css('display', 'block');
+        $('.delete_question_form_wrap').css("display", "none");
+    });
+
+    /* 커뮤니티 게시판의 질문 상세 페이지에서 삭제버튼을 누른 후 모달에서 취소를 눌렀을 때 */
+    $('.delete_question_cancel').click(function (){
+        $('.delete_question_form_wrap').css("display", "none");
     });
 
     $('.add_cart_cancel').click(function(){
@@ -180,57 +254,55 @@ $(function () {
     });
 
     $('.question_submit').click(function (){
-       let id = $('.question_write_form').attr('data-id');
-       let cid = $('.question_write_form').attr('data-cid');
-       let title = $('.question_name').val();
-       let tagObj = $('.hashtag_value').children('.hash_tag_template');
-       var tags = new Array();
-       var i = 0;
-       $(tagObj).each(function (){
-           tags[i] = $(this).children('input').attr('value');
-           i++;
-       })
-       let content = tinymce.get('myQuestion').getContent();
 
-       let formData = {
-           'id' : id,
-           "class_id" : cid,
-           "title" : title,
-           "tags" : tags,
-           "content" : content
-       };
-       $.ajax({
-           url : '/question/add/json',
-           method : 'post',
-           dataType : 'json',
-           data : formData,
-           success : function (result){
+        let id = $('.question_write_form').attr('data-id');
+        let cid = $('.question_write_form').attr('data-cid');
+        let title = $('.question_name').val();
+        let tagObj = $('.hashtag_value').children('.hash_tag_template');
+        var tags = new Array();
+        var i = 0;
+        $(tagObj).each(function (){
+            tags[i] = $(this).children('input').attr('value');
+            i++;
+        })
+        let content = tinymce.get('myQuestion').getContent();
+        var formData = {};
+        /* 실제로 등록할 때 */
+        if(!$('.question_write_form').hasClass('editable')){
+            formData = {
+                'id' : id,
+                "class_id" : cid,
+                "title" : title,
+                "tags" : tags,
+                "content" : content,
+                "editable" : false
+            };
+        }else{
+            /* 수정할 때 */
+            let qid = $('.question_write_form').attr('data-qid');
+            formData = {
+                'id' : id,
+                "class_id" : cid,
+                "title" : title,
+                "tags" : tags,
+                "content" : content,
+                "editable" : true,
+                "q_id" : qid
+            };
+        }
+
+        $.ajax({
+            url : '/question/add/json',
+            method : 'post',
+            dataType : 'json',
+            data : formData,
+            success : function (result){
                 console.log(result);
-                location.href="/study/"+id+"/lecture/"+cid+"/community";
-               // $('.question_list').css('display', 'block');
-               // $('.question_write_form').css('display', 'none');
-               //  $('.question_list').load(window.location.href + ".question_list");
-               // var template = "<div class='question_content_template' data-id='"+result.id+"'>"+
-               //     "<div class='question_content_border_template'>" +
-               //     "<div class='question_content_title_template'>질문</div>" +
-               //     "<div class='question_content_title_value'>" + result.title + "</div>" +
-               //     "<div class='question_content_content_value'>" + result.content + "</div>" +
-               //     "</div>" +
-               //     "<div class='question_content_toolbar_template'>" +
-               //     "<div class='question_content_user_wrap'>" +
-               //     "<div class='question_content_user_profile'>" +
-               //     "<img src='"+ result.member.profile +"' class='question_content_user_profile_value'>" +
-               //     "</div>" +
-               //     "<div class='question_content_user_name'>" + result.member.nickName + "</div>" +
-               //     "</div>" +
-               //     "<div class='question_content_toolbar_wrap'></div>" +
-               //     "</div>" +
-               //     "</div>";
-               // $(template).appendTo($('.question_content_wrap'));
-           },error : function (e){
-               console.log(e);
-           }
-       });
+                location.href="/study/"+id+"/lecture/"+cid+"?tab=community";
+            },error : function (e){
+                console.log(e);
+            }
+        });
     });
 });
 
@@ -242,6 +314,8 @@ function openQuestion(question_id){
         data : {"id" : question_id},
         success : function (result) {
             console.log(result);
+            $('.question_obj').attr("data-id", result.course.id);
+            $('.question_obj').attr("data-cid", result.courseClass.id);
             $('.question_obj_title_value').text(result.courseQuestion.title);
             $('.question_obj_user_name').text(result.courseQuestion.member.nickName);
             formatAMPM(result.courseQuestion.modify_at,'.question_obj_create_at');
@@ -251,30 +325,45 @@ function openQuestion(question_id){
             if(currentUserId == result.courseQuestion.member.id){
                 $('.question_obj_toolbox').addClass('question_flex');
             }
-            $('.question_tag_wrap').html("");
+            $('.question_obj_tag_wrap').html("");
             for(var i = 0; i<result.courseQuestion.courseTags.length; i++){
                 let tag = "<div class='question_tag_value'>" +
                     "#"+
                     result.courseQuestion.courseTags[i].tag +"</div>";
-                $(tag).appendTo($('.question_tag_wrap'));
+                $(tag).appendTo($('.question_obj_tag_wrap'));
             }
             $('.question_comment_wrap').html('');
             for(var i = 0; i<result.list.length; i++){
+
+                let ownerToolbox = "";
+                let currentUserId = $('.question_obj').attr('data-cuid');
+                if(result.list[i].member.id == currentUserId){
+                    ownerToolbox = "<div class='comment_profile_toolbox'>" +
+                                        "<div class='comment_profile_edit'>수정</div>"+
+                                        "<div class='comment_profile_delete'>삭제</div>"+
+                                    "</div>";
+                }
+
                 var template = "<div class='comment_template_wrap' data-id='"+result.list[i].id+"'>" +
-                            "<div class='comment_profile_image_wrap'>" +
-                                "<div class='comment_profile_image_box'>" +
-                                    "<img class='comment_profile_image_value' src='"+ result.list[i].member.profile +"'>"+
-                                "</div>"+
-                            "</div>" +
-                            "<div class='comment_profile_content_wrap'>" +
-                                "<div class='comment_profile_wrap'>" +
-                                    "<div class='comment_profile_name'>"+ result.list[i].member.nickName +"</div>" +
-                                    "<div class='comment_profile_create_at'>" + formatAMPMData(result.list[i].create_at) + "</div>" +
-                                "</div>"+
-                                "<div class='comment_content_wrap'>" +
-                                    result.list[i].commentContent +
-                                "</div>"
-                            "</div>";
+                                    "<div class='comment_profile_image_wrap'>" +
+                                        "<div class='comment_profile_image_box'>" +
+                                            "<img class='comment_profile_image_value' src='"+ result.list[i].member.profile +"'>"+
+                                        "</div>"+
+                                    "</div>" +
+                                    "<div class='comment_profile_content_wrap'>" +
+                                        "<div class='comment_profile'>" +
+                                            "<div class='comment_profile_wrap'>" +
+                                                "<div class='comment_profile_name'>"+ result.list[i].member.nickName +"</div>" +
+                                                "<div class='comment_profile_create_at'>" + formatAMPMData(result.list[i].create_at) + "</div>" +
+                                                "<div class='comment_profile_toolbox'></div>" +
+                                            "</div>"+
+                                            ownerToolbox +
+                                        "</div>" +
+                                        "<div class='comment_content_wrap'>" +
+                                            result.list[i].commentContent +
+                                        "</div>" +
+                                    "</div>" +
+                                "</div>";
                 $(template).appendTo(".question_comment_wrap");
             }
 
@@ -445,6 +534,10 @@ function changeActiveCourse(class_id){
 
 function openModal(obj){
     $(obj).css("display", "block");
+}
+
+function setCurrentUserId(id){
+    $('.question_obj').attr('data-cuid', id);
 }
 
 function openTab(tab){

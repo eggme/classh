@@ -246,7 +246,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="question_obj">
+                <div class="question_obj" data-cuid="0">
+                    <sec:authorize access="isAuthenticated()">
+                        <sec:authentication property="principal" var="uo" />
+                        <script>
+                            setCurrentUserId('${uo.id}');
+                        </script>
+                    </sec:authorize>
                     <div class="question_obj_head">
                         <span class="back_button"><i class="fas fa-arrow-left"></i></span>
                         <span class="close_button"><i class="fas fa-times"></i></span>
@@ -281,11 +287,10 @@
 <%--                            부족한 질문이지만 답변 부탁드리겠습니다 !--%>
 
                         </div>
-                        <div class="question_tag_wrap">
+                        <div class="question_obj_tag_wrap">
 
                         </div>
-                        <%-- 질문30
-                        .에 대한 답변이 달릴 공간 --%>
+                        <%-- 질문에 대한 답변이 달릴 공간 --%>
                         <div class="question_comment_wrap"></div>
                         <div class="question_comment_write_form">
                             <textarea id="myComment" name="content"></textarea>
@@ -516,6 +521,23 @@
                 <div class="add_cart_buttons modal_buttons_flex_template">
                     <div class="add_cart_cancel modal_cancel_button_template">취소</div>
                     <div class="add_cart_submit modal_submit_button_template">확인</div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<%-- 질문 삭제 모달 <i class="fas fa-cart-plus"></i>--%>
+<div class="delete_question_form_wrap modal_form_wrap">
+    <form class="delete_question_form" method="post" action="/course/carts">
+        <div class="delete_question_content animate modal_content">
+            <div class="delete_question_container modal_container">
+                <div class="delete_question_exit"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="delete_question_title">정말로 삭제하시겠습니까?</div>
+                <div class="delete_question_desc">확인을 누르시면 질문이 삭제됩니다.</div>
+                <div class="delete_question_buttons modal_buttons_flex_template">
+                    <div class="delete_question_cancel modal_cancel_button_template">취소</div>
+                    <div class="delete_question_submit modal_submit_button_template">확인</div>
                 </div>
             </div>
         </div>
