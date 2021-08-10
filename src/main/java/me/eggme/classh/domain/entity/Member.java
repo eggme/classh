@@ -20,8 +20,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories", "notifications"})
-@ToString(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories", "notifications"})
+@EqualsAndHashCode(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories", "notifications", "courseNotes"})
+@ToString(exclude = {"signUpCourses", "instructor", "courseReviews", "memberRoles", "courseQuestions", "cart", "payments", "courseHistories", "notifications", "courseNotes"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Member extends BaseTimeEntity implements Serializable {
     // 멤버 PK
@@ -101,6 +101,11 @@ public class Member extends BaseTimeEntity implements Serializable {
     private List<Payment> payments = new ArrayList<>();
 
     @JsonManagedReference
+    @OneToMany(mappedBy = "member", orphanRemoval = true, cascade = CascadeType.ALL)
+    @BatchSize(size = 10)
+    private List<CourseNote> courseNotes = new ArrayList<>();
+
+    @JsonManagedReference
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @BatchSize(size = 10)
     private List<CourseHistory> courseHistories = new ArrayList<>();
@@ -126,6 +131,9 @@ public class Member extends BaseTimeEntity implements Serializable {
         memberHistoryDTO.setCourseHistories(this.getCourseHistories());
         return memberHistoryDTO;
     }
+
+    public void addCourseNote(CourseNote courseNote){
+        this.getCourseNotes().add(courseNote); }
 
     public void addNotification(Notification notification) {
         this.getNotifications().add(notification);

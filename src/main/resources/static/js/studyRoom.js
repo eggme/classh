@@ -252,7 +252,7 @@ $(function () {
     $(document).on('click', '.hash_tag_template', function(){
         $(this).remove();
     });
-
+    /* 질문 등록 버튼을 눌렀을 때 */
     $('.question_submit').click(function (){
 
         let id = $('.question_write_form').attr('data-id');
@@ -303,6 +303,161 @@ $(function () {
                 console.log(e);
             }
         });
+    });
+
+    /* 노트에서 노트 클릭 시 포커스 주는 함수 */
+    $(document).on('click', '.note_content_template', function(){
+        /* 포커스 제거 */
+        if($('.note_content_wrap').children(".note_content_template").hasClass("clicked")){
+            $('.note_content_wrap').children(".note_content_template").removeClass("clicked");
+        }
+        /* 포커스 추가 */
+        $(this).addClass("clicked");
+    });
+
+    /* 노트에서 노트 입력 클릭 시 ajax로 노트 정보 전송 */
+    $('.note_write_button').click(function (){
+        var formData = {
+            "course" : $(".note_write_form").attr('data-id'),
+            "courseClass" : $(".note_write_form").attr('data-cId'),
+            "content" : tinymce.get("myNote").getContent(),
+            "seconds" : parseInt(player.currentTime())
+        };
+        $.ajax({
+            url : "/note/add/json",
+            method : "post",
+            dataType : "json",
+            data : formData,
+            success : function (result){
+                console.log(result);
+
+                var template = "<div class='note_content_template' data-id='"+ result.course.id +"' data-cId='"+ result.courseClass.id +"'>" +
+                                    "<div class='note_content_form'>" +
+                                        result.content +
+                                    "</div>" +
+                                    "<div class='note_toolbox_form'>" +
+                                        "<div class='note_edit_wrap'>" +
+                                            "<div class='note_edit_icon'>" +
+                                                "<i class='far fa-edit'></i>" +
+                                            "</div>" +
+                                            "<div class='note_edit_text'>수정</div>" +
+                                        "</div>" +
+                                        "<div class='note_delete_wrap'>" +
+                                            "<div class='note_delete_icon'>" +
+                                                "<i class='far fa-trash-alt'></i>" +
+                                            "</div>" +
+                                            "<div class='note_delete_text'>삭제</div>" +
+                                        "</div>" +
+                                    "</div>" +
+                                "</div>";
+                console.log(template);
+                $(template).appendTo(".note_content_wrap");
+            },error : function (e){
+                console.log(e);
+            }
+        })
+    });
+    /* 노트에서 수정 클릭 시 해당 데이터를 에디터에 세팅해줌 */
+    $(document).on('click', '.note_edit_wrap', function (){
+
+        /* 먼저 클릭된 에디터들을 지움 */
+        if($('.note_content_wrap').children(".note_content_template").children().hasClass("edit_mode")){
+            $('.note_content_wrap').children(".note_content_template").children().css('display', 'flex');
+            $('.note_content_wrap').children(".note_content_template").children().css('display', 'flex');
+            $('.note_content_wrap').children(".note_content_template").children(".edit_mode").remove();
+            tinymce.EditorManager.execCommand('mceRemoveEditor', true, 'editNote');
+        }
+
+        /* 에디터 추가 */
+        let obj = $(this).closest('.note_content_template');
+        let id = $(obj).attr('data-id');
+        let cId = $(obj).attr('data-cId');
+        let nId = $(obj).attr('data-nId');
+        let content = $(obj).children('.note_content_form').text();
+        $(obj).children(".note_content_form").css('display', 'none');
+        $(obj).children(".note_toolbox_form").css('display', 'none');
+
+        var template = "<div class='edit_mode' data-id='"+id+"' data-cId='"+cId+"' data-nId='"+nId+"'>"+
+                            "<div class='edit_textarea'>" +
+                                "<textarea id='editNote' class='noteForm'></textarea>" +
+                            "</div>" +
+                            "<div class='edit_toolbar'>" +
+                                "<div class='edit_mode_cancel_button'>취소</div>" +
+                                "<div class='edit_mode_submit_button'>업데이트</div>" +
+                            "</div>" +
+                        "</div>";
+        $(template).appendTo($(obj));
+        tinymce.EditorManager.execCommand('mceAddEditor', true, 'editNote');
+        tinymce.get("editNote").setContent(content);
+
+    });
+    /* 노트에서 삭제 클릭 시 삭제 모달을 킴 */
+    $(document).on('click', '.note_delete_wrap', function (){
+        $('.delete_note_form_wrap').css('display', 'block');
+        let note_id = $(this).closest(".note_content_template").attr('data-nid');
+        $('.delete_note_form_wrap').attr('data-nid', note_id);
+    });
+    /* 노트 삭제 모달에서 취소를 눌렀을 때 */
+    $('.delete_note_cancel').click(function (){
+        $('.delete_note_form_wrap').css('display', 'none');
+    });
+    /* 노트 삭제 모달에서 확인을 눌렀을 때 */
+    $('.delete_note_submit').click(function (){
+        let id = $('.delete_note_form_wrap').attr('data-nid');
+
+        $.ajax({
+            url : "/note/delete/json",
+            method : "post",
+            dataType : "json",
+            data : {"note_id" : id},
+            success : function (result){
+
+            },error : function (e){
+                console.log(e);
+            }
+        })
+    });
+
+    /* 수정 클릭 후 에디터가 나와서 노트 수정을 할 때, 수정 취소를 눌렀을 때 */
+    $(document).on('click', '.edit_mode_cancel_button', function (){
+        tinymce.EditorManager.execCommand('mceRemoveEditor', true, 'editNote');
+        let obj = $(this).closest('.note_content_template');
+        $(obj).children(".note_content_form").css('display', 'flex');
+        $(obj).children(".note_toolbox_form").css('display', 'flex');
+        $(obj).children(".edit_mode").remove();
+
+    });
+
+    /* 수정 클릭 후 에디터가 나와서 노트 수정을 할 때, 업데이트를 눌렀을 때 */
+    $(document).on('click', '.edit_mode_submit_button', function (){
+        let obj = $(this).closest('.note_content_template');
+        let note_id = $(this).closest(".note_content_template").attr('data-nId');
+        let content = tinymce.get("editNote").getContent();
+        let second = parseInt(player.currentTime());
+
+        let formData = {
+            "note_id" : note_id,
+            "content" : content,
+            "seconds" : second
+        };
+
+        $.ajax({
+            url : "/note/edit/json",
+            method : 'post',
+            dataType : "json",
+            data : formData,
+            success : function (result){
+                console.log(result);
+                console.log($(obj).html());
+                $(obj).children(".note_content_form").html(result.content);
+                $(obj).children(".note_content_form").css('display', 'flex');
+                $(obj).children(".note_toolbox_form").css('display', 'flex');
+                tinymce.EditorManager.execCommand('mceRemoveEditor', true, 'editNote');
+                $(obj).children(".edit_mode").remove();
+            },error : function (e){
+                console.log(e);
+            }
+        })
     });
 });
 
@@ -570,6 +725,42 @@ tinymce.init({
 tinymce.init({
     mode: 'textareas',
     selector: '#myComment',
+    height: 200,
+    plugins: 'image code media image',
+    language_url: '/js/ko_KR.js',
+    toolbar: 'undo redo | link image | code | media ',
+    media_live_embeds: true,
+    image_title: true,
+    automatic_uploads: true,
+    file_picker_types: 'image',
+    video_template_callback: function (data) {
+        return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source1 + '"' + (data.source1mime ? ' type="' + data.source1mime + '"' : '') + ' />\n' + (data.source2 ? '<source src="' + data.source2 + '"' + (data.source2mime ? ' type="' + data.source2mime + '"' : '') + ' />\n' : '') + '</video>';
+    },
+    images_upload_handler: image_upload_handler,
+    content_style: '//www.tinymce.com/css/codepen.min.css'
+});
+
+tinymce.init({
+    mode: 'textareas',
+    selector: '#myNote',
+    height: 200,
+    plugins: 'image code media image',
+    language_url: '/js/ko_KR.js',
+    toolbar: 'undo redo | link image | code | media ',
+    media_live_embeds: true,
+    image_title: true,
+    automatic_uploads: true,
+    file_picker_types: 'image',
+    video_template_callback: function (data) {
+        return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source1 + '"' + (data.source1mime ? ' type="' + data.source1mime + '"' : '') + ' />\n' + (data.source2 ? '<source src="' + data.source2 + '"' + (data.source2mime ? ' type="' + data.source2mime + '"' : '') + ' />\n' : '') + '</video>';
+    },
+    images_upload_handler: image_upload_handler,
+    content_style: '//www.tinymce.com/css/codepen.min.css'
+});
+
+tinymce.init({
+    mode: 'textareas',
+    selector: '#editNote',
     height: 200,
     plugins: 'image code media image',
     language_url: '/js/ko_KR.js',

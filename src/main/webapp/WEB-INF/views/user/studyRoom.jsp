@@ -349,9 +349,48 @@
                     </div>
                     <span class="close_button"><i class="fas fa-times"></i></span>
                 </div>
-                <div class="note_content_wrap"></div>
-                <div class="note_write_form">
-
+                <div class="note_content_wrap">
+                    <sec:authorize access="isAuthenticated()">
+                        <c:choose>
+                            <c:when test="${fn:length(courseNotes) gt 0}">
+                                <c:forEach var="note" items="${courseNotes}" varStatus="noteIndex">
+                                    <div class="note_content_template" data-id="${note.course.id}" data-cId="${note.courseClass.id}" data-nId="${note.id}">
+                                        <div class="note_content_form">
+                                                ${note.content}
+                                        </div>
+                                        <div class="note_toolbox_form">
+                                            <div class="note_edit_wrap">
+                                                <div class="note_edit_icon">
+                                                    <i class="far fa-edit"></i>
+                                                </div>
+                                                <div class="note_edit_text">수정</div>
+                                            </div>
+                                            <div class="note_delete_wrap">
+                                                <div class="note_delete_icon">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </div>
+                                                <div class="note_delete_text">삭제</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="noSearchNote">
+                                    작성된 노트는 본인에게만 보입니다 :)<br/>
+                                    수업 내용을 간단히 메모해보세요 !
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </sec:authorize>
+                </div>
+                <div class="note_write_form" data-id="${course.id}" data-cId="${courseClass.id}">
+                    <div class="note_write_area">
+                        <textarea id="myNote" class="noteForm"></textarea>
+                    </div>
+                    <div class="note_write_button_wrap">
+                        <div class="note_write_button">노트 입력</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -529,19 +568,33 @@
 
 <%-- 질문 삭제 모달 <i class="fas fa-cart-plus"></i>--%>
 <div class="delete_question_form_wrap modal_form_wrap">
-    <form class="delete_question_form" method="post" action="/course/carts">
-        <div class="delete_question_content animate modal_content">
-            <div class="delete_question_container modal_container">
-                <div class="delete_question_exit"><i class="fas fa-exclamation-triangle"></i></div>
-                <div class="delete_question_title">정말로 삭제하시겠습니까?</div>
-                <div class="delete_question_desc">확인을 누르시면 질문이 삭제됩니다.</div>
-                <div class="delete_question_buttons modal_buttons_flex_template">
-                    <div class="delete_question_cancel modal_cancel_button_template">취소</div>
-                    <div class="delete_question_submit modal_submit_button_template">확인</div>
-                </div>
+    <div class="delete_question_content animate modal_content">
+        <div class="delete_question_container modal_container">
+            <div class="delete_question_exit"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="delete_question_title">정말로 삭제하시겠습니까?</div>
+            <div class="delete_question_desc">확인을 누르시면 질문이 삭제됩니다.</div>
+            <div class="delete_question_buttons modal_buttons_flex_template">
+                <div class="delete_question_cancel modal_cancel_button_template">취소</div>
+                <div class="delete_question_submit modal_submit_button_template">확인</div>
             </div>
         </div>
-    </form>
+    </div>
+</div>
+
+
+<%-- 노트 삭제 모달 <i class="fas fa-cart-plus"></i>--%>
+<div class="delete_note_form_wrap modal_form_wrap">
+    <div class="delete_note_content animate modal_content">
+        <div class="delete_note_container modal_container">
+            <div class="delete_note_exit"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="delete_note_title">정말로 삭제하시겠습니까?</div>
+            <div class="delete_note_desc">확인을 누르시면 질문이 삭제됩니다.</div>
+            <div class="delete_note_buttons modal_buttons_flex_template">
+                <div class="delete_note_cancel modal_cancel_button_template">취소</div>
+                <div class="delete_note_submit modal_submit_button_template">확인</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <c:if test="${!(modal eq null)}">

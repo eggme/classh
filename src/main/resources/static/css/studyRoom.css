@@ -13,7 +13,7 @@ body::-webkit-scrollbar {
 .main_wrap{width: 100%; height: 100%; overflow-y: hidden;}
 .flex_container{display: flex; height: 100%; flex-direction: row-reverse;}
 .study_wrap{display: flex;}
-.study_tab_wrap{display: flex; margin-right: 70px;}
+.study_tab_wrap{display: flex; margin-right: 70px; z-index: 0;}
 .checked{background-color: #e9ecef; color : #212529 !important;}
 .study_menu{display: flex; list-style: none; padding: 0; margin: 0; width: 100%; flex-direction: column; }
 .study_menu li{ font-size: 28px; color: #868E96; display: flex; align-self: center; width: 100%; padding: 16px; justify-content: center; cursor: pointer;}
@@ -96,6 +96,7 @@ body::-webkit-scrollbar {
 .add_course_button, .go_course_info_button{color: #343A40; background-color: #fff;}
 /*  완강 모달  */
 .modal_form_wrap{ z-index: 99; display: none; position : fixed; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4);  padding-top: 250px;}
+.delete_note_form_wrap{z-index: 99; display: none; position : absolute; width: 100%; height: 100%; top: 0; left : 0; overflow: auto; background-color: rgba(0,0,0,0.4);  padding-top: 250px;}
 .modal_content{display: flex; width: 460px; height: 400px; background-color: #fefefe;margin: 5px auto; border: 1px solid #888; border-radius: 5px;}
 .clear_course_container{padding: 32px 48px;}
 .add_cart_content{width: 400px !important; height: 320px !important;}
@@ -198,13 +199,45 @@ body::-webkit-scrollbar {
 .hash_tag_template{display: flex; align-self: center; padding: 6px; margin: 3px; border-radius: 3px; background-color: #f1f3f5; color: #616568; white-space: nowrap; font-size: 13px; cursor: pointer;}
 .newQuestion{position: absolute; bottom: 12px;  width: calc(100% - 32px); text-align: center; padding: 12px 0; background: #1dc078; color: white; font-size: 16px; cursor: pointer; font-weight: 400;}
 .tag_value{margin-right: 4px;}
-.delete_question_exit{padding-bottom: 20px; display: flex; justify-content: center; align-items: center; margin-top: 48px;}
-.delete_question_exit *{font-size: 48px; color: #ffa016;}
-.delete_question_content{height: 300px !important;}
-.delete_question_title, .delete_question_desc{display: flex; flex-grow: 1; justify-content: center; text-align: center; align-self: center;}
-.delete_question_title{font-size: 22px; font-weight: 500;}
-.delete_question_desc{font-size: 16px;}
-.delete_question_cancel, .delete_question_submit{cursor: pointer;}
+.delete_question_exit, .delete_note_exit{padding-bottom: 20px; display: flex; justify-content: center; align-items: center; margin-top: 48px;}
+.delete_question_exit *, .delete_note_exit *{font-size: 48px; color: #ffa016;}
+.delete_question_content, .delete_note_content{height: 300px !important;}
+.delete_question_title, .delete_question_desc, .delete_note_title, .delete_note_desc{display: flex; flex-grow: 1; justify-content: center; text-align: center; align-self: center;}
+.delete_question_title, .delete_note_title{font-size: 22px; font-weight: 500;}
+.delete_question_desc, .delete_note_desc{font-size: 16px;}
+.delete_question_cancel, .delete_question_submit, .delete_note_cancel, .delete_note_submit{cursor: pointer;}
+
+.note_content_wrap{display: flex; flex-direction: column; flex-grow: 1; padding-bottom: 300px; overflow-y: scroll; -ms-overflow-style: none; scrollbar-width: none;}
+.note_content_wrap::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+.note_wrap{position: relative; }
+.note_write_form{position : absolute; background-color: #f1f3f5; flex-direction: column;  bottom: 0; display: flex; justify-content: center; flex-grow: 1; width: 100%; padding: 18px; opacity: 0.99;}
+.note_write_area{ display: flex; flex-direction: column; flex-grow: 1; margin-bottom: 12px;}
+.note_write_button_wrap{display: flex; justify-content: flex-end; margin-bottom: 24px;}
+.note_write_button{padding: 4px 8px; background-color: #495057; cursor: pointer; color: white; border-radius: 4px;}
+.note_write_button:hover{background-color: #343a40;}
+
+.note_content_template{border-bottom: 1px solid #e9ecef; display: flex; flex-direction: column; padding: 16px 20px;}
+.note_content_template:hover{background-color: #f8f9fa;}
+.note_content_form{margin-bottom: 8px;}
+
+.note_toolbox_form{display: flex; justify-content: flex-end;}
+.note_edit_wrap, .note_delete_wrap {display: flex; cursor: pointer;}
+.note_edit_icon, .note_delete_icon {margin-left: 12px;}
+.note_edit_text, .note_delete_text {margin-left: 4px;}
+.note_edit_text:hover{text-decoration: underline;}
+.note_delete_text:hover{text-decoration: underline;}
+
+.clicked{border-left: 6px solid #459aa1; background-color: #eef8f9;}
+.clicked:hover{background-color: #eef8f9;}
+.noSearchNote{display: flex; justify-content: center; align-items: center; text-align: center; flex-grow: 1;}
+.edit_mode{width: 100%; display: flex; flex-direction: column;}
+.edit_textarea{margin-bottom: 24px;}
+.edit_toolbar{display: flex; justify-content: flex-end;}
+.edit_mode_cancel_button, .edit_mode_submit_button{padding: 4px 8px; margin-left: 8px; cursor: pointer; border-radius: 4px;}
+.edit_mode_cancel_button{color: #343A40; background-color: white;}
+.edit_mode_submit_button{color: white; background-color: #495057;}
 
 .animate{-webkit-animation: animatezoom 0.6s; animation: animatezoom 0.6s;}
 @-webkit-keyframes animatezoom { from {-webkit-transform: scale(0)} to {-webkit-transform: scale(1)} }

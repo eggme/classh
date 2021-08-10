@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import me.eggme.classh.domain.dto.*;
 import me.eggme.classh.domain.entity.*;
-import me.eggme.classh.service.CourseQuestionService;
-import me.eggme.classh.service.CourseService;
-import me.eggme.classh.service.MemberService;
-import me.eggme.classh.service.StudyService;
+import me.eggme.classh.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,6 +30,7 @@ public class StudyController {
     @Autowired private StudyService studyService;
     @Autowired private MemberService memberService;
     @Autowired private CourseQuestionService courseQuestionService;
+    @Autowired private CourseNoteService courseNoteService;
 
     /***
      * 강의 미리보기 클릭 시 미리보기 강의 유무 판별하여 제공
@@ -121,6 +119,7 @@ public class StudyController {
             }
             /*  해당 수업의 질문 */
             List<CourseQuestion> courseQuestions = courseQuestionService.getQuestionList(courseClassId);
+            List<CourseNote> courseNotes = courseNoteService.getNotes(member, courseClassId);
 
             CourseClass savedCourseClass = courseService.getCourseClass(courseClassId);
 
@@ -130,6 +129,7 @@ public class StudyController {
             MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
             model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
             model.addAttribute("courseQuestions", courseQuestions);
+            model.addAttribute("courseNotes", courseNotes); // 노트
             model.addAttribute("course", courseDTO);
             model.addAttribute("courseClass", courseClassDTO);
 
@@ -182,10 +182,12 @@ public class StudyController {
 
             /*  해당 수업의 질문 */
             List<CourseQuestion> courseQuestions = courseQuestionService.getQuestionList(class_id);
+            List<CourseNote> courseNotes = courseNoteService.getNotes(member, class_id);
 
             MemberHistoryDTO memberHistoryDTO = memberService.getMemberHistory(member.getId());
             model.addAttribute("courseHistory", memberHistoryDTO); // 수강관련
             model.addAttribute("courseQuestions", courseQuestions);
+            model.addAttribute("courseNotes", courseNotes); // 노트
             model.addAttribute("course", courseDTO);
             model.addAttribute("courseClass", courseClassDTO);
 
