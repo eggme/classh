@@ -297,7 +297,6 @@ $(function () {
             dataType : 'json',
             data : formData,
             success : function (result){
-                console.log(result);
                 location.href="/study/"+id+"/lecture/"+cid+"?tab=community";
             },error : function (e){
                 console.log(e);
@@ -329,9 +328,7 @@ $(function () {
             dataType : "json",
             data : formData,
             success : function (result){
-                console.log(result);
-
-                var template = "<div class='note_content_template' data-id='"+ result.course.id +"' data-cId='"+ result.courseClass.id +"'>" +
+                let template = "<div class='note_content_template' data-id='"+ result.course +"' data-cId='"+ result.courseClass +"' data-nId='"+ result.id +"'>" +
                                     "<div class='note_content_form'>" +
                                         result.content +
                                     "</div>" +
@@ -350,8 +347,8 @@ $(function () {
                                         "</div>" +
                                     "</div>" +
                                 "</div>";
-                console.log(template);
                 $(template).appendTo(".note_content_wrap");
+                tinymce.get("myNote").setContent("");
             },error : function (e){
                 console.log(e);
             }
@@ -404,14 +401,14 @@ $(function () {
     /* 노트 삭제 모달에서 확인을 눌렀을 때 */
     $('.delete_note_submit').click(function (){
         let id = $('.delete_note_form_wrap').attr('data-nid');
-
         $.ajax({
             url : "/note/delete/json",
             method : "post",
             dataType : "json",
             data : {"note_id" : id},
             success : function (result){
-
+                $('.note_content_template[data-nid='+id+']').remove();
+                $('.delete_note_form_wrap').css('display', 'none');
             },error : function (e){
                 console.log(e);
             }
@@ -447,8 +444,6 @@ $(function () {
             dataType : "json",
             data : formData,
             success : function (result){
-                console.log(result);
-                console.log($(obj).html());
                 $(obj).children(".note_content_form").html(result.content);
                 $(obj).children(".note_content_form").css('display', 'flex');
                 $(obj).children(".note_toolbox_form").css('display', 'flex');
@@ -468,7 +463,6 @@ function openQuestion(question_id){
         method : "post",
         data : {"id" : question_id},
         success : function (result) {
-            console.log(result);
             $('.question_obj').attr("data-id", result.course.id);
             $('.question_obj').attr("data-cid", result.courseClass.id);
             $('.question_obj_title_value').text(result.courseQuestion.title);

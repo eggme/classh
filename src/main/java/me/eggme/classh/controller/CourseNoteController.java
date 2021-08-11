@@ -13,6 +13,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 @Controller
 @RequestMapping(value = "/note")
 @PreAuthorize("isAuthenticated()")
@@ -60,4 +62,16 @@ public class CourseNoteController {
         return mapper.writeValueAsString(courseNoteDTO);
     }
 
+
+    @PostMapping(value = "/delete/json")
+    @ResponseBody
+    public String deleteNote(@RequestParam(value = "note_id") Long note_id) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        HashMap<String, String> map = new HashMap<>();
+
+        courseNoteService.deleteCourseNote(note_id);
+
+        map.put("result", "success");
+        return mapper.writeValueAsString(map);
+    }
 }

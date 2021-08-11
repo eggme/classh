@@ -98,4 +98,17 @@ public class CourseNoteService {
         log.info("note size = " + savedCourseNotes.size());
         return savedCourseNotes;
     }
+
+    /**
+     * 해당 노트를 사용자가 삭제
+     * @param note_id 노트 pk
+     */
+    @Transactional
+    public void deleteCourseNote(Long note_id) {
+
+        CourseNote savedCourseNote = courseNoteRepository.findById(note_id).orElseThrow(() ->
+                new RuntimeException());
+
+        courseNoteRepository.delete(savedCourseNote);
+    }
 }
